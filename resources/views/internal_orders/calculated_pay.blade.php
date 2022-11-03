@@ -8,7 +8,7 @@
 @stop
 
 @section('content')
-<div onload="prepr()" class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
+<div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-sm">
@@ -56,18 +56,28 @@
 <form action="{{ route('internal_orders.pay_conditions')}}" method="POST" enctype="multipart/form-data">
 @csrf
 <x-jet-input type="hidden" name="order_id" value="{{ $percentage->order_id }}"/>
-<x-jet-input type="hidden" name="rowcount"  id="rowcount" value=0/>
+<x-jet-input type="hidden" name="rowcount"  id="rowcount" value=1/>
 <table class="table table-striped" name="tabla1" id="tabla1">
   <thead class="thead">
     <tr>
       <th scope="col">Entregable</th>
       <th scope="col">% negociado</th>
-      <th scope="col">Fecha de pago</th>
+      <th scope="col">Monto sin IVA</th>
+      <th scope="col">IVA</th>
+      <th scope="col">TOTAL</th>
+      <th scope="col">Avances requeridos </th>
     </tr>
   </thead>
   <tbody>
-   
-  <tr>
+    <tr>
+      <td class="table-active">Factura y finanzas</td>
+      <td ><input type="number" min="0" max="100" step="5"  value="{{$percentage->factures }}" style="width: 20%;" name="factures" > %</td>
+      <td> {{$Coins -> symbol}} {{$Subtotal * $percentage->factures}}</td>
+      <td> {{$Coins -> symbol}} {{$Subtotal * $percentage->factures* 0.16 }}</td>
+      <td> {{$Coins -> symbol}} {{$Subtotal * $percentage->factures* 1.16 }}</td>
+      <td>{{$percentage->factures}} %</td>
+    </tr>
+    
     <td ></td>
     <th scope="row">TOTAL: </th>
       
@@ -78,25 +88,37 @@
       <td></td>
     </tr>
     
-    
+    <tr>
+    <td > </td>
     </tbody>
 </table>
-      <br><br>
-      <button type="button" onclick="myFunction()"  class="btn btn-dark" >
+      <td><button type="submit" class="btn btn-dark" hidden = "hidden" >
+                <i class="fa-solid fa-repeat fa-2x" ></i>
+                         &nbsp; &nbsp;
+                <p>Actualizar Porcentajes</p></button></td>
+
+
+      <td><button type="button" onclick="myFunction()"  class="btn btn-dark" >
       <i class="fa fa-plus" aria-hidden="true"></i>
       &nbsp; &nbsp;
-      <p>Agregar Concepto</p></button>
-    
-<br> <br>
-<div>
-                <button type="submit" class="btn btn-dark"  >
-                <i class="fa-solid fa-save fa-2x" ></i>
+      <p>Agregar Concepto</p></button></td>
+      <td></td>
+      <td></td>
+    </tr>
+   
+ 
+
+                </div>
+                </form>
+                <button  class="btn btn-dark" >
+                <i class="fa-solid fa-calendar fa-2x" ></i>
                          &nbsp; &nbsp;
-                <p>Guardar Pagos</p></button>
-                </div>     
+                <p>Guardar Pagos</p></button></td>
+                <div class="collapse" id="collapseExample">
+                <div class="column">
                   <br><br><br>
 
-            </form>   
+               
              </div>
         </div>
 </div>
@@ -114,32 +136,14 @@
 @endif
 
 @if ($actualized == 'NO')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_actualized.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_incorrect.js') }}"></script>
 @endif
 
 
 
 <script>
-  function prep(){
-    var count= 0
-  count ++;
-  console.log(count);
-  var table = document.getElementById("tabla1");
-  var row = table.insertRow(count);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  cell1.innerHTML = "<input type='text' id='lname' name='lname'>";
-  cell2.innerHTML = "<input type='number' min='0' max='100' step='5'  value=5 style='width: 50%;' name='factures' > %";
-  cell3.innerHTML = "<input type='date' id='fecha1' style ='width=30px'> ";
-  cell4.innerHTML = '<td><button type="button" class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
-  
-  
-    
-  }
 function myFunction() {
-  var count= 0
+  var count= document.getElementById("rowcount").value;
   count ++;
   console.log(count);
   var table = document.getElementById("tabla1");
@@ -147,21 +151,15 @@ function myFunction() {
   var cell1 = row.insertCell(0);
   var cell2 = row.insertCell(1);
   var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  cell1.innerHTML = "<input type='text' id='lname' name='lname'>";
-  cell2.innerHTML = "<input type='number' min='0' max='100' step='5'  value=5 style='width: 50%;' name='factures' > %";
-  cell3.innerHTML = "<input type='date' id='fecha1' style ='width=30px'> ";
-  cell4.innerHTML = '<td><button type="button" class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
-  
-  
+  cell1.innerHTML ="<input type='text' id='lname' name='lname'>";
+  cell2.innerHTML = "<input type='number' min='0' max='100' step='5'  value=5 style='width: 20%;' name='factures' > %";
+  cell3.innerHTML = '<td><button type="button" class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
   document.getElementById("rowcount").value = count;
 }
 
 $("table").on("click", "#deleteRow", function (event) {
         $(this).closest("tr").remove();
-       
-        count -=1;
-        document.getElementById("rowcount").value = count;
+        count -= 1
     });
 </script>
 @stop

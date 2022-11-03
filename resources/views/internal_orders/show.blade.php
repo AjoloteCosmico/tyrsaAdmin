@@ -188,7 +188,7 @@
                     Autorizaciones
                 </div>
             </div>
-                <h1> {{$InternalOrders->id}}</h1>
+                
                     
                         <a href="{{route('internal_orders.payment',$InternalOrders->id)}}">
                         <button   class="btn btn-green mb-2">

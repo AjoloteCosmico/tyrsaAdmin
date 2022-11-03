@@ -326,7 +326,7 @@ class InternalOrderController extends Controller
         $Subtotal2 = $InternalOrders->subtotal;
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         $percentage = percentages::where('order_id', '=', $id)->get()->first();
-        $factura= $percentage->facture;
+        $actualized = "";
         return view('internal_orders.payment', compact(
             'CompanyProfiles',
             'InternalOrders',
@@ -339,6 +339,7 @@ class InternalOrderController extends Controller
             'Subtotal',
             'percentage',
             'id',
+            'actualized',
         ));
 
     }
