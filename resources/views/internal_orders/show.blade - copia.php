@@ -13,125 +13,53 @@
                 <div class="col-sm-12 text-center font-bold text-sm">
                     <table>
                         <tr>
-                            
-                        <td class="text-lg" style="color: red">{{ $CompanyProfiles->company}}
-                        <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"></td>
-                        <td>
-                        <br>
-                                Domicilio Fiscal:<br>
-                                {{$CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '}}
-                                {{$CompanyProfiles->intdoor.' '.$CompanyProfiles->suburb}}
-                                <br>{{$CompanyProfiles->city.' '.$CompanyProfiles->state.' '.$CompanyProfiles->zip_code}}<br>
-                                R.F.C: {{$CompanyProfiles->rfc}} &nbsp; Tels: 01-52 {{$CompanyProfiles->telephone.', '.$CompanyProfiles->telephone2}} <br> E-mail: {{$CompanyProfiles->email}} &nbsp; Web: {{$CompanyProfiles->website}}
-                            
-                        </td>
-                        <td class="card-body bg-white rounded-xl shadow-md text-center text-sm">
-                                <span style="color: darkblue">Numero PI:<br>
-                                {{$InternalOrders->invoice}}</span>
-                                <br> <br>
-                                NOHA: {{$InternalOrders->noha}} 
+                            <td rowspan="4">
+                               <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA">
+                               
+                        
                             </td>
                         </tr>
-
+                        <tr>
+                            <td class="text-lg" style="color: red">{{ $CompanyProfiles->company}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ $CompanyProfiles->motto}}</td>
+                        </tr>
+                        <tr class="text-xs">
+                            <td>
+                                <br>
+                                Domicilio Fiscal:<br>
+                                {{$CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '.$CompanyProfiles->intdoor.' '.$CompanyProfiles->suburb.' '.$CompanyProfiles->city.' '.$CompanyProfiles->state.' '.$CompanyProfiles->zip_code}}<br>
+                                R.F.C: {{$CompanyProfiles->rfc}} &nbsp; Tels: 01-52 {{$CompanyProfiles->telephone.', '.$CompanyProfiles->telephone2}} &nbsp; E-mail: {{$CompanyProfiles->email}} &nbsp; Web: {{$CompanyProfiles->website}}
+                            </td>
+                        </tr>
                     </table>
-
-
                 </div>
             </div>
-            <table>
-                        <th>Datos del Cliente</th>
-                    </table>
+            
             <div class="row p-4">
                 <div class="col-sm-9 col-xs-12 font-bold text-sm">
-                  <table> 
-                    <tr>
-                        <td>Numero de cliente:</td>
-                        <td style="LINE-HEIGHT:50px" class="card-body bg-white rounded-xl shadow-md text-center text-sm">{{$Customers->clave}}</td>
-                        
-                        <td>Nombre corto:</td>
-                        <td class="card-body bg-white rounded-xl shadow-md text-center text-sm">{{$Customers->alias}}</td>
-                        
-                        <td>CP:</td>
-                        <td class="card-body bg-white rounded-xl shadow-md text-center text-sm">{{$Customers->customer_zip_code}}</td>
-                    
-                    </tr>
-                  </table>
-                  <table>
-                    <tr>
-                        <td>Razon Social:</td>
-                        <td>{{$Customers->legal_name}}</td>
-                    </tr>
-                  </table>
-                  <table>
-                    <tr>
-                  <td>RFC:</td>
-                        <td>{{$Customers->customer_rfc}}</td>
-                        
-                        <td>OC:</td>
-                        <td>{{$InternalOrders->oc}}</td>
-                        <td>Contrato No.:</td>
-                        <td>{{$InternalOrders->ncontrato}}</td>
-                         </tr>
-                  </table>
                     <table>
                         <tr>
-                            <td>Domicilio Fiscal: </td>
-                            <td>{{$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb.' '.$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code}}<br>
-                                 &nbsp; E-mail: {{$Customers->customer_email}} &nbsp; Web: {{$Customers->customer_website}}
-                            </td>
-                            <td>  &nbsp; </td>
-                        </tr>
-                        <tr>
                             <td>
-                            &nbsp;
+                                Cliente: {{$Customers->clave.' '. $Customers->customer}}<br>
+                                Dirección Fiscal: {{$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb.' '.$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code}}<br>
+                                R.F.C: {{$Customers->customer_rfc}} &nbsp; Tel: 01-52 {{$Customers->customer_telephone}} &nbsp; E-mail: {{$Customers->customer_email}} &nbsp; Web: {{$Customers->customer_website}}
                             </td>
-                            <td>Telefono:</td>
-                            <td> {{$Customers->customer_telephone}}</td>
-
                         </tr>
                     </table>
                 </div>
-                <br> &nbsp;  
-                <table>
-                    <tr>
-                        <th> Contacto</th>
-                        <th> Nombre</th>
-                        <th> Tel fijo</th>
-                        <th> Tel movil</th>
-                        <th> Email</th>
-                    </tr>
-                    
-                    <tbody>
-                    @foreach($Contacts as $row)
-                    <tr>
-                        <td>{{$row->id}}</td>
-                        <td>{{$row->customer_contact_name}}</td>
-                        <td>{{$row->customer_contact_office_phone}}</td>
-                        <td>{{$row->customer_contact_mobile}}</td>
-                        <td>{{$row->customer_contact_email}}</td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            <br> &nbsp;
-            <table>
-                <tr>
-                    <th>Vendedor</th>
-                    <th>Comisión</th>
-                    <th>Cotización Numero</th>
-                    <th>Moneda</th>
-                    <th>Cat Equipo</th>
-                    <th>Descripcion Global <br>Proyecto</th>
-                    <th>Ubicación <br> Sucursal <br> Tienda</th>
-                </tr>
-                <tbody>
-                    <tr>
-                        <td> {{$Sellers->seller_name}}</td>
-                        <td>{{$InternalOrders->comision}}</td>
-                        <td>{{$InternalOrders->ncotizacion}}</td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="col-sm-3 col-xs-12 font-bold text-sm">
+                    <table>
+                        <tr>
+                            <td class="card-body bg-white rounded-xl shadow-md text-center text-sm">
+                                <span style="color: darkblue">PEDIDO No.:<br><br>
+                                {{$InternalOrders->invoice}}</span> 
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <div class="row p-4">
                 <div class="col-sm-12 font-bold text-sm">
                     <table>
@@ -196,7 +124,6 @@
                     </table>
                 </div>
             </div>
-            </div>
             <div class="row p-4">
                 <div class="col-sm-12 text-right">
                     <div class="form-group">
@@ -206,24 +133,24 @@
                 
                 <div class="col-sm-12 text-right">
                     <div class="form-group">
-                      <span class="text-right font-semibold text-sm">Descuento:  {{$InternalOrders->descuento}} %</span>  
+                      <span class="text-right font-semibold text-sm">Descuento: $ 0.0</span>  
                     </div>
                 </div>
                 
                 <div class="col-sm-12 text-right">
                     <div class="form-group">
-                      <span class="text-right font-semibold text-sm">Desc. Fin: $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal)}}</span>  
+                      <span class="text-right font-semibold text-sm">Desc. Fin: $ 0.0</span>  
                     </div>
                 </div>
                 <div class="col-sm-12 text-right">
                     <div class="form-group">
-                      <span class="text-right font-semibold text-sm">I.E.P.S: $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal)}}</span>  
+                      <span class="text-right font-semibold text-sm">I.E.P.S: $ 0.0</span>  
                     </div>
                 </div>
                 
                 <div class="col-sm-12 text-right">
                     <div class="form-group">
-                      <span class="text-right font-semibold text-sm">RET ISR: $ {{number_format($InternalOrders->isr * $InternalOrders->subtotal)}}</span>  
+                      <span class="text-right font-semibold text-sm">RET ISR: $ 0.0</span>  
                     </div>
                 </div>
                 
@@ -244,28 +171,6 @@
                       <span class="text-right font-bold text-xl">Total: $ {{number_format($InternalOrders->total,2)}}</span>  
                     </div>
                 </div>
-
-                <br>&nbsp;
-                <div class="col-sm-3 font-bold text-sm">
-                <table class="table table-striped text-xs font-medium" >
-                   <tr>
-                    <td>Numero de Pagos:</td>
-                    <td>{{$payments->count()}}</td>
-                   </tr>
-                   <tr> 
-                    <td>Condiciones de Pago:</td>
-                    <td> @foreach($payments as $pay)
-                        {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
-                        @endforeach
-                    </td>
-                   </tr>
-                   <tr>
-                    <td>Promesas de Pago:</td>
-                    <td></td>
-                   </tr>
-                </table>
-                </div>
-                
             </div>
             <div class="row p-4">
                 <div class="col-sm-4 col-xs-12 text-center text-xs font-bold">

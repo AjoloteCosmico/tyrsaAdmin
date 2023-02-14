@@ -114,25 +114,71 @@
                                         </select>
                                         <x-jet-input-error for='seller_id' />
                                     </div>
-                                    <div class="form-group">
-                                        <x-jet-label value="* Comision del Vendedor" />
-                                        <input type="number" name="comision" style='width: 10%;'> %
-                                        <x-jet-input-error for='seller_id' />
                                     </div>
+                                    <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
+                                      <div class="form-group">
+                                        <x-jet-label value="* Comision del Vendedor" />
+                                        <input  type="number" name="comision" style='width: 60%;'max=1 min=0 step=0.01 value=0> %
+                                        <x-jet-input-error for='seller_id' />
+                                    </div></div>
+                                    <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value=" % Dgi" />
-                                        <input type="number" name="dgi" style='width: 10%;'> %
+                                        <input type="number" name="dgi" style='width: 60%;'max=1 min=0 step=0.01 value=0> %
                                         <x-jet-input-error for='seller_id' />
-                                    </div>
+                                    </div></div>
+                                    <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
-                                        <x-jet-label value="Otro" />
-                                        <input type="number" name="otro" style='width: 10%;'> %
+                                        <x-jet-label value="Otra" />
+                                        <input type="number" name="otra" style='width: 60%;'max=1 min=0 step=0.01 value=0> %
                                         <x-jet-input-error for='seller_id' />
-                                    </div>
+                                    </div></div>
+                                    <div class="col-sm-3 col-xs-12">
+                                      <div class="form-group">
+                                        <x-jet-label value="* Cotización Numero:" />
+                                        <input type="text" name="ncotizacion" style='width: 60%;'> 
+                                        <x-jet-input-error for='seller_id' />
+                                    </div></div>
                                 </div>
-                            </div>
-                            <div class="w-100"></div>
+                                
+                                 
+
+                             <h5> Otros Datos</h5>
+
+<div class="form-group">
+       <x-jet-label value="Numero de Contrato (opcional)" />
+       <input type="text" name="ncontrato" style='width: 10%;'>
+       <x-jet-input-error for='seller_id' />
+   </div>
+   <div class="form-group">
+       <x-jet-label value="Orden de Compra" />
+       <input type="text" name="oc" style='width: 10%;'>
+       <x-jet-input-error for='seller_id' />
+   </div> 
+   <br>
+   <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
+                                      <div class="form-group">
+                                        <x-jet-label value="* IEPS" />
+                                        <input type="number" name="ieps" style='width: 60%;' max=1 min=0 step=0.01 value=0> %
+                                        <x-jet-input-error for='seller_id' />
+                                    </div></div>
+                                    <div class="col-sm-3 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="ISR" />
+                                        <input type="number" name="isr" style='width: 60%;'max=1 min=0 step=0.01 value=0> %
+                                        <x-jet-input-error for='seller_id' />
+                                    </div></div>
+                                    <div class="col-sm-3 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="Descuento" />
+                                        <input type="number" name="descuento" style='width: 60%;'max=1 min=0 step=0.01 value=0> %
+                                        <x-jet-input-error for='seller_id' />
+                                    </div></div>
+                                </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

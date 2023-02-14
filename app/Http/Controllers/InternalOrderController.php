@@ -8,6 +8,7 @@ use App\Models\Coin;
 use App\Models\CompanyProfile;
 use App\Models\Customer;
 use App\Models\CustomerShippingAddress;
+use App\Models\CustomerContact;
 use App\Models\Item;
 use App\Models\Seller;
 use App\Models\TempInternalOrder;
@@ -76,23 +77,7 @@ class InternalOrderController extends Controller
             'hoy',
         ));
     }
-    public function alternativa(Request $request)
-    {
-        
-        $Customers = Customer::all()->sortBy('clave');   
-        $Coins = Coin::all();
-        $Sellers = Seller::all();
-        $hoy = now();
-        
-        return view('internal_orders.capture_one_shot', compact(
-            
-            'Customers',
-            
-            'Coins',
-            'Sellers',
-            'hoy',
-        ));
-    }
+  
 
     public function shipment(Request $request)
     {   
@@ -119,7 +104,6 @@ class InternalOrderController extends Controller
         ];
 
         $request->validate($rules, $messages);
-
         $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
         $TempInternalOrders->seller_id = $request->seller_id;
         $TempInternalOrders->date_delivery = $request->date_delivery;
@@ -128,6 +112,14 @@ class InternalOrderController extends Controller
         $TempInternalOrders->coin_id = $request->coin_id;
         $TempInternalOrders->payment_conditions = $request->payment_conditions;
         $TempInternalOrders->comision=$request->comision;
+        $TempInternalOrders->dgi=$request->dgi;
+        $TempInternalOrders->otra=$request->otra;
+        $TempInternalOrders->ieps=$request->ieps;
+        $TempInternalOrders->isr=$request->isr;
+        $TempInternalOrders->descuento=$request->descuento;
+        $TempInternalOrders->oc=$request->oc;
+        $TempInternalOrders->ncotizacion=$request->ncotizacion;
+        $TempInternalOrders->ncontrato=$request->ncontrato;
         $TempInternalOrders->save();
 
         $Customers = Customer::where('id', $request->customer_id)->first();
@@ -198,17 +190,21 @@ class InternalOrderController extends Controller
 
     public function store(Request $request)
     {
+        $noha=InternalOrder::all()->count();
         $Id = $request->temp_internal_order_id;
         $TempInternalOrders = TempInternalOrder::find($Id);
         $TempInternalOrders->subtotal = $request->subtotal;
         $TempInternalOrders->iva = $request->iva;
-        $TempInternalOrders->total = $request->total;
+        $total_real=$request->total +($TempInternalOrders->ieps)*$request->subtotal+($TempInternalOrders->isr)*$request->subtotal-($TempInternalOrders->descuento)*$request->subtotal;
+        $TempInternalOrders->total = $total_real ;
         $TempInternalOrders->observations = $request->observations;
         $TempInternalOrders->status = 'CAPTURADO';
+        $TempInternalOrders->noha=$noha;
         $TempInternalOrders->save();
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
         $InternalOrders = InternalOrder::orderBy('id', 'DESC')->first();
+        
         if($InternalOrders){
             $InternalOrders->invoice;
 
@@ -234,6 +230,18 @@ class InternalOrderController extends Controller
             $InternalOrders->total = $TempInternalOrders->total;
             $InternalOrders->payment_conditions = $TempInternalOrders->payment_conditions;
             $InternalOrders->observations = $TempInternalOrders->observations;
+
+            $InternalOrders->oc = $TempInternalOrders->oc;
+            $InternalOrders->ncontrato = $TempInternalOrders->ncontrato;
+            $InternalOrders->dgi = $TempInternalOrders->dgi;
+            $InternalOrders->otra = $TempInternalOrders->otra;
+            $InternalOrders->ieps = $TempInternalOrders->ieps;
+            $InternalOrders->isr = $TempInternalOrders->isr;
+            $InternalOrders->ncotizacion = $TempInternalOrders->ncotizacion;
+            $InternalOrders->noha = $TempInternalOrders->noha;
+            $InternalOrders->descuento = $TempInternalOrders->descuento;
+            
+            
             $InternalOrders->status = $TempInternalOrders->status;
             $InternalOrders->authorization_id = 1;
             $InternalOrders->save();
@@ -319,6 +327,15 @@ class InternalOrderController extends Controller
             $InternalOrders->payment_conditions = $TempInternalOrders->payment_conditions;
             $InternalOrders->observations = $TempInternalOrders->observations;
             $InternalOrders->status = $TempInternalOrders->status;
+            $InternalOrders->oc = $TempInternalOrders->oc;
+            $InternalOrders->ncontrato = $TempInternalOrders->ncontrato;
+            $InternalOrders->dgi = $TempInternalOrders->dgi;
+            $InternalOrders->otra = $TempInternalOrders->otra;
+            $InternalOrders->ieps = $TempInternalOrders->ieps;
+            $InternalOrders->isr = $TempInternalOrders->isr;
+            $InternalOrders->ncotizacion = $TempInternalOrders->ncotizacion;
+            $InternalOrders->noha = $TempInternalOrders->noha;
+            $InternalOrders->descuento = $TempInternalOrders->descuento;
             $InternalOrders->authorization_id = 1;
             $InternalOrders->save();
             $Signature=new signatures();
@@ -404,6 +421,7 @@ class InternalOrderController extends Controller
         $comp=$CompanyProfiles->id;
         $InternalOrders = InternalOrder::find($id);
         $Customers = Customer::find($InternalOrders->customer_id);
+        $Contacts = CustomerContact::where('customer_id',$InternalOrders->customer_id)->get();
         $Sellers = Seller::find($InternalOrders->seller_id);
         $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
         $Coins = Coin::find($InternalOrders->coin_id);
@@ -414,7 +432,7 @@ class InternalOrderController extends Controller
         ->select('signatures.*','authorizations.job')
         ->get();
         $Subtotal = $InternalOrders->subtotal;
-
+        $payments=payments::where('order_id',$InternalOrders->id)->get();
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
         return view('internal_orders.show', compact(
@@ -428,6 +446,8 @@ class InternalOrderController extends Controller
             'Authorizations',
             'id',
             'requiredSignatures',
+            'Contacts',
+            'payments'
         ));
     }
 
