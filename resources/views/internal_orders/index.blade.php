@@ -14,7 +14,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('internal_orders.create')}}" class="btn btn-green">
+                <a href="{{ route('internal_orders.capture')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan

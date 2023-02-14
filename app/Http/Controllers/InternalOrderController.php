@@ -77,22 +77,7 @@ class InternalOrderController extends Controller
             'hoy',
         ));
     }
-    public function alternativa(Request $request)
-    {
-        
-        $Customers = Customer::all()->sortBy('clave');   
-        $Coins = Coin::all();
-        $Sellers = Seller::all();
-        $hoy = now();
-        
-        return view('internal_orders.capture_one_shot', compact(
-            
-            'Customers',
-            'Coins',
-            'Sellers',
-            'hoy',
-        ));
-    }
+  
 
     public function shipment(Request $request)
     {   
