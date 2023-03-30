@@ -646,7 +646,7 @@ class InternalOrderController extends Controller
         $Comisiones=DB::table('comissions')
      ->join('sellers', 'sellers.id', '=', 'comissions.seller_id')
      ->where('order_id',$InternalOrders->id)
-     ->select('comissions.*','sellers.seller_name')
+     ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
         return view('internal_orders.show', compact(
             'CompanyProfiles',

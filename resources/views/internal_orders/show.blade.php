@@ -406,7 +406,7 @@
                  @foreach($Comisiones as $c)
                     <tr>
                         <td><div class="badge badge-primary badge-outlined">{{$c->seller_name}}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">-</div></td>
+                        <td><div class="badge badge-primary badge-outlined">{{$c->iniciales}}</div></td>
                         <td><div class="badge badge-primary badge-outlined"> {{$c->description}}</div></td>
                         <td><div class="badge badge-primary badge-outlined"> {{$c->percentage * 100}} %</div></td>
                         <td><div class="badge badge-primary badge-outlined"> ${{number_format($c->percentage * $InternalOrders->total,2)}} </div></td>
