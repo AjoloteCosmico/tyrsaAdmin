@@ -28,7 +28,7 @@
                                      <div class="col-sm-3 col-xs-12">   
                                      <div class="form-group">
                                         <x-jet-label value="* Fecha de Emisión " />
-                                        <x-jet-input type="date" name="reg_date" required class="w-full text-xs" value="{{ $hoy->format('Y-m-d')  }}"/>
+                                        <x-jet-input type="date" name="reg_date" required class="w-full text-xs" value="{{ date('d/m/Y', strtotime($hoy));  }}"/>
                                         
                                     </div>
                                     </div>
@@ -257,4 +257,11 @@ function manual(campo) {
         });
     });
 </script>  --}}
+
+<script>$(document).ready(function () {
+  $('.date').datetimepicker({
+    format: 'MM/DD/YYYY',
+    locale: 'en'
+  });
+});</script>
 @stop
