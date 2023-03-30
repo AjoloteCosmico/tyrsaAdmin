@@ -387,7 +387,7 @@
 <br>&nbsp;
                <div class="col-sm-9 font-bold text-sm">
                <table>
-                <tr class="text-center"><th colspan="5">Comisiones</th></tr>
+                <tr class="text-center"><th colspan="5">DGI</th></tr>
                 <tr class="text-center">
                     <td><div class="badge badge-danger badge-outlined">Vendedor</div></td>
                     <td><div class="badge badge-danger badge-outlined">Inicia</div></td>
