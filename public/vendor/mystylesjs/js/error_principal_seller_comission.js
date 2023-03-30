@@ -1,5 +1,5 @@
 Swal.fire(
     '¡No se pueden repetir vendedores!',
-    'Intentas eelegir como vendedor prrincipal a alguien con una comisión ya registrada, \n porfavor elige otro vendedor o borra la comisión agregada.',
+    'Intentas elegir como vendedor prrincipal a alguien con una comisión ya registrada, \n porfavor elige otro vendedor o borra la comisión agregada.',
     'error'
 )

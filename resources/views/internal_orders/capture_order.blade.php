@@ -28,7 +28,7 @@
                                      <div class="col-sm-3 col-xs-12">   
                                      <div class="form-group">
                                         <x-jet-label value="* Fecha de Emisión " />
-                                        <x-jet-input type="date" name="reg_date" required class="w-full text-xs" value="{{ date('d/m/Y', strtotime($hoy));  }}"/>
+                                        <x-jet-input type="date" name="reg_date" required class="w-full text-xs" value="{{ $hoy->format('Y-m-d')  }}"/>
                                         
                                     </div>
                                     </div>
