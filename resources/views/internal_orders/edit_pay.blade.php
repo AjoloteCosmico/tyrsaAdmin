@@ -54,9 +54,10 @@
 </table>
                     <br><br>
                     
-<p style ="font-size:250%;">Tabla promesas de Cobro</p>
+<p style ="font-size:250%;">TABLA PROMESA DE COBROS</p>
+<br>
+<h2 style='color:#2C426C; font-size: 150%'>* Todos los pagos incluyen IVA</h2>
 <br><br>
-<h5>* todos los pagos incluyen IVA</h5>
 <form action="{{ route('internal_orders.pay_redefine')}}" method="POST" enctype="multipart/form-data" id="form1">
 @csrf
 <x-jet-input type="hidden" name="pe"  id="pe" value="{{$pe}}"/>
@@ -99,7 +100,7 @@
      <tr>
         <td>PAGO {{$aux_count}}</td>
         <td> <input type='number' min='0' max='100' step='5'  style='width: 80%;' name="{{'porcentaje['.$aux_count.']'}}" value = "{{$row->percentage}}" id="{{'P'.$aux_count}}">%</td>
-        <td>{{$Coins -> symbol}} <input type='number' min='0' max='{{$Total}}' id="{{'R'.$aux_count}}" style='width: 70%;'></td>
+        <td>{{$Coins -> symbol}} <input type='number' min='0' max='{{$Total}}' id="{{'R'.$aux_count}}" style='width: 70%;' disabled></td>
         <td> <input type='date'  required class='w-full text-xs' name="{{'date['.$aux_count.']'}}" value = "{{$row->date}}" id="{{'D'.$aux_count}}"></td>
         
         <td> <input type='text' name="{{'CONCEPTO['.$aux_count.']'}}" value = "{{$row->concept}}" id ="{{'C'.$aux_count}}"></td>

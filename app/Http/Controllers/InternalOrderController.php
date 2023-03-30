@@ -144,13 +144,13 @@ class InternalOrderController extends Controller
      ->where('temp_order_id',$TempInternalOrders->id)
      ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
-    return $this->capture_comissions($TempInternalOrders->id);
+    return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 
 
-    public function capture_comissions($id){
+    public function capture_comissions($id,$message){
     $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
-
+    $Message=$message;
     $Sellers = Seller::all();
     $Comisiones=DB::table('temp_comissions')
      ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
@@ -158,7 +158,7 @@ class InternalOrderController extends Controller
      ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
     return view('internal_orders.capture_comissions', compact(
-        'TempInternalOrders','Sellers','Comisiones'
+        'TempInternalOrders','Sellers','Comisiones','Message'
         
     ));
     }
@@ -167,15 +167,20 @@ class InternalOrderController extends Controller
     public function guardar_comissions(Request $request)
     {  
      $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
-     
+     $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
+
+     if($allComissions->count() > 0){
+        
+        return $this->capture_comissions($TempInternalOrders->id,'duplicated');
+     }else{
      $comision = new temp_comissions();
      $comision->seller_id=$request->seller_id;
      $comision->percentage=$request->comision*0.01;
      $comision->temp_order_id=$TempInternalOrders->id;
      $comision->description=$request->description;
      $comision->save();
-     return $this->capture_comissions($TempInternalOrders->id);
-
+     return $this->capture_comissions($TempInternalOrders->id,' ');
+     }
 
 
     }
@@ -186,6 +191,13 @@ class InternalOrderController extends Controller
         $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
         $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->get();
+        //verificar que el vendedor principal no tenga comisiones
+        $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
+
+        if($allComissions->count() > 0){
+            
+            return $this->capture_comissions($TempInternalOrders->id,'error_principal');
+        }else{
         $TempInternalOrders->seller_id = $request->seller_id;
         $TempInternalOrders->comision=$request->comision2 * 0.01;
         $TempInternalOrders->save();
@@ -212,7 +224,7 @@ class InternalOrderController extends Controller
             'Customers',
             'CustomerShippingAddresses',
             'contactos'
-        ));
+        ));}
     }
 
     public function partida(Request $request)
@@ -282,6 +294,10 @@ class InternalOrderController extends Controller
             $InternalOrders->invoice;
 
             $Invoice = $InternalOrders->invoice + 1;
+            $I=InternalOrder::find($TempInternalOrders->id);
+            if($I){
+                InternalOrder::destroy($TempInternalOrders->id);
+            }
             $InternalOrders = new InternalOrder();
             $InternalOrders->id = $TempInternalOrders->id;
             $InternalOrders->invoice = $Invoice;
@@ -418,7 +434,10 @@ class InternalOrderController extends Controller
             return $this->payment($InternalOrders->id);
 
         }else{
-
+            $I=InternalOrder::find($TempInternalOrders->id);
+            if($I){
+                InternalOrder::destroy($TempInternalOrders->id);
+            }
             $InternalOrders = new InternalOrder();
             $InternalOrders->id = $TempInternalOrders->id;
             $InternalOrders->invoice = '100';
@@ -1018,7 +1037,13 @@ class InternalOrderController extends Controller
         $Comission->percentage=$request->comision*0.01;
         $Comission->description=$request->description;
         $Comission->save();
-        return $this->capture_comissions($TempInternalOrders->id);
+        return $this->capture_comissions($TempInternalOrders->id,' ');
+    }
+    public function delete_temp_comissions($id){
+        $Comission=temp_comissions::find($id);
+        $TempInternalOrders = TempInternalOrder::find($Comission->temp_order_id);
+        temp_comissions::destroy($id);
+        return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 }
 

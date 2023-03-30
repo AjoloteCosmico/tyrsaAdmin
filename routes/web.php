@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('guardar_comission', [InternalOrderController::class, 'guardar_comissions'])->name('guardar_comissions');
     Route::get('comision/edit/{id}', [InternalOrderController::class, 'edit_temp_comissions'])->name('edit_temp_comissions');
     Route::post('comision/update/{id}', [InternalOrderController::class, 'update_temp_comissions'])->name('update_temp_comissions');
+    Route::get('comision/delete/{id}', [InternalOrderController::class, 'delete_temp_comissions'])->name('delete_temp_comissions');
     
     Route::get('accounting/order/{id}', [PaymentsController::class, 'cuentas_order'])->name('accounting.cuentas_order');
     Route::get('accounting/customer/{id}', [PaymentsController::class, 'cuentas_customer'])->name('accounting.cuentas_customer');

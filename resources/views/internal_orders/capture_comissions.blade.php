@@ -104,6 +104,7 @@
                                                     
                                                     <th>Descripcion</th>
                                                     <th></th>
+                                                    <th></th>
                                                     
                                                 </tr>
                                             </thead>
@@ -118,6 +119,9 @@
                                                     <td>{{$c->description}}  </td>
                                                     <td><a href="{{ route('edit_temp_comissions', $c->id) }} " class="btn btn-green">
                                                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
+                                                   </a></td>
+                                                   <td><a href="{{ route('delete_temp_comissions', $c->id) }} " class="btn btn-red">
+                                                        <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
                                                    </a></td>
                                                 </tr>
                                                 @endforeach
@@ -143,7 +147,7 @@
                 </button>
             </div>
         </div>
-       
+        
     </div>
 @stop
 
@@ -161,4 +165,12 @@ document.getElementById("your-id").addEventListener("click", function () {
   form.submit();
 });
 </script>
+
+@if ($Message == 'duplicated')
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/duplicated_seller_comission.js') }}"></script>
+@endif
+@if ($Message == 'error_principal')
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/error_principal_seller_comission.js') }}"></script>
+@endif
+
 @stop

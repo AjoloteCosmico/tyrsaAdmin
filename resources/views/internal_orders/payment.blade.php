@@ -54,9 +54,10 @@
 </table>
 
                     <br><br>
-<p style ="font-size:250%;">Tabla promesa de Cobros</p>
+<p style ="font-size:250%;">TABLA PROMESA DE COBROS</p>
+<br>
+<h2 style='color:#2C426C; font-size: 150%'>* Todos los pagos incluyen IVA</h2>
 <br><br>
-<h5>* todos los pagos incluyen IVA</h5>
 <form action="{{ route('internal_orders.pay_conditions')}}" method="POST" enctype="multipart/form-data" id="form1">
 @csrf
 <x-jet-input type="hidden" name="rowcount"  id="rowcount" value={{$npagos}}/>
@@ -93,7 +94,7 @@
     <tr>
         <td>{{'PAGO '.$aux_count}}</td>
         <td> <input type='number' min='0' max='100' step='1'  style='width: 70%;' name="{{'porcentaje['.$aux_count.']'}}"  id="{{'P'.$aux_count}}">%</td>
-        <td>{{$Coins -> symbol}} <input type='number' min='0' step='any' max='{{number_format( $InternalOrders->total,2)}}' id="{{'R'.$aux_count}}" style='width: 70%;'></td>
+        <td>{{$Coins -> symbol}} <input type='number' min='0' step='any' max='{{number_format( $InternalOrders->total,2)}}' id="{{'R'.$aux_count}}" style='width: 70%;' disabled></td>
         @if($i==1)
         
     <td> <input type='date'  required class='w-full text-xs' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}" value="{{$emision->format('Y-m-d');}}"></td>

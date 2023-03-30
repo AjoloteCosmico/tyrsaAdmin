@@ -453,7 +453,7 @@
                 
                 <div class="col-sm-5 col-xs-12 text-center text-xs font-bold">
                     <br>
-                    <form action="{{ route('internal_orders.dgi') }}" method="POST" enctype="multipart/form-data">
+                    {{-- <form action="{{ route('internal_orders.dgi') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     
                     <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id}}"/>
@@ -477,7 +477,7 @@
                                     </div>
                                     
                     
-                      </form>
+                      </form> --}}
                       
                             
                       
@@ -529,18 +529,11 @@
             <br> <br> 
             @if($InternalOrders->status == 'autorizado')
             <br><br><br><br><br>
-                        <br><div>PEDIDO 100% AUTORIZADO</div><br>
-                                         <!--
-                                        <form action="{{ route('internal_orders.pagos', $row->id) }}" method="POST">
-                                            @csrf                               
-                                            <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id }}"/>
-                                            <button type="submit" class="btn btn-green">
-                                                <i class="fas fa-percent items-center fa-2x"></i> &nbsp; Porcentaje de Avances
-                                            </button>
-                                        </form>-->
+                        <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
+                                         
 
                     @else 
-                    <div>FALTAN AUTORIZACIONES</div>
+                    <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
                     @endif
                     <br><br><br>
                 </div></div>
