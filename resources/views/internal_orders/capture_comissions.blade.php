@@ -34,7 +34,7 @@
                                         <x-jet-label value="* Vendedor" />
                                         <select id='seller_id' class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 50%;'>
                                             @foreach ($Sellers as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == $p_seller_id) selected @endif >{{$row->seller_name}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='seller_id' />
@@ -45,7 +45,7 @@
                                       <div class="form-group">
                                         <x-jet-label value="* Comision del Vendedor" />
                                         <div class="row">&nbsp;&nbsp;
-                                        <input class="form-capture   text-md"  type="number" name="comision2" style='width: 40%;' max=100 min=0.01 step=any id='comision2'> &nbsp; %</div>
+                                        <input class="form-capture   text-md" value="{{$p_comission}}" type="number" name="comision2" style='width: 40%;' max=100 min=0.01 step=any id='comision2'> &nbsp; %</div>
                                         <x-jet-input-error for='seller_id' />
                                        </div>
                                        
@@ -59,8 +59,8 @@
 <form action="{{ route('guardar_comissions') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
-            <x-jet-input type="hidden" name="p_seller_id" id="p_seller_id"  value=" "/>
-            <x-jet-input type="hidden" name="p_comission" id="p_comission" value=" "/>
+            <x-jet-input type="hidden" name="p_seller_id" id="p_seller_id"  value="."/>
+            <x-jet-input type="hidden" name="p_comission" id="p_comission" value="."/>
 
                                     <div class="form-group">
                                         <x-jet-label value="* Vendedor" />
@@ -179,10 +179,12 @@ document.getElementById("your-id").addEventListener("click", function () {
 
 document.getElementById("comision2").addEventListener("input", function(){
    document.getElementById("p_comission").value = this.value;
+   console.log(document.getElementById("p_comission").value)
     }); 
     
 document.getElementById("seller_id").addEventListener("input", function(){
    document.getElementById("p_seller_id").value = this.value;
+   console.log(document.getElementById("p_seller_id").value )
     }); 
     
 </script>
