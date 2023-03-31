@@ -166,6 +166,8 @@ class InternalOrderController extends Controller
 
     public function guardar_comissions(Request $request)
     {  
+     $p_seller_id=$request->p_seller_id;
+     $p_comission=$request->p_comission;
      $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
      $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
 
@@ -179,7 +181,7 @@ class InternalOrderController extends Controller
      $comision->temp_order_id=$TempInternalOrders->id;
      $comision->description=$request->description;
      $comision->save();
-     return $this->capture_comissions($TempInternalOrders->id,' ');
+     return $this->capture_comissions($TempInternalOrders->id,' ',compact('p_seller_id','p_comission'));
      }
 
 
