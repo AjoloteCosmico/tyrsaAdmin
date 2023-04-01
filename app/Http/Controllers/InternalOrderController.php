@@ -232,11 +232,15 @@ class InternalOrderController extends Controller
         }
         $contactos=CustomerContact::where('customer_id',$Customers->id)->get();
         TempItem::truncate();
+        $cat=" ";
+        $desc=" ";
+        $obs=" ";
         return view('internal_orders.capture_order_shippment_addresses', compact(
             'TempInternalOrders',
             'Customers',
             'CustomerShippingAddresses',
-            'contactos'
+            'contactos',
+            'cat','desc','obs'
         ));}
     }
 
