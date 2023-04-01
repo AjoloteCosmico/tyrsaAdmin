@@ -74,7 +74,7 @@
       <th scope="col">Entregable</th>
       <th scope="col">% negociado</th>
       <th scope="col">cantidad</th>
-      <th scope="col">Fecha</th>
+      <th scope="col">Fecha MM/DD/AAAA</th>
       <th scope="col">Concepto</th>
     </tr>
   </thead>
@@ -97,10 +97,10 @@
         <td>{{$Coins -> symbol}} <input type='number' min='0' step='any' max='{{number_format( $InternalOrders->total,2)}}' id="{{'R'.$aux_count}}" style='width: 70%;' disabled></td>
         @if($i==1)
         
-    <td> <input type='date'  required class='w-full text-xs' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}" value="{{$emision->format('Y-m-d');}}"></td>
+    <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}" value="{{$emision->format('Y-m-d');}}"></td>
         
     @else
-    <td> <input type='date'  required class='w-full text-xs' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}"  value="{{$entrega->format('Y-m-d');}}"></td>
+    <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}"  value="{{$entrega->format('Y-m-d');}}"></td>
          @endif
         <td> <input type='text' style='width: 50%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
         
