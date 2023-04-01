@@ -24,7 +24,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    
+                                <form action="{{route('tempitems.create_item', $TempInternalOrders->id) }}" id ="form-id" method="POST" enctype="multipart/form-data">
+            @csrf
+        <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
+                
                     <div class="form-group">
                                 <x-jet-label value="* Categoria" />
                                 <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
@@ -53,10 +56,10 @@
                             </div>
                                     <div class="col-sm-12 text-right p-3">
                                         
-                                        <a href="{{ route('tempitems.create_item', $TempInternalOrders->id) }} " class="btn btn-green">
+                                        <button type="submit" class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
-                                        </a>
-                                    </div>
+                                         </button>
+                                    </div></form>
                                     <div class="col-sm-12 table-responsive">
                                         <table class="table tableitems table-striped text-xs font-medium">
                                             <thead>
@@ -120,7 +123,7 @@
                                 <div class="col-sm-8 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value="Observaciones" />
-                                        <textarea name="observations" rows="5" class="w-full text-xs inputjet"></textarea>
+                                        <textarea name="observations" rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"></textarea>
                                         <x-jet-input-error for='observations' />
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Authorization;
 use App\Models\InternalOrder;
 use App\Models\Coin;
@@ -650,6 +650,7 @@ class InternalOrderController extends Controller
      ->where('order_id',$InternalOrders->id)
      ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
+     $Y = Carbon::now()->format('Y');
         return view('internal_orders.show', compact(
             'CompanyProfiles',
             'InternalOrders',
@@ -664,7 +665,8 @@ class InternalOrderController extends Controller
             'Contacts',
             'payments',
             'ASellers',
-            'Comisiones'
+            'Comisiones',
+            'Y'
         ));
     }
     public function dgi(Request $request){

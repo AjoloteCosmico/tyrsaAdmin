@@ -124,13 +124,18 @@
                               </div></td>
                               @php
 {{$del = new DateTime($InternalOrders->date_delivery);
-  $primerdia = new DateTime("2023-1-1");
-  $semanasdel = (int) ($del->diff($primerdia)->format('%a')/7);
-  $inst = new DateTime($InternalOrders->instalation_date);
+    $pdia=$del->format('Y');
+    $primerdia  = new DateTime($pdia."-1-1");
   
+  $semanasdel = (int) ($del->diff($primerdia)->format('%a')/7);
+  
+  $inst = new DateTime($InternalOrders->instalation_date);
+  $pdia=$inst->format('Y');
+ $primerdia  = new DateTime($pdia."-1-1");
   $semanasinst = (int) ($inst->diff($primerdia)->format('%a')/7);
   $reg = new DateTime($InternalOrders->reg_date);
-
+  $pdia=$reg->format('Y');
+ $primerdia  = new DateTime($pdia."-1-1");
   $semanasreg = (int)( $reg->diff($primerdia)->format('%a')/7);}}
 @endphp
                         <td><div class="badge badge-danger badge-outlined">Domicilio Embarque: </div></td>
@@ -192,6 +197,7 @@
             <table>
                 <tr>
                     <td><div class="badge badge-danger badge-outlined">Vendedor <br><br> &nbsp;</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Iniciales <br><br> &nbsp;</div></td>
                     <td><div class="badge badge-danger badge-outlined">Comis.<br><br> &nbsp;</div></td>
                     <td><div class="badge badge-danger badge-outlined">Cotización <br> No.<br> &nbsp;</div></td>
                     <td><div class="badge badge-danger badge-outlined">Moneda <br><br> &nbsp;</div></td>
@@ -201,7 +207,8 @@
                 </tr>
                 
                     <tr>
-                        <td><div class="badge badge-primary badge-outlined"> {{$Sellers->seller_name}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined"> {{$Sellers->id}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined"> {{$Sellers->iniciales}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$InternalOrders->comision * 100}} %</div></td>
                         <td><div class="badge badge-primary badge-outlined">@if($InternalOrders->ncotizacion==0) - @else
                                                                               {{$InternalOrders->ncotizacion}} @endif</div></td>
@@ -215,17 +222,16 @@
             </table>
             <div class="row p-4">
                 <div class="col-sm-12 font-bold text-sm">
-                    <table >
+                    <div class="table-responsive">
+                    <table style="text-align: center;">
                         
                             <tr class="text-center">
                                 <td><div class="badge badge-danger badge-outlined">Pda</div></td>
                                 <td><div class="badge badge-danger badge-outlined">Cant</div></td>
                                 <td><div class="badge badge-danger badge-outlined">Unidad</div></td>
-                                <td><div class="badge badge-danger badge-outlined">Familia</div></td>
                                 
-                                <td><div class="badge badge-danger badge-outlined">SKU</div></td>
                                 
-                                <td><div class="badge badge-danger badge-outlined">Descripción</div></td>
+                                <td style="width:25%"><div class="badge badge-danger badge-outlined">Descripción</div></td>
                                 
                                 <td><div class="badge badge-danger badge-outlined">P. U.</div></td>
                                 <td><div class="badge badge-danger badge-outlined">Importe</div></td>
@@ -237,18 +243,16 @@
                                 <td><div class="badge badge-primary badge-outlined">{{ $row->item }}</div></td>
                                 <td><div class="badge badge-primary badge-outlined">{{ $row->amount }}</div></td>
                                 <td><div class="badge badge-primary badge-outlined">{{ $row->unit }}</div></td>
-                                <td><div class="badge badge-primary badge-outlined">{{ $row->family }}</div></td>
                                 
-                                <td><div class="badge badge-primary badge-outlined">{{ $row->sku}}</div></td>
                                 
-                                <td><div class="badge badge-primary badge-outlined">{{ $row->description }}</div></td>
+                                <td><div class="badge badge-primary badge-outlined "> <div class="com-text">{{ $row->sku}} {{$row->family }} <br> {!!  nl2br($row->description )!!}</div></div></td>
                                 
                                 <td class="text-right"><div class="badge badge-primary badge-outlined">${{number_format($row->unit_price, 2) }}</div></td>
                                 <td class="text-right"><div class="badge badge-primary badge-outlined">${{number_format($row->import, 2) }}</div></td>
                             </tr>
                             @endforeach
                     
-                    </table>
+                    </table></div>
                 </div>
             </div>
             </div>
@@ -327,13 +331,17 @@
                 <tbody>
                     @php
                     $p=0;
+                    
+                    $datetime2 = new DateTime($Y."-1-1");
                     @endphp
                     @foreach($payments as $pay)
                     
                     @php
                     {{$datetime1 = new DateTime($pay->date);
-                    $datetime2 = new DateTime("2023-1-1");
-                    $dias = $datetime2->diff($datetime1)->format('%a');
+                    $pdia=$datetime1->format('Y');
+                    
+                    $datetime2 = new DateTime($pdia."-1-1");
+                    $dias = $datetime2->diff($datetime1)->format('%a')+1;
                     $p=$p+1;}}
                     @endphp
                     <tr>
@@ -358,7 +366,7 @@
                     <td><div class="badge badge-danger badge-outlined">Observaciones: </div></td>
                 </tr>
                     <tr>
-                        <td><div class="badge badge-primary badge-outlined">{{$InternalOrders->observations}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined"><div class="com-text"> {{$InternalOrders->observations}}</div></div></td>
                     </tr>
                 
                </table>
@@ -387,7 +395,7 @@
 <br>&nbsp;
                <div class="col-sm-9 font-bold text-sm">
                <table>
-                <tr class="text-center"><th colspan="5">DGI</th></tr>
+                <tr class="text-center"><th colspan="5">COMISION PRINCIPAL</th></tr>
                 <tr class="text-center">
                     <td><div class="badge badge-danger badge-outlined">Vendedor</div></td>
                     <td><div class="badge badge-danger badge-outlined">Inicia</div></td>
@@ -403,6 +411,17 @@
                         <td><div class="badge badge-primary badge-outlined"> {{$InternalOrders->comision * 100}} %</div></td>
                         <td><div class="badge badge-primary badge-outlined"> ${{number_format($InternalOrders->comision * $InternalOrders->total,2)}} </div></td>
                     </tr>
+                    </table>
+                    <table>
+                <tr class="text-center"><th colspan="5">DGI</th></tr>
+                <tr class="text-center">
+                    <td><div class="badge badge-danger badge-outlined">Vendedor</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Inicia</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Descripcion</div></td>
+                    <td><div class="badge badge-danger badge-outlined">% </div></td>
+                    <td><div class="badge badge-danger badge-outlined">Monto con IVA </div></td>
+                 </tr>
+               <br>
                  @foreach($Comisiones as $c)
                     <tr>
                         <td><div class="badge badge-primary badge-outlined">{{$c->seller_name}}</div></td>
@@ -571,22 +590,29 @@
 .demo-preview .badge{
   margin-right:10px;
 }
+.com-text{
+    white-space: pre-wrap;
+      word-wrap: break-word;
+}
 .badge {
-  display: stretch;
+    display: block;
+     padding: 1em;
   font-size: small;
   font-weight: 600;
   /* padding: 3px 6px; */
   border:3px solid transparent;
   /* min-width: 10px; */
-  /* line-height: 1; */
+  /* line-height: 1; 
   color: #fff;
   /* text-align: center;*/
   white-space: nowrap; 
-  /* vertical-align: middle; */
-  border-radius: 4px;
+   vertical-align: middle; 
+  border-radius: 5px;
   /* padding: 15px; */
   width: 100%;
-  height: 100%;
+  min-height: 1px;    
+  height:auto !important;
+  height:100%;
 }
 
 .badge.badge-default {
@@ -662,5 +688,7 @@ background-color: #2B416D;
 @stop
 
 @section('js')
-
+<script>
+    $('#badge').css('height', $('#badge').parent('td').height());
+</script>
 @stop

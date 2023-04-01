@@ -21,7 +21,7 @@ class TempItemController extends Controller
       //
     }
 
-    public function create_item($id)
+    public function create_item($id,Request $request)
     {
         $TempInternalOrders = $id;
         $TempItems = TempItem::where('temp_internal_order_id', $id)->OrderBy('id', 'DESC')->first();

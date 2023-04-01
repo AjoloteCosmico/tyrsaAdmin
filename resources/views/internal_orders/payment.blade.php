@@ -214,4 +214,12 @@
 
     }
 </script>
+<script>
+$(document).ready(function () {
+  $('.date').datetimepicker({
+    format: 'MM/DD/YYYY',
+    locale: 'en'
+  });
+});
+</script>
 @stop
