@@ -232,15 +232,13 @@ class InternalOrderController extends Controller
         }
         $contactos=CustomerContact::where('customer_id',$Customers->id)->get();
         TempItem::truncate();
-        $cat=" ";
-        $desc=" ";
-        $obs=" ";
+        
         return view('internal_orders.capture_order_shippment_addresses', compact(
             'TempInternalOrders',
             'Customers',
             'CustomerShippingAddresses',
             'contactos',
-            'cat','desc','obs'
+           
         ));}
     }
 
@@ -273,7 +271,9 @@ class InternalOrderController extends Controller
 
         $Iva = $Subtotal * 0.16;
         $Total = $Subtotal + $Iva;
-
+        $cat=" ";
+        $desc=" ";
+        $obs=" ";
         return view('internal_orders.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -282,6 +282,7 @@ class InternalOrderController extends Controller
             'Subtotal',
             'Iva',
             'Total',
+            'cat','desc','obs'
             // 'ITEM',
         ));
         
