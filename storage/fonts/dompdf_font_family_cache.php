@@ -83,5 +83,8 @@ return array (
     'italic' => $fontDir . '/source_sans_pro_italic_27672a92dcedb2218abd2dadee4fe950',
     '600_italic' => $fontDir . '/source_sans_pro_600_italic_ef3fecfa74b416f01e1908b6dca4e4a4',
   ),
+  'fontawesome' => array(
+    'normal' => $fontDir . '/fontawesome_normal_7ea195556637d817f455524c7885b526',
+  ),
 );
 }; ?>

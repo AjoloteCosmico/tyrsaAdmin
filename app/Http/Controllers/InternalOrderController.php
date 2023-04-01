@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
+
 use App\Models\Authorization;
 use App\Models\InternalOrder;
 use App\Models\Coin;
@@ -144,6 +144,9 @@ class InternalOrderController extends Controller
      ->where('temp_order_id',$TempInternalOrders->id)
      ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
+     session(['p_comission' => '']);
+     session(['p_seller_id' => ' ']);
+     
     return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 
@@ -157,17 +160,25 @@ class InternalOrderController extends Controller
      ->where('temp_order_id',$TempInternalOrders->id)
      ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
+     $p_comission=Session::get('p_comission');
+     $p_seller_id=Session::get('p_seller_id');
     return view('internal_orders.capture_comissions', compact(
-        'TempInternalOrders','Sellers','Comisiones','Message'
+        'TempInternalOrders','Sellers','Comisiones','Message','p_seller_id','p_comission'
         
     ));
     }
 
 
     public function guardar_comissions(Request $request)
-    {  
-     $p_seller_id=$request->p_seller_id;
+    {$p_seller_id=$request->p_seller_id;
      $p_comission=$request->p_comission;
+     if($p_seller_id!="."){
+        
+     session(['p_seller_id' => $p_seller_id]);
+     }
+     if($p_comission!="."){
+        session(['p_comission' => $p_comission]);
+    }
      $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
      $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
 
