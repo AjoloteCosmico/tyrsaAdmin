@@ -13,9 +13,13 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Pedido Interno:
             </h5>
         </div>
-        <form action="{{ route('internal_orders.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('tempitems.create_item', $TempInternalOrders->id) }}" method="POST" id ="form-id" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
+        <x-jet-input type="hidden" name="session_desc" id="session_desc" value="."/>
+        <x-jet-input type="hidden" name="session_cat" id="session_cat" value="."/>
+        <x-jet-input type="hidden" name="session_obs" id="session_obs" value="."/>
+        
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
@@ -24,42 +28,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12">
-                                <form action="{{route('tempitems.create_item', $TempInternalOrders->id) }}" id ="form-id" method="POST" enctype="multipart/form-data">
-            @csrf
-        <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
-                
-                    <div class="form-group">
-                                <x-jet-label value="* Categoria" />
-                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
-                                        
-                                        <option value=" " > </option>
-                                        <option value="Productos" >Productos</option>
-                                        <option value="Servicios" >Servicios</option>
-                                        <option value="Integracion" >Integracion</option>
-                                       
-                                    
-                                </select>
-                                <x-jet-input-error for='family' /> 
-                            <div class="form-group">
-                                <x-jet-label value="* Descripción del Proyecto" />
-                                <select class="form-capture  w-full text-xs uppercase" name="description" id='desc'>
-                                <option value="Producto Fabricacion" >Producto fabricacion PF</option>
-                                        <option value="Producto Comercializacion" >Producto Comercializacion  PC</option>
-                                        <option value="Servicio directo SD" >Servicio directo SD</option>
-                                        <option value="Servicio indirecto SI" >Servicio indirecto SI</option>
-                                        <option value="PF+SD" >PF+SD</option>
-                                        <option value="PF+SI" >PF+SI</option>
-                                        <option value="PC+SD" >PC+SD</option>
-                                        <option value="PC+SI" >PC+SI</option>
-                                       
-                                </select><x-jet-input-error for='description' />
-                            </div>
+           
                                     <div class="col-sm-12 text-right p-3">
                                         
-                                        <button type="submit" class="btn btn-green">
+                                        <button type="button" id="your-id" class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                          </button>
                                     </div></form>
+                                    <form action="{{ route('internal_orders.store')}}" method="POST"  enctype="multipart/form-data" >
+                                        @csrf
+                                    <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
+                                        
                                     <div class="col-sm-12 table-responsive">
                                         <table class="table tableitems table-striped text-xs font-medium">
                                             <thead>
@@ -119,11 +98,39 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <x-jet-label value="* Categoria" />
+                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
+                                        
+                                        <option value=" " > </option>
+                                        
+                                        <option value="Productos" @if($cat=="Productos") selected @endif>Productos</option>
+                                        <option value="Servicios" @if($cat=="Servicios") selected @endif>Servicios</option>
+                                        <option value="Integracion" @if($cat=="Integracion") selected @endif>Integracion</option>
+                                       
+                                    
+                                </select>
+                                <x-jet-input-error for='category' /> 
+                            <div class="form-group">
+                                <x-jet-label value="* Descripción del Proyecto" />
+                                <select class="form-capture  w-full text-xs uppercase" name="description" id='desc'>
+                                        <option value="Producto Fabricacion" @if($desc=="Producto Fabricacion") selected @endif>Producto fabricacion PF</option>
+                                        <option value="Producto Comercializacion"  @if($desc=="Producto Comercializacion") selected @endif>Producto Comercializacion  PC</option>
+                                        <option value="Servicio directo SD"  @if($desc=="Servicio directo SD") selected @endif>Servicio directo SD</option>
+                                        <option value="Servicio indirecto SI"  @if($desc=="Servicio indirecto SI") selected @endif >Servicio indirecto SI</option>
+                                        <option value="PF+SD" @if($desc=="PF+SD") selected @endif>PF+SD</option>
+                                        <option value="PF+SI" @if($desc=="PF+SI") selected @endif>PF+SI</option>
+                                        <option value="PC+SD" @if($desc=="PC+SD") selected @endif>PC+SD</option>
+                                        <option value="PC+SI" @if($desc=="PC+SI") selected @endif>PC+SI</option>
+                                       
+                                </select><x-jet-input-error for='description' />
+                            </div>
+                    
                             <div class="row">
                                 <div class="col-sm-8 col-xs-12">
                                     <div class="form-group">
-                                        <x-jet-label value="Observaciones" />
-                                        <textarea name="observations" rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"></textarea>
+                                        <x-jet-label value="Observaciones"  />
+                                        <textarea  name="observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{$obs}}</textarea>
                                         <x-jet-input-error for='observations' />
                                     </div>
                                 </div>
@@ -152,4 +159,28 @@
 @section('js')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tableitems.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tableshipping_addresses.js') }}"></script>
+<script>
+var form = document.getElementById("form-id");
+document.getElementById("your-id").addEventListener("click", function () {
+  form.submit();
+});
+</script>
+
+<script>
+    
+document.getElementById("observations").addEventListener("input", function(){
+   document.getElementById("session_obs").value = this.value;
+   console.log(document.getElementById("session_obs").value)
+    }); 
+
+document.getElementById("cat").addEventListener("input", function(){
+   document.getElementById("session_cat").value = this.value;
+   console.log(document.getElementById("session_cat").value)
+    }); 
+
+document.getElementById("desc").addEventListener("input", function(){
+   document.getElementById("session_desc").value = this.value;
+   console.log(document.getElementById("session_desc").value)
+    }); 
+</script>
 @stop

@@ -332,7 +332,6 @@
                     @php
                     $p=0;
                     
-                    $datetime2 = new DateTime($Y."-1-1");
                     @endphp
                     @foreach($payments as $pay)
                     

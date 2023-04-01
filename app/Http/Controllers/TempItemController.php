@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Session;
 use App\Models\TempItem;
 use App\Models\Customer;
 use App\Models\Family;
@@ -23,6 +23,26 @@ class TempItemController extends Controller
 
     public function create_item($id,Request $request)
     {
+        $cat=$request->session_cat;
+        //$p_comission=$request->p_comission;
+            if($cat!="."){
+               
+            session(['cat' => $cat]);
+            }
+        $desc=$request->session_desc;
+            //$p_comission=$request->p_comission;
+                if($desc!="."){
+                   
+                session(['desc' => $desc]);
+                }
+        $obs=$request->session_obs;
+                //$p_comission=$request->p_comission;
+                    if($obs!="."){
+                       
+                    session(['obs' => $obs]);
+                    }
+
+
         $TempInternalOrders = $id;
         $TempItems = TempItem::where('temp_internal_order_id', $id)->OrderBy('id', 'DESC')->first();
 
@@ -130,7 +150,10 @@ class TempItemController extends Controller
 
         $Iva = $Subtotal * 0.16;
         $Total = $Subtotal + $Iva;
-
+        $cat=Session::get('cat');
+        $desc=Session::get('desc');
+        
+        $obs=Session::get('obs');
         return view('internal_orders.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -138,6 +161,7 @@ class TempItemController extends Controller
             'Subtotal',
             'Iva',
             'Total',
+            'cat','desc','obs'
         ));
     }
 
