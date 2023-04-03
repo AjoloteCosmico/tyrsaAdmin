@@ -307,160 +307,22 @@ class InternalOrderController extends Controller
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
         $InternalOrders = InternalOrder::orderBy('id', 'DESC')->first();
-        
+        $Invoice = '100';
         if($InternalOrders){
-            $InternalOrders->invoice;
-
             $Invoice = $InternalOrders->invoice + 1;
+        }
+        
+           
             $I=InternalOrder::find($TempInternalOrders->id);
             if($I){
                 InternalOrder::destroy($TempInternalOrders->id);
             }
             $InternalOrders = new InternalOrder();
             $InternalOrders->id = $TempInternalOrders->id;
-            $InternalOrders->invoice = $Invoice;
             if($TempInternalOrders->invoice != 0){
                 $InternalOrders->invoice = $TempInternalOrders->invoice;
-            }
-            $InternalOrders->date = $TempInternalOrders->date;
-            $InternalOrders->customer_id = $TempInternalOrders->customer_id;
-            $InternalOrders->seller_id = $TempInternalOrders->seller_id;
-            $InternalOrders->comision = $TempInternalOrders->comision;
-            $InternalOrders->date_delivery = $TempInternalOrders->date_delivery;
-            $InternalOrders->instalation_date = $TempInternalOrders->instalation_date;
-            $InternalOrders->reg_date = $TempInternalOrders->reg_date;
-            $InternalOrders->shipment = $TempInternalOrders->shipment;
-            $InternalOrders->customer_shipping_address_id = $TempInternalOrders->customer_shipping_address_id;
-            $InternalOrders->coin_id = $TempInternalOrders->coin_id;
-            $InternalOrders->subtotal = $TempInternalOrders->subtotal;
-            $InternalOrders->iva = $TempInternalOrders->iva;
-            $InternalOrders->total = $TempInternalOrders->total;
-            $InternalOrders->payment_conditions = $TempInternalOrders->payment_conditions;
-            $InternalOrders->observations = $TempInternalOrders->observations;
-            $InternalOrders->category = $request->category;
-            $InternalOrders->description = $request->description;
-            $InternalOrders->tasa = $TempInternalOrders->tasa;
-            $InternalOrders->oc = $TempInternalOrders->oc;
-            $InternalOrders->ncontrato = $TempInternalOrders->ncontrato;
-            $InternalOrders->dgi = $TempInternalOrders->dgi;
-            $InternalOrders->otra = $TempInternalOrders->otra;
-            $InternalOrders->ieps = $TempInternalOrders->ieps;
-            $InternalOrders->isr = $TempInternalOrders->isr;
-            $InternalOrders->ncotizacion = $TempInternalOrders->ncotizacion;
-            $InternalOrders->noha = $TempInternalOrders->noha;
-            $InternalOrders->descuento = $TempInternalOrders->descuento;
-            
-            
-            $InternalOrders->status = $TempInternalOrders->status;
-            $InternalOrders->authorization_id = 1;
-            $InternalOrders->save();
-            $contactos=order_contacts::where('temp_order_id',$TempInternalOrders->id)->get();
-            foreach($contactos as $c){
-                $c->order_id=$InternalOrders->id;
-                $c->save();
-            }
-            //foreach($Authorizations as $auth){
-                //$c=$auth->clearance_level;
-              //  if($c<$request->subtotal)//entonces requiere esa firma
-               // {$requiredSignature=new signatures();  $requiredSignature->order_id = $InternalOrders->id;
-                 //  $requiredSignature->auth_id = $auth->id;$requiredSignature->save();}
-                 $Signature=new signatures();
-                 $Signature->order_id = $InternalOrders->id;
-                 $Signature->auth_id = 2;
-                 $Signature->save();
-                 if($InternalOrders->subtotal >= 500000){
-                         $Signature=new signatures();
-                         //$Signature->order_id = $InternalOrders->id;
-                         //$Signature->auth_id = 5;
-                         //$Signature->save(); 
-                         $Signature->order_id = $InternalOrders->id;
-                         $Signature->auth_id = 3;
-                         $Signature->save(); 
-                         $Signature=new signatures();
-                         $Signature->order_id = $InternalOrders->id;
-                         $Signature->auth_id = 4;
-                         $Signature->save(); 
-                      }
-                 if($InternalOrders->subtotal >= 5000000){
-                         $Signature=new signatures();
-                         $Signature->order_id = $InternalOrders->id;
-                         $Signature->auth_id = 6;
-                         $Signature->save(); 
-                      }
-     
-
-            $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
-            $t=0;
-            foreach($TempItems as $row){
-                
-                $Items = new Item();
-                $Items->internal_order_id = $row->temp_internal_order_id;
-                $Items->item = $row->item;
-                $Items->amount = $row->amount;
-                $Items->unit = $row->unit;
-                $Items->family = $row->family;
-                
-                $Items->subfamilia = $row->subfamilia;
-                $Items->categoria = $row->categoria;
-                $Items->products = $row->products;
-                $Items->code = $row->code;
-                $Items->racks = $row->racks;
-                $Items->fab = $row->fab;
-                $Items->sku = $row->sku;
-                $Items->description = $row->description;
-                $Items->unit_price = $row->unit_price;
-                $Items->import = $row->import;
-                $Items->save();
-                $t=$t+$Items->import;
-                if($Items->categoria=='Servicios'){
-                    $ret=$ret+$Items->import*0.04;
-                }
-                
-            }
-            
-            $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
-            foreach($TempItems as $rs){
-                TempItem::destroy($rs->id);
-            }
-            
-            $tcomisiones=temp_comissions::where('temp_order_id',$TempInternalOrders->id)->get();
-            foreach($tcomisiones as $tc){
-                $comision=new comissions();
-                $comision->order_id=$InternalOrders->id;
-                $comision->percentage=$tc->percentage;
-                $comision->description=$tc->description;
-                $comision->dgi=0;
-
-                $comision->seller_id=$tc->seller_id;
-                $comision->save();
-                temp_comissions::destroy($tc->id);
-            }
-            TempInternalOrder::destroy($TempInternalOrders->id);
-
-
-
-            $InternalOrders->ret=$ret;
-            
-
-
-            $factor_aumento= +$TempInternalOrders->ieps+$TempInternalOrders->isr+$TempInternalOrders->tasa+0.16;
-            $InternalOrders->total=$t*($factor_aumento-$InternalOrders->descuento)+$ret +$t;
-            //dd($t,$factor_aumento);
-            
-            $InternalOrders->save();
-            //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
-            return $this->payment($InternalOrders->id);
-
-        }else{
-            $I=InternalOrder::find($TempInternalOrders->id);
-            if($I){
-                InternalOrder::destroy($TempInternalOrders->id);
-            }
-            $InternalOrders = new InternalOrder();
-            $InternalOrders->id = $TempInternalOrders->id;
-            $InternalOrders->invoice = '100';
-            if($TempInternalOrders->invoice == 0){
-                $InternalOrders->invoice = $TempInternalOrders->invoice;
+            }else{
+                $InternalOrders->invoice=$Invoice;
             }
             $InternalOrders->date = $TempInternalOrders->date;
             $InternalOrders->customer_id = $TempInternalOrders->customer_id;
@@ -542,6 +404,7 @@ class InternalOrderController extends Controller
                 $Items->unit_price = $row->unit_price;
                 $Items->import = $row->import;
                 $Items->save();
+                $t=$t+$Items->import;
                 if($Items->categoria=='Servicios'){
                     $ret=$ret+$Items->amount*0.04;
                 }
@@ -576,7 +439,7 @@ class InternalOrderController extends Controller
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
             return $this->payment($InternalOrders->id);
 
-        }        
+             
     }
 
     public function edit_order($id){
