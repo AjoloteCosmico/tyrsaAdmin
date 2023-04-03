@@ -522,7 +522,7 @@ class InternalOrderController extends Controller
                  }
 
             $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
-
+            $t=0;
             foreach($TempItems as $row){
                 $Items = new Item();
                 $Items->internal_order_id = $row->temp_internal_order_id;
