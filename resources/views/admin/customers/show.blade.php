@@ -39,25 +39,25 @@
                                 <x-jet-label value="* Regimen de Capital" />
                                 <select class="form-capture  w-full text-xs uppercase" id="legal_name" name="legal_name">
                                 
-                                    <option value="FISICA CAEYP" > PERSONA FISICA CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES </option>
-                                    <option value="S.A." >SOCIEDAD ANONIMA </option>
-                                    <option value="S.A. DE C.V." > SOCIEDAD ANONIMA DE CAPITAL VARIABLE </option>
-                                    <option value="S DE R.L DE C.V." >SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE </option>
-                                    <option value="SAPI" >SOCIEDAD ANONIMA PROMOTORA DE INVERSION </option>
-                                    <option value="SAPI DE C.V." > SOCIEDAD ANONIMA PROMOTORA DE INVERSION DE CAPITAL VARIABLE</option>
-                                    <option value="SAS" > SOCIEDAD POR ACCIONES SIMPLIFICADA</option>
-                                    <option value="S.C" >SOCIEDAD COOPERATIVA </option>
-                                    <option value="S en N. C" > SOCIEDAD EN NOMBRE COLECTIVO</option>
-                                    <option value="S en N. C DE C.V." > SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
-                                    <option value="S en C" >SOCIEDAD EN COMANDITA SIMPLE </option>
-                                    <option value="S.C.A" >SOCIEDAD EN COMANDITA POR ACCIONES </option>
-                                    <option value="otra" >OTRA </option>
+                                    <option value="FISICA CAEYP" @if($Customers->legal_name=='FISICA CAEYP') selected @endif> PERSONA FISICA CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES </option>
+                                    <option value="S.A." @if($Customers->legal_name=='S.A.') selected @endif >SOCIEDAD ANONIMA </option>
+                                    <option value="S.A. DE C.V." @if($Customers->legal_name=='S.A. DE C.V.') selected @endif > SOCIEDAD ANONIMA DE CAPITAL VARIABLE </option>
+                                    <option value="S DE R.L DE C.V." @if($Customers->legal_name=='S DE R.L DE C.V.') selected @endif >SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE </option>
+                                    <option value="SAPI" @if($Customers->legal_name=='SAPI') selected @endif >SOCIEDAD ANONIMA PROMOTORA DE INVERSION </option>
+                                    <option value="SAPI DE C.V." @if($Customers->legal_name=='SAPI DE C.V.') selected @endif> SOCIEDAD ANONIMA PROMOTORA DE INVERSION DE CAPITAL VARIABLE</option>
+                                    <option value="SAS" @if($Customers->legal_name=='SAS') selected @endif> SOCIEDAD POR ACCIONES SIMPLIFICADA</option>
+                                    <option value="S.C" @if($Customers->legal_name=='S.C') selected @endif>SOCIEDAD COOPERATIVA </option>
+                                    <option value="S en N. C" @if($Customers->legal_name=='S en N. C') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO</option>
+                                    <option value="S en N. C DE C.V." @if($Customers->legal_name=='S en N. C DE C.V.') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
+                                    <option value="S en C" @if($Customers->legal_name=='S en C') selected @endif>SOCIEDAD EN COMANDITA SIMPLE </option>
+                                    <option value="S.C.A" @if($Customers->legal_name=='S.C.A') selected @endif>SOCIEDAD EN COMANDITA POR ACCIONES </option>
+                                    <option value="otra" @if($Customers->legal_name=='otra') selected @endif >OTRA </option>
                                     <option value="" > </option>
                                     
                                     
                                 </select>
                                 <br>
-                                <x-jet-input type="text" name="otra" id='otra' class="w-full text-xs " style='display: none;' onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="otra" id='otra' class="w-full text-xs " value="{{$Customers->otra}}" style='display: none;' onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 
                                 <x-jet-input-error for='legal_name' />
                             </div>
@@ -173,12 +173,11 @@
                 </table>
                 
             <br>
-            <form action="{{ route('customers.contacto') }}" method="POST">
-                                            @csrf                               
-                                            <x-jet-input type="hidden" name="customer_id" value="{{$Customers->id }}"/>
-                                            <button  type="submit" class="btn btn-green mb-2">
-                                            <i class="fas fa fa-user-plus"></i>&nbsp; Añadir <br> contacto</button>
-                                        </form>
+                                            
+                                        <a href="{{ route('customers.contacto', $Customers->id)}}">                    
+                                            <button  type='button' class="btn btn-green mb-2">
+                                            <i class="fas fa fa-user-plus"></i> &nbsp;&nbsp;  Añadir contacto</button>
+                                        </a>
         </div>
     </div>
 @stop

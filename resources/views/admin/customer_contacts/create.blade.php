@@ -26,13 +26,13 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Nombre del contacto" />
-                                <x-jet-input type="text" name="customer_contact_name" class="w-full text-xs " value="{{old('customer')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="customer_contact_name" class="w-full text-xs " value="{{old('customer_contact_name')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='customer_contact_name' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Teléfono Movil" />
                                 <x-jet-input type="text" name="customer_mobile" class="w-full text-xs " value="{{old('customer_telephone')}}"/>
-                                <x-jet-input-error for='customer_movil' />
+                                <x-jet-input-error for='customer_mobile' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Teléfono de Oficina" />

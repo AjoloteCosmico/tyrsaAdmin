@@ -184,9 +184,9 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('eliminar', 'ok');
     }
 
-    public function contacto(Request $request)
+    public function contacto( $id)
     {
-        $id=$request->customer_id;
+        //$id=$request->customer_id;
         $Contacts = CustomerContact::where('customer_id', $id);
         $Customer = Customer::where('id', $id)->first();
         
@@ -210,11 +210,11 @@ class CustomerController extends Controller
             'customer_zip_code' => 'required|max:5',
             'customer_email' => 'required|email',
             'customer_telephone' => 'required|max:10',
-            'customer_movil' => 'required|max:10',
+            'customer_mobile' => 'required|max:10',
         ];
 
         $messages = [
-            'customer.required' => 'Escriba el Nombre del Cliente',
+            'customer_contact_name.required' => 'Escriba el Nombre del Cliente',
             'customer_state.required' => 'Capture el Estado donde se ubica el Cliente',
             'customer_city.required' => 'Capture la Ciudad donde se ubica el Cliente',
             'customer_suburb.required' => 'Capture la Colonia donde se ubica el Cliente',
@@ -225,10 +225,13 @@ class CustomerController extends Controller
             'customer_telephone.required' => 'Capture el Número telefónico del CLiente',
             'customer_telephone.max' => 'Capture el Número telefónico a 10 dígitos',
             'customer_zip_code.required' => 'Capture el Código Postal del Cliente',
-            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
+            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres',
+            'customer_mobile.required' => 'Capture el Número telefónico del CLiente',
+            'customer_mobile.max' => 'Capture el Número telefónico a 10 dígitos',
+            
         ];
 
-        //$request->validate($rules, $messages);
+        $request->validate($rules, $messages);
         $CustomersContact = new CustomerContact();
         $CustomersContact->customer_contact_name = $request->customer_contact_name;
         $CustomersContact->customer_contact_state = $request->customer_state;

@@ -351,21 +351,28 @@ return [
             'header' => 'CONTABILIDAD',
             'can' => 'CONTABILIDAD',
         ],
+        // [
+        //     'text' => 'CUENTAS POR COBRAR',
+        //     'icon' => 'fas fa-money-check',
+        //     'url' => 'cuentas_cobrar',
+        //     'route'  => 'cuentas_cobrar',
+        //     'can' => 'VER CUENTAS X COBRAR',
+        // ],
         [
-            'text' => 'CUENTAS POR COBRAR',
-            'icon' => 'fas fa-money-check',
-            'url' => 'cuentas_cobrar',
-            'route'  => 'cuentas_cobrar',
+            'text' => 'FACTURAS',
+            'icon' => 'fas fa-file',
+            'url' => 'factures',
+            'route'  => 'factures',
             'can' => 'VER CUENTAS X COBRAR',
         ],
         
-        [
-            'text' => 'CUENTAS COBRADAS',
-            'icon' => 'fas fa-money-check fa-fw',
+        // [
+        //     'text' => 'CUENTAS COBRADAS',
+        //     'icon' => 'fas fa-money-check fa-fw',
             
-            'route'  => 'payed_accounts',
-            'can' => 'VER APLICACIONES DE PAGO',
-        ],
+        //     'route'  => 'payed_accounts',
+        //     'can' => 'VER APLICACIONES DE PAGO',
+        // ],
         
         [
             'text' => 'INTERFASE ASPEL COI',

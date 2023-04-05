@@ -69,7 +69,9 @@
                   
                     <tr class="text-center">
                         <td><div class="badge badge-danger badge-outlined">  Razon Social: </div></td>
-                        <td colspan="6" ><div class="badge badge-primary badge-outlined"> {{$Customers->legal_name}}</div></td>
+                        <td colspan="4" ><div class="badge badge-primary badge-outlined"> {{$Customers->customer}}</div></td>
+                        <td><div class="badge badge-danger badge-outlined">  Regimen de capital: </div></td>
+                        <td  ><div class="badge badge-primary badge-outlined"> {{$Customers->legal_name}}</div></td>
                         
                         <!-- 6 columas -->
                     </tr>
@@ -127,16 +129,16 @@
     $pdia=$del->format('Y');
     $primerdia  = new DateTime($pdia."-1-1");
   
-  $semanasdel = (int) ($del->diff($primerdia)->format('%a')/7);
+  $semanasdel = (int) floor($del->diff($primerdia)->format('%a')/7)+1;
   
   $inst = new DateTime($InternalOrders->instalation_date);
   $pdia=$inst->format('Y');
  $primerdia  = new DateTime($pdia."-1-1");
-  $semanasinst = (int) ($inst->diff($primerdia)->format('%a')/7);
+  $semanasinst = (int) floor($inst->diff($primerdia)->format('%a')/7)+1;
   $reg = new DateTime($InternalOrders->reg_date);
   $pdia=$reg->format('Y');
  $primerdia  = new DateTime($pdia."-1-1");
-  $semanasreg = (int)( $reg->diff($primerdia)->format('%a')/7);}}
+  $semanasreg = (int) floor( $reg->diff($primerdia)->format('%a')/7)+1;}}
 @endphp
                         <td><div class="badge badge-danger badge-outlined">Domicilio Embarque: </div></td>
                         <td></td>
@@ -187,7 +189,7 @@
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_mobile}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_office_phone}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_office_phone_ext}}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
+                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -231,7 +233,7 @@
                                 <td><div class="badge badge-danger badge-outlined">Unidad</div></td>
                                 
                                 
-                                <td style="width:25%"><div class="badge badge-danger badge-outlined">Descripción</div></td>
+                                <td style="width:40%"><div class="badge badge-danger badge-outlined">Descripción</div></td>
                                 
                                 <td><div class="badge badge-danger badge-outlined">P. U.</div></td>
                                 <td><div class="badge badge-danger badge-outlined">Importe</div></td>
@@ -245,7 +247,7 @@
                                 <td><div class="badge badge-primary badge-outlined">{{ $row->unit }}</div></td>
                                 
                                 
-                                <td><div class="badge badge-primary badge-outlined "> <div class="com-text">{{ $row->sku}} {{$row->family }} <br> {!!  nl2br($row->description )!!}</div></div></td>
+                                <td><div class="badge badge-primary badge-outlined "> <div class="com-text">SKU:  {{ $row->sku}} <br> Familia:   {{$row->family }} <br> {!!  nl2br($row->description )!!}</div></div></td>
                                 
                                 <td class="text-right"><div class="badge badge-primary badge-outlined">${{number_format($row->unit_price, 2) }}</div></td>
                                 <td class="text-right"><div class="badge badge-primary badge-outlined">${{number_format($row->import, 2) }}</div></td>
@@ -383,7 +385,7 @@
                  @foreach($Contacts as $row)
                     <tr>
                         <td><div class="badge badge-primary badge-outlined">{{$row->id}}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
+                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
                     </tr>
                     @endforeach
                   

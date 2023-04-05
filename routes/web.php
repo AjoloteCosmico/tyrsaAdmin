@@ -6,6 +6,7 @@ use App\Http\Controllers\TempItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\FactureController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -28,15 +29,24 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('temp_items', TempItemController::class);
     Route::resource('items', ItemController::class);
     Route::resource('cuentas_cobrar', PaymentsController::class);
+    Route::resource('factures', FactureController::class);
+    
     Route::get('accounting/payed_accounts', [PaymentsController::class, 'payed_accounts'])->name('payed_accounts');
-    Route::get('reportes/contraportada', [PaymentsController::class, 'reportes'])->name('reportes.contraportada');
-    
-    Route::get('reportes/contraportada_axel', [PaymentsController::class, 'reportes_axel'])->name('reportes.contraportada_axel');
+   //rutas para generar reportes
+      //catalogos
+    Route::get('reportes/contraportada', [ReportsController::class, 'contraportada'])->name('reportes.contraportada');
     Route::get('reportes/factura_resumida', [PaymentsController::class, 'factura_resumida'])->name('reportes.factura_resumida');
-    
     Route::get('reportes/consecutivo_factura', [PaymentsController::class, 'consecutivo_factura'])->name('reportes.consecutivo_factura');
     Route::get('reportes/comprobante_ingresos', [PaymentsController::class, 'comprobante_ingresos'])->name('reportes.comprobante_ingresos');
     Route::get('reportes/consecutivo_comprobante', [PaymentsController::class, 'consecutivo_comprobante'])->name('reportes.consecutivo_comprobante');
+    Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
+    //  generar reporte
+    Route::get('reporte/{id}/{report}/{pdf}', [ReportsController::class, 'generate'])->name('reports.generate');
+    
+
+
+
+
     Route::get('reportes/cuentas_cobrar', [PaymentsController::class, 'rep_cuentas_cobrar'])->name('reportes.cuentas_cobrar');
     
     Route::get('items/create/{id}', [ItemController::class, 'create'])->name('items.creation');
@@ -77,16 +87,11 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('multi_pay', [PaymentsController::class, 'multi_pay_actualize'])->name('payments.multi_pay_actualize');
     //metodos para reportes... 8 reportes son, bueno 7, tecnicamente son 11
     //ah pero ya nomas uso uno, soy la reata TODO: limpiar esta madre 
-    Route::get('contraportada/{id}', [PaymentsController::class, 'contraportada'])->name('payments.contraportada');
-    Route::get('contraportadaPDF/{id}', [ReportsController::class, 'contraportada_pdf'])->name('payments.contraportada_pdf');
-    Route::get('factura_resumida/{id}', [PaymentsController::class, 'factura_resumida'])->name('payments.factura_resumida');
-    Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
-    Route::get('reporte/{id}/{report}/{pdf}', [PaymentsController::class, 'reporte'])->name('payments.reporte');
     
     Route::get('pedidoPDF/{id}', [ReportsController::class, 'pedido_pdf'])->name('pedido_pdf');
     Route::get('cuentas', [PaymentsController::class, 'cuentas_reporte'])->name('payments.cuentas_reporte');
     Route::post('internal_orders/partida', [InternalOrderController::class, 'partida'])->name('internal_orders.partida');
-    Route::post('customer/crear_contacto', [CustomerController::class, 'contacto'])->name('customers.contacto');
+    Route::get('customer/crear_contacto({id}', [CustomerController::class, 'contacto'])->name('customers.contacto');
     Route::post('customer/guardar_contacto', [CustomerController::class, 'store_contact'])->name('customers.store_contact');
 
     Route::get('/foo', function () {
