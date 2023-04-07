@@ -44,6 +44,7 @@
                                     <option value="S en N. C DE C.V." > SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
                                     <option value="S en C" >SOCIEDAD EN COMANDITA SIMPLE </option>
                                     <option value="S.C.A" >SOCIEDAD EN COMANDITA POR ACCIONES </option>
+                                    <option value="POR ASIGNAR" >POR ASIGNAR </option>
                                     <option value="otra" >OTRA </option>
                                     <option value="" > </option>
                                     

@@ -52,6 +52,10 @@ class InternalOrderController extends Controller
     public function capture(Request $request)
     {
         
+        $rules = [
+            'invoice' => 'unique:internal_orders,invoice',
+             'noha'=>  'unique:internal_orders,noha'];
+
         $Fecha = date('Y-m-d');
         $TempInternalOrders = TempInternalOrder::where('customer_id', $request->customer_id)->where('date', $Fecha)->get();
         if(count($TempInternalOrders)>0)
@@ -691,6 +695,8 @@ class InternalOrderController extends Controller
         $Subtotal = $request->subtotal;
         $nRows = $request->rowcount;
         $payments = payments::where('order_id', $request->order_id)->delete();
+        $hpayments = historical_payments::where('order_id', $request->order_id)->delete();
+        
         for($i=1; $i < $nRows+1; $i++) {
              
             $this_payment= new payments(); 

@@ -51,6 +51,7 @@
                                     <option value="S en N. C DE C.V." @if($Customers->legal_name=='S en N. C DE C.V.') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
                                     <option value="S en C" @if($Customers->legal_name=='S en C') selected @endif>SOCIEDAD EN COMANDITA SIMPLE </option>
                                     <option value="S.C.A" @if($Customers->legal_name=='S.C.A') selected @endif>SOCIEDAD EN COMANDITA POR ACCIONES </option>
+                                    <option value="POR ASIGNAR" @if($Customers->legal_name=='POR ASIGNAR') selected @endif>POR ASIGNAR </option>
                                     <option value="otra" @if($Customers->legal_name=='otra') selected @endif >OTRA </option>
                                     <option value="" > </option>
                                     

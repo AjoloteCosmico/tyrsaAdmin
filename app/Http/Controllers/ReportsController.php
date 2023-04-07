@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\CompanyProfile;
 use App\Models\CustomerShippingAddress;
 use App\Models\Coin;
+use App\Models\historical_payments;
 
 use App\Models\Seller;
 use App\Http\Requests\StorepaymentsRequest;
@@ -25,7 +26,7 @@ class ReportsController extends Controller
        public function generate($id,$report,$pdf)
        {
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id]);
+           $process = new Process(['python',$caminoalpoder.'/'.$report.'.py',$id]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
@@ -67,14 +68,15 @@ class ReportsController extends Controller
     $Sellers = Seller::find($InternalOrders->seller_id);
     $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
     $Coins=Coin::find($InternalOrders->coin_id);
-    
+    $hpagos=historical_payments::where('order_id',$InternalOrders->id)->get();
     $pdf = PDF::loadView('reportes.contraportada_pdf', compact(
            'CompanyProfiles',
            'InternalOrders',
            'Customers',
            'Sellers',
            'CustomerShippingAddresses',
-       'Coins'));    
+           'Coins',
+           'hpagos'));    
     
        $pdf->setPaper('A4', 'landscape');
     return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   

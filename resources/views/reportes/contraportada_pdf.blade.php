@@ -205,7 +205,7 @@ background-color: #2B416D;
                   </tr>
                   <tr>
                     
-                    <td> <div class="badge badge-danger badge-outlined"> MONEDA</div></td><td> <div class="badge badge-danger badge-outlined"> PAGO</div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> MONEDA</div></td>
                     <td> <div class="badge badge-danger badge-outlined">FECHA <BR>(D-M-A) </div></td>
                     <td> <div class="badge badge-danger badge-outlined"> IMPORTE <br> IVA INCLUIDO</div></td>
                     <td> <div class="badge badge-danger badge-outlined"> % DEL <br> PAGO <br> PARCIAL</div></td>
@@ -224,6 +224,22 @@ background-color: #2B416D;
                   
                   
                   </tr>
+             @php
+             {{$i=1;}}
+             @endphp
+                  @foreach($hpagos as $pago)
+                  <tr>
+                  <td><div class="badge badge-primary badge-outlined">{{$i}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->code}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$pago->date}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($pago->amount,2)}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{number_format($pago->percentage,2)}} %</div></td>
+                       
+                  </tr>
+                  @php
+             $i=$i+1;
+             @endphp
+                  @endforeach
                     </table>
 </body>
 </html>
