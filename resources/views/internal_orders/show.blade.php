@@ -315,15 +315,15 @@
                 
                <br><br>&nbsp; <br>
                <table >
-               <tr> <td colspan="8" style="text-align: center;"><div class="badge badge-danger badge-outlined">Tabla de Promesas de Pago </div></td></tr>
+               <tr> <td colspan="9" style="text-align: center;"><div class="badge badge-danger badge-outlined">Tabla de Promesas de Pago </div></td></tr>
                
                 <tr>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Pago No. <br> &nbsp;</div></td>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Fecha <br> Promesa </div></td>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Dia<br> &nbsp;</div> </td>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Semana <br> &nbsp;</div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Pago No. <br><br> &nbsp;</div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Fecha <br><br> Promesa </div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Dia<br><br> &nbsp;</div> </td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Semana <br><br> &nbsp;</div></td>
                     <td colspan="4"><div class="badge badge-danger badge-outlined">Importe por cobrar</div></td>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> % del Total<br> &nbsp;</div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> % del Total<br><br> &nbsp;</div></td>
                 </tr>
                 <tr>
                     <td><div class="badge badge-danger badge-outlined">Subtotal</div></td>
