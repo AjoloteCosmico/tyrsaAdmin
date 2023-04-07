@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Email Coorporativo" />
-                                <x-jet-input type="text" name="customer_email" class="w-full text-xs uppercase" value="{{$Customers->customer_email}}" />
+                                <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{$Customers->customer_email}}" />
                                 <x-jet-input-error for='customer_email' />
                             </div>
                             <div class="form-group">
@@ -131,10 +131,10 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">
-                <a href="{{ route('customers.index')}}" class="btn btn-green mb-2">
+                <a href="{{ route('customers.index')}}" class="btn btn-red mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
-                <button type="submit" class="btn btn-red mb-2">
+                <button type="submit" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>
