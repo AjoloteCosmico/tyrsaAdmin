@@ -178,7 +178,7 @@
                         <td> <div class="badge badge-danger badge-outlined">Tel movil</div></td>
                         <td> <div class="badge badge-danger badge-outlined">Tel fijo</div></td>
                         <td><div class="badge badge-danger badge-outlined"> Ext.</div></td>
-                        <td><div class="badge badge-danger badge-outlined"> Email</div></td>
+                        <td><div class="badge badge-danger badge-outlined"> Email &nbsp; &nbsp; &nbsp;</div></td>
                     </tr>
                     
                     <tbody>
@@ -322,14 +322,13 @@
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Fecha <br><br> Promesa </div></td>
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Dia<br><br> &nbsp;</div> </td>
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Semana <br><br> &nbsp;</div></td>
-                    <td colspan="4"><div class="badge badge-danger badge-outlined">Importe por cobrar</div></td>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> % del Total<br><br> &nbsp;</div></td>
+                    <td colspan="3"><div class="badge badge-danger badge-outlined">Importe por cobrar</div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br><br> % del Total<br><br> &nbsp;</div></td>
                 </tr>
                 <tr>
                     <td><div class="badge badge-danger badge-outlined">Subtotal</div></td>
                     <td><div class="badge badge-danger badge-outlined">Iva</div></td>
-                    <td><div class="badge badge-danger badge-outlined">Subotal con Iva</div></td>
-                    <td><div class="badge badge-danger badge-outlined">Total</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Total con Iva</div></td>
                 </tr>
                 <tbody>
                     @php
@@ -353,13 +352,24 @@
                         <td><div class="badge badge-primary badge-outlined">{{(int)floor($dias / 7)+1}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal *$pay->percentage*0.0016,2)}}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal *$pay->percentage*0.0116,2)}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($pay->amount,2)}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$pay->percentage}} %</div></td>
                         
                     </tr>
                     
                     @endforeach
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>   
+                        <td><div class="badge badge-danger badge-outlined">Totales:</div></td>
+                        <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal,2) }}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal*0.16,2) }}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->total,2) }}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">100%</div></td>
+                        
+                
+                    </tr>
                 </tbody>
                </table>
                 
@@ -424,6 +434,7 @@
                     <td><div class="badge badge-danger badge-outlined">% </div></td>
                     <td><div class="badge badge-danger badge-outlined">Monto con IVA </div></td>
                  </tr>
+
                <br>
                  @foreach($Comisiones as $c)
                     <tr>
@@ -435,7 +446,14 @@
                     </tr>
                     @endforeach
                     
-                   
+                   <tr>
+                    <td></td>
+                    <td></td>
+                    <td><div class="badge badge-danger badge-outlined">Totales:</div></td>
+                    <td><div class="badge badge-primary badge-outlined">{{$Comisiones->sum('percentage')*100 }} %</div></td>
+                    <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->total*$Comisiones->sum('percentage'),2) }}</div></td>
+                    
+                   </tr>
                  </tbody>
 
                </table>

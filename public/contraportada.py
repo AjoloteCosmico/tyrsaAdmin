@@ -15,6 +15,8 @@ DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
 
+a_color='#354F84'
+b_color='#91959E'
 # Conectar a DB
 cnx = mysql.connector.connect(user=DB_USERNAME,
                               password=DB_PASSWORD,
@@ -106,7 +108,7 @@ header_format = workbook.add_format({
 
 blue_header_format = workbook.add_format({
     'bold': True,
-    'bg_color': '#2B416D',
+    'bg_color': a_color,
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
@@ -115,7 +117,7 @@ blue_header_format = workbook.add_format({
     'border': 1})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
-    'bg_color': '#2B416D',
+    'bg_color': a_color,
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
@@ -126,7 +128,7 @@ blue_header_format_bold = workbook.add_format({
 
 red_header_format = workbook.add_format({
     'bold': True,
-    'bg_color': '#74777F',
+    'bg_color': b_color,
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
@@ -136,7 +138,7 @@ red_header_format = workbook.add_format({
 
 red_header_format_bold = workbook.add_format({
     'bold': True,
-    'bg_color': '#74777F',
+    'bg_color': b_color,
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
@@ -171,7 +173,7 @@ blue_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':'#2B416D'})
+    'border_color':a_color})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -180,7 +182,7 @@ blue_content_bold = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':'#2B416D',
+    'border_color':a_color,
     'font_size':13})
 yellow_content = workbook.add_format({
     'border': 1,
@@ -195,7 +197,7 @@ red_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':'#74777F'})
+    'border_color':b_color})
 
 green_content = workbook.add_format({
     'border': 3,
@@ -203,7 +205,7 @@ green_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':'#74777F'})
+    'border_color':b_color})
 red_content_bold = workbook.add_format({
     'bold':True,
     'border': 3,
@@ -455,7 +457,7 @@ worksheet.merge_range('F11:F12', 'IMPORTE $ \n IVA INCLUIDO', blue_header_format
 worksheet.merge_range('G11:G12', '% DEL PAGO PARCIAL', blue_header_format)
 #      rellenando la tabla----------------------------------
 mac=0
-for i in range(0,int(orden['payment_conditions'].values[0])):
+for i in range(0,len(hpagos)):
     worksheet.write('C'+str(13+i), str(i+1), blue_content)
     worksheet.write('D'+str(13+i), moneda['code'].values[0], blue_content)
     worksheet.write('E'+str(13+i), str(hpagos['date'].values[i]), blue_content)
@@ -505,32 +507,47 @@ for i in range(0,10):
     worksheet.write('T'+str(13+i), '--', red_content)
     worksheet.write('U'+str(13+i), '--', red_content)
 
-trow=22
+trow=24
+
+worksheet.merge_range('C'+str(trow)+':E'+str(trow), 'Totales', blue_header_format_bold)
+worksheet.merge_range('C'+str(trow+1)+':E'+str(trow+1), '(Debe ser 0)', blue_header_format)
+worksheet.merge_range('C'+str(trow+2)+':E'+str(trow+2), 'validacion', blue_header_format)
+
+worksheet.write('F'+str(trow),hpagos["amount"].sum() , blue_content_bold)
+worksheet.write('F'+str(trow+1),hpagos["amount"].sum() - orden["total"].values[0], blue_content)
+if(hpagos["amount"].sum()==orden["total"].values[0] ):
+   worksheet.write('F'+str(trow+2),'Okay' , blue_content)
+
+worksheet.write('G'+str(trow),hpagos["percentage"].sum() , blue_content_bold)
+worksheet.write('G'+str(trow+1),hpagos["percentage"].sum() -100, blue_content)
+if(hpagos["percentage"].sum()==100 ):
+   worksheet.write('G'+str(trow+2),'Okay' , blue_content)
 
 
-worksheet.write(trow,9,"Totales  ", b3n)
-worksheet.write(trow+1,9,"Validacion ", b3c)
-worksheet.write(trow+2,9,"(Debe ser 0)", b3s)
 
-worksheet.write(trow,10,"$"+str(mac), b4n)
-worksheet.write(trow+1,10,"$"+str(orden["total"].values[0]-mac),  b4c)
-worksheet.write(trow+2,10,"okay",  b4s)
+# worksheet.write(trow,9,"Totales  ", b3n)
+# worksheet.write(trow+1,9,"Validacion ", b3c)
+# worksheet.write(trow+2,9,"(Debe ser 0)", b3s)
 
-worksheet.write(trow,11,str(hpagos["percentage"].sum())+'%', b4n)
-worksheet.write(trow+1,11,str(100-hpagos["percentage"].sum())+'%',  b4c)
-worksheet.write(trow+2,11,"okay",  b4s)
+# worksheet.write(trow,10,"$"+str(mac), b4n)
+# worksheet.write(trow+1,10,"$"+str(orden["total"].values[0]-mac),  b4c)
+# worksheet.write(trow+2,10,"okay",  b4s)
 
-#calcular equivalente a moneda nacional
+# worksheet.write(trow,11,str(hpagos["percentage"].sum())+'%', b4n)
+# worksheet.write(trow+1,11,str(100-hpagos["percentage"].sum())+'%',  b4c)
+# worksheet.write(trow+2,11,"okay",  b4s)
+
+# #calcular equivalente a moneda nacional
 
 
 
-worksheet.merge_range(trow,12,trow,17, 'Equivalente en moneda nacional incluye IVA', header_format)
-worksheet.merge_range(trow+1,12,trow+1,13, 'DA',header_format)
-worksheet.merge_range(trow+1,14,trow+1,15, 'COBRADO',header_format)
-worksheet.merge_range(trow+1,16,trow+1,17, 'POR COBRAR',header_format)
-worksheet.merge_range(trow+2,12,trow+2,13,"$"+str(orden["total"].values[0]) ,total_cereza_format)
-worksheet.merge_range(trow+2,14,trow+2,15, "$0.0",total_cereza_format)
-worksheet.merge_range(trow+2,16,trow+2,17, '$'+str((orden["total"].values[0])),total_cereza_format)
+# worksheet.merge_range(trow,12,trow,17, 'Equivalente en moneda nacional incluye IVA', header_format)
+# worksheet.merge_range(trow+1,12,trow+1,13, 'DA',header_format)
+# worksheet.merge_range(trow+1,14,trow+1,15, 'COBRADO',header_format)
+# worksheet.merge_range(trow+1,16,trow+1,17, 'POR COBRAR',header_format)
+# worksheet.merge_range(trow+2,12,trow+2,13,"$"+str(orden["total"].values[0]) ,total_cereza_format)
+# worksheet.merge_range(trow+2,14,trow+2,15, "$0.0",total_cereza_format)
+# worksheet.merge_range(trow+2,16,trow+2,17, '$'+str((orden["total"].values[0])),total_cereza_format)
 
 worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)
 if(orden["observations"].values[0]!=None):

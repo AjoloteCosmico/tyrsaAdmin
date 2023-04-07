@@ -26,7 +26,7 @@
 }
 .badge {
   display: strech;
-  font-size: 10px
+  font-size: 11px
   /* font-weight: 50;
   padding: 3px 3px;  */
   border:2px solid transparent;
@@ -37,11 +37,11 @@
   white-space: nowrap; 
    vertical-align: middle; 
   border-radius: 4px;
-   padding: 1px; */
-   margin: 1px;
-   width: 90%;
+   /* padding: 3px; 
+   margin: 1px; */ */
+   width: 100%;
 
-  font-family: "Source Sans Pro";
+  font-family: "Sans-Serif";
 }
 
 .badge.badge-default {
@@ -120,16 +120,18 @@ background-color: #2B416D;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    
+    <div class="row"> 
+      <div class="col"> &nbsp;&nbsp;&nbsp;</div> 
+      <div class="col">
     <table>
-                        <tr><td> &nbsp; &nbsp; &nbsp;</td>
+                        <tr><td> </td>
                             <td >
-                                <div class="contaier">
+                                <div style="padding:15px"  class="contaier">
                         
                                 <img src="{{ public_path('img/logo/logo.png') }}"  alt="TYRSA"  style="align-self: left;"></td>
                                                 </div></td>
                                  
-                            <td rowspan="2">
+                            <td style="padding:15px"  rowspan="2">
                         <br>
             Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
             C.P. 54,963, Tultepec, Edo. México, R.F.C. <br>
@@ -157,26 +159,25 @@ background-color: #2B416D;
                                            
                         </tr >
                     </table>
-                    <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
                     <table>
                     
                     <tr class="text-center">
-                        <td> <div style="font-size:15px" class="badge badge-danger badge-outlined"> Cliente:</div></td>
-                        <td> <div  style="font-size:15px" class="badge badge-primary badge-outlined">{{$Customers->customer}} {{$Customers->legal_name}}</div>  </td>
-                        <td > <div   style="font-size:15px" class="badge badge-danger badge-outlined"> Subtotal:</div> </td> 
-                        <td ><div   style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}}{{number_format($InternalOrders->subtotal,2)}} </div></td>
+                        <td> <div style="font-size:17px" class="badge badge-danger badge-outlined"> Cliente: &nbsp; </div></td>
+                        <td> <div  style="font-size:17px" class="badge badge-primary badge-outlined"> {{$Customers->customer}} @if($Customers->legal_name!= 'POR ASIGNAR'){{$Customers->legal_name}} @endif</div>  </td>
+                        <td > <div   style="font-size:17px" class="badge badge-danger badge-outlined"> Subtotal:</div> </td> 
+                        <td ><div   style="font-size:17px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}}{{number_format($InternalOrders->subtotal,2)}} </div></td>
                         <td > -&nbsp;&nbsp;&nbsp; - </td>
                         <td> - &nbsp;&nbsp;&nbsp; -</td>
                     
                     </tr>
                     <tr class="text-center">
                         <td> <div class="badge badge-danger badge-outlined"> Moneda:</div></td>
-                        <td> <div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{$Customers->legal_name}}</div>  </td>
+                        <td> <div class="badge badge-primary badge-outlined">{{$Coins->coin}} </div>  </td>
                         <td > <div class="badge badge-danger badge-outlined"> IVA:</div> </td> 
                         <td ><div class="badge badge-primary badge-outlined"> {{$Coins->symbol}}{{number_format($InternalOrders->subtotal*0.16,2)}} </div></td>
-                        <td > -&nbsp;&nbsp;&nbsp; - </td>
-                        <td> - &nbsp;&nbsp;&nbsp; -</td>
+                        <td > &nbsp;&nbsp;&nbsp;  </td>
+                        <td>  &nbsp;&nbsp;&nbsp; </td>
                     
                     </tr><tr class="text-center">
                         <td> <div class="badge badge-danger badge-outlined"> Fecha:</div></td>
@@ -193,34 +194,34 @@ background-color: #2B416D;
                     <table>
                       
                   <tr>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> PAGO <br> <br> </div></td>
-                  <td colspan="4"> <div class="badge badge-danger badge-outlined"> &nbsp;&nbsp;&nbsp; PROGRAMADO &nbsp; &nbsp; &nbsp; &nbsp; </div></td>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> FACTURA <BR> NUMERO<</div></td>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> FECHA <BR>(D-M-A)</div></td>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> IMPORTE <BR>FACTURA</div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> <br> PAGO <br> <br> <br> <br> <br>  </div></td>
+                  <td colspan="4"> <div class="badge badge-danger badge-outlined"> <br>  &nbsp;&nbsp;&nbsp;&nbsp; PROGRAMADO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>  </div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> FACTURA <BR> NUMERO <br> <br> </div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A) <br> <br></div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> IMPORTE <BR>FACTURA <br> <br></div></td>
                   <td colspan="5"> <div class="badge badge-danger badge-outlined"> COMP. INGRESOS</div></td>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> TIPO <BR> DE <BR> CAMBIO</div></td>
-                  <td colspan="2"> <div class="badge badge-danger badge-outlined"> EQUIVALENETE EN M.N.</div></td>
-                  <td colspan="3"> <div class="badge badge-danger badge-outlined"> VERIFICACION DEL COBRO</div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> TIPO <BR> DE <BR> CAMBIO <br> <br></div></td>
+                  <td colspan="2"> <div class="badge badge-danger badge-outlined"> <br>  EQUIVALENETE EN M.N.</div></td>
+                  <td colspan="3"> <div class="badge badge-danger badge-outlined"> <br> VERIFICACION DEL COBRO</div></td>
                   </tr>
                   <tr>
                     
-                    <td> <div class="badge badge-danger badge-outlined"> MONEDA</div></td>
-                    <td> <div class="badge badge-danger badge-outlined">FECHA <BR>(D-M-A) </div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> IMPORTE <br> IVA INCLUIDO</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> % DEL <br> PAGO <br> PARCIAL</div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> MONEDA <br> <br> <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A) <br> <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> IMPORTE <br> IVA INCLUIDO  <br><br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> % DEL <br> PAGO <br> PARCIAL  <br></div></td>
                     
-                    <td> <div class="badge badge-danger badge-outlined"> NUMERO</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> FECHA <BR>(D-M-A)</</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> MONEDA</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> IMPORTE <br> IVA INCLUIDO</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> % DEL <br> PAGO <br> PARCIAL</div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> <br> NUMERO <br> <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A)<br> <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> <br> MONEDA <br> <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"><br> <br> IMPORTE <br> IVA INCLUIDO <br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> <br> % DEL <br> PAGO <br> PARCIAL <br></div></td>
                     
-                    <td> <div class="badge badge-danger badge-outlined"> IMPORTE <br> ACUMULADO</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> % DEL <br> PAGO <br> ACUMULADO</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> CAPT</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> G.A</div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> D.A</div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> IMPORTE <br> ACUMULADO <br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"><br>  % DEL <br> PAGO <br> ACUMULADO<br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> CAPT <br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"><br>  G.A <br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"><br>  D.A <br></div></td>
                   
                   
                   </tr>
@@ -240,6 +241,33 @@ background-color: #2B416D;
              $i=$i+1;
              @endphp
                   @endforeach
+                  <tr>
+                    <td> <br></td>
+                  </tr>
+                  <tr>
+                  <td></td>
+                  <td></td>
+                  <td> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Totales</div></td>
+                  <td> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($hpagos->sum('amount'),2)}}</div></td>
+                  <td> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$hpagos->sum('percentage')}} %</div></td>
+                  </tr>
+                  <tr>
+                  <td></td>
+                  <td></td>
+                  <td> <div class="badge badge-danger badge-outlined"> Debe ser 0</div></td>
+                  <td> <div class="badge badge-primary badge-outlined"> $ 0 </div></td>
+                  <td> <div class="badge badge-primary badge-outlined">  0% </div></td>
+                  </tr><tr>
+                  <td></td>
+                  <td></td>
+                  <td> <div class="badge badge-danger badge-outlined"> Validacion</div></td>
+                  <td> <div class="badge badge-primary badge-outlined"> OK</div></td>
+                  <td> <div class="badge badge-primary badge-outlined"> OK</div></td>
+                  </tr>
                     </table>
+
+                    </div>
+      <div class="col"></div>
+    </div>
 </body>
 </html>

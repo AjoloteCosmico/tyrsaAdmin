@@ -24,15 +24,30 @@
                 <table class="table tableinternalorders table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
-                            <th>ID</th>
-                            <th>Folio</th>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Clave</th>
-                            <th>Vendedor</th>
+                            <th>PDA</th>
+                            <th>FECHA EMISION</th>
+                            <th>TOTAL</th>
+                            <th>FACTURA</th>
+                            <th>CLIENTE</th>
+                            <th>IMPORTE </th>
                             <th>Estatus</th>
                             <th></th>
                         </tr>
+
+                        @foreach($Factures as $f)
+
+                        <tr>
+                          <td>{{$f->id}}</td>
+                          <td></td>
+                          <td>{{$f->npagos}}</td>
+                          <td></td>
+                          <td>{{$f->facture}} </td>
+                          
+                          <td>{{$f->amount}} </td>
+                          
+                          <td>{{$f->status}} </td>
+                        </tr>
+                    @endforeach
                     </thead>
                     <tbody>
                         
