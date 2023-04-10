@@ -365,7 +365,7 @@
                         <td><div class="badge badge-danger badge-outlined">Totales:</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal,2) }}</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal*0.16,2) }}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->total,2) }}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">${{number_format($payments->sum('amount'),2) }}</div></td>
                         <td><div class="badge badge-primary badge-outlined">100%</div></td>
                         
                 

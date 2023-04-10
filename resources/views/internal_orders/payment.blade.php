@@ -187,7 +187,7 @@
       var d=document.getElementById("D"+i);
       console.log(c)
       //var campo = $('#id_del_input').val();
-      total=total+parseInt(p);
+      total=total+parseFloat(p);
       if (c=="") {
         console.log("concepto vacio")
         alert("Concepto sin nombre");
