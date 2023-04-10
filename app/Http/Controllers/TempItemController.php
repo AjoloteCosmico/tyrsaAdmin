@@ -176,7 +176,14 @@ class TempItemController extends Controller
     }
 
     public function redefine(Request $request, $id,$captured)
-    {        $rules = [
+    {        
+        
+        $cat=Session::get('cat');
+        $desc=Session::get('desc');
+        
+        $obs=Session::get('obs');
+        
+        $rules = [
         'amount' => 'required',
         'unit' => 'required',
         'family' => 'required',
@@ -247,6 +254,8 @@ class TempItemController extends Controller
         'Subtotal',
         'Iva',
         'Total',
+        'cat','desc','obs'
+
     ));}
     else{
         

@@ -41,13 +41,13 @@
                                 <x-jet-label value="* Familia" />
                                 {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
                                 <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
-                                        
-                                        <option value=" " > </option>
-                                        <option value="RACKS" >RACKS</option>
-                                        <option value="TRANSPORTADORES" >TRANSPORTADORES</option>
-                                        <option value="EQUIPO AUXILIAR" >EQUIPO AUXILIAR</option>
-                                        <option value="SOFTWARE" >SOFTWARE</option>
-                                        <option value="OTRO" >OTRO</option>
+                                       
+                                        <option value="RACKS" @if ($Item->family == 'RACKS') selected @endif >RACKS</option>
+                                        <option value="TRANSPORTADORES" @if ($Item->family == 'TRANSPORTADORES') selected @endif >TRANSPORTADORES</option>
+                                        <option value="EQUIPO AUXILIAR" @if ($Item->family == 'EQUIPO AUXILIAR') selected @endif >EQUIPO AUXILIAR</option>
+                                        <option value="SOFTWARE" @if ($Item->family == 'SOFTWARE') selected @endif >SOFTWARE</option>
+                                        <option value="OTRO" @if ($Item->family == 'OTRO') selected @endif >OTRO</option>
+                                
                                 </select>
                                 
                                 <x-jet-input-error for='family' />
