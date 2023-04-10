@@ -176,7 +176,7 @@ for(index in example_array) {
 <script>
     document.getElementById("import").addEventListener("input", function(){
     subtotal = parseFloat(this.value/1.16);
-    iva=this.value*0.16;
+    iva=parseFloat(subtotal*0.16);
     document.getElementById("sniva").value = subtotal;
     document.getElementById("iva").value = iva;
     });
