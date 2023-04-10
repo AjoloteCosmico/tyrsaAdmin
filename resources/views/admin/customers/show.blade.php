@@ -147,7 +147,7 @@
             <h5 class="card-title p-2">
                 <i class="fas fa-edit"></i>&nbsp; Agregar Contactos:
             </h5>
-        </div>{{$nc}}
+        </div>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="col-xs-12 col-sm-9 p-3 table-responsive bg-white">
                 <table class="table tablemembers table-responsive table-striped">
@@ -161,14 +161,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                        $index=1;
+                        @endphp
                         @foreach ($Contacts as $row)
                             <tr>
-                                <td>{{$row->id}}</td>
+                                <td>{{$index}}</td>
                                 <td>{{$row->customer_contact_name}}</td>
                                 <td>{{$row->customer_contact_mobile}}</td>
                                 <td>{{$row->customer_contact_email}}</td>
                                 <td>{{$row->customer_contact_city}}</td>
                             </tr>
+                            @php
+                        $index=$index+1;
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>

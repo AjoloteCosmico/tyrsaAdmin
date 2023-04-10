@@ -43,32 +43,32 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="TOTAL DE PAGOS" />
-                                        <x-jet-input type="npagos" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
-                                        <x-jet-input-error for='unit_price' />
+                                        <x-jet-input type="number" step="0.01" name="tpagos" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input-error for='tpagos' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NUM PAGO" />
-                                        <x-jet-input type="npagos" step="0.01" name="ordinal" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
-                                        <x-jet-input-error for='unit_price' />
+                                        <x-jet-input type="number" step="0.01" name="ordinal" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input-error for='ordinal' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
                                         <x-jet-input type="number" step="0.01" name="facture" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
-                                        <x-jet-input-error for='unit_price' />
+                                        <x-jet-input-error for='facture' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
 
@@ -172,4 +172,13 @@ for(index in example_array) {
      });
 </script>
 
+
+<script>
+    document.getElementById("import").addEventListener("input", function(){
+    subtotal = parseFloat(this.value/1.16);
+    iva=this.value*0.16;
+    document.getElementById("sniva").value = subtotal;
+    document.getElementById("iva").value = iva;
+    });
+</script>
 @stop

@@ -180,17 +180,22 @@
                         <td><div class="badge badge-danger badge-outlined"> Ext.</div></td>
                         <td><div class="badge badge-danger badge-outlined"> Email &nbsp; &nbsp; &nbsp;</div></td>
                     </tr>
-                    
+                    @php
+                        $contact_index=1;
+                        @endphp
                     <tbody>
                     @foreach($Contacts as $row)
                     <tr>
-                        <td><div class="badge badge-primary badge-outlined">{{$row->id}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">{{$contact_index}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_name}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_mobile}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_office_phone}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$row->customer_contact_office_phone_ext}}</div></td>
                         <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
                     </tr>
+                        @php 
+                        $contact_index=$contact_index+1; 
+                        @endphp
                     @endforeach
                     </tbody>
                 </table>

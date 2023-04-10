@@ -14,7 +14,14 @@ class FactureController extends Controller
 {
     public function index(){
 //traer todas las facturas
-        $Factures=Factures::all();
+        
+        $Factures=DB::table('factures')
+        ->join('internal_orders', 'internal_orders.id', '=', 'factures.order_id')
+        ->join('customers', 'internal_orders.customer_id','=','customers.id')
+        ->join('coins', 'internal_orders.coin_id','=','coins.id')
+        ->select('factures.*','customers.customer','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
+        // ->orderBy('internal_orders.invoice', 'DESC')
+        ->get();
         return view('factures.index',compact(
         'Factures'
         ));

@@ -21,36 +21,33 @@
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-6 col-sm-12 table-responsive">
-                <table class="table tableinternalorders table-striped text-xs font-medium">
+                <table class="table tablefactures table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
                             <th>PDA</th>
                             <th>FECHA EMISION</th>
-                            <th>TOTAL</th>
+                            <th>TOTAL <br> DE PAGOS </th>
                             <th>FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
                             <th>Estatus</th>
-                            <th></th>
                         </tr>
-
-                        @foreach($Factures as $f)
-
-                        <tr>
-                          <td>{{$f->id}}</td>
-                          <td></td>
-                          <td>{{$f->npagos}}</td>
-                          <td></td>
-                          <td>{{$f->facture}} </td>
-                          
-                          <td>{{$f->amount}} </td>
-                          
-                          <td>{{$f->status}} </td>
-                        </tr>
-                    @endforeach
                     </thead>
                     <tbody>
                         
+                        @foreach($Factures as $f)
+
+                        <tr class="text-center">
+                          <td>{{$f->id}}</td>
+                          <td>{{$f->reg_date}}</td>
+                          <td>{{$f->payment_conditions}}</td>
+                          <td>{{$f->facture}} </td>
+                          <td>{{$f->customer}}</td>
+                          <td>{{$f->symbol}} {{number_format($f->amount,2)}} </td>
+                          <td>{{$f->status}} </td>
+                          
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -63,7 +60,7 @@
 @stop
 
 @section('js')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogointernal_orders.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogofactures.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 
