@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->amount}}"/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
 
@@ -171,7 +171,14 @@ for(index in example_array) {
 })
      });
 </script>
-
+<script>
+    i = document.getElementById("import");
+    subtotal = parseFloat(i.value/1.16);
+    iva=parseFloat(subtotal*0.16);
+    document.getElementById("sniva").value = subtotal.toFixed(2);
+    document.getElementById("iva").value = iva.toFixed(2);
+    
+</script>
 
 <script>
     document.getElementById("import").addEventListener("input", function(){

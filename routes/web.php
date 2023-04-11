@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('items', ItemController::class);
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
+    Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
     
     Route::get('accounting/payed_accounts', [PaymentsController::class, 'payed_accounts'])->name('payed_accounts');
    //rutas para generar reportes

@@ -73,12 +73,20 @@ class FactureController extends Controller
                 'InternalOrders'
                 ));
                 }
-    public function update(Request $request){
+    public function update($id,Request $request){
         //traer todas las facturas
-                $Factures=Factures::all();
-                return view('factures.index',compact(
-                'Factures'
-                ));
+                $Facture=Factures::find($id);
+                $Facture->amount=$request->amount;
+                $Facture->ordinal=$request->ordinal;
+                $Facture->status='CAPTURA';
+                $Facture->npagos=$request->npagos;
+                $Facture->facture=$request->facture;
+                $Facture->save();
+                // $Facture->customer_id=$request->customer_id;
+                
+                // $Facture->customer_id=$request->customer_id;
+
+                return $this->index();
                 }
 
     public function destroy($id){
