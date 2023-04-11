@@ -31,6 +31,7 @@
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
                             <th>Estatus</th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +46,30 @@
                           <td>{{$f->customer}}</td>
                           <td>{{$f->symbol}} {{number_format($f->amount,2)}} </td>
                           <td>{{$f->status}} </td>
-                          
+                          <td> <div class="row">
+                                    <div class="col-6 text-center w-10">
+                                        @can('EDITAR FAMILIAS')
+                                        <a href="{{ route('factures.edit', $f->id)}}">
+                                        <button class="btn btn-blue">
+                                                <i class="fas fa-xl fa-edit   "></i>
+                                                </button>
+                                        </a>
+                                        @endcan
+                                    </div>
+                                    &nbsp; &nbsp;
+                                    <div class="col-6 text-center w-10">
+                                        @can('BORRAR FAMILIAS')
+                                        <form class="DeleteReg" action="{{ route('factures.destroy', $f->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red ">
+                                                <i class="fas fa-trash items-center fa-xl"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

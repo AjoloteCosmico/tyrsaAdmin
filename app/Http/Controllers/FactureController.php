@@ -53,11 +53,24 @@ class FactureController extends Controller
 
                 return $this->index();
                 }
-    public function edit($id){
+    public function edit($facture){
         //traer todas las facturas
+        $Facture=DB::table('factures')
+        ->join('internal_orders', 'internal_orders.id', '=', 'factures.order_id')
+        ->join('customers', 'internal_orders.customer_id','=','customers.id')
+        ->join('coins', 'internal_orders.coin_id','=','coins.id')
+        ->select('factures.*','customers.id as customer_id','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
+        ->where('factures.id','=',$facture)
+        ->first();
                 $Factures=Factures::all();
-                return view('factures.index',compact(
-                'Factures'
+                $Customers=Customer::orderby('clave')->get();
+                $InternalOrders=InternalOrder::all();
+                
+                return view('factures.edit',compact(
+                'Facture',
+                'Factures',
+                'Customers',
+                'InternalOrders'
                 ));
                 }
     public function update(Request $request){
@@ -67,6 +80,11 @@ class FactureController extends Controller
                 'Factures'
                 ));
                 }
+
+    public function destroy($id){
+            Factures::destroy($id);
+            return $this->index();
+    }
     
     
     

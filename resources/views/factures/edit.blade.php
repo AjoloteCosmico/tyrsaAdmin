@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR FACTURA:
             </h5>
         </div>
-        <form action="{{ route('factures.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('factures.update',$Facture->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="item" value=" "/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
@@ -27,7 +27,7 @@
                                         <x-jet-label value="* Cliente" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer_id'>
                                             @foreach ($Customers as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('customer_id')) selected @endif > {{$row->clave}} {{$row->customer}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == $Facture->customer_id) selected @endif > {{$row->clave}} {{$row->customer}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='customer_id' />
@@ -36,7 +36,7 @@
                                         <x-jet-label value="* Pedido Interno" />
                                         <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
                                             @foreach ($InternalOrders as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('order_id')) selected @endif > {{$row->invoice}} </option>
+                                                <option value="{{$row->id}}" @if ($row->id == $Facture->order_id) selected @endif > {{$row->invoice}} </option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='order_id' />
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->facture}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     <div class="form-group">
