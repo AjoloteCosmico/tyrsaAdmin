@@ -95,8 +95,8 @@
 @stop
 
 @section('js')
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
 <script>
 $(document).on("keypress", ".just-number", function (e) {
@@ -123,14 +123,14 @@ $(document).on('keyup', '.price-format-input', function (e) {
   }
 });</script>
 
-<!-- <script>
+<script>
     
     $(document).ready(function () {
-      $('select').selectize({
+      $('#customer_id').selectize({
           sortField: 'text'
       });
   });
-</script> -->
+</script>
 
 <script>
     function removeOptions(selectElement) {
@@ -160,7 +160,8 @@ if(seleccionado=='{{$cliente->id}}'){
          @endif
     @endforeach
 };}
-
+   
+  
 @endforeach
 
 
