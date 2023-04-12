@@ -934,6 +934,18 @@ class InternalOrderController extends Controller
         temp_comissions::destroy($id);
         return $this->capture_comissions($TempInternalOrders->id,' ');
     }
+    public function exterminio(){
+        comissions::truncate();
+        signatures::truncate();
+        historical_payments::truncate();
+        payments::truncate();
+        Item::truncate();
+        TempItem::truncate();
+        //TempInternalOrder::truncate();
+        
+        InternalOrder::truncate();
+        return $this->index();
+    }
 }
 
 

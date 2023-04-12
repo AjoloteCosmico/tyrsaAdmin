@@ -26,11 +26,13 @@
                         <tr class="text-center">
                             <th>PDA</th>
                             <th>FECHA EMISION</th>
+                            <th>P.I.</th>
                             <th>TOTAL <br> DE PAGOS </th>
-                            <th>FACTURA</th>
+                            <th>NUMERO <br> DE FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
                             <th>Estatus</th>
+                            <th></th>
                             <th> </th>
                         </tr>
                     </thead>
@@ -41,11 +43,13 @@
                         <tr class="text-center">
                           <td>{{$f->id}}</td>
                           <td>{{$f->reg_date}}</td>
+                          <td>{{$f->invoice}}</td>
                           <td>{{$f->payment_conditions}}</td>
                           <td>{{$f->facture}} </td>
                           <td>{{$f->customer}}</td>
                           <td>{{$f->symbol}} {{number_format($f->amount,2)}} </td>
                           <td>{{$f->status}} </td>
+                          <td></td>
                           <td> <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR FAMILIAS')

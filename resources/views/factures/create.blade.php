@@ -26,7 +26,8 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Cliente" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer_id'>
-                                            @foreach ($Customers as $row)
+                                        <option  > </option>    
+                                        @foreach ($Customers as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('customer_id')) selected @endif > {{$row->clave}} {{$row->customer}}</option>
                                             @endforeach
                                         </select>
@@ -35,25 +36,26 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Pedido Interno" />
                                         <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
-                                            @foreach ($InternalOrders as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('order_id')) selected @endif > {{$row->invoice}} </option>
-                                            @endforeach
+                                          
+                                                <option  > </option>
+                                          
                                         </select>
                                         <x-jet-input-error for='order_id' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="TOTAL DE PAGOS" />
-                                        <x-jet-input type="number" step="0.01" name="tpagos" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" disabled />
                                         <x-jet-input-error for='tpagos' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NUM PAGO" />
-                                        <x-jet-input type="number" step="0.01" name="ordinal" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <select class="form-capture  w-full text-xs uppercase" name="ordinal" id="ordinal" class="form-control just-number price-format-input w-full text-xs" value="{{old('unit_price')}}"/>
+                                        </select>
                                         <x-jet-input-error for='ordinal' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     <div class="form-group">
@@ -156,7 +158,7 @@ if(seleccionado=='{{$cliente->id}}'){
     var example_array = {
         @foreach($InternalOrders as $order)
         @if($order->customer_id==$cliente->id)
-    {{$order->id}} : '{{$order->id}}',
+    {{$order->id}} : '{{$order->invoice}}',
          @endif
     @endforeach
 };}
@@ -169,17 +171,87 @@ for(index in example_array) {
     desc.options[desc.options.length] = new Option(example_array[index], index);
 }
 
+
+var npagos={
+    @foreach($InternalOrders as $i)
+    {{$i->id}}:{{$i->payment_conditions}},
+    @endforeach};
+
+var seleccionado = document.getElementById('order_id').value;
+console.log('entrando a la funcion de num pagos');
+console.log(seleccionado)
+console.log(npagos[seleccionado])
+removeOptions(document.getElementById('ordinal'));
+var desc = document.getElementById("ordinal");
+@foreach($InternalOrders as $order)
+if(seleccionado=='{{$order->id}}'){
+    var example_array = {1:1};
+    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
+        example_array[i]=i;
+    }
+}
+document.getElementById('tpagos').value=npagos[seleccionado];
+   
+@endforeach
+
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+}
+
+
 })
      });
 </script>
+
+<script>
+
+$(document).ready(function () {     
+$('#order_id').change(function(){
+    var npagos={
+    @foreach($InternalOrders as $i)
+    {{$i->id}}:{{$i->payment_conditions}},
+    @endforeach};
+
+var seleccionado = $(this).val();
+console.log('entrando a la funcion de num pagos');
+console.log(seleccionado)
+console.log(npagos[seleccionado])
+removeOptions(document.getElementById('ordinal'));
+var desc = document.getElementById("ordinal");
+@foreach($InternalOrders as $order)
+if(seleccionado=='{{$order->id}}'){
+    var example_array = {1:1};
+    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
+        example_array[i]=i;
+    }
+}
+    
+document.getElementById('tpagos').value=npagos[seleccionado];
+ 
+   
+  
+@endforeach
+
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+}
+
+})
+     });
+
+
+</script>
+
 
 
 <script>
     document.getElementById("import").addEventListener("input", function(){
     subtotal = parseFloat(this.value/1.16);
     iva=parseFloat(subtotal*0.16);
-    document.getElementById("sniva").value = subtotal;
-    document.getElementById("iva").value = iva;
+    document.getElementById("sniva").value = subtotal.toFixed(2);
+    document.getElementById("iva").value = iva.toFixed(2);
     });
 </script>
 @stop

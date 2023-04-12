@@ -63,7 +63,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/shipments', [InternalOrderController::class, 'shipment'])->name('internal_orders.shipment');
     Route::post('internal_orders/pay_conditions', [InternalOrderController::class, 'pay_conditions'])->name('internal_orders.pay_conditions');
     Route::post('internal_orders/pay_redefine', [InternalOrderController::class, 'pay_redefine'])->name('internal_orders.pay_redefine');
-    //rutas para agregar comisiones
+    Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
+    //rutas para agregar comisione
     Route::post('captura/comissions', [InternalOrderController::class, 'comissions'])->name('captura.comissions');
     Route::post('guardar_comission', [InternalOrderController::class, 'guardar_comissions'])->name('guardar_comissions');
     Route::get('comision/edit/{id}', [InternalOrderController::class, 'edit_temp_comissions'])->name('edit_temp_comissions');

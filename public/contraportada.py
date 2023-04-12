@@ -41,6 +41,9 @@ hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
+#Traer facturas
+query = ('SELECT * from factures where order_id = '+str(order_id))
+facturas=pd.read_sql(query,cnx)
 
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
@@ -409,6 +412,7 @@ worksheet.merge_range('S2:S3', 'PI. Numero', blue_header_format)
 worksheet.write('S4', "NOHA-2023", blue_header_format)
 worksheet.merge_range('T2:T3', orden['invoice'].values[0], blue_content)
 worksheet.write('T4', orden['noha'].values[0], blue_content)
+
 #tabla superior de datos cliente--------------------
 worksheet.merge_range('C6:D6', 'CLIENTE', blue_header_format)
 worksheet.merge_range('E6:F6', cliente['customer'].values[0], blue_content)
@@ -416,6 +420,7 @@ worksheet.merge_range('C7:D7', 'MONEDA', blue_header_format)
 worksheet.merge_range('E7:F7', moneda['coin'].values[0], blue_content)
 worksheet.merge_range('C8:D8', 'FECHA DD-MM-AAA', blue_header_format)
 worksheet.merge_range('E8:F8', str(orden['reg_date'].values[0]), blue_content)
+
 #tabla superior totales
 worksheet.write('H6', "SUBTOTAL", red_header_format)
 worksheet.merge_range('I6:J6', '$'+str(orden['subtotal'].values[0]), red_content)
@@ -426,10 +431,10 @@ worksheet.merge_range('I8:J8',  '$'+str(orden['total'].values[0]), red_content_b
 
 #tabla superior facturas
 worksheet.write('L6', "FACTURADO", blue_header_format)
-worksheet.merge_range('M6:N6', '$0.0', blue_content)
+worksheet.merge_range('M6:N6', '$'+str(facturas['amount'].sum()), blue_content)
 worksheet.merge_range('L7:N7', 'IVA INCLUIDO', blue_header_format)
 worksheet.write('L8', "POR FACTURAR", blue_header_format)
-worksheet.merge_range('M8:N8', '$0.0', blue_content)
+worksheet.merge_range('M8:N8', '$'+str(hpagos['amount'].sum() -facturas['amount'].sum()), blue_content)
 
 #tabla superior por cobrar ¿?
 worksheet.write('P6', "D.A", red_header_format)
@@ -470,10 +475,10 @@ worksheet.merge_range('H11:H12', 'NUMERO',red_header_format)
 worksheet.merge_range('I11:I12', 'FECHA \n DD-MM-AAA',red_header_format)
 worksheet.merge_range('J11:J12', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 #rellenando la tabla
-for i in range(0,10):
-    worksheet.write('H'+str(13+i), '--', red_content)
-    worksheet.write('I'+str(13+i), '--', red_content)
-    worksheet.write('J'+str(13+i), '--', red_content)
+for i in range(0,len(facturas)):
+    worksheet.write('H'+str(13+i), str(facturas['facture'].values[i]), red_content)
+    worksheet.write('I'+str(13+i), str(facturas['facture'].values[i]), red_content)
+    worksheet.write('J'+str(13+i), str(facturas['amount'].values[i]), red_content)
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K10:O10', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
 worksheet.merge_range('K11:K12', 'NUMERO', blue_header_format)
