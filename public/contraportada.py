@@ -512,8 +512,10 @@ for i in range(0,10):
     worksheet.write('T'+str(13+i), '--', red_content)
     worksheet.write('U'+str(13+i), '--', red_content)
 
-trow=24
 
+trow=14+max(len(hpagos),len(facturas))
+
+#validaciones ordenes_internas pagos historicos
 worksheet.merge_range('C'+str(trow)+':E'+str(trow), 'Totales', blue_header_format_bold)
 worksheet.merge_range('C'+str(trow+1)+':E'+str(trow+1), '(Debe ser 0)', blue_header_format)
 worksheet.merge_range('C'+str(trow+2)+':E'+str(trow+2), 'validacion', blue_header_format)
@@ -528,6 +530,15 @@ worksheet.write('G'+str(trow+1),hpagos["percentage"].sum() -100, blue_content)
 if(hpagos["percentage"].sum()==100 ):
    worksheet.write('G'+str(trow+2),'Okay' , blue_content)
 
+
+#validaciones facturas
+worksheet.merge_range('H'+str(trow)+':H'+str(trow+2), 'NA', blue_header_format_bold)
+
+worksheet.write('I'+str(trow),'FACTURADO' , blue_content_bold)
+worksheet.write('I'+str(trow+2),'POR FACTURAR' , blue_content)
+
+worksheet.write('J'+str(trow),facturas["amount"].sum() , blue_content_bold)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), blue_content)
 
 
 # worksheet.write(trow,9,"Totales  ", b3n)
