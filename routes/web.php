@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\FactureController;
+use App\Http\Controllers\CobrosController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -31,7 +32,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
     Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
-    
+    Route::resource('cobros', CobrosController::class);
+
     Route::get('accounting/payed_accounts', [PaymentsController::class, 'payed_accounts'])->name('payed_accounts');
    //rutas para generar reportes
       //catalogos

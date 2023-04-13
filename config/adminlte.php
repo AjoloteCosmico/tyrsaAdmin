@@ -365,6 +365,13 @@ return [
             'route'  => 'factures',
             'can' => 'VER CUENTAS X COBRAR',
         ],
+        [
+            'text' => 'COBROS',
+            'icon' => 'fa fa-money ',
+            'url' => 'cobros',
+            'route'  => 'cobros',
+            'can' => 'VER CUENTAS X COBRAR',
+        ],
         
         // [
         //     'text' => 'CUENTAS COBRADAS',

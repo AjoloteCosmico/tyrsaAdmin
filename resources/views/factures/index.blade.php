@@ -42,7 +42,7 @@
 
                         <tr class="text-center">
                           <td>{{$f->id}}</td>
-                          <td>{{$f->reg_date}}</td>
+                          <td>{{$f->date}}</td>
                           <td>{{$f->invoice}}</td>
                           <td>{{$f->payment_conditions}}</td>
                           <td>{{$f->facture}} </td>

@@ -167,7 +167,7 @@ background-color: #2B416D;
                         <td> <div  style="font-size:17px" class="badge badge-primary badge-outlined"> {{$Customers->customer}} @if($Customers->legal_name!= 'POR ASIGNAR'){{$Customers->legal_name}} @endif</div>  </td>
                         <td > <div   style="font-size:17px" class="badge badge-danger badge-outlined"> Subtotal:</div> </td> 
                         <td ><div   style="font-size:17px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}}{{number_format($InternalOrders->subtotal,2)}} </div></td>
-                        <td > -&nbsp;&nbsp;&nbsp; - </td>
+                        <td >- &nbsp;&nbsp;&nbsp; - </td>
                         <td> - &nbsp;&nbsp;&nbsp; -</td>
                     
                     </tr>
@@ -225,22 +225,23 @@ background-color: #2B416D;
                   
                   
                   </tr>
-             @php
-             {{$i=1;}}
-             @endphp
-                  @foreach($hpagos as $pago)
+             
+                  @for($i=0;$i<$max;$i++)
                   <tr>
-                  <td><div class="badge badge-primary badge-outlined">{{$i}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$i+1}}</div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$Coins->code}}</div></td>
-                  <td><div class="badge badge-primary badge-outlined">{{$pago->date}}</div></td>
-                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($pago->amount,2)}}</div></td>
-                  <td><div class="badge badge-primary badge-outlined">{{number_format($pago->percentage,2)}} %</div></td>
-                       
+                  <td><div class="badge badge-primary badge-outlined">{{$hpagos[$i]->date}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($hpagos[$i]->amount,2)}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{number_format($hpagos[$i]->percentage,2)}} %</div></td>
+                  <!-- datos de las facturas -->
+                    @if($i<$facturas->count())
+                  <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->facture}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->date}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($facturas[$i]->amount,2)}} %</div></td>
+                    @endif
                   </tr>
-                  @php
-             $i=$i+1;
-             @endphp
-                  @endforeach
+                  
+                  @endfor
                   <tr>
                     <td> <br></td>
                   </tr>

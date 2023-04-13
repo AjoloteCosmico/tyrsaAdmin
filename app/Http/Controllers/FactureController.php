@@ -46,6 +46,7 @@ class FactureController extends Controller
                 $Facture->status='CAPTURA';
                 $Facture->npagos=$request->npagos;
                 $Facture->facture=$request->facture;
+                $Facture->date=now();
                 $Facture->save();
                 // $Facture->customer_id=$request->customer_id;
                 

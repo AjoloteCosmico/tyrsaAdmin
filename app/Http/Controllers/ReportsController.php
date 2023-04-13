@@ -10,7 +10,7 @@ use App\Models\CompanyProfile;
 use App\Models\CustomerShippingAddress;
 use App\Models\Coin;
 use App\Models\historical_payments;
-
+use App\Models\Factures;
 use App\Models\Seller;
 use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
@@ -59,9 +59,7 @@ class ReportsController extends Controller
 
    public function contraportada_pdf($id){
 
-    
     $CompanyProfiles = CompanyProfile::first();
-    
     $comp=$CompanyProfiles->id;
     $InternalOrders = InternalOrder::find($id);
     $Customers = Customer::find($InternalOrders->customer_id);
@@ -69,6 +67,9 @@ class ReportsController extends Controller
     $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
     $Coins=Coin::find($InternalOrders->coin_id);
     $hpagos=historical_payments::where('order_id',$InternalOrders->id)->get();
+    $facturas=Factures::where('order_id',$InternalOrders->id)->get();
+    $max=max($facturas->count(),$hpagos->count());
+    
     $pdf = PDF::loadView('reportes.contraportada_pdf', compact(
            'CompanyProfiles',
            'InternalOrders',
@@ -76,7 +77,9 @@ class ReportsController extends Controller
            'Sellers',
            'CustomerShippingAddresses',
            'Coins',
-           'hpagos'));    
+           'hpagos',
+           'max',
+        'facturas'));    
     
        $pdf->setPaper('A4', 'landscape');
     return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
