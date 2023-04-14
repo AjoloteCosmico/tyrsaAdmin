@@ -235,6 +235,13 @@ background-color: #2B416D;
                   <td><div class="badge badge-primary badge-outlined">{{$hpagos[$i]->date}}</div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($hpagos[$i]->amount,2)}}</div></td>
                   <td><div class="badge badge-primary badge-outlined">{{number_format($hpagos[$i]->percentage,2)}} %</div></td>
+                  @else
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  
                   @endif
                   <!-- datos de las facturas -->
                     @if($i<$facturas->count())
