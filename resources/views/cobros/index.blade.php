@@ -26,6 +26,7 @@
                         <tr class="text-center">
                             <th rowspan="2">PDA</th>
                             <th rowspan="2">FECHA EMISION</th>
+                            <th rowspan="2">FACTURA</th>
                             <th rowspan="2">BANCO</th>
                             <th rowspan="2">P.I.</th>
                             <th rowspan="2">CLIENTE </th>
@@ -46,6 +47,7 @@
                         <tr>
                         <td>{{$c->id}}</td>
                         <td>{{$c->date}}</td>
+                        <td>{{$c->facture}}</td>
                         <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
                         <td>{{$c->invoice}}</td>
                         <td>{{$c->customer}}</td>
@@ -54,6 +56,7 @@
                         <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
                         <td> </td>
                         <td> </td>
+                        <td></td>
                         </tr>
                         @endforeach
                         

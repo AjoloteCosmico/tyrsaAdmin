@@ -94,11 +94,6 @@
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
-                                        <x-jet-input-error for='unit_price' />
-                                    </div>
-                                    <div class="form-group">
                                         <x-jet-label value=" IVA" />
                                         <x-jet-input type="number" step="0.01" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
