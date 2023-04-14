@@ -247,7 +247,7 @@ background-color: #2B416D;
                     @if($i<$facturas->count())
                   <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->facture}} </div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->date}} </div></td>
-                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($facturas[$i]->amount,2)}} %</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($facturas[$i]->amount,2)}} </div></td>
                     @endif
                   </tr>
                   
