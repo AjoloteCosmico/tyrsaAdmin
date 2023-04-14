@@ -24,6 +24,8 @@
         <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
             <div class="card">
                 <div class="card-body">
+                    <center>
+                    <div class="col-sm-12 table-responsive">
                     <table class="table table-striped text-xs font-medium">
                         <thead>
                         <th>PELOTA</th>
@@ -39,7 +41,9 @@
                     <a href="" class="btn btn-green">
                     <i class="fas fa-plus-circle"></i>&nbsp; Registrar rotacion
                 </a>
-                    <br><br>
+                    
+                    </div>
+                    </center>
                 </div>
             </div>
         </div>

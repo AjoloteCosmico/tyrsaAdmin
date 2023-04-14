@@ -3,17 +3,17 @@
 @section('title', 'FACTURA')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-file-lines"></i>&nbsp; FACTURA</h1>
+    <h1 class="font-bold"><i class="fa fa-money"></i>&nbsp;  COMPROBANTE DE INGRESO</h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR FACTURA:
+                <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR COMPROBANTE DE INGRESO:
             </h5>
         </div>
-        <form action="{{ route('factures.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('cobros.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="item" value=" "/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
@@ -43,20 +43,55 @@
                                         <x-jet-input-error for='order_id' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="TOTAL DE PAGOS" />
-                                        <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" disabled />
-                                        <x-jet-input-error for='tpagos' />
+                                        <x-jet-label value="Fecha de cobro" />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
+                                        <x-jet-input-error for='date' />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <x-jet-label value="* COMPORBANTE DE INGRESO" />
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{old('comp')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input-error for='comp' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="* NUM PAGO" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="ordinal" id="ordinal" class="form-control just-number price-format-input w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-label value="* Factura" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
+                                        <option  > </option>    
+                                        @foreach ($Factures as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('facture')) selected @endif >  {{$row->facture}}</option>
+                                            @endforeach
                                         </select>
-                                        <x-jet-input-error for='ordinal' />
+                                        <x-jet-input-error for='facture_id' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                        <x-jet-input-error for='facture' />
+                                        <x-jet-label value="* Banco" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
+                                        <option  > </option>    
+                                        @foreach ($Bancos as $row)
+                                                <option value="{{$row->bank_id}}" @if ($row->bank_id == old('bank_id')) selected @endif > {{$row->bank_clue}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='bank_id' />
+                                    </div>
+                                    <div class="form-group">
+                                        <x-jet-label value="* Moneda" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="coin_id" id='moneda'>
+                                        <option  > </option>    
+                                        @foreach ($Coins as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('coin_id')) selected @endif > {{$row->coin}} {{$row->customer}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='coin_id' />
+                                    </div>
+                                    <div class="form-group">
+                                        <x-jet-label value=" TIPO DE CAMBIO" />
+                                        <x-jet-input type="number" step="0.01" name="tc" class="form-control just-number price-format-input w-full text-xs" />
+                                        <x-jet-input-error for='tc' />
+                                    </div>
+                                    <div class="form-group">
+                                        <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
+                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
+                                        <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
@@ -70,9 +105,17 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('import')}}"/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
+
+                                    <br>
+
+
+                                    Ingresa su comprobante
+                                    <br>
+                                    <input type="file" name="comp_file" id="comp_file">
+                                    <br><br>
 
                         </div>
                     </div>

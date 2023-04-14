@@ -14,14 +14,14 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('factures.create')}}" class="btn btn-green">
+                <a href="{{ route('cobros.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-6 col-sm-12 table-responsive">
-                <table class="table tablefactures table-striped text-xs font-medium">
+                <table class="table tablefactures table-striped text-xs text-center font-medium">
                     <thead>
                         <tr class="text-center">
                             <th rowspan="2">PDA</th>
@@ -42,7 +42,20 @@
                         </TR>
                     </thead>
                     <tbody>
-                        
+                        @foreach($Cobros as $c)
+                        <tr>
+                        <td>{{$c->id}}</td>
+                        <td>{{$c->date}}</td>
+                        <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
+                        <td>{{$c->invoice}}</td>
+                        <td>{{$c->customer}}</td>
+                        <td>{{$c->coin}}</td>
+                        <td>{{$c->tc}}</td>
+                        <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
+                        <td> </td>
+                        <td> </td>
+                        </tr>
+                        @endforeach
                         
                     </tbody>
                 </table>

@@ -7,17 +7,12 @@
   --botones: #3a323d3e;
 }
 body {
-    /*background: url(https://www.gaceta.unam.mx/wp-content/uploads/2023/01/230123-dep3-f3-ulama-juego-mesoamericano.jpg); */
+    /*background: url(); */
     /*background: url("/static/biblioteca3_darker.png") 50% 0 no-repeat fixed;*/
-    background: url(https://www.gaceta.unam.mx/wp-content/uploads/2023/01/230123-dep3-f3-ulama-juego-mesoamericano.jpg); 50% 0 no-repeat fixed;
+    background: url("/static/Fondo2.jpg") 50% 0 no-repeat fixed;
     background-size: cover;
     font-weight: bold;
-  size: 60px;
-  color: #cdc8d8;
-  }
-  .button{
-    background-color: var(--botones);
-    border-radius: 5px;
+  size: 6upx;
     color: var(--white);
     padding: 15px 32px;
     text-align: center;
