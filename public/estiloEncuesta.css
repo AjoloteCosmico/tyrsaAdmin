@@ -1,0 +1,127 @@
+
+:root {
+  --black: #050005;
+  --TextBack: #050005;
+  --white: #faf0f6;
+  --gay: #aaa0a6;
+  --botones: #3a323d3e;
+}
+body {
+    /*background: url(https://www.gaceta.unam.mx/wp-content/uploads/2023/01/230123-dep3-f3-ulama-juego-mesoamericano.jpg); */
+    /*background: url("/static/biblioteca3_darker.png") 50% 0 no-repeat fixed;*/
+    background: url(https://www.gaceta.unam.mx/wp-content/uploads/2023/01/230123-dep3-f3-ulama-juego-mesoamericano.jpg); 50% 0 no-repeat fixed;
+    background-size: cover;
+    font-weight: bold;
+  size: 60px;
+  color: #cdc8d8;
+  }
+  .button{
+    background-color: var(--botones);
+    border-radius: 5px;
+    color: var(--white);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bolder;
+    margin: 4px 2px;
+    cursor: pointer;
+    size: 60px 120px;
+    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.6);
+    border: none;
+  }
+.pantalla{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide scrollbars */
+    overflow-y: scroll;
+    height:700px;
+    width: 1200px;
+    position: relative;
+    z-index: 1;
+    flex-direction: row;
+}
+
+.pantalla::-webkit-scrollbar {
+  display: none;
+}
+.reactivo{
+text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 25px;
+  color: #b2aebb;
+}
+.seccion{
+    text-align: left;
+    size: 70px;
+    font-weight: bolder;
+  }
+  .texto{
+  float:center;
+  height: 30px;
+  width: 100px;
+  border:3px;
+  background-color: var(--TextBack);
+  color:#F1F1F1;
+  padding:10px 10px 10px 30px;
+  font: 20px/20px'Open Sans', Verdana, Helvetica, sans-serif;
+  margin-bottom:10px;
+  }
+  .fecha{
+    float:center;
+    height: 30px;
+    width: 150px;
+    border:3px;
+    background-color: var(--TextBack);
+    color:#F1F1F1;
+    padding:10px 10px 10px 30px;
+    font: 20px/20px'Open Sans', Verdana, Helvetica, sans-serif;
+    margin-bottom:10px;
+    }
+
+.select {
+    appearance: none;
+    background-color: var(--TextBack);
+    color: #d1cbcd;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 1px;
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 20px;
+    cursor:sans-serif;
+    line-height: sans-serif;
+    margin-bottom:10px;
+    height: 30px;
+  }
+  .encuestaData{
+    size: 20px;
+    display: flex;
+    justify-items: center;
+    background-color: rgba(51, 28, 45, 0.833);
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+
+  }
+  table, th, td {
+    border: 1px solid rgb(238, 232, 232);
+    border-collapse: collapse;
+    size: 15px;
+  }
+  .espacio{
+    padding: 40px;
+  }
+
+  .preguntas{
+    flex-direction: column;
+    width: 1200px;
+  }
+
+  .cabecera1{
+    size: 30px;
+    text-align: center;
+  }
