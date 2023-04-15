@@ -22,7 +22,7 @@ class FactureController extends Controller
         ->select('factures.*','customers.customer','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
-        dd($Factures);
+    
         return view('factures.index',compact(
         'Factures'
         ));
