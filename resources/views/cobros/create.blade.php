@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* Moneda" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="coin_id" id='moneda'>
+                                        <select class="form-capture  w-full text-xs uppercase" name="coin_id" id='coin_id'>
                                         <option  > </option>    
                                         @foreach ($Coins as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('coin_id')) selected @endif > {{$row->coin}} {{$row->customer}}</option>
@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" TIPO DE CAMBIO" />
-                                        <x-jet-input type="number" step="0.01" name="tc" class="form-control just-number price-format-input w-full text-xs" />
+                                        <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>
                                     <div class="form-group">
@@ -187,7 +187,7 @@ $(document).on('keyup', '.price-format-input', function (e) {
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
 console.log('entrando a la funcion');
-console.log(seleccionado)
+console.log(seleccionado);
 removeOptions(document.getElementById('order_id'));
 console.log('hecho¿?');
 var desc = document.getElementById("order_id");
@@ -217,8 +217,8 @@ var npagos={
 
 var seleccionado = document.getElementById('order_id').value;
 console.log('entrando a la funcion de num pagos');
-console.log(seleccionado)
-console.log(npagos[seleccionado])
+console.log(seleccionado);
+console.log(npagos[seleccionado]);
 removeOptions(document.getElementById('ordinal'));
 var desc = document.getElementById("ordinal");
 @foreach($InternalOrders as $order)
@@ -253,8 +253,8 @@ $('#order_id').change(function(){
 
 var seleccionado = $(this).val();
 console.log('entrando a la funcion de num pagos');
-console.log(seleccionado)
-console.log(npagos[seleccionado])
+console.log(seleccionado);
+console.log(npagos[seleccionado]);
 removeOptions(document.getElementById('ordinal'));
 var desc = document.getElementById("ordinal");
 @foreach($InternalOrders as $order)
@@ -291,5 +291,31 @@ for(index in example_array) {
     document.getElementById("sniva").value = subtotal.toFixed(2);
     document.getElementById("iva").value = iva.toFixed(2);
     });
+</script>
+
+
+<script>
+  
+$(document).ready(function () {     
+$('#coin_id').change(function(){
+    
+var seleccionado = $(this).val();
+console.log('entrando a la funcion de num pagos');
+console.log(seleccionado);
+@foreach($Coins as $coin)
+if(seleccionado=='{{$coin->id}}'){
+    
+document.getElementById('tc').value={{$coin->exchange_sell}};
+}
+    
+
+   
+  
+@endforeach
+
+
+})
+     });
+  
 </script>
 @stop

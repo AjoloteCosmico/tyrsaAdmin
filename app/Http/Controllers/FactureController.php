@@ -22,6 +22,7 @@ class FactureController extends Controller
         ->select('factures.*','customers.customer','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
+        dd($Factures);
         return view('factures.index',compact(
         'Factures'
         ));
@@ -51,9 +52,17 @@ class FactureController extends Controller
                 // $Facture->customer_id=$request->customer_id;
                 
                 // $Facture->customer_id=$request->customer_id;
-
+                $comp=$request->comp_file;
+                \Storage::disk('comp')->put('fac'.$Facture->id.'.pdf',  \File::get($comp));
+               
                 return $this->index();
                 }
+                public function show($id){
+                    $file_path = public_path('storage/fac'.$id.'.pdf');
+                    return response()->file($file_path);
+                    //return Storage::download('app/comp'.$id.'.pdf');
+                    
+               }
     public function edit($facture){
         //traer todas las facturas
         $Facture=DB::table('factures')

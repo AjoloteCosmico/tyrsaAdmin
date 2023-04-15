@@ -35,7 +35,14 @@ class CobrosController extends Controller
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->join('factures', 'cobros.facture_id','=','factures.id')
         ->join('banks', 'cobros.bank_id','=','banks.bank_id')
-        ->select('cobros.*','customers.customer','customers.clave', 'coins.coin','coins.symbol', 'internal_orders.invoice','factures.facture','banks.bank_clue','banks.bank_description')
+        
+        ->leftjoin('users as capturistas', 'cobros.capturo','=','capturistas.id')
+        ->leftjoin('users as revisores', 'cobros.reviso','=','revisores.id')
+        ->leftjoin('users as autorizadores', 'cobros.autorizo','=','autorizadores.id')
+        
+        ->select('cobros.*','customers.customer','customers.clave', 'coins.coin','coins.symbol', 
+                 'internal_orders.invoice','factures.facture','banks.bank_clue',
+                 'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
         return view('cobros.index',compact('Cobros'));
@@ -55,8 +62,21 @@ class CobrosController extends Controller
                 'Factures'
                 ));
             }
+            public function show($id){
+                $file_path = public_path('storage/comp'.$id.'.pdf');
+                return response()->file($file_path);
+                //return Storage::download('app/comp'.$id.'.pdf');
+                
+           }
+
+
             public function store(Request $request){
-        
+                $verifycomp=Cobro::where('comp',$request->comp)->get();
+                
+                if($verifycomp->first()){
+                  
+                return $this->index();
+                }else{
                 $Cobro=new Cobro();
                 $Cobro->order_id=$request->order_id;
                 $Cobro->amount=$request->amount;
@@ -66,10 +86,61 @@ class CobrosController extends Controller
                 $Cobro->coin_id=$request->coin_id;
                 $Cobro->tc=$request->tc;
                 $Cobro->date=$request->date;
+                $Cobro->capturo=Auth::user()->id;
                 $Cobro->save();
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                
-                return $this->index();
+                return $this->index();}
                 }
+
+
+        public function edit($id){
+            $Cobro=DB::table('cobros')
+            ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
+            ->where('cobros.id','=',$id)
+            ->select('cobros.*','internal_orders.customer_id')
+            ->first();
+            $Ordenes=InternalOrder::where('customer_id',$Cobro->customer_id)->get();
+            $Bancos=bank::all();
+            $Coins=Coin::all();
+            $Factures=Factures::all();
+            $Customers=Customer::orderby('clave')->get();
+            $InternalOrders=InternalOrder::all();
+            
+            return view('cobros.edit',
+                            compact('Cobro',
+                                    'Coins',
+                                    'Bancos',
+                                    'Customers',
+                                    'InternalOrders',
+                                    'Factures',
+                                'Ordenes'));
+
+        }
+        public function update($id,Request $request){
+                Factures::destroy($id);
+                return $this->index();
+        }
+        public function destroy($id){
+                   $file_path = public_path('storage/comp'.$id.'.pdf');
+                   File::delete($file_path);
+                    Cobro::destroy($id);
+                    return $this->index();
+            }
+    
+
+    public function revisar($id){
+       $Cobro= Cobro::find($id);
+       $Cobro->reviso=Auth::user()->id;
+       $Cobro->save();
+       return $this->index();
+
+    }
+    public function autorizar($id){
+        $Cobro= Cobro::find($id);
+        $Cobro->autorizo=Auth::user()->id;
+        $Cobro->save();
+        return redirect('/cobros');
+    }
 }

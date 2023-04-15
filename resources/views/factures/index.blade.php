@@ -71,6 +71,10 @@
                                             </button>
                                         </form>
                                         @endcan
+                                        
+                                        <a href="{{ route('factures.show', $f->id)}}">
+                                        <button class="btn btn-blue">
+                                                <i class="fas fa-xl fa-eye"> </i> </button></a>
                                     </div>
                                 </div>
                             </td>

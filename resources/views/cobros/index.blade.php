@@ -31,10 +31,13 @@
                             <th rowspan="2">P.I.</th>
                             <th rowspan="2">CLIENTE </th>
                             <th rowspan="2">MONEDA</th>
-                            <th colspan="2">TIPO DE CAMBIO</th>
+                            <th rowspan="2">TC</th>
+                            <th colspan="2">IMPORTE TOTAL</th>
                             <th rowspan="2">CAPTURO </th>
                             <th rowspan="2">REVISO</th>
                             <th rowspan="2">AUTORIZO</th>
+                            <th rowspan="2"> </th>
+                            <th rowspan="2"> </th>
                            
                         </tr>
                         <TR>
@@ -53,10 +56,51 @@
                         <td>{{$c->customer}}</td>
                         <td>{{$c->coin}}</td>
                         <td>{{$c->tc}}</td>
+                        <td> {{$c->symbol}} {{number_format($c->amount  ,2)}} </td>
                         <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
-                        <td> </td>
-                        <td> </td>
-                        <td></td>
+                        <td> {{$c->capturista}}</td>
+                        <td>@if($c->reviso) {{$c->revisor}}
+                             @else  Marcar revisado <a href="{{ route('cobros.revisar', $c->id)}}">
+                                        <button class="btn btn-green">
+                                                <i class="fas fa-xl fa-check   "></i>
+                                                </button>
+                                        </a>
+                                @endif </td>
+                        <td>@if($c->autorizo) {{$c->autorizador}}
+                             @else  Marcar autorizado <a href="{{ route('cobros.autorizar', $c->id)}}">
+                                        <button class="btn btn-green">
+                                                <i class="fas fa-xl fa-check   "></i>
+                                                </button>
+                                        </a>
+                                @endif</td>
+                        <td> <div class="row">
+                                    <div class="col-6 text-center w-10">
+                                        @can('EDITAR FAMILIAS')
+                                        <a href="{{ route('cobros.edit', $c->id)}}">
+                                        <button class="btn btn-blue">
+                                                <i class="fas fa-xl fa-edit   "></i>
+                                                </button>
+                                        </a>
+                                        @endcan
+                                    </div>
+                                    &nbsp; &nbsp;
+                                    <div class="col-6 text-center w-10">
+                                        @can('BORRAR FAMILIAS')
+                                        <form class="DeleteReg" action="{{ route('cobros.destroy', $c->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red ">
+                                                <i class="fas fa-trash items-center fa-xl"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                        &nbsp; &nbsp;
+                                        <a href="{{ route('cobros.show', $c->id)}}">
+                                        <button class="btn btn-blue">
+                                                <i class="fas fa-xl fa-eye"> </i> </button></a>
+                                    </div> 
+                                </div></td>
+                                
                         </tr>
                         @endforeach
                         
@@ -91,4 +135,6 @@
 @if (session('update_reg') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/update_reg.js') }}"></script>
 @endif
+
+
 @stop
