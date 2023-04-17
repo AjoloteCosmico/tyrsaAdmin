@@ -22,15 +22,12 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 
-query = ('SELECT p.date, p.banco, p.nfactura, i.invoice, c.customer, coins.code, p.tipo_cambio, p.amount, p.ncomp, p.capturista FROM customers as c inner join internal_orders as i on i.customer_id = c.id inner join payments as p on p.order_id=i.id inner join coins on coins.id = i.coin_id WHERE p.ncomp = '+str(ncomp)+" and p.status= 'pagado';")
-pagos=pd.read_sql(query,cnx)
+query = ('SELECT * from cobros where order_id = '+str(ncomp))
+cobros=pd.read_sql(query,cnx)
 
 writer = pd.ExcelWriter("storage/report/comprobante_ingresos"+str(ncomp)+".xlsx", engine='xlsxwriter')
-pagos[["date","banco"]].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
-pagos[["nfactura","invoice","customer"]].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=4, header=False, index=False)
-pagos[["code","tipo_cambio","amount"]].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=8, header=False, index=False)
-pagos["capturista"].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=12, header=False, index=False)
-
+cobros[["date"]].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
+orden = pd.read_sql("select * from internal_orders where id ="+str(ncomp),cnx)
 workbook = writer.book
 ##FORMATOS PARA EL TITULO---------------------------------------
 azul_g = workbook.add_format({
@@ -107,10 +104,10 @@ tabla_celeste = workbook.add_format({
     'font_size':12})
         
 worksheet = writer.sheets['Sheet1']
-worksheet.write(3, 20, pagos["ncomp"].values[0], azul_g)
+worksheet.write(3, 20, orden["invoice"].values[0], azul_g)
 
 # Encabezado.
-worksheet.merge_range('G2:N2', 'COMPROBANTE DE INGRESOS NO. '+str(pagos["ncomp"].values[0]), azul_g)
+worksheet.merge_range('G2:N2', 'COMPROBANTE DE INGRESOS NO. ', azul_g)
 worksheet.merge_range('G3:N3', 'CUENTAS COBRADAS DE PEDIDOS INTERNOS', azul_g)
 
 
@@ -136,18 +133,18 @@ worksheet.merge_range('N6:N7', 'REVISO', header_format)
 worksheet.merge_range('O6:O7', 'AUTORIZO', header_format)
 #CELDAS
 total_mn=0
-for i in range(0,len(pagos)):
-         equivalente= pagos["amount"].values[i]*float(pagos["tipo_cambio"].values[i])
+for i in range(0,len(cobros)):
+         equivalente= cobros["amount"].values[i]*float(cobros["tc"].values[i])
          total_mn=total_mn+equivalente
          worksheet.write(7+i, 11,equivalente,tabla_normal)
          worksheet.write(7+i, 1, i+1,tabla_celeste)
 
-trow=7+len(pagos)
+trow=7+len(cobros)
 worksheet.merge_range(trow,8,trow,9 ,'Total sin iva', header_format)
-worksheet.write(trow, 10, pagos["amount"].sum(),header_format_green)
+worksheet.write(trow, 10, cobros["amount"].sum(),header_format_green)
 worksheet.write(trow, 11, total_mn,header_format)
      
-worksheet.conditional_format(xlsxwriter.utility.xl_range(7, 2, 6+len(pagos), 14), {'type': 'no_errors', 'format': tabla_normal})
+worksheet.conditional_format(xlsxwriter.utility.xl_range(7, 2, 6+len(cobros), 14), {'type': 'no_errors', 'format': tabla_normal})
 
 workbook.close()
 

@@ -181,18 +181,14 @@ class PaymentsController extends Controller
         
     public function comprobante_ingresoS()
         {
-            $comprobantes =  DB::table('payments')
-            ->join('internal_orders','internal_orders.id','payments.order_id')
-            ->join('customers','customers.id','internal_orders.customer_id')
-            ->select('payments.ncomp','customers.customer')
-            ->whereNotNull('payments.ncomp')
-            ->distinct('payments.ncomp')
-            ->orderBy('customers.customer')
-            ->orderBy('payments.ncomp')
-            ->get();
+            $Ordenes =  DB::table('internal_orders')
+        ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
+        ->join('coins', 'internal_orders.coin_id','=','coins.id')
+        ->select('internal_orders.*','customers.customer','coins.symbol')
+        ->get();
         
         return view('reportes.comprobante_ingresos', compact(
-            'comprobantes',  
+            'Ordenes',  
         ));}
     
 

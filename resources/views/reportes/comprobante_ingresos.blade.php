@@ -20,7 +20,7 @@
   <thead class="thead">
     <tr>
       <th scope="col">Cliente</th>
-      <th > Comprobante</th>
+      <th > Pedido</th>
       <th scope="col">Excel</th>
       <th scope="col">PDF</th>
       <th scope="col">---</th>
@@ -28,20 +28,20 @@
     </tr>
   </thead>
   <tbody>
-  @foreach ($comprobantes as $row)
+  @foreach ($Ordenes as $row)
                             <tr class="text-center">
                             
                                 <td> <p>{{ $row->customer }}</p></td>
                                 
-                               <td>{{$row->ncomp}} </td>
+                               <td>{{$row->invoice}} </td>
                                 <td>
-                                <a href="{{route('payments.reporte',[$row->ncomp,'comprobante_ingresos',0])}}">
+                                <a href="{{route('reports.generate',[$row->id,'comprobante_ingresos',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                </td>
                                
                                <td>
-                                <a href="{{route('payments.reporte',[$row->ncomp,'comprobante_ingresos',1])}}">
+                                <a href="{{route('reports.generate',[$row->id,'comprobante_ingresos',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                </td>

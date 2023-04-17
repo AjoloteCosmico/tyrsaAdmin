@@ -5,14 +5,28 @@ import xlsxwriter
 import pandas as pd
 import sys
 import mysql.connector
+import os
+from dotenv import load_dotenv
+load_dotenv()
+#id del pedido en cuestion
 id=str(sys.argv[1])
-# initialize list of lists
-cnx = mysql.connector.connect(user='tyrsa',
-                              password='1234',
+#configurar la conexion a la base de datos
+DB_USERNAME = os.getenv('DB_USERNAME')
+DB_DATABASE = os.getenv('DB_DATABASE')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_PORT = os.getenv('DB_PORT')
+
+a_color='#354F84'
+b_color='#91959E'
+# Conectar a DB
+cnx = mysql.connector.connect(user=DB_USERNAME,
+                              password=DB_PASSWORD,
                               host='localhost',
-                              port='8111',
-                              database='u458219132_tyrsawesadmin',
+                              port=DB_PORT,
+                              database=DB_DATABASE,
                               use_pure=False)
+#Seccion para traer informacion de la base
+query = ('SELECT * from customers where id =1')
 
 query = ('SELECT * from payments')
 pagos=pd.read_sql(query,cnx)
@@ -24,7 +38,7 @@ orden = pd.read_sql("select * from internal_orders where id="+str(order_id),cnx)
 cliente = pd.read_sql("select * from customers where id = "+str(orden["customer_id"].values[0]),cnx)
 moneda = pd.read_sql("select * from coins where id="+str(orden["coin_id"].values[0]),cnx)
 
-items = pd.read_sql("select * from items where id="+str(order_id),cnx)
+items = pd.read_sql("select * from items where internal_order_id="+str(order_id),cnx)
 writer = pd.ExcelWriter("storage/report/factura_resumida"+str(id)+".xlsx", engine='xlsxwriter')
 
 df=thisAllPays[["date","order_id","created_at","updated_at","nfactura",
@@ -172,9 +186,3 @@ worksheet.write(trow, 15, total_mn,header_format)
      
 workbook.close()
 
-import excel2img
-excel2img.export_img('storage/report/factura_resumida'+str(order_id)+'.xlsx','storage/report/factura_resumida'+str(order_id)+'.png')
-from PIL import Image
-image_1 = Image.open('storage/report/factura_resumida'+str(order_id)+'.png')
-im_1 = image_1.convert('RGB')
-im_1.save('storage/report/factura_resumida'+str(order_id)+'.pdf')

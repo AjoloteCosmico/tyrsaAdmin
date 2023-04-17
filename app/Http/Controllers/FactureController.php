@@ -26,7 +26,7 @@ class FactureController extends Controller
         return view('factures.index',compact(
         'Factures'
         ));
-    }
+    }   
     public function create(){
         //traer todas las facturas
                 $Factures=Factures::all();
