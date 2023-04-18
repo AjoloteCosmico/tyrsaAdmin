@@ -144,7 +144,8 @@ class ReportsController extends Controller
                         'Sellers',
                         'CustomerShippingAddresses',
                         'Coins','Cobro',
-                    'Banco','Factura'));    
+                        'Banco',
+                        'Factura'));    
                  
                     $pdf->setPaper('A4', 'landscape');
                  return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
