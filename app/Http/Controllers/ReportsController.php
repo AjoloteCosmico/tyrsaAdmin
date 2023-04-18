@@ -151,5 +151,31 @@ class ReportsController extends Controller
                  return $pdf->download('Comprobante_Ingresos'.$Cobro->comp.'.pdf');   
                 //  
      }
+     public function factura_pdf($id){
+        //hacer el pdf
+        $Factura=Factures::find($id);
+        $CompanyProfiles = CompanyProfile::first();
+        $comp=$CompanyProfiles->id;
+        $InternalOrders = InternalOrder::find($Factura->order_id);
+        $Customers = Customer::find($InternalOrders->customer_id);
+        $Sellers = Seller::find($InternalOrders->seller_id);
+        $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
+        $Coins=Coin::find($InternalOrders->coin_id);
+        $Factura=Factures::find($id);
+        
+        $pdf = PDF::loadView('reportes.factura_pdf', compact(
+            'CompanyProfiles',
+            'InternalOrders',
+            'Customers',
+            'Sellers',
+            'CustomerShippingAddresses',
+            'Coins',
+            
+            'Factura'));    
+     
+        $pdf->setPaper('A4', 'landscape');
+     return $pdf->download('Factura'.$Factura->facture.'.pdf');   
+    //  
+}
      
 }
