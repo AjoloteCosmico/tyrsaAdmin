@@ -9,10 +9,10 @@
 body {
     /*background: url(); */
     /*background: url("/static/biblioteca3_darker.png") 50% 0 no-repeat fixed;*/
-    background: url("/static/Fondo2.jpg") 50% 0 no-repeat fixed;
+    background: url("https://www.dgcs.unam.mx/boletin/bdboletin/multimedia/WAV200221/170(1).jpg") 50% 0 no-repeat fixed;
     background-size: cover;
     font-weight: bold;
-  size: 6upx;
+  
     color: var(--white);
     padding: 15px 32px;
     text-align: center;
@@ -22,7 +22,7 @@ body {
     font-weight: bolder;
     margin: 4px 2px;
     cursor: pointer;
-    size: 60px 120px;
+  
     box-shadow: 0 12px 12px rgba(0, 0, 0, 0.6);
     border: none;
   }

@@ -10,4 +10,9 @@ class UlamaController extends Controller
 return view('ulama.index');
 
    }
+
+   public function create(){
+      return view('ulama.create');
+      
+         }
 }
