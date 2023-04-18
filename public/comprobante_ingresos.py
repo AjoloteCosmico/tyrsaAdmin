@@ -9,6 +9,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+a_color='#354F84'
+b_color='#91959E'
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
@@ -30,6 +32,160 @@ cobros[["date"]].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, he
 orden = pd.read_sql("select * from internal_orders where id ="+str(ncomp),cnx)
 workbook = writer.book
 ##FORMATOS PARA EL TITULO---------------------------------------
+rojo_l = workbook.add_format({
+    'bold': 0,
+    'border': 0,
+    'align': 'center',
+    'valign': 'vcenter',
+    #'fg_color': 'yellow',
+    'font_color': 'red',
+    'font_size':16})
+negro_s = workbook.add_format({
+    'bold': 0,
+    'border': 0,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12})
+negro_b = workbook.add_format({
+    'bold': 2,
+    'border': 0,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':13}) 
+rojo_b = workbook.add_format({
+    'bold': 2,
+    'border': 0,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'red',
+    'font_size':13})      
+
+#FORMATOS PARA CABECERAS DE TABLA --------------------------------
+header_format = workbook.add_format({
+    'bold': True,
+    'text_wrap': True,
+    'valign': 'center',
+    'fg_color': 'yellow',
+    'border': 1,})
+
+blue_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+blue_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'font_size':13})
+
+red_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+
+red_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'font_size':13})
+yellow_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': '#e8b321',
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+green_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': '#2D936C',
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+
+#FORMATOS PARA TABLAS PER CE------------------------------------
+
+blue_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':a_color})
+
+blue_content_bold = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':a_color,
+    'font_size':13})
+yellow_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':'#e8b321'})
+red_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':b_color})
+
+green_content = workbook.add_format({
+    'border': 3,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':b_color})
+red_content_bold = workbook.add_format({
+    'bold':True,
+    'border': 3,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':13,
+    'border_color':'#80848E'})
+#FOOTER FORMATS---------------------------------------------------------
+observaciones_format = workbook.add_format({
+    'bold': True,
+    'text_wrap': True,
+    'valign': 'top',
+    'fg_color':'#BDD7EE',
+    'border': 1})
+
 azul_g = workbook.add_format({
     'bold': 1,
     'border': 0,

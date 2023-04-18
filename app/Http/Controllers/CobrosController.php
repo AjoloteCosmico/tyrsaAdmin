@@ -90,7 +90,9 @@ class CobrosController extends Controller
                 $Cobro->save();
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
-               
+                
+
+    
                 return $this->index();}
                 }
 

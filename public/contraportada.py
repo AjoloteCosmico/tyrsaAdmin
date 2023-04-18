@@ -47,28 +47,8 @@ facturas=pd.read_sql(query,cnx)
 
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
-#thisPays=thisPays.reset_index(drop=True)
-#df=thisPays[["nfactura","amount","ncomp","moneda","fecha_factura","amount","amount","tipo_cambio","percentage","importe_acumulado","porcentaje_acumulado"]]
-# #df=df.reset_index(drop=True)
-# cambio_actual=0
-# for i in df.itertuples():
-#     pac=pac+i[9]
-#     df.iloc[i[0],10]=pac
-    
-#     if(i[8]>0):
-#         cambio_actual=i[8]
-#         mac=mac+(i[6]*i[8])
-#     else:
-#         mac=mac+i[6]
-#     df.iloc[i[0],8]=mac
-#     df.iloc[i[0],3]=str(moneda["coin"].values[0])
-
-
-
-# thisAllPays=pagos.loc[(pagos["order_id"]==order_id) ]
 writer = pd.ExcelWriter('storage/report/contraportada'+str(order_id)+'.xlsx', engine='xlsxwriter')
 
-import xlsxwriter
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({

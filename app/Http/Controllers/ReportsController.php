@@ -12,6 +12,8 @@ use App\Models\Coin;
 use App\Models\historical_payments;
 use App\Models\Factures;
 use App\Models\Seller;
+use App\Models\bank;
+use App\Models\Cobro;
 use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
 use SplFileInfo;
@@ -122,5 +124,31 @@ class ReportsController extends Controller
   
      }
 
+     public function cobro_pdf($id){
+                    //hacer el pdf
+                    $Cobro=Cobro::find($id);
+                    $CompanyProfiles = CompanyProfile::first();
+                    $comp=$CompanyProfiles->id;
+                    $InternalOrders = InternalOrder::find($Cobro->order_id);
+                    $Customers = Customer::find($InternalOrders->customer_id);
+                    $Sellers = Seller::find($InternalOrders->seller_id);
+                    $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
+                    $Coins=Coin::find($InternalOrders->coin_id);
+                    $Banco=bank::where('bank_id',$Cobro->bank_id)->first();
+                    $Factura=Factures::find($Cobro->facture_id);
+                    
+                    $pdf = PDF::loadView('reportes.test', compact(
+                        'CompanyProfiles',
+                        'InternalOrders',
+                        'Customers',
+                        'Sellers',
+                        'CustomerShippingAddresses',
+                        'Coins','Cobro',
+                    'Banco','Factura'));    
+                 
+                    $pdf->setPaper('A4', 'landscape');
+                 return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
+                //  
+     }
      
 }

@@ -97,7 +97,14 @@
                                         &nbsp; &nbsp;
                                         <a href="{{ route('cobros.show', $c->id)}}">
                                         <button class="btn btn-blue">
-                                                <i class="fas fa-xl fa-eye"> </i> </button></a>
+                                                <i class="fas fa-xl fa-eye"> </i> 
+                                        </button></a>
+                                        &nbsp; &nbsp;
+                                        <a href="{{ route('cobro_pdf', $c->id)}}">
+                                        <button class="btn btn-red">
+                                                <i class="fa fa-xl fa-file-pdf-o">pdf </i> 
+                                        </button></a>
+
                                     </div> 
                                 </div></td>
                                 

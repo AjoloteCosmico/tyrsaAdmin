@@ -1,131 +1,75 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Hi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<style>
-@media print {
-  #printPageButton {
-    display: none;
-  }
-}
-</style>
-<style>
-    .demo-preview {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin: auto;
-  text-align: center;
-}
-.demo-preview .badge{
-  margin-right:10px;
-}
-.badge {
-  display: stretch;
-  font-size: small;
-  font-weight: 600;
-  /* padding: 3px 6px; */
-  border:3px solid transparent;
-  /* min-width: 10px; */
-  /* line-height: 1; */
-  color: #fff;
-  /* text-align: center;*/
-  white-space: nowrap; 
-  /* vertical-align: middle; */
-  border-radius: 4px;
-  /* padding: 15px; */
-  /* width: 100%;
-  height: 100%; */
-}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-.badge.badge-default {
-  background-color: #B0BEC5
-}
+        <title>{{ config('app.name', '') }} @yield('title') </title>
 
-.badge.badge-primary {
-  background-color: #2B416D
-}
+        <!-- Bootstrap 5.0 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
+        <!-- Font Awesome 6 Kit LEPER SYSTEMS -->
+        <script src="https://kit.fontawesome.com/1bfa36884d.js" crossorigin="anonymous"></script>
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!-- Load Source Sans Pro font -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+        <!-- Load Nunito font -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <!-- Load Roboto font -->
+        <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,700&amp;subset=latin,latin-ext" rel="stylesheet">
+        <!-- Load Amaranth font -->
+        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
-.badge.badge-secondary {
-  background-color: #323a45
-}
+        <!-- DataTables -->
+    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.3.1/dt-1.10.25/af-2.3.7/b-1.7.1/b-print-1.7.1/cr-1.5.4/date-1.1.0/fc-3.3.3/fh-3.1.9/kt-2.6.2/r-2.2.9/rg-1.1.3/rr-1.2.8/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.css"/>
 
-.badge.badge-success {
-  background-color: #64DD17
-}
+        <!-- Select2 -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-.badge.badge-warning {
-  background-color: #FFD600
-}
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('vendor/img/ico/apple-touch-icon-144.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('vendor/img/ico/apple-touch-icon-114.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('vendor/img/ico/apple-touch-icon-72.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ asset('vendor/img/ico/apple-touch-icon-57.png') }}">
+        <link rel="shortcut icon" href="{{ asset('vendor/img/ico/favicon.ico') }}">
 
-.badge.badge-info {
-  background-color: #29B6F6
-}
+        <!-- My Style -->
+        <link href="{{ asset('vendor/mystylesjs/css/datatable_gral.css') }}" rel="stylesheet">
 
-.badge.badge-danger {
-  background-color: #9b9b9b;
-  border-color: #9b9b9b;
-}
+        <!-- Styles Tailwind Laravel Breeze -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
 
-.badge.badge-outlined {
-  background-color: transparent
-}
+        <!-- Scripts Tailwind Laravel Breeze -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
 
-.badge.badge-outlined.badge-default {
-  border-color: #B0BEC5;
-  color: #B0BEC5
-}
+        @livewireStyles
 
-.badge.badge-outlined.badge-primary {
-  
-  border-color: #9b9b9b;
-  color: #000000
-}
-.badge.badge-outlined.badge-danger {
-border-color: #2B416D;
-background-color: #2B416D;
-  color: #ffffff;
-}
-.badge.badge-outlined.badge-secondary {
-  border-color: #323a45;
-  color: #323a45;
-}
+        @stack('css')
+        
+    </head>
+    <body class="font-sans antialiased">
+        <x-jet-banner />
 
-.badge.badge-outlined.badge-success {
-  border-color: #64DD17;
-  color: #64DD17
-}
-
-.badge.badge-outlined.badge-warning {
-  border-color: #FFD600;
-  color: #FFD600
-}
-
-.badge.badge-outlined.badge-info {
-  border-color: #29B6F6;
-  color: #29B6F6
-}
-
-
-</style>
-</head>
-<body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    <h1> Reporte de Pedido interno: {{$InternalOrders->Invoice }}</h1>
-    <p></p>
-    <table>
-                        <tr><td> &nbsp; &nbsp; &nbsp;</td>
+        <div class="min-h-screen bg-gray-200">
+        <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
+        <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
+            <div class="row p-4">
+                <div class="col-sm-12 text-center font-bold text-lg">
+                <table>
+                        <tr><td> </td>
                             <td >
-                                <div class="contaier">
+                                <div style="padding:15px"  class="contaier">
                         
-                                                <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"  style="align-self: left;"></td>
+                                <img src="{{ public_path('img/logo/logo.png') }}"  alt="TYRSA"  style="align-self: left;"></td>
                                                 </div></td>
                                  
-                            <td rowspan="2">
+                            <td style="padding:15px"  rowspan="2">
                         <br>
             Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
             C.P. 54,963, Tultepec, Edo. México, R.F.C. <br>
@@ -153,115 +97,111 @@ background-color: #2B416D;
                                            
                         </tr >
                     </table>
-                    <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
-            <br>
+                    <br><br>
+
                     <table>
-                    <th colspan="7">Datos del Cliente</th>
-                     </tr>
-                    <tr class="text-center">
-                        <td>
-                        <div class="badge badge-danger badge-outlined"> Numero de cliente:</div></td>
-                        <td>
-                        <div class="badge badge-primary badge-outlined">{{$Customers->clave}}</div>  </td>
-                        <td > <div class="badge badge-danger badge-outlined"> Nombre corto:</div> </td> 
-                        <td colspan="2"><div class="badge badge-primary badge-outlined">{{$Customers->alias}} </div></td>
-                        <td ><div class="badge badge-danger badge-outlined"> CP:</div> </td>
-                        <td> <div class="badge badge-primary badge-outlined">{{$Customers->customer_zip_code}}</div></td>
-                    <!-- 6 columas -->
-                    </tr>
-                  
-                    <tr class="text-center">
-                        <td><div class="badge badge-danger badge-outlined">  Razon Social: </div></td>
-                        <td colspan="6" ><div class="badge badge-primary badge-outlined"> {{$Customers->legal_name}}</div></td>
+                      <tr>
+                      <td> <div class="badge badge-danger badge-outlined"> Comprobante Ingresos:</div></td>
+                      <td> <div class="badge badge-primary badge-outlined"> {{$Cobro->comp}}</div></td>
+                      <td> &nbsp; &nbsp;<br>&nbsp;&nbsp; </td>
+                      <td> <div class="badge badge-danger badge-outlined">Fecha: </div></td>
+                      <td> <div class="badge badge-danger badge-outlined">{{ $Cobro->date}}</div></td>
                         
-                        <!-- 6 columas -->
-                    </tr>
-                    <tr class="text-center">
-                        <td><div class="badge badge-danger badge-outlined"> RFC: </div> </td>
-                        <td><div class="badge badge-primary badge-outlined"> {{$Customers->customer_rfc}} <div></div> </td>
+                      </tr>
+                      <tr>
+                      <td> <div class="badge badge-danger badge-outlined"> Pedido Interno:</div></td>
+                      <td> <div class="badge badge-danger badge-outlined">{{$InternalOrders->invoice}}</div></td>
                         
-                        <td><div class="badge badge-danger badge-outlined"> OC: </div></td>
-                        <td><div class="badge badge-primary badge-outlined"> @if($InternalOrders->oc==0) - @else
-                                                                              {{$InternalOrders->oc}} @endif</div></td>
-                        <td> <div class="badge badge-danger badge-outlined">Contrato No.: </div></td>
-                        <td colspan="2"> <div class="badge badge-primary badge-outlined" >@if($InternalOrders->ncontrato==0) - @else
-                                                                              {{$InternalOrders->ncontrato}} @endif </div></td>
-                        <!-- 6 columas -->
-                         </tr>
-                         
-                         <tr class="text-center">
-                        <td rowspan="3"><div class="badge badge-danger badge-outlined" ><br> <br> <br> <br>  Domicilio Fiscal:  <br><br><br><br> <br></div></td>
-                        <td colspan="6"><div class="badge badge-primary badge-outlined"> {{$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb}} <br> {{$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code}}<br>
-                                                                </td>
-                         </tr>
-                         <tr>
-                            <td></td>
-                            <td></td>
-                            
-                            <td></td>
-                            <td  colspan = "3"> <div class="badge badge-danger badge-outlined">
-                            Fechas </div></td>
-
-                         </tr>
-                          
-                    <tr class="text-center">
-                        <td></td>
-                        <td> <div class="badge badge-danger badge-outlined">Tel:</div></td>
-                        <td> <div class="badge badge-primary badge-outlined">{{$Customers->customer_telephone}}</div></td>
-                        
-                        
-                        <td><div class="badge badge-danger badge-outlined">Semanas </div></td>
-                        <td><div class="badge badge-danger badge-outlined">Evento </div> </td>
-                        <td><div class="badge badge-danger badge-outlined">DD-MM-AAAA </div></td>
-                    </tr >
-                    <tr class="text-center">
-                        <td rowspan="3"><div class="badge badge-danger badge-outlined" ><br><br> <br> Embarque: <br><br> <br> &nbsp;</div> </td>
-                        <td rowspan="3"> <div class="badge badge-primary badge-outlined">
-                        <br><br> <br>
-                        @if($InternalOrders->shipment == 'Sí')
-                            Si
-                            @else
-                            No
-                            @endif
-                            <br><br><br> &nbsp;
-                              </div></td>
-                              @php
-{{$del = new DateTime($InternalOrders->date_delivery);
-  $primerdia = new DateTime("2023-1-1");
-  $semanasdel = (int) ($del->diff($primerdia)->format('%a')/7);
-  $inst = new DateTime($InternalOrders->instalation_date);
-  
-  $semanasinst = (int) ($inst->diff($primerdia)->format('%a')/7);
-  $reg = new DateTime($InternalOrders->reg_date);
-
-  $semanasreg = (int)( $reg->diff($primerdia)->format('%a')/7);}}
-@endphp
-                        <td><div class="badge badge-danger badge-outlined">Domicilio Embarque: </div></td>
-                        <td></td>
-                        <td><div class="badge badge-primary badge-outlined">{{$semanasreg}}  </div></td>
-                        <td> <div class="badge badge-primary badge-outlined">Emision PI </div></td>
-                        <td> <div class="badge badge-primary badge-outlined">{{date('j - m - Y', strtotime($InternalOrders->reg_date))}} </div></td>
-                    </tr>
-           
-                    
-                    <tr class="text-center">
-                        
-                        <td colspan="2"> <div class="badge badge-primary badge-outlined">{{$CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb}} <br> {{$CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor}} </div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{$semanasdel}} <br> &nbsp; </div></td>
-                        
-                        <td><div class="badge badge-primary badge-outlined">Entrega <br> Equipo </div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{date('j - m - Y', strtotime($InternalOrders->date_delivery))}}   <br> &nbsp;</div></td>
-                    </tr>
-                    
-                    <tr class="text-center">
-                        
-                        <td><div class="badge badge-danger badge-outlined">CP: </div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{$CustomerShippingAddresses->customer_shipping_zip_code}} </div></td>
-                    
-                        <td><div class="badge badge-primary badge-outlined">{{$semanasinst}} </div></td>
-                        <td><div class="badge badge-primary badge-outlined">Instalacion </div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{date('j - m - Y', strtotime($InternalOrders->instalation_date))}} </div></td>
-                    </tr>
+                      </tr>
                     </table>
-</body>
+    <br><br><br>
+    <table>
+      <tr>
+      <td> <div class="badge badge-danger badge-outlined">BANCO: </div></td>
+      <td colspan="3"> <div class="badge badge-primary badge-outlined">{{ $Banco->bank_description}} {{$Banco->bank_clue}} </div></td>                
+      </tr>
+      <tr>
+      <td> <div class="badge badge-danger badge-outlined">Factura: </div></td>
+      <td colspan="3"> <div class="badge badge-primary badge-outlined">{{ $Factura->facture}} </div></td>                
+      </tr><tr>
+      <td> <div class="badge badge-danger badge-outlined">Cliente: </div></td>
+      <td colspan="3"> <div class="badge badge-primary badge-outlined">{{ $Customers->customer}} {{$Customers->legal_name}} </div></td>                
+      </tr>
+      <tr>
+      <td> <div class="badge badge-danger badge-outlined">Moneda: </div></td>
+      <td > <div class="badge badge-primary badge-outlined">{{ $Coins->coin}}  </div></td>                
+      <td> <div class="badge badge-danger badge-outlined">T.C: </div></td>
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->tc,2)}}  </div></td>                
+      
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td> <div class="badge badge-danger badge-outlined">Subtotal: </div></td>
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->tc,2)}}  </div></td>                
+      
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td> <div class="badge badge-danger badge-outlined">IVA: </div></td>
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format(0.16 / $Cobro->amount ,2)}}  </div></td>                
+      
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td> <div class="badge badge-danger badge-outlined">Total: </div></td>
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->amount - 0.16 / $Cobro->amount,2)}}  </div></td>                
+      
+      </tr>
+    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        </div>
+
+        @stack('modals')
+
+        <!-- Bootstrap 5.0 Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
+        <!-- DataTables  -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.3.1/jszip-2.5.0/dt-1.10.25/af-2.3.7/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/cr-1.5.4/date-1.1.0/fc-3.3.3/fh-3.1.9/kt-2.6.2/r-2.2.9/rg-1.1.3/rr-1.2.8/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.js"></script>
+
+        <!-- JQuery 3.x -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <!-- CDN Select2 -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- Sweet Alert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js" integrity="sha256-qIEdjJD0ON7AbXQpi7N1CBcZy2AqQNoyWXLMTye8Qbc=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+        @stack('js')
+
+        @if (session('no_existe') == 'ok')
+            <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/no_existe.js') }}"></script>
+        @endif
+
+        @livewireScripts
+
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tableActions.js')}}"></script>
+
+        {{-- CKEditor 5 --}}
+        <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+
+        <script>
+            ClassicEditor
+                .create( document.queryselector('#editor'))
+                .catch( error => {
+                    console.error(error);
+                });
+        </script>
+    </body>
 </html>

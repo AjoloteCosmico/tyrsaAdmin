@@ -54,7 +54,8 @@ Route::group(['middleware' => ['auth']], function()
     //  generar reporte
     Route::get('reporte/{id}/{report}/{pdf}', [ReportsController::class, 'generate'])->name('reports.generate');
     
-
+    Route::get('cobro_pdf/{id}', [ReportsController::class, 'cobro_pdf'])->name('cobro_pdf');
+    
 
 
 
