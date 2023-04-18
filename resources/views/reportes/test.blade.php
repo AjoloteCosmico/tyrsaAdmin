@@ -51,7 +51,108 @@
         @livewireStyles
 
         @stack('css')
-        
+        <style>
+  html { margin: 0px}
+
+    .demo-preview {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: auto;
+  text-align: center;
+  font-family: "Source Sans Pro";
+}
+.demo-preview .badge{
+  margin-right:10px;
+}
+.badge {
+  display: strech;
+  font-size: 20px
+  /* font-weight: 50;
+  padding: 3px 3px;  */
+  border:2px solid transparent;
+  /* min-width: 10px; */
+   line-height: 1; 
+  color: #fff;
+   text-align: center;
+  white-space: nowrap; 
+   vertical-align: middle; 
+  border-radius: 4px;
+   /* padding: 3px; 
+   margin: 1px; */ */
+   width: 100%;
+   padding: 3px;
+  font-family: "Sans-Serif";
+}
+
+.badge.badge-default {
+  background-color: #B0BEC5
+}
+
+.badge.badge-primary {
+  background-color: #2B416D
+}
+
+.badge.badge-secondary {
+  background-color: #323a45
+}
+
+.badge.badge-success {
+  background-color: #64DD17
+}
+
+.badge.badge-warning {
+  background-color: #FFD600
+}
+
+.badge.badge-info {
+  background-color: #29B6F6
+}
+
+.badge.badge-danger {
+  background-color: #9b9b9b;
+  border-color: #9b9b9b;
+}
+
+.badge.badge-outlined {
+  background-color: transparent
+}
+
+.badge.badge-outlined.badge-default {
+  border-color: #B0BEC5;
+  color: #B0BEC5
+}
+
+.badge.badge-outlined.badge-primary {
+  
+  border-color: #9b9b9b;
+  color: #000000
+}
+.badge.badge-outlined.badge-danger {
+border-color: #2B416D;
+background-color: #2B416D;
+  color: #ffffff;
+}
+.badge.badge-outlined.badge-secondary {
+  border-color: #323a45;
+  color: #323a45;
+}
+
+.badge.badge-outlined.badge-success {
+  border-color: #64DD17;
+  color: #64DD17
+}
+
+.badge.badge-outlined.badge-warning {
+  border-color: #FFD600;
+  color: #FFD600
+}
+
+.badge.badge-outlined.badge-info {
+  border-color: #29B6F6;
+  color: #29B6F6
+}
+</style>
+
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -138,21 +239,21 @@
         <td></td>
         <td></td>
         <td> <div class="badge badge-danger badge-outlined">Subtotal: </div></td>
-      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->tc,2)}}  </div></td>                
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format( $Cobro->amount/1.16 ,2)}}  </div></td>                
       
       </tr>
       <tr>
         <td></td>
         <td></td>
         <td> <div class="badge badge-danger badge-outlined">IVA: </div></td>
-      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format(0.16 / $Cobro->amount ,2)}}  </div></td>                
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->amount - ( $Cobro->amount/1.16),2)}}  </div></td>                
       
       </tr>
       <tr>
         <td></td>
         <td></td>
         <td> <div class="badge badge-danger badge-outlined">Total: </div></td>
-      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->amount - 0.16 / $Cobro->amount,2)}}  </div></td>                
+      <td > <div class="badge badge-primary badge-outlined"> {{ $Coins->symbol}} {{ number_format($Cobro->amount,2)}}  </div></td>                
       
       </tr>
     </table>

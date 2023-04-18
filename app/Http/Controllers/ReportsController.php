@@ -148,7 +148,7 @@ class ReportsController extends Controller
                         'Factura'));    
                  
                     $pdf->setPaper('A4', 'landscape');
-                 return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
+                 return $pdf->download('Comprobante_Ingresos'.$Cobro->comp.'.pdf');   
                 //  
      }
      
