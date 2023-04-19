@@ -9,12 +9,14 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\CobrosController;
 use App\Http\Controllers\UlamaController;
+use App\Http\Controllers\PruebaController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('ulama', UlamaController::class);
+Route::resource('prueba', PruebaController::class);
 
 Route::get('/', function () {
     return redirect(route('login'));
