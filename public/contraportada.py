@@ -39,6 +39,7 @@ query = ('SELECT * from historical_payments where order_id = '+str(order_id))
 #pagos historicos, los que fueron programados en un inicio
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
+cobros=pd.read_sql('Select* from cobros where order_id = '+str(order_id),cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
 #Traer facturas
@@ -418,15 +419,15 @@ worksheet.merge_range('M8:N8', '$'+str(hpagos['amount'].sum() -facturas['amount'
 
 #tabla superior por cobrar ¿?
 worksheet.write('P6', "D.A", red_header_format)
-worksheet.merge_range('Q6:R6', '$0.0', red_content)
+worksheet.merge_range('Q6:R6', str(orden['total'].values[0]), red_content)
 worksheet.write('S6', "I/I", red_header_format)
 worksheet.write('T6', moneda['code'].values[0], red_header_format)
 worksheet.write('P7', "COBRADO", red_header_format)
-worksheet.merge_range('Q7:R7', '$0.0', red_content)
+worksheet.merge_range('Q7:R7', '$'+str(cobros['amount'].sum()), red_content)
 worksheet.write('S7', "I/I", red_header_format)
 worksheet.write('T7', moneda['code'].values[0], red_header_format)
 worksheet.write('P8', "POR COBRAR", red_header_format)
-worksheet.merge_range('Q8:R8', '$0.0', red_content)
+worksheet.merge_range('Q8:R8','$'+ str(orden['total'].values[0]-cobros['amount'].sum()), red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 
@@ -466,31 +467,33 @@ worksheet.merge_range('L11:L12', 'FECHA \n DD-MM-AAA', blue_header_format)
 worksheet.merge_range('M11:M12', 'MONEDA', blue_header_format)
 worksheet.merge_range('N11:N12', 'IMPORTE \n IVA INCLUIDO', blue_header_format)
 worksheet.merge_range('O11:O12', '% DEL PAGO PARCIAL', blue_header_format)
-#rellenando la tabla
-for i in range(0,10):
-    worksheet.write('K'+str(13+i), '--', blue_content)
-    worksheet.write('L'+str(13+i), '--', blue_content)
-    worksheet.write('M'+str(13+i), '--', blue_content)
-    worksheet.write('N'+str(13+i), '--', blue_content)
-    worksheet.write('O'+str(13+i), '--', blue_content)
-#Tabla equivalente
+#Tabla equivalente- pero sigue siendo la de comprobante eh
 worksheet.merge_range('P10:P12', 'TIPO DE \n CAMBIO', red_header_format)
 worksheet.merge_range('Q10:R10', 'EQUIVALENTE EN M.N.', red_header_format)
-worksheet.merge_range('Q11:Q12', 'IMPORTE $ \n ACUMULADO', red_header_format)
-worksheet.merge_range('R11:R12', '% DE PAGO \n ACUMULADO', red_header_format)
+worksheet.merge_range('Q11:Q12', 'IMPORTE $  ACUMULADO', red_header_format)
+worksheet.merge_range('R11:R12', '% DE PAGO ACUMULADO', red_header_format)
 worksheet.merge_range('S10:U10', 'VALIDACION DEL COBRO', red_header_format)
 worksheet.merge_range('S11:U11', 'Vo. Bo.', red_header_format)
 worksheet.write('S12', 'CAPTURA', red_header_format)
 worksheet.write('T12', 'G.A.', red_header_format)
 worksheet.write('U12', 'D.A.', red_header_format)
 #rellenando la tabla
-for i in range(0,10):
-    worksheet.write('P'+str(13+i), '--', red_content)
-    worksheet.write('Q'+str(13+i), '--', red_content)
-    worksheet.write('R'+str(13+i), '--', red_content)
-    worksheet.write('S'+str(13+i), '--', red_content)
-    worksheet.write('T'+str(13+i), '--', red_content)
-    worksheet.write('U'+str(13+i), '--', red_content)
+importe_acumulado=0
+porcentaje_acumulado=0
+for i in range(0,len(cobros)):
+    porcentaje_acumulado=porcentaje_acumulado+cobros['amount'].values[i]*100/orden['total'].values[0]
+    importe_acumulado=importe_acumulado+cobros['amount'].values[i]*cobros['tc'].values[i]
+    worksheet.write('K'+str(13+i), str(cobros['comp'].values[i]), blue_content)
+    worksheet.write('L'+str(13+i), str(cobros['date'].values[i]), blue_content)
+    worksheet.write('M'+str(13+i), moneda['code'].values[0], blue_content)
+    worksheet.write('N'+str(13+i), str(cobros['amount'].values[i]), blue_content)
+    worksheet.write('O'+str(13+i), str(cobros['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
+    worksheet.write('P'+str(13+i), str(cobros['tc'].values[i]), red_content)
+    worksheet.write('Q'+str(13+i), str(importe_acumulado), red_content)
+    worksheet.write('R'+str(13+i), str(porcentaje_acumulado)+'%', red_content)
+    worksheet.write('S'+str(13+i), cobros['capturo'].values[i], red_content)
+    worksheet.write('T'+str(13+i), cobros['reviso'].values[i], red_content)
+    worksheet.write('U'+str(13+i), cobros['autorizo'].values[i], red_content)
 
 
 trow=14+max(len(hpagos),len(facturas))
@@ -511,41 +514,27 @@ if(hpagos["percentage"].sum()==100 ):
    worksheet.write('G'+str(trow+2),'Okay' , blue_content)
 
 
-#validaciones facturas
-worksheet.merge_range('H'+str(trow)+':H'+str(trow+2), 'NA', blue_header_format_bold)
 
-worksheet.write('I'+str(trow),'FACTURADO' , blue_content_bold)
-worksheet.write('I'+str(trow+2),'POR FACTURAR' , blue_content)
+#worksheet.merge_range('H'+str(trow)+':H'+str(trow+2), 'NA', blue_header_format_bold)
 
-worksheet.write('J'+str(trow),facturas["amount"].sum() , blue_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), blue_content)
+worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
+worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
+worksheet.write('J'+str(trow),facturas["amount"].sum() , red_content_bold)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), red_content)
 
-# worksheet.write(trow,9,"Totales  ", b3n)
-# worksheet.write(trow+1,9,"Validacion ", b3c)
-# worksheet.write(trow+2,9,"(Debe ser 0)", b3s)
+#valiaciones cobros
+worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
+worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
+worksheet.write('N'+str(trow),cobros["amount"].sum() , blue_content_bold)
+worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
 
-# worksheet.write(trow,10,"$"+str(mac), b4n)
-# worksheet.write(trow+1,10,"$"+str(orden["total"].values[0]-mac),  b4c)
-# worksheet.write(trow+2,10,"okay",  b4s)
-
-# worksheet.write(trow,11,str(hpagos["percentage"].sum())+'%', b4n)
-# worksheet.write(trow+1,11,str(100-hpagos["percentage"].sum())+'%',  b4c)
-# worksheet.write(trow+2,11,"okay",  b4s)
-
-# #calcular equivalente a moneda nacional
+worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write('O'+str(trow+1), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
+worksheet.write('O'+str(trow+2),'OK', blue_content_bold)
 
 
-
-# worksheet.merge_range(trow,12,trow,17, 'Equivalente en moneda nacional incluye IVA', header_format)
-# worksheet.merge_range(trow+1,12,trow+1,13, 'DA',header_format)
-# worksheet.merge_range(trow+1,14,trow+1,15, 'COBRADO',header_format)
-# worksheet.merge_range(trow+1,16,trow+1,17, 'POR COBRAR',header_format)
-# worksheet.merge_range(trow+2,12,trow+2,13,"$"+str(orden["total"].values[0]) ,total_cereza_format)
-# worksheet.merge_range(trow+2,14,trow+2,15, "$0.0",total_cereza_format)
-# worksheet.merge_range(trow+2,16,trow+2,17, '$'+str((orden["total"].values[0])),total_cereza_format)
-
-worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)
+worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)    
 if(orden["observations"].values[0]!=None):
    worksheet.merge_range(trow+5,1,trow+8,18, str(orden["observations"].values[0]), observaciones_format)
 else:    

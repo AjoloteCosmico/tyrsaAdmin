@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::get('cobro_pdf/{id}', [ReportsController::class, 'cobro_pdf'])->name('cobro_pdf');
     
-    Route::get('cobro_pdf/{id}', [ReportsController::class, 'factura_pdf'])->name('factura_pdf');
+    Route::get('factura_pdf/{id}', [ReportsController::class, 'factura_pdf'])->name('factura_pdf');
     
 
 
