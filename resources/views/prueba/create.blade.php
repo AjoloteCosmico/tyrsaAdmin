@@ -54,7 +54,7 @@ $(document).ready(function () {
 $('#resta').change(function(){
 total={{$Cantidades->sum('cant')}} -$(this).val();
 
-document.getElementById('resultado').value=total;
+document.getElementById('resultado').value='$'+String(total.toFixed(2))S;
 console.log(total);
 })
      });

@@ -68,9 +68,14 @@
                         <TH> FECHA DE ENTREGA</TH>
                         </thead>
                         <tbody>
-                            <td>Tonatiuh</td>
-                            <td>Joel</td>
-                            <td>12/4/2023</td>
+                            @foreach($Rotaciones as $r)
+                            <tr>
+                            <td>{{$r->pelota}}</td>
+                            <td>{{$r->jugador}}</td>
+                            <td>{{$r->date}}</td>
+                            </tr>
+                            @endforeach
+                            
                         </tbody>
                     </table>
                     <a href="{{ route('ulama.create')}}" class="btn btn-green">

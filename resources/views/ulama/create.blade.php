@@ -63,21 +63,37 @@
                 <form action="{{ route('ulama.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
                  <div class="form-group">
-                    <x-jet-label value="* Jugador" />
-                    <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                    <x-jet-input-error for='facture' />
+                    <x-jet-label value="* Jugador a quien se entrega" />
+                    <select class="form-capture  w-full text-xs uppercase" name="jugador_id">
+                    <option  > </option>    
+                    @foreach ($Jugadores as $row)
+                            <option value="{{$row->id}}" @if ($row->id == old('jugador_id')) selected @endif > {{$row->clave}} {{$row->name}}</option>
+                        @endforeach
+                    </select>
+                    <x-jet-input-error for='customer_id' />
                 </div>
                 <div class="form-group">
                     <x-jet-label value="* Pelota" />
-                    <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                    <x-jet-input-error for='facture' />
+                    <select class="form-capture  w-full text-xs uppercase" name="pelota_id" >
+                    <option  > </option>    
+                    @foreach ($Pelotas as $row)
+                            <option value="{{$row->id}}" @if ($row->id == old('pelota')) selected @endif > {{$row->clave}} {{$row->name}}</option>
+                        @endforeach
+                    </select>
+                    <x-jet-input-error for='customer_id' />
                 </div>
                 <div class="form-group">
                     <x-jet-label value="* Fecha" />
-                    <x-jet-input type="date" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                    <x-jet-input type="date" name="date" class="form-control  w-full text-xs" value="{{old('date')}}" />
                     <x-jet-input-error for='facture' />
                 </div>
-        
+                <div class="col-12 text-right p-2 gap-2">
+                  <a href="{{ route('ulama.index')}}" class="btn btn-black mb-2">
+                    <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
+                </a>  
+                <button type="submit" class="btn btn-green mb-2">
+                    <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
+                </button>
         </form>
                    
                 </div>

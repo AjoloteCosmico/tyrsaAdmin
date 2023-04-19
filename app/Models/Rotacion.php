@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Rotacion extends Model
 {
     use HasFactory;
+    protected $table = 'Rotaciones';
 }
