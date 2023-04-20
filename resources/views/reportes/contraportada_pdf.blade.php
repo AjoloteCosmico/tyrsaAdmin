@@ -248,7 +248,24 @@ background-color: #2B416D;
                   <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->facture}} </div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$facturas[$i]->date}} </div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($facturas[$i]->amount,2)}} </div></td>
+                    @else
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                    
                     @endif
+                    <!-- datos de cobros -->
+                  @if($i<$facturas->count())
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->comp}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->date}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($cobros[$i]->amount,2)}} </div></td>
+                    @else
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> </div></td>
+                    
+                    @endif
+
                   </tr>
                   
                   @endfor

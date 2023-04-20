@@ -533,6 +533,14 @@ worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].val
 worksheet.write('O'+str(trow+1), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
 worksheet.write('O'+str(trow+2),'OK', blue_content_bold)
 
+worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacional (Iva incluido)', red_header_format_bold)
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),'Cobrado', red_header_format)
+worksheet.merge_range('T'+str(trow+1)+':U'+str(trow+1),'Por cobrar', red_header_format)
+worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+1),str(orden['total'].values[0]), red_content)
+worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+1),str(orden['total'].values[0]), red_content)
+worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+1),str(orden['total'].values[0]),red_content)
+
 
 worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)    
 if(orden["observations"].values[0]!=None):

@@ -28,7 +28,7 @@ class ReportsController extends Controller
        public function generate($id,$report,$pdf)
        {
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id]);
+           $process = new Process(['python',$caminoalpoder.'/'.$report.'.py',$id]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
@@ -70,8 +70,23 @@ class ReportsController extends Controller
     $Coins=Coin::find($InternalOrders->coin_id);
     $hpagos=historical_payments::where('order_id',$InternalOrders->id)->get();
     $facturas=Factures::where('order_id',$InternalOrders->id)->get();
-    $max=max($facturas->count(),$hpagos->count());
+    $cobros=DB::table('cobros')
+    ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
+    ->join('customers', 'internal_orders.customer_id','=','customers.id')
+    ->join('coins', 'internal_orders.coin_id','=','coins.id')
+    ->join('factures', 'cobros.facture_id','=','factures.id')
+    ->join('banks', 'cobros.bank_id','=','banks.bank_id')
+    ->leftjoin('users as capturistas', 'cobros.capturo','=','capturistas.id')
+    ->leftjoin('users as revisores', 'cobros.reviso','=','revisores.id')
+    ->leftjoin('users as autorizadores', 'cobros.autorizo','=','autorizadores.id')
+    ->where('cobros.order_id','=',$InternalOrders->id)
+    ->select('cobros.*','customers.customer','customers.clave', 'coins.coin','coins.symbol', 
+             'internal_orders.invoice','factures.facture','banks.bank_clue',
+             'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
+    // ->orderBy('internal_orders.invoice', 'DESC')
+    ->get();
     
+    $max=max($facturas->count(),$hpagos->count(),$cobros->count());
     $pdf = PDF::loadView('reportes.contraportada_pdf', compact(
            'CompanyProfiles',
            'InternalOrders',
@@ -81,7 +96,8 @@ class ReportsController extends Controller
            'Coins',
            'hpagos',
            'max',
-        'facturas'));    
+        'facturas',
+    'cobros'));    
     
        $pdf->setPaper('A4', 'landscape');
     return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
