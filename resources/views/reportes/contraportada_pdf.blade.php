@@ -26,7 +26,7 @@
 }
 .badge {
   display: strech;
-  font-size: 9px
+  font-size: 7px
   /* font-weight: 50;
   padding: 3px 3px;  */
   border:2px solid transparent;
@@ -331,7 +331,7 @@ background-color: #2B416D;
                     </table>
                     <table>
                       <thead>
-                        <tr style= width:50%;>
+                        <tr style= width:100px;>
                         <th><div class="badge badge-danger badge-outlined"> Observaciones</div></th></tr>
                       </thead>
                       <tbody>
