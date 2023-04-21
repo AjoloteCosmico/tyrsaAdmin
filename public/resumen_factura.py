@@ -250,7 +250,7 @@ trow=8+len(facturas)
 
 worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Total', blue_header_format_bold)
 worksheet.write('K'+str(trow), str(facturas['amount'].sum()), blue_content)
-worksheet.write('L'+str(trow), str(facturas['exchange_sell'].values[i]*facturas['amount'].sum()), blue_content_bold)
+worksheet.write('L'+str(trow), str(facturas['exchange_sell'].values[0]*facturas['amount'].sum()), blue_content_bold)
    
 
 

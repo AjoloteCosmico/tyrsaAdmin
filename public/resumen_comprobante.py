@@ -259,7 +259,7 @@ trow=8+len(cobros)
 
 worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Total', blue_header_format_bold)
 worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
-worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[i]*cobros['amount'].sum()), blue_content_bold)
+worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
    
 
 
