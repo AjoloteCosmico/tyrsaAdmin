@@ -380,9 +380,6 @@ b4s = workbook.add_format({
 #dataframes
 
 df.to_excel(writer, sheet_name='Sheet1', startrow=9,startcol=6, header=False, index=False)
-
-# prog=thisAllPays[["moneda","date","amount","percentage"]]
-#prog.to_excel(writer, sheet_name='Sheet1', startrow=9,startcol=2, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
@@ -530,16 +527,16 @@ worksheet.write('N'+str(trow),cobros["amount"].sum() , blue_content_bold)
 worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
 
 worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+1), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
+worksheet.write('O'+str(trow+1), str(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
 worksheet.write('O'+str(trow+2),'OK', blue_content_bold)
 
 worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacional (Iva incluido)', red_header_format_bold)
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),'Cobrado', red_header_format)
 worksheet.merge_range('T'+str(trow+1)+':U'+str(trow+1),'Por cobrar', red_header_format)
-worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+1),str(orden['total'].values[0]), red_content)
-worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+1),str(orden['total'].values[0]), red_content)
-worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+1),str(orden['total'].values[0]),red_content)
+worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+2),str(orden['total'].values[0]), red_content)
+worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+2),str(orden['total'].values[0]), red_content)
+worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+2),str(orden['total'].values[0]),red_content)
 
 
 worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)    

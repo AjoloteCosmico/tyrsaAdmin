@@ -26,7 +26,7 @@
 }
 .badge {
   display: strech;
-  font-size: 11px
+  font-size: 9px
   /* font-weight: 50;
   padding: 3px 3px;  */
   border:2px solid transparent;
@@ -225,10 +225,13 @@ background-color: #2B416D;
                   
                   
                   </tr>
-             
+                  @php $porcentaje_acumulado=0;
+                       $monto_acumulado=0; @endphp
+
                   @for($i=0;$i<$max;$i++)
                   <tr>
-                    
+                      
+
                   @if($i<$hpagos->count())
                   <td><div class="badge badge-primary badge-outlined">{{$i+1}}</div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$Coins->code}}</div></td>
@@ -255,10 +258,25 @@ background-color: #2B416D;
                     
                     @endif
                     <!-- datos de cobros -->
-                  @if($i<$facturas->count())
+                  @if($i<$cobros->count())
+                  @php 
+                       $monto_acumulado=$porcentaje_acumulado+$cobros[$i]->amount; 
+                       $porcentaje_acumulado=100*$monto_acumulado/$InternalOrders->total;
+                       @endphp
                   <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->comp}} </div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->date}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$Coins->code}}</div></td>
                   <td><div class="badge badge-primary badge-outlined">{{$Coins->symbol}} {{number_format($cobros[$i]->amount,2)}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{number_format($cobros[$i]->amount*100/$InternalOrders->total,2) }} %</div></td>
+                  
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->tc}} </div></td>
+                  <td><div class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($cobros[$i]->tc*$monto_acumulado,2)}}</div></td>
+                  
+                  <td><div class="badge badge-primary badge-outlined">{{number_format($porcentaje_acumulado,2)}}  %</div></td>
+                  
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->capturista}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->revisor}}</div></td>
+                  <td><div class="badge badge-primary badge-outlined">{{$cobros[$i]->autorizador}}</div></td>
                     @else
                   <td><div class="badge badge-primary badge-outlined"> </div></td>
                   <td><div class="badge badge-primary badge-outlined"> </div></td>
@@ -278,20 +296,52 @@ background-color: #2B416D;
                   <td> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Totales</div></td>
                   <td> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($hpagos->sum('amount'),2)}}</div></td>
                   <td> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$hpagos->sum('percentage')}} %</div></td>
-                  </tr>
+                  
+                  <td colspan="2"> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Facturado:</div></td>
+                  <td colspan="2"> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($facturas->sum('amount'),2)}}</div></td>
+                  
+                  <td colspan="2"> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Total <br> Cobrado:</div></td>
+                  <td colspan="2"> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($cobros->sum('amount'),2)}}</div></td>
+                  
+                </tr>
+
                   <tr>
                   <td></td>
                   <td></td>
                   <td> <div class="badge badge-danger badge-outlined"> Debe ser 0</div></td>
                   <td> <div class="badge badge-primary badge-outlined"> $ 0 </div></td>
                   <td> <div class="badge badge-primary badge-outlined">  0% </div></td>
+                  <td colspan="4"></td>
+                  
                   </tr><tr>
+
+
                   <td></td>
                   <td></td>
                   <td> <div class="badge badge-danger badge-outlined"> Validacion</div></td>
                   <td> <div class="badge badge-primary badge-outlined"> OK</div></td>
                   <td> <div class="badge badge-primary badge-outlined"> OK</div></td>
+                 
+                  <td colspan="2"> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Por facturar:</div></td>
+                  <td colspan="2"> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($InternalOrders->total-$facturas->sum('amount'),2)}}</div></td>
+                  <td colspan="2"> <div style="font-size:15px"  class="badge badge-danger badge-outlined"> Total por <br> Cobrar:</div></td>
+                  <td colspan="2"> <div style="font-size:15px" class="badge badge-primary badge-outlined"> {{$Coins->symbol}} {{number_format($InternalOrders->total-$cobros->sum('amount'),2)}}</div></td>
+                  
                   </tr>
+                    </table>
+                    <table>
+                      <thead>
+                        <tr style= width:50%;>
+                        <th><div class="badge badge-danger badge-outlined"> Observaciones</div></th></tr>
+                      </thead>
+                      <tbody>
+                        
+                      </tr>
+                        <tr style= width:60%;>
+                        <td > <div class="badge badge-primary badge-outlined"><div class="com-text">{{$InternalOrders->observations}} </div></div></td>
+                    
+                        </tr>
+                      </tbody>
                     </table>
 
                     </div>

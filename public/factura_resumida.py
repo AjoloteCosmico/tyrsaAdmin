@@ -28,7 +28,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 #Seccion para traer informacion de la base
 query = ('SELECT * from customers where id =1')
 
-query = ('SELECT * from payments')
+
 pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
 order_id=int(id)
@@ -95,6 +95,95 @@ azulito = workbook.add_format({
     'fg_color': '#B4C6E7',
     'font_size':12})
 #FORMATOS PARA CABECERAS DE TABLA --------------------------------
+blue_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+blue_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'font_size':13})
+
+red_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+
+red_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'font_size':13})
+
+blue_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':a_color})
+
+blue_content_bold = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':a_color,
+    'font_size':13})
+yellow_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':'#e8b321'})
+red_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':b_color})
+
+green_content = workbook.add_format({
+    'border': 3,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':12,
+    'border_color':b_color})
+red_content_bold = workbook.add_format({
+    'bold':True,
+    'border': 3,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':13,
+    'border_color':'#80848E'})
+
 header_format = workbook.add_format({
     'bold': True,
     'text_wrap': True,

@@ -52,7 +52,8 @@
             
             <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
-                    <table>
+            <div >
+                    <table class="table text-xs">
                     <th colspan="7">Datos del Cliente</th>
                      </tr>
                     <tr class="text-center">
@@ -168,7 +169,7 @@
                     </tr>
                     </table>
 
-               
+               </div>
                 
                 <br> &nbsp;  
                 <table>
@@ -582,13 +583,17 @@
                     @endif
                     <br><br><br>
                 </div></div>
-                    <!-- <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();">  -->
-                    <a href="{{ route('pedido_pdf', $InternalOrders->id) }} " class="btn btn-red btn-sm">
+                     <!-- <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();">   -->
+                     <button type = "button" class="btn btn-red btn-sm "  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                     
+                     <!-- <a href="{{ route('pedido_pdf', $InternalOrders->id) }} " class="btn btn-red btn-sm">
                      <button type = "button" class="btn btn-red "> <i class="fas fa-file-pdf"> &nbsp; PDF </i> </button>
-                                    </a></td>
-                    <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green btn-sm">
+                                    </a></td> -->
+                                    
+                   <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green btn-sm">
                      <button type = "button" class="btn btn-green "> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                     </a></td>
+
                                     
                     
   
@@ -717,4 +722,5 @@ background-color: #2B416D;
 <script>
     $('#badge').css('height', $('#badge').parent('td').height());
 </script>
+
 @stop

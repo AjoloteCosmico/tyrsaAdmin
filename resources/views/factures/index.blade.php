@@ -13,10 +13,14 @@
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
+            <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
+                    <i class="fa-solid fa-eye"></i>&nbsp; Resumen
+                </a>
                 @can('CREAR PEDIDOS')
                 <a href="{{ route('factures.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
+
                 @endcan
             </div>
             <div class="w-100">&nbsp;</div>
@@ -78,11 +82,7 @@
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-eye"> </i> </button>
                                             </a>
-                                            &nbsp; &nbsp;
-                                        <a href="{{ route('factura_pdf', $f->id)}}">
-                                        <button class="btn btn-red">
-                                                <i class="fa fa-xl fa-file-pdf-o">pdf </i> 
-                                        </button></a></div>
+                                            </div>
                                     
                                 </div>
                             </td>
