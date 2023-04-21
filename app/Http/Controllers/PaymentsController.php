@@ -146,7 +146,9 @@ class PaymentsController extends Controller
     {$InternalOrders =  DB::table('internal_orders')
         ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
-        ->select('internal_orders.*','customers.customer','coins.symbol')
+        ->join('factures','factures.order_id','=','internal_orders.id')
+        ->groupBy('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
+        ->select('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
         ->get();
         return view('reportes.factura_resumida', compact(
             'InternalOrders',  
@@ -184,8 +186,10 @@ class PaymentsController extends Controller
             $Ordenes =  DB::table('internal_orders')
         ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
-        ->select('internal_orders.*','customers.customer','coins.symbol')
-        ->get();
+        ->join('cobros','internal_orders.id','=','cobros.order_id')
+        ->groupBy('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
+        ->select('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
+       ->get();
         
         return view('reportes.comprobante_ingresos', compact(
             'Ordenes',  
