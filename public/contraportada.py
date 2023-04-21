@@ -488,9 +488,9 @@ for i in range(0,len(cobros)):
     worksheet.write('P'+str(13+i), str(cobros['tc'].values[i]), red_content)
     worksheet.write('Q'+str(13+i), str(importe_acumulado), red_content)
     worksheet.write('R'+str(13+i), str(porcentaje_acumulado)+'%', red_content)
-    worksheet.write('S'+str(13+i), cobros['capturo'].values[i], red_content)
-    worksheet.write('T'+str(13+i), cobros['reviso'].values[i], red_content)
-    worksheet.write('U'+str(13+i), cobros['autorizo'].values[i], red_content)
+    worksheet.write('S'+str(13+i), str(cobros['capturo'].values[i]), red_content)
+    worksheet.write('T'+str(13+i), str(cobros['reviso'].values[i]), red_content)
+    worksheet.write('U'+str(13+i), str(cobros['autorizo'].values[i]), red_content)
 
 
 trow=14+max(len(hpagos),len(facturas))
