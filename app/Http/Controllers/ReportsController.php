@@ -27,6 +27,7 @@ class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf)
        {
+        if($pdf==0){
            $caminoalpoder=public_path();
            $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id]);
            $process->run();
@@ -34,7 +35,7 @@ class ReportsController extends Controller
                throw new ProcessFailedException($process);
            }
            $data = $process->getOutput();
-           if($pdf==0){
+           
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
            }else{
 

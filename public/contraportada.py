@@ -157,7 +157,8 @@ blue_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':a_color})
+    'border_color':a_color,
+    'num_format': '#,###'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -167,7 +168,8 @@ blue_content_bold = workbook.add_format({
     'font_color': 'black',
     'font_size':12,
     'border_color':a_color,
-    'font_size':13})
+    'font_size':13,
+    'num_format': '#,###'})
 yellow_content = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -181,7 +183,8 @@ red_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':12,
-    'border_color':b_color})
+    'border_color':b_color,
+    'num_format': '#,###'})
 
 green_content = workbook.add_format({
     'border': 3,
@@ -197,7 +200,8 @@ red_content_bold = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     'font_size':13,
-    'border_color':'#80848E'})
+    'border_color':'#80848E',
+    'num_format': '#,###'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
