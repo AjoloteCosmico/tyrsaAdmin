@@ -38,8 +38,8 @@ class ReportsController extends Controller
            if($pdf==0){
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
            }else{
-            //$process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}'".$caminoalpoder."/storage/report/".$report.$id.".xlsx --outdir ".$caminoalpoder."/storage/report"]);
-            $process = new Process([" "]);
+            $process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' ".$report.$id.".xlsx "]);
+            $process->setWorkingDirectory($caminoalpoder.'/storage/report/');
             
             $process->run();
             if (!$process->isSuccessful()) {
