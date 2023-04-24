@@ -27,7 +27,7 @@ class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf)
        {
-        if($pdf==0){
+        
            $caminoalpoder=public_path();
            $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id]);
            $process->run();
@@ -35,17 +35,24 @@ class ReportsController extends Controller
                throw new ProcessFailedException($process);
            }
            $data = $process->getOutput();
-           
+           if($pdf==0){
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
            }else{
-
-              switch($report) {
-              case('contraportada'):
-               return $this->contraportada_pdf($id);
-               break;
-               default:
-               $msg="no report";
-           }
+            $process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' public/storage/report/".$report.".xlsx --outdir public/storage/report"]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+            $data = $process->getOutput();
+            return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
+          
+        //       switch($report) {
+        //       case('contraportada'):
+        //        return $this->contraportada_pdf($id);
+        //        break;
+        //        default:
+        //        $msg="no report";
+        //    }
        }}
     
        public function contraportada()
