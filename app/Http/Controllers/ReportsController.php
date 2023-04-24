@@ -195,8 +195,8 @@ class ReportsController extends Controller
     //  
 }
      
-  public function prueba(){
-    return response()->download(public_path('storage/report/contraportada24.pdf'));
+  public function prueba($name){
+    return response()->download(public_path('storage/report/'.$name));
            
   }
 }
