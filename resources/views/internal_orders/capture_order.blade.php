@@ -97,6 +97,10 @@
                                             <option value="33">33 PAGOS</option>
                                             <option value="34">34 PAGOS</option>
                                             <option value="35">35 PAGOS</option>
+                                            
+                                            <option value="36">36 PAGOS</option>
+                                            
+                                            <option value="37">37 PAGOS</option>
                                         </select>
                                         <x-jet-input-error for='payment_conditions' />
                                     </div>

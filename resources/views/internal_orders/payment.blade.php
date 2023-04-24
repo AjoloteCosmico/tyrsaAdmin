@@ -94,7 +94,7 @@
     <tr>
         <td>{{'PAGO '.$aux_count}}</td>
         <td> <input type='number' min='0' max='100' step='1'  style='width: 70%;' name="{{'porcentaje['.$aux_count.']'}}"  id="{{'P'.$aux_count}}">%</td>
-        <td>{{$Coins -> symbol}} <input type='number' min='0' step='any' max='{{number_format( $InternalOrders->total,2)}}' id="{{'R'.$aux_count}}" style='width: 70%;' disabled></td>
+        <td>{{$Coins -> symbol}} <input type='number' min='0' step='any' max='{{number_format( $InternalOrders->total,2)}}' id="{{'R'.$aux_count}}" style='width: 70%;' ></td>
         @if($i==1)
         
     <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}" value="{{$emision->format('Y-m-d');}}"></td>
