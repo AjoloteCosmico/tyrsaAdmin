@@ -729,11 +729,11 @@ class InternalOrderController extends Controller
         
             $ultimo=$payments->last();
             $ultimo->percentage=$ultimo->percentage+$diferencia;
-            $ultimo->amount=$InternalOrders->total*$ultimo->percentage;
+            $ultimo->amount=$InternalOrders->total*$ultimo->percentage*0.01;
             $ultimo->save();
             $ultimo=$hpayments->last();
             $ultimo->percentage=$ultimo->percentage+$diferencia;
-            $ultimo->amount=$InternalOrders->total*$ultimo->percentage;
+            $ultimo->amount=$InternalOrders->total*$ultimo->percentage*0.01;
             $ultimo->save();
         
         
