@@ -10,6 +10,7 @@ use App\Http\Controllers\FactureController;
 use App\Http\Controllers\CobrosController;
 use App\Http\Controllers\UlamaController;
 use App\Http\Controllers\PruebaController;
+use App\Http\Controllers\NotasCreditoController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -38,6 +39,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('factures', FactureController::class);
     Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
     Route::resource('cobros', CobrosController::class);
+    Route::resource('notas_credito', NotasCreditoController::class);
+   
    
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');
     Route::get('cobros/autorizar/{id}', [CobrosController::class, 'autorizar'])->name('cobros.autorizar');

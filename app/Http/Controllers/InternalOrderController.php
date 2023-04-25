@@ -741,7 +741,7 @@ class InternalOrderController extends Controller
             //'CompanyProfiles','InternalOrders','Customers','Sellers','CustomerShippingAddresses','Coins',
             //'Items','Authorizations','Subtotal','actualized','nRows','payments',
             //'hpayments','abonos',));
-            return $this->show($InternalOrders->id);
+            return redirect('internal_orders/'.$InternalOrders->id);
     }
 
     public function pay_redefine(Request $request)
