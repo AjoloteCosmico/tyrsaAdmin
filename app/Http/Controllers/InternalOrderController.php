@@ -723,6 +723,20 @@ class InternalOrderController extends Controller
         $payments = payments::where('order_id', $request->order_id)->get();
         $abonos = payments ::where('status','pagado')->where('order_id', $request->order_id)->get();
         $hpayments = historical_payments::where('order_id', $request->order_id)->get();
+        
+        $diferencia=100-$payments->sum('percentage');
+
+        
+            $ultimo=$payments->last();
+            $ultimo->percentage=$ultimo->percentage+$diferencia;
+            $ultimo->amount=$InternalOrders->total*$ultimo->percentage;
+            $ultimo->save();
+            $ultimo=$hpayments->last();
+            $ultimo->percentage=$ultimo->percentage+$diferencia;
+            $ultimo->amount=$InternalOrders->total*$ultimo->percentage;
+            $ultimo->save();
+        
+        
         //return view('internal_orders.store_payment', compact(
             //'CompanyProfiles','InternalOrders','Customers','Sellers','CustomerShippingAddresses','Coins',
             //'Items','Authorizations','Subtotal','actualized','nRows','payments',

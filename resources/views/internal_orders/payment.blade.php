@@ -109,11 +109,18 @@
 
       @endfor
     <tr >
-    <th scope="row">TOTAL: </th>
-      
-      <td> Subtotal: {{$Coins -> symbol}} {{ number_format($Subtotal,2)}}</td>
-      <td> Iva: {{$Coins -> symbol}} {{number_format( $Subtotal*0.16,2)}}</td>
-      <td> Total: {{$Coins -> symbol}} {{number_format( $InternalOrders->total,2)}}</td>
+    <th rowspan="3" scope="row">TOTALES: </th>  
+    <td> Subtotal: {{$Coins -> symbol}} {{ number_format($Subtotal,2)}}</td>
+    <td> SUMA:</td>
+    </tr>
+    <tr>
+    <td> Iva: {{$Coins -> symbol}} {{number_format( $Subtotal*0.16,2)}}</td>
+    <td id="monitor">
+    </td>
+    </tr>
+    <tr>
+    <td> Total: {{$Coins -> symbol}} {{number_format( $InternalOrders->total,2)}}</td>
+    
     </tr>
     
     </tbody>
@@ -127,6 +134,11 @@
       
   
     <br>
+    <button   type="button" class="btn btn-blue mb-2"  onclick="redondear()">
+                <i class="fa-regular fa-circle fa-2x" ></i>
+                         &nbsp; &nbsp;
+                <p>Redondear</p></button>
+ 
     <br><br>
 
     <button   type="button" class="btn btn-green mb-2"  onclick="guardar()">
@@ -156,19 +168,56 @@
 @if ($actualized == 'NO')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_incorrect.js') }}"></script>
 @endif
+
+<script>
+  function actualizarTotal(){
+    var npagos=parseInt("{{$npagos}}");
+    var total = 0;
+    for (var i = 1; i <= npagos; i++) {
+      valor=document.getElementById("P"+i).value;
+      if( parseFloat(valor)>0){
+      total=total+ parseFloat(valor);}
+    }
+document.getElementById("monitor").innerHTML=String(parseFloat(total))+'%';
+  }
+</script>
+
 @for ($i = 1; $i <= $npagos; $i++)
 <script>
  document.getElementById("{{'R'.$i}}").addEventListener("input", function(){
   total = parseFloat(document.getElementById('total').value);
     document.getElementById("{{'P'.$i}}").value = (this.value/total)*100;
+    actualizarTotal();
     }); 
     
      document.getElementById("{{'P'.$i}}").addEventListener("input", function(){
       total = parseFloat(document.getElementById('total').value);
       document.getElementById("{{'R'.$i}}").value = parseFloat(this.value*total*0.01).toFixed(2);
+      actualizarTotal();
     });
 </script>
 @endfor
+
+<script>
+  function redondear(){
+    var npagos=parseInt("{{$npagos}}");
+    var total = 0;
+    for (var i = 1; i <= npagos; i++) {
+      valor=document.getElementById("P"+i).value;
+      if( parseFloat(valor)>0){
+      total=total+ parseFloat(valor);}
+    }
+    var diferencia=100-total;
+    ultimo=document.getElementById("P"+"{{$npagos}}").value;
+    console.log(parseFloat(ultimo)+diferencia);
+    if(parseFloat(ultimo)+diferencia<0){
+      
+      alert("No se peude redondear, acerquese mas al 100%");
+    }else{
+    document.getElementById("P"+"{{$npagos}}").value=parseFloat(ultimo)+parseFloat(diferencia);
+    actualizarTotal();}
+  }
+</script>
 
 <script>
     function guardar() {
@@ -202,7 +251,7 @@
       }
       }
       console.log(total);
-      if (total != 100) {
+      if (total >=101||total<=99) {
       alert("Los porcentajes no suman 100%");
       error=1;
       
