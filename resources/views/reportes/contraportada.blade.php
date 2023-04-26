@@ -21,6 +21,7 @@
     <tr>
       <th scope="col">Cliente</th>
       <th > Pedido</th>
+      <th>fecha</th>
       <th scope="col">Cantidad</th>
       <th scope="col">---</th>
       <th scope="col">---</th>
@@ -34,7 +35,7 @@
                                 <td> <p>{{ $row->customer }}</p></td>
                                 
                                 <td> {{ $row->invoice }}</td>
-                                
+                                <td>{{date('d-m-Y', strtotime($row->date)) }}</td>
                                 <td>{{$row->symbol}} {{ number_format($row->total)}} </td>
                                
                                 <td>
