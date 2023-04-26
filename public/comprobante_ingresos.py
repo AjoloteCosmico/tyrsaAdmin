@@ -301,7 +301,9 @@ worksheet.write(trow, 10, cobros["amount"].sum(),header_format_green)
 worksheet.write(trow, 11, total_mn,header_format)
      
 worksheet.conditional_format(xlsxwriter.utility.xl_range(7, 2, 6+len(cobros), 14), {'type': 'no_errors', 'format': tabla_normal})
-
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
 
 #""" import excel2img"""  """

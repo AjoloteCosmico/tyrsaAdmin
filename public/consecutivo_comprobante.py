@@ -299,7 +299,9 @@ trow=8+len(cobros)
 worksheet.merge_range(trow,12,trow,13 ,'Total sin iva', blue_header_format)
 worksheet.write(trow, 14, cobros["amount"].sum(),blue_header_format_bold)
 worksheet.write(trow, 15, acum,blue_header_format)
-     
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)       
 workbook.close()
 
 

@@ -266,4 +266,7 @@ worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amo
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
