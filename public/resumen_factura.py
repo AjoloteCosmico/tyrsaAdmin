@@ -241,7 +241,6 @@ for i in range(0,len(facturas)):
    worksheet.write('J'+row_index, str(facturas['exchange_sell'].values[i]), blue_content)
    worksheet.write('K'+row_index, str(facturas['amount'].values[i]), blue_content)
    worksheet.write('L'+row_index, str(facturas['exchange_sell'].values[i]*facturas['amount'].values[i]), blue_content)
-   
    worksheet.write('M'+row_index, ' ', blue_content)
    worksheet.write('N'+row_index, ' ', blue_content)
    worksheet.write('O'+row_index, ' ', blue_content)

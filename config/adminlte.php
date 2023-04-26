@@ -366,19 +366,20 @@ return [
             'can' => 'VER CUENTAS X COBRAR',
         ],
         [
-            'text' => 'COBROS',
-            'icon' => 'fa fa-money ',
-            'url' => 'cobros',
-            'route'  => 'cobros',
-            'can' => 'VER CUENTAS X COBRAR',
-        ],
-        [
             'text' => 'NOTAS DE CREDITO ',
             'icon' => 'fas fa-file ',
             'url' => 'notas_credito',
             'route'  => 'notas_credito',
             'can' => 'VER CUENTAS X COBRAR',
         ],
+        [
+            'text' => 'COBROS',
+            'icon' => 'fa fa-money ',
+            'url' => 'cobros',
+            'route'  => 'cobros',
+            'can' => 'VER CUENTAS X COBRAR',
+        ],
+       
         
         // [
         //     'text' => 'CUENTAS COBRADAS',
