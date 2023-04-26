@@ -64,7 +64,7 @@ class ReportsController extends Controller
            ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
            ->join('coins', 'internal_orders.coin_id','=','coins.id')
            ->select('internal_orders.*','customers.customer','coins.symbol')
-           ->orderBy('internal_orders.created_at')
+           ->orderBy('internal_orders.reg_date','desc')
            ->get();
            return view('reportes.contraportada', compact(
                'InternalOrders',
