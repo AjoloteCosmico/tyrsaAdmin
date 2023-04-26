@@ -31,10 +31,10 @@
   <tbody>
   @foreach ($InternalOrders as $row)
                             <tr class="text-center">
-                            
+                            <td> {{ $row->invoice }}</td>
                                 <td> <p>{{ $row->customer }}</p></td>
                                 
-                                <td> {{ $row->invoice }}</td>
+                                
                                 <td>{{date('d-m-Y', strtotime($row->date)) }}</td>
                                 <td>{{$row->symbol}} {{ number_format($row->total)}} </td>
                                
