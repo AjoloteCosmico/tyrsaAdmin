@@ -4,7 +4,98 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\CreditNote;
+
+use App\Models\InternalOrder;
+use App\Models\payments;
+use App\Models\Customer;
+use App\Models\CompanyProfile;
+use App\Models\CustomerShippingAddress;
+use App\Models\Coin;
+use App\Models\historical_payments;
+use App\Models\Factures;
+use App\Models\Seller;
+use App\Models\Cobro;
+
+
+use App\Models\bank;
+use App\Http\Requests\StorepaymentsRequest;
+use App\Http\Requests\UpdatepaymentsRequest;
+use SplFileInfo;
+use Illuminate\Support\Facades\Storage;
+use DB;
+use PDF;
+use Symfony\Component\Process\Process; 
+use Symfony\Component\Process\Exception\ProcessFailedException; 
+use Illuminate\Support\Facades\Auth;
+
 class NotasCreditoController extends Controller
 {
-    //
+    public function index(){
+    $Notas=DB::table('credit_notes')
+    ->join('customers', 'credit_notes.customer_id','=','customers.id')
+    ->join('factures', 'credit_notes.facture_id','=','factures.id')
+    
+    ->select('credit_notes.*','customers.customer','customers.clave',  
+             'factures.facture')
+    // ->orderBy('internal_orders.invoice', 'DESC')
+    ->get();
+    return view('credit_notes.index',compact('Notas'));
+
+    }
+    public function create(){
+        //traer todas las facturas
+                $Bancos=bank::all();
+                $Coins=Coin::all();
+                $Factures=Factures::all();
+                $Customers=Customer::orderby('clave')->get();
+                $InternalOrders=InternalOrder::all();
+                return view('credit_notes.create',compact(
+                'Coins',
+                'Bancos',
+                'Customers',
+                'InternalOrders',
+                'Factures'
+                ));
+            }
+        
+            public function store(Request $request){
+               
+                
+
+                $rules = [
+                        'customer_id' => 'required',
+                        'date' => 'required',
+                        'facture_id'=> 'required',
+                        'amount' => 'required',
+                    ];
+                
+                    $messages = [
+                        'customer_id.required' => 'Seleccione un cliente',
+                        'date.required' => 'La fecha  es necesaria',
+                        'amount.required' => 'Indique una cantidad valida',
+                        'facture_id.required' => 'Seleccione una factura',
+                
+                        // 'seller_id.required' => 'Elija un vendedor',
+                        // 'comision.required' => 'Determine una comision para el vendedor',
+                    ];
+                
+                $request->validate($rules, $messages);
+                $Nota=new CreditNote();
+                $Nota->customer_id=$request->customer_id;
+                $Nota->amount=$request->amount;
+                $Nota->facture_id=$request->facture_id;
+                $Nota->date=$request->date;
+                $Nota->status='CAPTURADA';
+                $Nota->save();
+
+    
+                return redirect('credit_notes');
+                }
+        public function destroy($id){
+
+            CreditNote::destroy($id);
+            return redirect('credit_notes');
+        }
+
 }

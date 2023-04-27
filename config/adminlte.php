@@ -368,8 +368,8 @@ return [
         [
             'text' => 'NOTAS DE CREDITO ',
             'icon' => 'fas fa-file ',
-            'url' => 'notas_credito',
-            'route'  => 'notas_credito',
+            'url' => 'credit_notes',
+            'route'  => 'credit_notes',
             'can' => 'VER CUENTAS X COBRAR',
         ],
         [

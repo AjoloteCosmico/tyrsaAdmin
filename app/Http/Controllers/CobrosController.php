@@ -71,12 +71,36 @@ class CobrosController extends Controller
 
 
             public function store(Request $request){
-                $verifycomp=Cobro::where('comp',$request->comp)->get();
+               
                 
-                if($verifycomp->first()){
-                  
-                return $this->index();
-                }else{
+
+                $rules = [
+                        'order_id' => 'required',
+                        'date' => 'required',
+                        'comp'=> 'required',
+                        'facture_id'=> 'required',
+                        'bank_id'=> 'required',
+                        'coin_id'=> 'required',
+                        'tc' => 'required',
+                        'amount' => 'required',
+                        'comp_file' => 'required',
+                        // 'seller_id' => 'required',
+                        // 'comision' => 'required',
+                    ];
+                
+                    $messages = [
+                        'order_id.required' => 'Seleccione un pedido',
+                        'date.required' => 'La fecha  es necesaria',
+                        'coin_id.required' => 'El tipo de Moneda es necesario',
+                        'bank_id.required' => 'Seleccione una factura valida',
+                        'tc.required' => 'Indique el tipo de cambio',
+                        'amount.required' => 'Indique una cantidad valida',
+                        'comp_file.required' => 'agregue el comprobante',
+                        // 'seller_id.required' => 'Elija un vendedor',
+                        // 'comision.required' => 'Determine una comision para el vendedor',
+                    ];
+                
+                $request->validate($rules, $messages);
                 $Cobro=new Cobro();
                 $Cobro->order_id=$request->order_id;
                 $Cobro->amount=$request->amount;
@@ -93,7 +117,7 @@ class CobrosController extends Controller
                 
 
     
-                return $this->index();}
+                return redirect('cobros');
                 }
 
 
