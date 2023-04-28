@@ -32,10 +32,12 @@ class FactureController extends Controller
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
+                $Coins=Coin::all();
                 return view('factures.create',compact(
                 'Factures',
                 'Customers',
-                'InternalOrders'
+                'InternalOrders',
+                'Coins'
                 ));
             }
     public function store(Request $request){
@@ -47,7 +49,9 @@ class FactureController extends Controller
                 $Facture->status='CAPTURA';
                 $Facture->npagos=$request->npagos;
                 $Facture->facture=$request->facture;
-                $Facture->date=now();
+                $Facture->coin_id=$request->coin_id;
+                $Facture->tc=$request->tc;
+                $Facture->date=$request->date;
                 $Facture->save();
                 // $Facture->customer_id=$request->customer_id;
                 

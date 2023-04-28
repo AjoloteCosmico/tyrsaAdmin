@@ -43,6 +43,11 @@
                                         <x-jet-input-error for='order_id' />
                                     </div>
                                     <div class="form-group">
+                                        <x-jet-label value="Fecha de la factura" />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control  text-xs" value=""  />
+                                        <x-jet-input-error for='date' />
+                                    </div>
+                                    <div class="form-group">
                                         <x-jet-label value="TOTAL DE PAGOS" />
                                         <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" disabled />
                                         <x-jet-input-error for='tpagos' />
@@ -52,6 +57,21 @@
                                         <select class="form-capture  w-full text-xs uppercase" name="ordinal" id="ordinal" class="form-control just-number price-format-input w-full text-xs" value="{{old('unit_price')}}"/>
                                         </select>
                                         <x-jet-input-error for='ordinal' />
+                                    </div>
+                                    <div class="form-group">
+                                        <x-jet-label value="* Moneda" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="coin_id" id='coin_id'>
+                                        <option  > </option>    
+                                        @foreach ($Coins as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('coin_id')) selected @endif > {{$row->coin}} {{$row->customer}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='coin_id' />
+                                    </div>
+                                    <div class="form-group">
+                                        <x-jet-label value=" TIPO DE CAMBIO" />
+                                        <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
+                                        <x-jet-input-error for='tc' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
@@ -249,6 +269,30 @@ for(index in example_array) {
 </script>
 
 
+<script>
+  
+$(document).ready(function () {     
+$('#coin_id').change(function(){
+    
+var seleccionado = $(this).val();
+console.log('entrando a la funcion de num pagos');
+console.log(seleccionado);
+@foreach($Coins as $coin)
+if(seleccionado=='{{$coin->id}}'){
+    
+document.getElementById('tc').value={{$coin->exchange_sell}};
+}
+    
+
+   
+  
+@endforeach
+
+
+})
+     });
+  
+</script>
 
 <script>
     document.getElementById("import").addEventListener("input", function(){
