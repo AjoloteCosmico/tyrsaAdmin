@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+
+tipo=str(sys.argv[2])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -32,13 +34,15 @@ query = ('SELECT * from customers where id =1')
 
 
 #traer todas las facturas
-facturas=pd.read_sql('Select factures.* ,customers.customer,internal_orders.invoice, coins.exchange_sell, coins.coin, coins.symbol from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join coins on internal_orders.coin_id = coins.id',cnx)
+facturas=pd.read_sql('Select factures.* ,customers.customer ,customers.id as customer_id,internal_orders.invoice, internal_orders.payment_conditions,coins.exchange_sell, coins.coin, coins.symbol from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join coins on internal_orders.coin_id = coins.id',cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=facturas[['date']]
 print(facturas.columns)
 writer = pd.ExcelWriter('storage/report/resumen_factura'+str(id)+'.xlsx', engine='xlsxwriter')
-if(int(id)!=0):
+if((int(id)!=0)&(int(tipo)==0)):
    facturas=facturas.loc[facturas['order_id']==int(id)]
+if((int(id)!=0)&(int(tipo)==1)):
+   facturas=facturas.loc[facturas['customer_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -214,48 +218,54 @@ worksheet.merge_range('H4:R4', 'Control de Facturas', rojo_b)
 
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
-worksheet.merge_range('E6:E7', 'BANCO', blue_header_format)
-worksheet.merge_range('F6:F7', 'FACTURA', blue_header_format)
-worksheet.merge_range('G6:G7', 'PI', blue_header_format)
-worksheet.merge_range('H6:H7', 'CLIENTE', blue_header_format)
-worksheet.merge_range('I6:I7', 'MONEDA', blue_header_format)
-worksheet.merge_range('J6:J7', 'TC', blue_header_format)
 
-worksheet.merge_range('K6:L6', 'IMPORTE TOTAL I/I', blue_header_format)
-worksheet.write('K7', 'DLLS', blue_header_format)
-worksheet.write('L7', 'MN', blue_header_format)
+worksheet.merge_range('E6:F6', 'PAGOS', blue_header_format)
+worksheet.write('E7', 'PROGRAMADO', blue_header_format)
+worksheet.write('F7', 'REAL', blue_header_format)
 
-worksheet.merge_range('M6:M7', 'CAPTURO ', blue_header_format)
-worksheet.merge_range('N6:N7', 'REVISO ', blue_header_format)
-worksheet.merge_range('O6:O7', 'AUTORIZO', blue_header_format)
+worksheet.merge_range('G6:G7', 'BANCO', blue_header_format)
+worksheet.merge_range('H6:H7', 'FACTURA', blue_header_format)
+worksheet.merge_range('I6:I7', 'PI', blue_header_format)
+worksheet.merge_range('J6:J7', 'CLIENTE', blue_header_format)
+worksheet.merge_range('K6:K7', 'MONEDA', blue_header_format)
+worksheet.merge_range('L6:L7', 'TC', blue_header_format)
+
+worksheet.merge_range('M6:N6', 'IMPORTE TOTAL I/I', blue_header_format)
+worksheet.write('M7', 'DLLS', blue_header_format)
+worksheet.write('N7', 'MN', blue_header_format)
+
+worksheet.merge_range('O6:O7', 'CAPTURO ', blue_header_format)
+worksheet.merge_range('P6:P7', 'REVISO ', blue_header_format)
+worksheet.merge_range('Q6:Q7', 'AUTORIZO', blue_header_format)
 
 for i in range(0,len(facturas)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
    worksheet.write('D'+row_index, str(facturas['date'].values[i]), blue_content)
-   worksheet.write('E'+row_index, ' ', blue_content)
-   worksheet.write('F'+row_index, str(facturas['facture'].values[i]), blue_content)
-   worksheet.write('G'+row_index, str(facturas['invoice'].values[i]), blue_content)
-   worksheet.write('H'+row_index, str(facturas['customer'].values[i]), blue_content)
-   worksheet.write('I'+row_index, str(facturas['coin'].values[i]), blue_content)
-   worksheet.write('J'+row_index, str(facturas['exchange_sell'].values[i]), blue_content)
-   worksheet.write('K'+row_index, str(facturas['amount'].values[i]), blue_content)
-   worksheet.write('L'+row_index, str(facturas['exchange_sell'].values[i]*facturas['amount'].values[i]), blue_content)
-   worksheet.write('M'+row_index, ' ', blue_content)
-   worksheet.write('N'+row_index, ' ', blue_content)
+   worksheet.write('E'+row_index, str(facturas['payment_conditions'].values[i]), blue_content)
+   worksheet.write('F'+row_index, str(facturas['payment_conditions'].values[i]), blue_content)
+   worksheet.write('G'+row_index, ' ', blue_content)
+   worksheet.write('H'+row_index, str(facturas['facture'].values[i]), blue_content)
+   worksheet.write('I'+row_index, str(facturas['invoice'].values[i]), blue_content)
+   worksheet.write('J'+row_index, str(facturas['customer'].values[i]), blue_content)
+   worksheet.write('K'+row_index, str(facturas['coin'].values[i]), blue_content)
+   worksheet.write('L'+row_index, str(facturas['exchange_sell'].values[i]), blue_content)
+   worksheet.write('M'+row_index, str(facturas['amount'].values[i]), blue_content)
+   worksheet.write('N'+row_index, str(facturas['exchange_sell'].values[i]*facturas['amount'].values[i]), blue_content)
    worksheet.write('O'+row_index, ' ', blue_content)
+   worksheet.write('P'+row_index, ' ', blue_content)
+   worksheet.write('Q'+row_index, ' ', blue_content)
  
 trow=8+len(facturas)
 
-worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Total', blue_header_format_bold)
-worksheet.write('K'+str(trow), str(facturas['amount'].sum()), blue_content)
-worksheet.write('L'+str(trow), str(facturas['exchange_sell'].values[0]*facturas['amount'].sum()), blue_content_bold)
+worksheet.merge_range('K'+str(trow)+':L'+str(trow), 'Total', blue_header_format_bold)
+worksheet.write('M'+str(trow), str(facturas['amount'].sum()), blue_content)
+worksheet.write('N'+str(trow), str(facturas['exchange_sell'].values[0]*facturas['amount'].sum()), blue_content_bold)
    
 
 
-worksheet.set_column('L:L',15)
-worksheet.set_column('H:H',15)
-worksheet.set_column('P:P',15)
+worksheet.set_column('N:N',15)
+worksheet.set_column('J:J',15)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  

@@ -48,6 +48,11 @@
                                         <x-jet-input-error for='date' />
                                     </div>
                                     <div class="form-group">
+                                        <x-jet-label value="* NOTA DE CREDITO" />
+                                        <x-jet-input type="text"  name="credit_note"  class="form-control  w-full text-xs" value="{{old('credit_note')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input-error for='credit_note' />
+                                    </div>
+                                    <div class="form-group">
                                         <x-jet-label value="* Factura" />
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
                                         <option  > </option>    

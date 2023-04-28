@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('reportes/consecutivo_comprobante', [PaymentsController::class, 'consecutivo_comprobante'])->name('reportes.consecutivo_comprobante');
     Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
     //  generar reporte
-    Route::get('reporte/{id}/{report}/{pdf}', [ReportsController::class, 'generate'])->name('reports.generate');
+    Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');
     
     Route::get('cobro_pdf/{id}', [ReportsController::class, 'cobro_pdf'])->name('cobro_pdf');
     

@@ -65,6 +65,7 @@ class NotasCreditoController extends Controller
 
                 $rules = [
                         'customer_id' => 'required',
+                        'credit_note' => 'required',
                         'date' => 'required',
                         'facture_id'=> 'required',
                         'amount' => 'required',
@@ -73,6 +74,7 @@ class NotasCreditoController extends Controller
                     $messages = [
                         'customer_id.required' => 'Seleccione un cliente',
                         'date.required' => 'La fecha  es necesaria',
+                        'credit_note.required' => 'Ingrese una clave para la nota de credito',
                         'amount.required' => 'Indique una cantidad valida',
                         'facture_id.required' => 'Seleccione una factura',
                 
@@ -86,6 +88,7 @@ class NotasCreditoController extends Controller
                 $Nota->amount=$request->amount;
                 $Nota->facture_id=$request->facture_id;
                 $Nota->date=$request->date;
+                $Nota->credit_note=$request->credit_note;
                 $Nota->status='CAPTURADA';
                 $Nota->save();
 

@@ -151,8 +151,14 @@ class PaymentsController extends Controller
         ->groupBy('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
         ->select('internal_orders.id','internal_orders.invoice','internal_orders.total','customers.customer','coins.symbol')
         ->get();
+    $Customers= DB::table('customers')
+        ->rightjoin('internal_orders','internal_orders.customer_id','=','customers.id')
+        ->select('customers.id','customers.clave','customers.customer')
+        ->groupBy('customers.id','customers.clave','customers.customer')
+        ->get();
         return view('reportes.factura_resumida', compact(
             'InternalOrders',  
+            'Customers',
         ));
     }
     public function factura_resumidaPDF($id)

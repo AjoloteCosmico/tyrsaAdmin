@@ -25,11 +25,11 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Facades\Auth;
 class ReportsController extends Controller
 {
-       public function generate($id,$report,$pdf)
+       public function generate($id,$report,$pdf,$tipo=0)
        {
         
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id]);
+           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);

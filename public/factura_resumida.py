@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+tipo=str(sys.argv[2])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
