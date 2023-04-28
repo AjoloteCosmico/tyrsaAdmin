@@ -153,6 +153,7 @@ class PaymentsController extends Controller
         ->get();
     $Customers= DB::table('customers')
         ->rightjoin('internal_orders','internal_orders.customer_id','=','customers.id')
+        ->join('factures','factures.order_id','=','internal_orders.id')
         ->select('customers.id','customers.clave','customers.customer')
         ->groupBy('customers.id','customers.clave','customers.customer')
         ->get();
