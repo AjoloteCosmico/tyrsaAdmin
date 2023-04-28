@@ -58,7 +58,7 @@
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
                                         <option  > </option>    
                                         @foreach ($Factures as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('facture')) selected @endif >  {{$row->facture}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == old('facture_id')) selected @endif >  {{$row->facture}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='facture_id' />
@@ -85,23 +85,23 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" TIPO DE CAMBIO" />
-                                        <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
+                                        <x-jet-input type="number" step="any" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
+                                        <x-jet-input type="number" step="any" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
+                                        <x-jet-input type="number" step="any" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('import')}}"/>
-                                        <x-jet-input-error for='unit_price' />
+                                        <x-jet-input type="number" min="0" step="any" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('import')}}"/>
+                                        <x-jet-input-error for='amount' />
                                     </div>
 
                                     <br>
@@ -110,6 +110,7 @@
                                     Ingresa su comprobante
                                     <br>
                                     <input type="file" name="comp_file" id="comp_file">
+                                    <x-jet-input-error for='comp_file' />
                                     <br><br>
 
                         </div>

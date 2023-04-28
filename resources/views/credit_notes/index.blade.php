@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'FACTURAS')
+@section('title', 'NOTAS DE CREDITO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; FACTURAS</h1>
+    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; NOTAS DE CREDITO</h1>
     <script src="/Scripts/jquery.dataTables.js"></script>
 <script src="/Scripts/dataTables.bootstrap.js"></script>
     
@@ -17,7 +17,7 @@
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('factures.create')}}" class="btn btn-green">
+                <a href="{{ route('credit_notes.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
 
@@ -29,9 +29,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>PDA</th>
-                            <th>FECHA EMISION</th>
-                            <th>P.I.</th>
-                            <th>TOTAL <br> DE PAGOS </th>
+                            <th>FECHA </th>
                             <th>NUMERO <br> DE FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
@@ -42,22 +40,20 @@
                     </thead>
                     <tbody>
                         
-                        @foreach($Factures as $f)
+                        @foreach($Notas as $nota)
 
                         <tr class="text-center">
-                          <td>{{$f->id}}</td>
-                          <td>{{$f->date}}</td>
-                          <td>{{$f->invoice}}</td>
-                          <td>{{$f->payment_conditions}}</td>
-                          <td>{{$f->facture}} </td>
-                          <td>{{$f->customer}}</td>
-                          <td>{{$f->symbol}} {{number_format($f->amount,2)}} </td>
-                          <td>{{$f->status}} </td>
+                          <td>{{$nota->id}}</td>
+                          <td>{{$nota->date}}</td>
+                          <td>{{$nota->facture}} </td>
+                          <td>{{$nota->customer}}</td>
+                          <td> $ {{number_format($nota->amount,2)}} </td>
+                          <td>{{$nota->status}} </td>
                           <td></td>
                           <td> <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR FAMILIAS')
-                                        <a href="{{ route('factures.edit', $f->id)}}">
+                                        <a href="{{ route('credit_notes.edit', $nota->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>
@@ -67,7 +63,7 @@
                                     &nbsp; &nbsp;
                                     <div class="col-6 text-center w-10">
                                         @can('BORRAR FAMILIAS')
-                                        <form class="DeleteReg" action="{{ route('factures.destroy', $f->id) }}" method="POST">
+                                        <form class="DeleteReg" action="{{ route('credit_notes.destroy', $nota->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-red ">
@@ -76,13 +72,6 @@
                                         </form>
                                         @endcan
                                         </div>
-                                    &nbsp; &nbsp;
-                                    <div class="col-6 text-center w-10">
-                                        <a href="{{ route('factures.show', $f->id)}}">
-                                        <button class="btn btn-blue">
-                                                <i class="fas fa-xl fa-eye"> </i> </button>
-                                            </a>
-                                            </div>
                                     
                                 </div>
                             </td>
