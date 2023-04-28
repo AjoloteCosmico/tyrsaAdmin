@@ -13,9 +13,9 @@
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
-            <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
+            <!-- <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
-                </a>
+                </a> -->
                 @can('CREAR PEDIDOS')
                 <a href="{{ route('credit_notes.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
@@ -30,6 +30,7 @@
                         <tr class="text-center">
                             <th>PDA</th>
                             <th>FECHA </th>
+                            <th>NOTA </th>
                             <th>NUMERO <br> DE FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
@@ -45,6 +46,7 @@
                         <tr class="text-center">
                           <td>{{$nota->id}}</td>
                           <td>{{$nota->date}}</td>
+                          <td>{{$nota->credit_note}}</td>
                           <td>{{$nota->facture}} </td>
                           <td>{{$nota->customer}}</td>
                           <td> $ {{number_format($nota->amount,2)}} </td>
