@@ -394,7 +394,7 @@ worksheet.merge_range('S2:S3', 'PI. Numero', blue_header_format)
 worksheet.write('S4', "NOHA-2023", blue_header_format)
 worksheet.merge_range('T2:T3', orden['invoice'].values[0], blue_content)
 worksheet.write('T4', orden['noha'].values[0], blue_content)
-
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
 #tabla superior de datos cliente--------------------
 worksheet.merge_range('C6:D6', 'CLIENTE', blue_header_format)
 worksheet.merge_range('E6:F6', cliente['customer'].values[0], blue_content)

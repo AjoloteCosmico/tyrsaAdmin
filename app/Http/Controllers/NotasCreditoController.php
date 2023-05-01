@@ -16,6 +16,7 @@ use App\Models\historical_payments;
 use App\Models\Factures;
 use App\Models\Seller;
 use App\Models\Cobro;
+use App\Models\note_facture;
 
 
 use App\Models\bank;
@@ -67,7 +68,6 @@ class NotasCreditoController extends Controller
                         'customer_id' => 'required',
                         'credit_note' => 'required',
                         'date' => 'required',
-                        'facture_id'=> 'required',
                         'amount' => 'required',
                     ];
                 
@@ -76,7 +76,6 @@ class NotasCreditoController extends Controller
                         'date.required' => 'La fecha  es necesaria',
                         'credit_note.required' => 'Ingrese una clave para la nota de credito',
                         'amount.required' => 'Indique una cantidad valida',
-                        'facture_id.required' => 'Seleccione una factura',
                 
                         // 'seller_id.required' => 'Elija un vendedor',
                         // 'comision.required' => 'Determine una comision para el vendedor',
@@ -86,12 +85,19 @@ class NotasCreditoController extends Controller
                 $Nota=new CreditNote();
                 $Nota->customer_id=$request->customer_id;
                 $Nota->amount=$request->amount;
-                $Nota->facture_id=$request->facture_id;
+                //$Nota->facture_id=$request->facture_id;
                 $Nota->date=$request->date;
                 $Nota->credit_note=$request->credit_note;
                 $Nota->status='CAPTURADA';
                 $Nota->save();
-
+                if($request->facture){
+                    //dd($request->contacto);
+                      for($i=0; $i < count($request->facture); $i++){
+                          $registro=new note_facture();
+                          $registro->note_id=$Nota->id;
+                          $registro->facture_id=$request->facture[$i];
+                          $registro->save();
+                      }}
     
                 return redirect('credit_notes');
                 }

@@ -33,6 +33,15 @@
                                         </select>
                                         <x-jet-input-error for='customer_id' />
                                     </div>
+                                    <div class="form-group">
+                                        <x-jet-label value="* Pedido Interno" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
+                                          
+                                                <option  > </option>
+                                          
+                                        </select>
+                                        <x-jet-input-error for='order_id' />
+                                    </div>
                                     <!-- <div class="form-group">
                                         <x-jet-label value="* Pedido Interno" />
                                         <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
@@ -52,7 +61,7 @@
                                         <x-jet-input type="text"  name="credit_note"  class="form-control  w-full text-xs" value="{{old('credit_note')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                         <x-jet-input-error for='credit_note' />
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <x-jet-label value="* Factura" />
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
                                         <option  > </option>    
@@ -61,7 +70,38 @@
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='facture_id' />
-                                    </div>
+                                    </div> -->
+                                    
+                                    Seleccione las facturas a restar
+                                    <table class="table tableshippingaddress table-striped text-xs font-medium" >
+                                    <thead>
+                                                <tr class="text-center">
+                                                    <th>Factura</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Numero de <br> pago</th>
+                                                    <th>Seleccionar</th>
+                                                    
+                                                </tr>
+                                            </thead> 
+                                           <tbody id='ctable'>
+                                                @foreach($Factures as $f)
+                                                <tr class='{{$f->order_id}} '>
+                                                    <td class="text-center">{{$f->facture}}</td>
+                                                    <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
+                                                    <td class="text-center">{{$f->ordinal}}</td>
+                                                    <td class="text-center"><div class="row">
+                                                        <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"></div>
+                                                    </div> 
+                                                        &nbsp;&nbsp;&nbsp;  </td>
+                                                  </tr>
+                                        @endforeach
+                                            </tbody>
+                                        </table>
+
+                                        <br>
+
+
+
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
                                         <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
@@ -77,6 +117,10 @@
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
+                                    Ingresa su comprobante
+                                    <br>
+                                    <input type="file" name="comp_file" id="comp_file">
+                                    <br><br>
 
                         </div>
                     </div>
@@ -160,6 +204,7 @@ var desc = document.getElementById("order_id");
 @foreach($Customers as $cliente)
 if(seleccionado=='{{$cliente->id}}'){
     var example_array = {
+        0: ' ',
         @foreach($InternalOrders as $order)
         @if($order->customer_id==$cliente->id)
     {{$order->id}} : '{{$order->invoice}}',
@@ -176,78 +221,11 @@ for(index in example_array) {
 }
 
 
-var npagos={
-    @foreach($InternalOrders as $i)
-    {{$i->id}}:{{$i->payment_conditions}},
-    @endforeach};
-
-var seleccionado = document.getElementById('order_id').value;
-console.log('entrando a la funcion de num pagos');
-console.log(seleccionado)
-console.log(npagos[seleccionado])
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
-    }
-}
-document.getElementById('tpagos').value=npagos[seleccionado];
-   
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 
 })
      });
 </script>
-
-<script>
-
-$(document).ready(function () {     
-$('#order_id').change(function(){
-    var npagos={
-    @foreach($InternalOrders as $i)
-    {{$i->id}}:{{$i->payment_conditions}},
-    @endforeach};
-
-var seleccionado = $(this).val();
-console.log('entrando a la funcion de num pagos');
-console.log(seleccionado)
-console.log(npagos[seleccionado])
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
-    }
-}
-    
-document.getElementById('tpagos').value=npagos[seleccionado];
- 
-   
-  
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
-
-})
-     });
-
-
-</script>
-
 
 
 <script>
@@ -257,5 +235,47 @@ for(index in example_array) {
     document.getElementById("sniva").value = subtotal.toFixed(2);
     document.getElementById("iva").value = iva.toFixed(2);
     });
+</script>
+
+
+<script>
+var mytable = document.getElementById("ctable");
+for (var i = 0, row; row = mytable.rows[i]; i++) {
+     
+       mytable.style.display='';
+        
+        
+            row.style.display='none';
+            
+        
+    }
+    $(document).ready(function () {     
+$('#order_id').change(function(){
+var seleccionado = $(this).val();
+console.log('entrando a la funcion cjaas');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("form-check-input");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
+    }
+
+})
+});
 </script>
 @stop
