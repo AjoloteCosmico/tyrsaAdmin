@@ -35,10 +35,10 @@ class NotasCreditoController extends Controller
     public function index(){
     $Notas=DB::table('credit_notes')
     ->join('customers', 'credit_notes.customer_id','=','customers.id')
-    ->join('factures', 'credit_notes.facture_id','=','factures.id')
+    //->join('factures', 'credit_notes.facture_id','=','factures.id')
     
     ->select('credit_notes.*','customers.customer','customers.clave',  
-             'factures.facture')
+             )
     // ->orderBy('internal_orders.invoice', 'DESC')
     ->get();
     return view('credit_notes.index',compact('Notas'));
@@ -69,6 +69,7 @@ class NotasCreditoController extends Controller
                         'credit_note' => 'required',
                         'date' => 'required',
                         'amount' => 'required',
+                        'comp_file' => 'required',
                     ];
                 
                     $messages = [
@@ -76,6 +77,7 @@ class NotasCreditoController extends Controller
                         'date.required' => 'La fecha  es necesaria',
                         'credit_note.required' => 'Ingrese una clave para la nota de credito',
                         'amount.required' => 'Indique una cantidad valida',
+                        'comp_file.required' => 'Adjunte un comprobante en pdf por favor',
                 
                         // 'seller_id.required' => 'Elija un vendedor',
                         // 'comision.required' => 'Determine una comision para el vendedor',
@@ -98,7 +100,11 @@ class NotasCreditoController extends Controller
                           $registro->facture_id=$request->facture[$i];
                           $registro->save();
                       }}
-    
+                $comp=$request->comp_file;
+                \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
+                      
+      
+          
                 return redirect('credit_notes');
                 }
         public function destroy($id){

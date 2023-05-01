@@ -31,7 +31,6 @@
                             <th>PDA</th>
                             <th>FECHA </th>
                             <th>NOTA </th>
-                            <th>NUMERO <br> DE FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>
                             <th>Estatus</th>
@@ -47,7 +46,6 @@
                           <td>{{$nota->id}}</td>
                           <td>{{$nota->date}}</td>
                           <td>{{$nota->credit_note}}</td>
-                          <td>{{$nota->facture}} </td>
                           <td>{{$nota->customer}}</td>
                           <td> $ {{number_format($nota->amount,2)}} </td>
                           <td>{{$nota->status}} </td>
