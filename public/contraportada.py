@@ -16,7 +16,7 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
 
 a_color='#354F84'
-b_color='#91959E'
+b_color='#3A4363'
 # Conectar a DB
 cnx = mysql.connector.connect(user=DB_USERNAME,
                               password=DB_PASSWORD,
@@ -98,7 +98,9 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
-    'border': 1})
+    'border': 1,
+    
+    'font_size':10})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
@@ -108,7 +110,7 @@ blue_header_format_bold = workbook.add_format({
     'border_color':'white',
     'font_color': 'white',
     'border': 1,
-    'font_size':13})
+    'font_size':10})
 
 red_header_format = workbook.add_format({
     'bold': True,
@@ -118,7 +120,9 @@ red_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
-    'border': 1})
+    'border': 1,
+    
+    'font_size':10})
 
 red_header_format_bold = workbook.add_format({
     'bold': True,
@@ -129,25 +133,8 @@ red_header_format_bold = workbook.add_format({
     'border_color':'white',
     'font_color': 'white',
     'border': 1,
-    'font_size':13})
-yellow_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#e8b321',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-green_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#2D936C',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
+    'font_size':10})
+
 
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
@@ -156,9 +143,9 @@ blue_content = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':9,
     'border_color':a_color,
-    'num_format': '#,###'})
+    'num_format': '[$$-409]#,##0.00'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -166,42 +153,45 @@ blue_content_bold = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':10,
     'border_color':a_color,
-    'font_size':13,
-    'num_format': '#,###'})
-yellow_content = workbook.add_format({
+    'num_format': '[$$-409]#,##0.00'})
+
+blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yy'})
 red_content = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':9,
     'border_color':b_color,
-    'num_format': '#,###'})
+    'num_format': '[$$-409]#,##0.00'})
 
-green_content = workbook.add_format({
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
 red_content_bold = workbook.add_format({
     'bold':True,
     'border': 3,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13,
+    'font_size':10,
     'border_color':'#80848E',
-    'num_format': '#,###'})
+    'num_format': '[$$-409]#,##0.00'})
+
+red_content_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':b_color,
+    'num_format':'dd/mm/yy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -397,7 +387,7 @@ worksheet.write('T4', orden['noha'].values[0], blue_content)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
 #tabla superior de datos cliente--------------------
 worksheet.merge_range('C6:D6', 'CLIENTE', blue_header_format)
-worksheet.merge_range('E6:F6', cliente['customer'].values[0], blue_content)
+worksheet.merge_range('E6:F6', cliente['alias'].values[0], blue_content)
 worksheet.merge_range('C7:D7', 'MONEDA', blue_header_format)
 worksheet.merge_range('E7:F7', moneda['coin'].values[0], blue_content)
 worksheet.merge_range('C8:D8', 'FECHA DD-MM-AAA', blue_header_format)
@@ -407,7 +397,7 @@ worksheet.merge_range('E8:F8', str(orden['reg_date'].values[0]), blue_content)
 worksheet.write('H6', "SUBTOTAL", red_header_format)
 worksheet.merge_range('I6:J6', '$'+str(orden['subtotal'].values[0]), red_content)
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  '$'+str(orden['subtotal'].values[0]*0.116), red_content)
+worksheet.merge_range('I7:J7',  '$'+str(orden['total'].values[0]-orden['subtotal'].values[0]), red_content)
 worksheet.write('H8', "TOTAL (I/I)", red_header_format_bold)
 worksheet.merge_range('I8:J8',  '$'+str(orden['total'].values[0]), red_content_bold)
 
@@ -447,8 +437,8 @@ mac=0
 for i in range(0,len(hpagos)):
     worksheet.write('C'+str(13+i), str(i+1), blue_content)
     worksheet.write('D'+str(13+i), moneda['code'].values[0], blue_content)
-    worksheet.write('E'+str(13+i), str(hpagos['date'].values[i]), blue_content)
-    worksheet.write('F'+str(13+i), '$'+str(hpagos['amount'].values[i]), blue_content)
+    worksheet.write('E'+str(13+i), hpagos['date'].values[i], blue_content_date)
+    worksheet.write('F'+str(13+i), hpagos['amount'].values[i], blue_content)
     worksheet.write('G'+str(13+i), str(hpagos['percentage'].values[i]) + ' %', blue_content)
     mac=mac+hpagos['amount'].values[i]
 #tabla facturas-------------------------------
@@ -459,7 +449,7 @@ worksheet.merge_range('J11:J12', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 #rellenando la tabla
 for i in range(0,len(facturas)):
     worksheet.write('H'+str(13+i), str(facturas['facture'].values[i]), red_content)
-    worksheet.write('I'+str(13+i), str(facturas['facture'].values[i]), red_content)
+    worksheet.write('I'+str(13+i), facturas['date'].values[i], red_content_date)
     worksheet.write('J'+str(13+i), str(facturas['amount'].values[i]), red_content)
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K10:O10', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
@@ -485,10 +475,10 @@ for i in range(0,len(cobros)):
     porcentaje_acumulado=porcentaje_acumulado+cobros['amount'].values[i]*100/orden['total'].values[0]
     importe_acumulado=importe_acumulado+cobros['amount'].values[i]*cobros['tc'].values[i]
     worksheet.write('K'+str(13+i), str(cobros['comp'].values[i]), blue_content)
-    worksheet.write('L'+str(13+i), str(cobros['date'].values[i]), blue_content)
+    worksheet.write('L'+str(13+i), cobros['date'].values[i], blue_content_date)
     worksheet.write('M'+str(13+i), moneda['code'].values[0], blue_content)
-    worksheet.write('N'+str(13+i), str(cobros['amount'].values[i]), blue_content)
-    worksheet.write('O'+str(13+i), str(cobros['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
+    worksheet.write('N'+str(13+i), cobros['amount'].values[i], blue_content)
+    worksheet.write('O'+str(13+i), "{:.2f}".format(cobros['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
     worksheet.write('P'+str(13+i), str(cobros['tc'].values[i]), red_content)
     worksheet.write('Q'+str(13+i), str(importe_acumulado), red_content)
     worksheet.write('R'+str(13+i), str(porcentaje_acumulado)+'%', red_content)
@@ -497,7 +487,9 @@ for i in range(0,len(cobros)):
     worksheet.write('U'+str(13+i), str(cobros['autorizo'].values[i]), red_content)
 
 
-trow=14+max(len(hpagos),len(facturas))
+table_len=max(len(hpagos),len(facturas))
+table_len=max(table_len,len(cobros))
+trow=14+table_len
 
 #validaciones ordenes_internas pagos historicos
 worksheet.merge_range('C'+str(trow)+':E'+str(trow), 'Totales', blue_header_format_bold)
@@ -552,6 +544,7 @@ else:
 
 
 
+worksheet.set_column('F:F',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
