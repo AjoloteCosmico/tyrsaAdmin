@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'FACTURA')
+@section('title', 'NOTA DE CREDITO')
 
 @section('content_header')
     <h1 class="font-bold"><i class="fas fa-file-lines"></i>&nbsp; NOTA DE CREDITO</h1>

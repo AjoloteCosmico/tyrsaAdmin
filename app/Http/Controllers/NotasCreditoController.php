@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\CreditNote;
 
+use Illuminate\Support\Facades\File;
 use App\Models\InternalOrder;
 use App\Models\payments;
 use App\Models\Customer;
@@ -61,9 +62,7 @@ class NotasCreditoController extends Controller
             }
         
             public function store(Request $request){
-               
-                
-
+ 
                 $rules = [
                         'customer_id' => 'required',
                         'credit_note' => 'required',
@@ -102,13 +101,19 @@ class NotasCreditoController extends Controller
                       }}
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
-                      
-      
-          
+       
                 return redirect('credit_notes');
                 }
         public function destroy($id){
 
+            
+            $Facturas=note_facture::where('note_id',$id)->get();
+            
+            foreach ($Facturas as $f) {
+                note_facture::destroy($f->id);
+            }
+            $file_path = public_path('storage/note'.$id.'.pdf');
+            File::delete($file_path);
             CreditNote::destroy($id);
             return redirect('credit_notes');
         }

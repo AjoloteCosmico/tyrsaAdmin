@@ -40,6 +40,7 @@ query = ('SELECT * from historical_payments where order_id = '+str(order_id))
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
 cobros=pd.read_sql('Select* from cobros where order_id = '+str(order_id),cnx)
+notas=pd.read_sql('Select* from credit_notes where customer_id= '+str(cliente['id'].values[0]),cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
 #Traer facturas
