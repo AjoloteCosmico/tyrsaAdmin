@@ -72,6 +72,13 @@
                                         </form>
                                         @endcan
                                         </div>
+                                        
+                                    <div class="col-6 text-center w-10">
+                                        <a href="{{ route('factures.show', $nota->id)}}">
+                                        <button class="btn btn-blue">
+                                                <i class="fas fa-xl fa-eye"> </i> </button>
+                                            </a>
+                                            </div>
                                     
                                 </div>
                             </td>

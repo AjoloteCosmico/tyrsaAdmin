@@ -61,10 +61,10 @@ class FactureController extends Controller
                
                 return $this->index();
                 }
-                public function show($id){
-                    $file_path = public_path('storage/fac'.$id.'.pdf');
-                    return response()->file($file_path);
-                    //return Storage::download('app/comp'.$id.'.pdf');
+    public function show($id){
+    $file_path = public_path('storage/fac'.$id.'.pdf');
+    return response()->file($file_path);
+    //return Storage::download('app/comp'.$id.'.pdf');
                     
                }
     public function edit($facture){

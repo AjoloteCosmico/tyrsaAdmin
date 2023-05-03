@@ -117,5 +117,32 @@ class NotasCreditoController extends Controller
             CreditNote::destroy($id);
             return redirect('credit_notes');
         }
+        public function show($id){
+            $file_path = public_path('storage/noteS'.$id.'.pdf');
+            return response()->file($file_path);
+            //return Storage::download('app/comp'.$id.'.pdf');
+                            
+                       }
+
+        public function edit($id){
+            $Nota=CreditNote::find($id);            $Bancos=bank::all();
+                $Coins=Coin::all();
+                $Factures=Factures::all();
+                $Customers=Customer::orderby('clave')->get();
+                $InternalOrders=InternalOrder::all();
+                return view('credit_notes.create',compact(
+                'Coins',
+                'Bancos',
+                'Customers',
+                'InternalOrders',
+                'Factures',
+                'Nota'
+                ));
+
+        }
+        public function update($id,Request $request){
+                Factures::destroy($id);
+                return $this->index();
+        }
 
 }
