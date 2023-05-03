@@ -95,7 +95,7 @@
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
                                                     <td class="text-center">{{$f->ordinal}}</td>
                                                     <td class="text-center"><div class="row">
-                                                        <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"></div>
+                                                        <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"   @if($Linked_factures->contains('facture_id',$f->id)) checked @endif></div>
                                                     </div> 
                                                         &nbsp;&nbsp;&nbsp;  </td>
                                                   </tr>
@@ -122,7 +122,11 @@
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Nota->amount}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
-                                    Ingresa su comprobante
+                                    Ver comprobante anterior
+                                    <br>
+                                    <button type="button" onclick = "openPDF()"  class="btn btn-blue" > 
+                                     <i class="fas fa-eye fa-2x"></i> &nbsp; Ver comprobante  </button>
+                                    <br> Si desea reemplazar el comprobante ingreselo a continuación:
                                     <br>
                                     <input type="file" name="comp_file" id="comp_file"  value="{{asset('storage/note'.$Nota->id.'pdf')}}" >
                                     <br><br>
@@ -300,5 +304,10 @@ for (var i = 0, row; row = table.rows[i]; i++) {
 
 })
 });
+</script>
+<script>
+    function openPDF(){
+window.open("{{ asset('storage/note'.$Nota->id.'.pdf') }}");
+}
 </script>
 @stop

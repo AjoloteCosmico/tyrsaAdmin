@@ -40,7 +40,7 @@ query = ('SELECT * from historical_payments where order_id = '+str(order_id))
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
 cobros=pd.read_sql('Select* from cobros where order_id = '+str(order_id),cnx)
-notas=pd.read_sql('Select* from credit_notes where customer_id= '+str(cliente['id'].values[0]),cnx)
+notas=pd.read_sql('Select* from credit_notes where order_id= '+str(orden['id'].values[0]),cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
 #Traer facturas
@@ -440,7 +440,7 @@ for i in range(0,len(hpagos)):
     worksheet.write('D'+str(13+i), moneda['code'].values[0], blue_content)
     worksheet.write('E'+str(13+i), hpagos['date'].values[i], blue_content_date)
     worksheet.write('F'+str(13+i), hpagos['amount'].values[i], blue_content)
-    worksheet.write('G'+str(13+i), str(hpagos['percentage'].values[i]) + ' %', blue_content)
+    worksheet.write('G'+str(13+i), "{:.2f}".format(hpagos['percentage'].values[i]) + ' %', blue_content)
     mac=mac+hpagos['amount'].values[i]
 #tabla facturas-------------------------------
 worksheet.merge_range('H10:J10', 'FACTURA', red_header_format)
@@ -451,7 +451,12 @@ worksheet.merge_range('J11:J12', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 for i in range(0,len(facturas)):
     worksheet.write('H'+str(13+i), str(facturas['facture'].values[i]), red_content)
     worksheet.write('I'+str(13+i), facturas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(13+i), str(facturas['amount'].values[i]), red_content)
+    worksheet.write('J'+str(13+i), facturas['amount'].values[i], red_content)
+for i in range(0,len(notas)):
+    worksheet.write('H'+str(13+len(facturas)+i), str(notas['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(13+len(facturas)+i), notas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(13+len(facturas)+i), notas['amount'].values[i], red_content)
+
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K10:O10', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
 worksheet.merge_range('K11:K12', 'NUMERO', blue_header_format)
@@ -488,7 +493,7 @@ for i in range(0,len(cobros)):
     worksheet.write('U'+str(13+i), str(cobros['autorizo'].values[i]), red_content)
 
 
-table_len=max(len(hpagos),len(facturas))
+table_len=max(len(hpagos),len(facturas)+len(notas))
 table_len=max(table_len,len(cobros))
 trow=14+table_len
 
@@ -501,11 +506,15 @@ worksheet.write('F'+str(trow),hpagos["amount"].sum() , blue_content_bold)
 worksheet.write('F'+str(trow+1),hpagos["amount"].sum() - orden["total"].values[0], blue_content)
 if(hpagos["amount"].sum()==orden["total"].values[0] ):
    worksheet.write('F'+str(trow+2),'Okay' , blue_content)
-
+else:
+    
+   worksheet.write('F'+str(trow+2),'No Okay' , blue_content)
 worksheet.write('G'+str(trow),hpagos["percentage"].sum() , blue_content_bold)
 worksheet.write('G'+str(trow+1),hpagos["percentage"].sum() -100, blue_content)
 if(hpagos["percentage"].sum()==100 ):
    worksheet.write('G'+str(trow+2),'Okay' , blue_content)
+else:
+   worksheet.write('G'+str(trow+2),'NO Okay' , blue_content)
 
 
 
@@ -515,7 +524,7 @@ worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
 worksheet.write('J'+str(trow),facturas["amount"].sum() , red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), red_content)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()-notas['amount'].sum(), red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
@@ -525,7 +534,7 @@ worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum()
 
 worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
 worksheet.write('O'+str(trow+1), str(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+2),'OK', blue_content_bold)
+worksheet.write('O'+str(trow+2),'No OK', blue_content_bold)
 
 worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacional (Iva incluido)', red_header_format_bold)
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)

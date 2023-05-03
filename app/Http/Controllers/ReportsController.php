@@ -14,6 +14,9 @@ use App\Models\Factures;
 use App\Models\Seller;
 use App\Models\bank;
 use App\Models\Cobro;
+use App\Models\CreditNote;
+use App\Models\note_facture;
+
 use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
 use SplFileInfo;
@@ -29,7 +32,7 @@ class ReportsController extends Controller
        {
         
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           $process = new Process([env('PY_COMAND'),$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
@@ -207,28 +210,33 @@ class ReportsController extends Controller
 }
 public function note_pdf($id){
     //hacer el pdf
-    $Factura=Factures::find($id);
+    $Nota=CreditNote::find($id);
+    $Linked_factures=DB::table('note_factures')
+    ->join('factures','factures.id','=','note_factures.facture_id')
+    ->where('note_factures.note_id','=',$id)
+    ->select('factures.*')
+    ->get(); 
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
-    $InternalOrders = InternalOrder::find($Factura->order_id);
+    $InternalOrders = InternalOrder::find($Nota->order_id);
     $Customers = Customer::find($InternalOrders->customer_id);
     $Sellers = Seller::find($InternalOrders->seller_id);
     $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
     $Coins=Coin::find($InternalOrders->coin_id);
     $Factura=Factures::find($id);
     
-    $pdf = PDF::loadView('reportes.factura_pdf', compact(
+    $pdf = PDF::loadView('reportes.nota_pdf', compact(
         'CompanyProfiles',
         'InternalOrders',
         'Customers',
         'Sellers',
         'CustomerShippingAddresses',
         'Coins',
-        
-        'Factura'));    
+        'Linked_factures',
+        'Nota'));    
  
     $pdf->setPaper('A4', 'landscape');
- return $pdf->download('Factura'.$Factura->facture.'.pdf');   
+ return $pdf->download('Nota'.$Factura->facture.'.pdf');   
 //  
 }    
   public function prueba($name){
