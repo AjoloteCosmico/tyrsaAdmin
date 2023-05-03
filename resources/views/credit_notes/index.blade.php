@@ -74,10 +74,15 @@
                                         </div>
                                         
                                     <div class="col-6 text-center w-10">
-                                        <a href="{{ route('factures.show', $nota->id)}}">
+                                        <a href="{{ route('credit_notes.show', $nota->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-eye"> </i> </button>
                                             </a>
+                                            
+                                        <a href="{{ route('note_pdf', $nota->id)}}">
+                                        <button class="btn btn-red">
+                                                <i class="fa fa-xl fa-file-pdf-o">pdf </i> 
+                                        </button></a>
                                             </div>
                                     
                                 </div>

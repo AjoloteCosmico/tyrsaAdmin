@@ -10,10 +10,10 @@
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; NOTA DE CREDITO:
+                <i class="fas fa-plus-circle"></i>&nbsp; EDITAR NOTA DE CREDITO:
             </h5>
         </div>
-        <form action="{{ route('credit_notes.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('credit_notes.update',$Nota->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="item" value=" "/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
@@ -28,7 +28,7 @@
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer_id'>
                                         <option  > </option>    
                                         @foreach ($Customers as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('customer_id')) selected @endif > {{$row->clave}} {{$row->customer}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == $Nota->customer_id) selected @endif > {{$row->clave}} {{$row->customer}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='customer_id' />
@@ -53,12 +53,12 @@
                                     </div> -->
                                     <div class="form-group">
                                         <x-jet-label value="Fecha " />
-                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{$Nota->date}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NOTA DE CREDITO" />
-                                        <x-jet-input type="text"  name="credit_note"  class="form-control  w-full text-xs" value="{{old('credit_note')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input type="text"  name="credit_note"  class="form-control  w-full text-xs" value="{{$Nota->credit_note}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                         <x-jet-input-error for='credit_note' />
                                     </div>
                                     <!-- <div class="form-group">
@@ -85,7 +85,12 @@
                                             </thead> 
                                            <tbody id='ctable'>
                                                 @foreach($Factures as $f)
-                                                <tr class='{{$f->order_id}} '>
+                                                <tr class='{{$f->order_id}} ' 
+                                                @if($f->order_id!=$Nota->order_id)
+                                                style="display:none;"
+                                                @endif
+                                                
+                                                >
                                                     <td class="text-center">{{$f->facture}}</td>
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
                                                     <td class="text-center">{{$f->ordinal}}</td>
@@ -104,22 +109,22 @@
 
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
+                                        <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" value="{{$Nota->amount / 1.16}}" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" IVA" />
-                                        <x-jet-input type="number" step="0.01" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>
+                                        <x-jet-input type="number" step="0.01" name="unit_price" id="iva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" value="{{$Nota->amount *0.16 / 1.16}}" class="w-full text-xs" disabled/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Nota->amount}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
                                     Ingresa su comprobante
                                     <br>
-                                    <input type="file" name="comp_file" id="comp_file">
+                                    <input type="file" name="comp_file" id="comp_file"  value="{{asset('storage/note'.$Nota->id.'pdf')}}" >
                                     <br><br>
 
                         </div>
@@ -147,6 +152,32 @@
 @section('js')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+
+<script>
+var desc = document.getElementById("order_id");
+
+removeOptions(document.getElementById('order_id'));
+    var example_array = {
+        0: ' ',
+        @foreach($InternalOrders as $order)
+        @if($order->customer_id==$Nota->customer_id)
+    {{$order->id}} : '{{$order->invoice}}',
+         @endif
+         
+@endforeach
+        };
+   
+  
+
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+    if(index==parseInt('{{$Nota->order_id}}')){
+        desc.options[desc.options.length-1].selected=true;
+    }
+}
+
+</script>
 
 <script>
 $(document).on("keypress", ".just-number", function (e) {
@@ -240,15 +271,7 @@ for(index in example_array) {
 
 <script>
 var mytable = document.getElementById("ctable");
-for (var i = 0, row; row = mytable.rows[i]; i++) {
-     
-       mytable.style.display='';
-        
-        
-            row.style.display='none';
-            
-        
-    }
+
     $(document).ready(function () {     
 $('#order_id').change(function(){
 var seleccionado = $(this).val();

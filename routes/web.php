@@ -40,7 +40,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
     Route::resource('cobros', CobrosController::class);
     Route::resource('credit_notes', NotasCreditoController::class);
-   
+    Route::post('credit_notes/update/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update');
+    
    
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');
     Route::get('cobros/autorizar/{id}', [CobrosController::class, 'autorizar'])->name('cobros.autorizar');
@@ -63,6 +64,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('cobro_pdf/{id}', [ReportsController::class, 'cobro_pdf'])->name('cobro_pdf');
     
     Route::get('factura_pdf/{id}', [ReportsController::class, 'factura_pdf'])->name('factura_pdf');
+    Route::get('credit_note_pdf/{id}', [ReportsController::class, 'note_pdf'])->name('note_pdf');
     
 
 
