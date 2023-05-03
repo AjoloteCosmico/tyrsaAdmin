@@ -534,7 +534,12 @@ worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum()
 
 worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
 worksheet.write('O'+str(trow+1), str(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+2),'No OK', blue_content_bold)
+
+if(cobros["amount"].sum()==orden['total'].values[0] ):
+   worksheet.write('O'+str(trow+2),'Okay' , blue_content_bold)
+else:
+   worksheet.write('O'+str(trow+2),'NO Okay' , blue_content_bold)
+
 
 worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacional (Iva incluido)', red_header_format_bold)
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)
@@ -558,6 +563,8 @@ worksheet.set_column('F:F',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
+worksheet.set_column('N:N',15)
+worksheet.set_column('J:J',15)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
