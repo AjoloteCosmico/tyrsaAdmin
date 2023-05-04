@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'FACTURA')
+@section('title', 'EDITAR COBRO ')
 
 @section('content_header')
     <h1 class="font-bold"><i class="fa fa-money"></i>&nbsp;  COMPROBANTE DE INGRESO</h1>
@@ -10,7 +10,7 @@
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR COMPROBANTE DE INGRESO:
+                <i class="fas fa-plus-circle"></i>&nbsp; EDITAR COMPROBANTE DE INGRESO:
             </h5>
         </div>
         <form action="{{ route('cobros.update',$Cobro->id)}}" method="POST" enctype="multipart/form-data">

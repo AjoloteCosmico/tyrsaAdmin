@@ -145,8 +145,51 @@ class CobrosController extends Controller
 
         }
         public function update($id,Request $request){
-                Factures::destroy($id);
-                return $this->index();
+                
+            $rules = [
+                'order_id' => 'required',
+                'date' => 'required',
+                'comp'=> 'required',
+                'facture_id'=> 'required',
+                'bank_id'=> 'required',
+                'coin_id'=> 'required',
+                'tc' => 'required',
+                'amount' => 'required',
+                'comp_file' => 'required',
+                // 'seller_id' => 'required',
+                // 'comision' => 'required',
+            ];
+        
+            $messages = [
+                'order_id.required' => 'Seleccione un pedido',
+                'date.required' => 'La fecha  es necesaria',
+                'coin_id.required' => 'El tipo de Moneda es necesario',
+                'bank_id.required' => 'Seleccione una factura valida',
+                'tc.required' => 'Indique el tipo de cambio',
+                'amount.required' => 'Indique una cantidad valida',
+                'comp_file.required' => 'agregue el comprobante',
+                // 'seller_id.required' => 'Elija un vendedor',
+                // 'comision.required' => 'Determine una comision para el vendedor',
+            ];
+        
+        $request->validate($rules, $messages);
+        $Cobro=new Cobro();
+        $Cobro->order_id=$request->order_id;
+        $Cobro->amount=$request->amount;
+        $Cobro->comp=$request->comp;
+        $Cobro->facture_id=$request->facture_id;
+        $Cobro->bank_id=$request->bank_id;
+        $Cobro->coin_id=$request->coin_id;
+        $Cobro->tc=$request->tc;
+        $Cobro->date=$request->date;
+        $Cobro->capturo=Auth::user()->id;
+        $Cobro->save();
+        $comp=$request->comp_file;
+        \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
+        
+
+
+        return redirect('cobros');
         }
         public function destroy($id){
                    $file_path = public_path('storage/comp'.$id.'.pdf');

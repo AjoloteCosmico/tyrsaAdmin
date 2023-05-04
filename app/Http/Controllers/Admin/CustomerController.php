@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerContact;
 use Illuminate\Http\Request;
-
+use Session;
 class CustomerController extends Controller
 {
     public function index()
@@ -17,9 +17,13 @@ class CustomerController extends Controller
             'Customers',
         ));
     }
+    public function create(){
+        return view('admin.customers.create');
+    }
 
-    public function create()
+    public function validar_rfc()
     {
+       
         return view('admin.customers.rfc');
     }
     public function rfc(Request $request)
@@ -34,17 +38,17 @@ class CustomerController extends Controller
             return redirect('admin/customers/'.$haycliente->id.'/edit')->with('message', 'ok');;
         }else{
             $rfc=$request->customer_rfc;
-            return view('admin.customers.create',compact(
-            'rfc',));}
+            return redirect('admin/customers/create')->with('rfc', $rfc);
+        }
     }
 
     public function store(Request $request)
     {
+        
         $rules = [
             'customer' => 'required',
             'alias' => 'required',
             'legal_name' => 'required',
-            'alias' => 'required',
             'customer_rfc' => 'required|max:13',
             'customer_state' => 'required',
             'customer_city' => 'required',
@@ -75,16 +79,18 @@ class CustomerController extends Controller
             'customer_zip_code.required' => 'Capture el Código Postal del Cliente',
             'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
         ];
-
+        
         $request->validate($rules, $messages);
-
+        
         $Customers = new Customer();
         $Customers->customer = $request->customer;
         if($request->legal_name == 'otra'){
             $Customers->legal_name = $request->otra;
         }
         else{
-        $Customers->legal_name = $request->legal_name;}
+        $Customers->legal_name = $request->legal_name;
+        }
+        
         $Customers->alias = $request->alias;
         $Customers->customer_rfc = $request->customer_rfc;
         $Customers->customer_state = $request->customer_state;
@@ -96,6 +102,7 @@ class CustomerController extends Controller
         $Customers->customer_zip_code = $request->customer_zip_code;
         $Customers->customer_email = $request->customer_email;
         $Customers->customer_telephone = $request->customer_telephone;
+        $Customers->clave=$request->clave;
         $Customers->save();
 
         return redirect()->route('customers.index')->with('create_reg', 'ok');

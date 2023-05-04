@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('factures', FactureController::class);
     Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
     Route::resource('cobros', CobrosController::class);
+    Route::post('cobros/update/{id}', [CobrosController::class, 'update'])->name('cobros.update');
+    
     Route::resource('credit_notes', NotasCreditoController::class);
     Route::post('credit_notes/update/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update');
     
@@ -116,7 +118,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/partida', [InternalOrderController::class, 'partida'])->name('internal_orders.partida');
     Route::get('customer/crear_contacto({id}', [CustomerController::class, 'contacto'])->name('customers.contacto');
     Route::post('customer/guardar_contacto', [CustomerController::class, 'store_contact'])->name('customers.store_contact');
-
+    
+    Route::get('customers/validar_rfc', [ CustomerController::class, 'validar_rfc'])->name('customers.validar_rfc');
     Route::get('/foo', function () {
         Artisan::call('storage:link');
         });

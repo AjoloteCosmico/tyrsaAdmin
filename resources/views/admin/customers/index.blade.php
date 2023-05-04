@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR CLIENTES')
-                <a href="{{ route('customers.create')}}" class="btn btn-green">
+                <a href="{{ route('customers.validar_rfc')}}" class="btn btn-green">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 @endcan

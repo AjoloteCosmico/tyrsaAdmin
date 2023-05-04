@@ -558,7 +558,6 @@ else:
 
 
 
-
 worksheet.set_column('F:F',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)

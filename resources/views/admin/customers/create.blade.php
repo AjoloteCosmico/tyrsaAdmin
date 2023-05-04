@@ -62,8 +62,13 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* RFC" />
-                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{$rfc}}" disabled/>
+                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{session('rfc')}}"/>
                                 <x-jet-input-error for='customer_rfc' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value=" Clave Cliente" />
+                                <x-jet-input type="text" name="clave" class="w-full text-xs " />
+                                <x-jet-input-error for='clave' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Email Coorporativo" />
