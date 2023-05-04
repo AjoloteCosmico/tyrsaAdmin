@@ -40,10 +40,10 @@
                                           @endforeach
                                           
                                         </select>
-                                        <x-jet-input-error for='order_id' />
+                                        <t-error for='order_id' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="Fecha de cobro" />
+                                        <xx-jet-inpu-jet-label value="Fecha de cobro" />
                                         <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{$Cobro->date}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
@@ -101,7 +101,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Cobro->amount}}"/>
-                                        <x-jet-input-error for='unit_price' />
+                                        <x-jet-input-error for='amount' />
                                     </div>
 
                                     <br>

@@ -149,7 +149,6 @@ class CobrosController extends Controller
             $rules = [
                 'order_id' => 'required',
                 'date' => 'required',
-                'comp'=> 'required',
                 'facture_id'=> 'required',
                 'bank_id'=> 'required',
                 'coin_id'=> 'required',
@@ -167,13 +166,11 @@ class CobrosController extends Controller
                 'bank_id.required' => 'Seleccione una factura valida',
                 'tc.required' => 'Indique el tipo de cambio',
                 'amount.required' => 'Indique una cantidad valida',
-                'comp_file.required' => 'agregue el comprobante',
                 // 'seller_id.required' => 'Elija un vendedor',
                 // 'comision.required' => 'Determine una comision para el vendedor',
             ];
-        
-        $request->validate($rules, $messages);
-        $Cobro=new Cobro();
+        //$request->validate($rules, $messages);
+        $Cobro= Cobro::find($id);
         $Cobro->order_id=$request->order_id;
         $Cobro->amount=$request->amount;
         $Cobro->comp=$request->comp;
@@ -182,16 +179,18 @@ class CobrosController extends Controller
         $Cobro->coin_id=$request->coin_id;
         $Cobro->tc=$request->tc;
         $Cobro->date=$request->date;
-        $Cobro->capturo=Auth::user()->id;
+        $Cobro->reviso=Auth::user()->id;
         $Cobro->save();
-        $comp=$request->comp_file;
-        \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
+        //$comp=$request->comp_file;
+        //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
         
 
 
         return redirect('cobros');
         }
-        public function destroy($id){
+
+
+    public function destroy($id){
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
                     Cobro::destroy($id);
