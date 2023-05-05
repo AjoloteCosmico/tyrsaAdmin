@@ -10,20 +10,18 @@
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; Editando Partida :
+                <i class="fas fa-plus-circle"></i>&nbsp; Editar Partida:
             </h5>
         </div>
-        <form action="{{ route('items.redefine')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('items.redefine',$Item->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <x-jet-input type="hidden" name="internal_order_id" value="{{ $InternalOrders }}"/>
         <x-jet-input type="hidden" name="item" value="{{ $Item ->item}}"/>
-        <x-jet-input type="hidden" name="item_id" value="{{ $Item ->id}}"/>
-        <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
+       <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-body">
-                            <div class="form-group">
+                        <div class="form-group">
                                 <x-jet-label value="* Cantidad" />
                                 <x-jet-input type="number" name="amount" class="w-full text-xs" value="{{$Item->amount}}"/>
                                 <x-jet-input-error for='amount' />
@@ -42,23 +40,23 @@
                                 <x-jet-label value="* Familia" />
                                 {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
                                 <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
-                                        
-                                        <option value=" " > </option>
+                                       
                                         <option value="RACKS" @if ($Item->family == 'RACKS') selected @endif >RACKS</option>
                                         <option value="TRANSPORTADORES" @if ($Item->family == 'TRANSPORTADORES') selected @endif >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" @if ($Item->family == 'EQUIPO AUXILIAR') selected @endif >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" @if ($Item->family == 'SOFTWARE') selected @endif >SOFTWARE</option>
                                         <option value="OTRO" @if ($Item->family == 'OTRO') selected @endif >OTRO</option>
+                                
                                 </select>
                                 
                                 <x-jet-input-error for='family' />
-                                <br><br><br>
-                                <x-jet-label value="* Especifique" />
+                                <br>
+                                <x-jet-label value="* Especifique" hidden='hidden' id='esp' />
                                 <x-jet-input type="text" name="otro" id='otro' hidden='hidden' class="w-full text-xs" /> 
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Descripcion" />
-                                <x-jet-input type="text" name="description" class="w-full text-xs" value="{{old('fab')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="description" class="w-full text-xs" value="{{$Item->description}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='fab' />
                             </div>                            <!-- 
                             <div class="form-group">
@@ -68,7 +66,7 @@
                             </div> -->
                             <div class="form-group">
                                 <x-jet-label value="* SKU" />
-                                <select  name="sku" class="form-capture  w-full text-xs uppercase"  value="{{old('sku')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <select  name="sku" class="form-capture  w-full text-xs uppercase"  value="{{$Item->sku}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                             <option value="VT">VT</option>    
                             </select>
                                 <x-jet-input-error for='sku' />
@@ -129,4 +127,27 @@ $(document).on('keyup', '.price-format-input', function (e) {
 $(document).ready(function(){
   $('#input-price').focus();
 })</script>
+
+<script>
+       $(document).ready(function () {     
+$('#fam').change(function(){
+var seleccionado = $(this).val();
+console.log('entrando a la funcion');
+console.log(seleccionado)
+var esp=document.getElementById('esp');
+var otro=document.getElementById('otro');
+if(seleccionado=='OTRO'){
+  
+  otro.hidden=''  
+  esp.hidden=''  
+
+}
+else{
+    otro.hidden='hidden'  
+    esp.hidden='hidden'  
+    
+}
+})
+});
+</script>
 @stop

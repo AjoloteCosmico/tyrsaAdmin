@@ -161,7 +161,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($TempItems as $row)
+                                                @foreach ($Items as $row)
                                                 <tr class="text-center">
                                                     <td>{{ $row->item }}</td>
                                                     <td>{{ $row->amount }}</td>
@@ -171,13 +171,15 @@
                                                     <td>{{ $row->description }}</td>
                                                     <td class="text-right">$ {{ number_format($row->unit_price, 2) }}</td>
                                                     <td class="text-right">$ {{ number_format($row->import, 2) }}</td>
-                                                    <td><a href="{{ route('tempitems.edit_item', [$row->id,1]) }} " class="btn btn-green">
+                                                    <td><a href="{{ route('items.edit_item', [$row->id,1]) }} " class="btn btn-green">
                                                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                                                    </a></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <br><br>
+                                        
                                         {{--  <x-jet-input type="hidden" name="item" class="w-flex text-xs" value="{{ $ITEM }}"/>
                                         <x-jet-input-error for='item' />  --}}
                                     </div>
@@ -188,10 +190,40 @@
                 </button>
                 <a href="{{ route('internal_orders.index')}}" class="btn btn-red mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
-                </a>  
+                </a>  </form>
+                <h1>Comisiones:</h1>
+                <table>
+                    <thead>
+                    <th>Clave Vendedor</th>
+                    <th>Vendedor</th>
+                    <th>Comision</th>
+                    
+                    <th>Descripcion</th>
+                    <th></th>
+                    <th></th></thead>
+                    <tbody>
+                @foreach($Comisiones as $c)
+                <tr class="text-center">
+                    
+                    <td>{{$c->iniciales}}</td>
+                    <td>{{$c->seller_name}}</td>
+                    <td>{{$c->percentage * 100}} %  </td>
+                    
+                    <td>{{$c->description}}  </td>
+                    <td><a href="{{ route('edit_temp_comissions', $c->id) }} " class="btn btn-green">
+                        <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
+                    </a></td>
+                    <td><a href="{{ route('delete_temp_comissions', $c->id) }} " class="btn btn-red">
+                        <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
+                    </a></td>
+                </tr>
+                @endforeach
+            </tbody>
+                    
+                </table>
             </div>
         </div>
-        </form>
+        
     </div>
 @stop
 

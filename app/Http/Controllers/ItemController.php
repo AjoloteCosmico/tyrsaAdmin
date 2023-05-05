@@ -56,23 +56,27 @@ class ItemController extends Controller
         ));
     }
 
-    public function redefine(Request $request)
+    public function redefine(Request $request,$id)
     {
         
         $rules = [
             'amount' => 'required',
             'unit' => 'required',
             'family' => 'required',
-            'code' => 'required',
+            
+            
+            'sku' => 'required',
             'description' => 'required',
             'unit_price' => 'required',
         ];
-
+    
         $messages = [
             'amount.required' => 'La Cantidad es requerida',
             'unit.required' => 'La unidad es requerida',
             'family.required' => 'La familia es requerida',
-            'code.required' => 'La clave es requerida',
+            
+            
+            'sku.required' => 'SKU requerido',
             'description.required' => 'La descripción es requerida',
             'unit_price.required' => 'El precio unitario es requerido',
         ];
@@ -83,8 +87,7 @@ class ItemController extends Controller
 
         
         
-            $Items = Item::find($request->item_id);
-            $Items->internal_order_id = $request->internal_order_id;
+            $Items = Item::find($id);
             $Items->item = $request->item;
             $Items->amount = $request->amount;
             $Items->unit = $request->unit;
@@ -96,20 +99,20 @@ class ItemController extends Controller
             $Items->save();
         
         
-        $InternalOrders = InternalOrder::where('id', $request->internal_order_id)->first();
-        $Customers = Customer::where('id', $InternalOrders->customer_id)->first();
-        $Items = Item::where('internal_order_id', $InternalOrders->id)->get();
+        // $InternalOrders = InternalOrder::where('id', $Items->internal_orders_id)->first();
+        
+        // $Items = Item::where('internal_order_id', $InternalOrders->id)->get();
 
-        if(count($Items) > 0){
-            $Subtotal = Item::where('internal_order_id', $InternalOrders->id)->sum('import');
-        }else{
-            $Subtotal = '0';
-        }
+        // if(count($Items) > 0){
+        //     $Subtotal = Item::where('internal_order_id', $InternalOrders->id)->sum('import');
+        // }else{
+        //     $Subtotal = '0';
+        // }
 
-        $Iva = $Subtotal * 0.16;
-        $Total = $Subtotal + $Iva;
+        // $Iva = $Subtotal * 0.16;
+        // $Total = $Subtotal + $Iva;
 
-        return (new InternalOrderController)->edit_order($InternalOrders->id);
+        return (new InternalOrderController)->edit_order($Items->internal_order_id);
     }
 
     public function show($id)
