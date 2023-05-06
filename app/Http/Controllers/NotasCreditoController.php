@@ -153,8 +153,7 @@ class NotasCreditoController extends Controller
                 'customer_id' => 'required',
                 'credit_note' => 'required',
                 'date' => 'required',
-                'amount' => 'required',
-                'comp_file' => 'required',
+                'amount' => 'required',s
             ];
         
             $messages = [
@@ -162,7 +161,6 @@ class NotasCreditoController extends Controller
                 'date.required' => 'La fecha  es necesaria',
                 'credit_note.required' => 'Ingrese una clave para la nota de credito',
                 'amount.required' => 'Indique una cantidad valida',
-                'comp_file.required' => 'Adjunte un comprobante en pdf por favor',
         
                 // 'seller_id.required' => 'Elija un vendedor',
                 // 'comision.required' => 'Determine una comision para el vendedor',

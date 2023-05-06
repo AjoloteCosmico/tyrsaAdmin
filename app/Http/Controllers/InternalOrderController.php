@@ -197,10 +197,30 @@ class InternalOrderController extends Controller
      $comision->description=$request->description;
      $comision->save();
      return $this->capture_comissions($TempInternalOrders->id,' ',compact('p_seller_id','p_comission'));
+     }}
+
+public function store_comissions(Request $request)
+     {
+
+      $InternalOrders = InternalOrder::where('id', $request->internal_order_id)->first();
+      $allComissions=comissions::where('seller_id',$request->seller_id)
+      ->where('order_id',$InternalOrders->id)
+      ->get();
+ 
+      if($allComissions->count() > 0){
+         
+         return redirect()->route('internal_orders.edit_order',$InternalOrders->id)->with([ 'duplicated' => 'Si' ]);;
+      }else{
+      $comision = new comissions();
+      $comision->seller_id=$request->seller_id;
+      $comision->percentage=$request->comision*0.01;
+      $comision->order_id=$InternalOrders->id;
+      $comision->description=$request->description;
+      $comision->save();
+      
+      return redirect('internal_orders/edit/'.$InternalOrders->id);}
      }
-
-
-    }
+    
 
     public function shipment(Request $request)
     {   
@@ -292,6 +312,19 @@ class InternalOrderController extends Controller
         
     }
 
+public function recalcular_total($id){
+    $InternalOrder=InternalOrder::find($id);
+    $Items=Item::where('internal_order_id',$id)->get();
+    
+    $InternalOrder->subtotal=$Items->sum('import');
+    $InternalOrder->save();
+
+    $ret=$Items->where('category','=','Servicios')->sum('import')*0.04;
+    $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+$InternalOrder->tasa+0.16;
+    $InternalOrder->total=$InternalOrder->subtotal*($factor_aumento-$InternalOrder->descuento+1)+$ret ;
+    $InternalOrder->save();
+}
+    
     public function store(Request $request)
     {
         $noha=InternalOrder::all()->count();
@@ -447,6 +480,7 @@ class InternalOrderController extends Controller
     }
 
     public function edit_order($id){
+        $this->recalcular_total($id);
         $CompanyProfiles = CompanyProfile::first();
         //$comp=$CompanyProfiles->id;
         $InternalOrders = InternalOrder::find($id);
@@ -854,6 +888,16 @@ class InternalOrderController extends Controller
         $InternalOrders->date_delivery=$request->date_delivery;
         $InternalOrders->instalation_date=$request->instalation_date;
         $InternalOrders->payment_conditions=$request->payment_conditions;
+        
+        $InternalOrders->dgi=$request->dgi* 0.01;
+        $InternalOrders->comision=$request->comision* 0.01;
+        $InternalOrders->otra=$request->otra* 0.01;
+        
+        $InternalOrders->description=$request->description;
+        $InternalOrders->observations=$request->observations;
+        $InternalOrders->category=$request->category;
+
+        $InternalOrders->descuento=$request->descuento* 0.01;
         $InternalOrders->status="CAPTURADO";
         $Items = Item::where('internal_order_id', $InternalOrders->id)->get();
             if(count($Items) > 0){
@@ -892,7 +936,8 @@ class InternalOrderController extends Controller
                     $Signature->save(); 
                  }
              
-                   
+        
+        $this->recalcular_total($id);         
         return $this->payment($id);
     }
 
@@ -920,6 +965,32 @@ class InternalOrderController extends Controller
         $TempInternalOrders = TempInternalOrder::find($Comission->temp_order_id);
         temp_comissions::destroy($id);
         return $this->capture_comissions($TempInternalOrders->id,' ');
+    }
+    
+    public function edit_comissions($id){
+        $Comission=comissions::find($id);
+        $InternalOrders = InternalOrder::find($Comission->order_id);
+        $Sellers = Seller::all();
+        return view('internal_orders.edit_comission_real', compact(
+            'Comission',
+            'InternalOrders',
+            'Sellers',
+        ));
+    }
+    public function update_comissions($id,Request $request){
+        $InternalOrders = InternalOrder::find($request->order_id);
+        $Comission=comissions::find($id);
+        $Comission->seller_id=$request->seller_id;
+        $Comission->percentage=$request->comision*0.01;
+        $Comission->description=$request->description;
+        $Comission->save();
+        return redirect('internal_orders/edit/'.$InternalOrders->id);
+    }
+    public function delete_comissions($id){
+        $Comission=comissions::find($id);
+        $InternalOrders = InternalOrder::find($Comission->order_id);
+        comissions::destroy($id);
+        return redirect('internal_orders/edit/'.$InternalOrders->id);
     }
     public function exterminio(){
         comissions::truncate();

@@ -16,7 +16,7 @@
         <form action="{{ route('internal_orders.redefine_order')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="internal_order_id" value="{{$InternalOrders->id}}"/>
-        <div class="col-12 text-right p-2 gap-2">
+        <div class="col-12  p-2 gap-2">
         <div class="form-group">
                                         <x-jet-label value="* Cliente" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id">
@@ -122,23 +122,72 @@
                            </div>
                            <div class="form-group">
                                <x-jet-label value="* Comision del Vendedor" />
-                               <input type="number" name="comision" style='width: 10%;' max=100 min=0 step=0.1 value="{{$InternalOrders->comision}}"> %
+                               <input type="number" name="comision" style='width: 10%;' max=100 min=0 step=any value="{{$InternalOrders->comision* 100}}"> %
                                <x-jet-input-error for='seller_id' />
                            </div>
+                           <div class="form-group">
+                                <x-jet-label value="* Categoria" />
+                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
+                                        
+                                        <option value=" " > </option>
+                                        
+                                        <option value="Productos" @if($InternalOrders->category=="Productos") selected @endif>Productos</option>
+                                        <option value="Servicios" @if($InternalOrders->category=="Servicios") selected @endif>Servicios</option>
+                                        <option value="Integracion" @if($InternalOrders->category=="Integracion") selected @endif>Integracion</option>
+                                       
+                                    
+                                </select>
+                                <x-jet-input-error for='category' /> 
+                            <div class="form-group">
+                                <x-jet-label value="* Descripción del Proyecto" />
+                                <select class="form-capture  w-full text-xs uppercase" name="description" id='desc'>
+                                        <option value="Producto Fabricacion" @if($InternalOrders->description=="Producto Fabricacion") selected @endif>Producto fabricacion PF</option>
+                                        <option value="Producto Comercializacion"  @if($InternalOrders->description=="Producto Comercializacion") selected @endif>Producto Comercializacion  PC</option>
+                                        <option value="Servicio directo SD"  @if($InternalOrders->description=="Servicio directo SD") selected @endif>Servicio directo SD</option>
+                                        <option value="Servicio indirecto SI"  @if($InternalOrders->description=="Servicio indirecto SI") selected @endif >Servicio indirecto SI</option>
+                                        <option value="PF+SD" @if($InternalOrders->description=="PF+SD") selected @endif>PF+SD</option>
+                                        <option value="PF+SI" @if($InternalOrders->description=="PF+SI") selected @endif>PF+SI</option>
+                                        <option value="PC+SD" @if($InternalOrders->description=="PC+SD") selected @endif>PC+SD</option>
+                                        <option value="PC+SI" @if($InternalOrders->description=="PC+SI") selected @endif>PC+SI</option>
+                                       
+                                </select><x-jet-input-error for='description' />
+                            </div>
+                    
+                            <div class="row">
+                                <div class="col-sm-8 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="Observaciones"  />
+                                        <textarea  name="observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{$InternalOrders->observations}}</textarea>
+                                        <x-jet-input-error for='observations' />
+                                    </div>
+                                </div>
+                            </div>
                            <div class="form-group">
                                <x-jet-label value=" % Dgi" />
-                               <input type="number" name="dgi" style='width: 10%;' max=100 min=0 step=0.1> %
+                               <input type="number" name="dgi" style='width: 10%;' max=100 min=0 step=0.1 value="{{$InternalOrders->dgi * 100}}"> %
                                <x-jet-input-error for='seller_id' />
                            </div>
+                           
                            <div class="form-group">
-                               <x-jet-label value="Otro" />
-                               <input type="number" name="otro" style='width: 10%;' max=100 min=0 step=0.1> %
-                               <x-jet-input-error for='seller_id' />
+                               <x-jet-label value="descuento" />
+                               <input type="number" name="descuento" style='width: 10%;' max=100 min=0 step=0.1  value="{{$InternalOrders->descuento * 100}}"> %
+                               <x-jet-input-error for='descuento' />
                            </div>
                        </div>
                   
                
-        <div class="row">
+                            <button type="submit" class="btn btn-green mb-2">
+                    <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
+                </button>
+                <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-red mb-2">
+                    <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
+                </a>  </form>
+
+                <br><br>
+
+<h1>Agregar o editar Partidas:</h1>
+<br>
+                <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 text-right p-3">
                                         <a href="{{ route('tempitems.create_item', $InternalOrders->id) }} " class="btn btn-green">
@@ -183,24 +232,57 @@
                                         {{--  <x-jet-input type="hidden" name="item" class="w-flex text-xs" value="{{ $ITEM }}"/>
                                         <x-jet-input-error for='item' />  --}}
                                     </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-green mb-2">
-                    <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
-                </button>
-                <a href="{{ route('internal_orders.index')}}" class="btn btn-red mb-2">
-                    <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
-                </a>  </form>
-                <h1>Comisiones:</h1>
-                <table>
+<br><br>
+
+<h1>Agregar o editar Comisiones:</h1>
+<br>
+                <form action="{{ route('store_comissions') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <x-jet-input type="hidden" name="internal_order_id" value="{{ $InternalOrders->id }}"/>
+            <x-jet-input type="hidden" name="p_seller_id" id="p_seller_id"  value="."/>
+            <x-jet-input type="hidden" name="p_comission" id="p_comission" value="."/>
+    <div class ="row" >
+                                    <div class="form-group">
+                                        <x-jet-label value="* Vendedor" />
+                                        <select class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 50%;'>
+                                            @foreach ($Sellers as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='seller_id' />
+                                    </div>
+                                    
+                                      <div class="form-group">
+                                        <x-jet-label value="* Comision del Vendedor" />
+                                        
+                                        <input class="form-capture   text-md"  type="number" name="comision" style='width: 20%;' max=100 min=0.01 step=any value=0.01>  %
+                                        <x-jet-input-error for='seller_id' />
+                
+                                    </div>
+                                      <div class="form-group">
+                                        <x-jet-label value="* Descripcion" />
+                                        
+                                        <input class="form-capture   text-md"  type="text" name="description" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <x-jet-input-error for='desc' />
+                                       </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-green mb-2">
+                                            <i class="fas fa-plus-circle fa-2x"></i>&nbsp; Agregar Comision</button>
+                                    
+                                    </form>
+                                    </div>
+                
+            
+                <table class="table tableitems table-striped text-xs font-medium">
                     <thead>
+                        <tr class="text-center">
                     <th>Clave Vendedor</th>
                     <th>Vendedor</th>
                     <th>Comision</th>
                     
                     <th>Descripcion</th>
                     <th></th>
-                    <th></th></thead>
+                    <th></th> </tr> </thead>
                     <tbody>
                 @foreach($Comisiones as $c)
                 <tr class="text-center">
@@ -210,10 +292,10 @@
                     <td>{{$c->percentage * 100}} %  </td>
                     
                     <td>{{$c->description}}  </td>
-                    <td><a href="{{ route('edit_temp_comissions', $c->id) }} " class="btn btn-green">
+                    <td><a href="{{ route('edit_comissions', $c->id) }} " class="btn btn-green">
                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                     </a></td>
-                    <td><a href="{{ route('delete_temp_comissions', $c->id) }} " class="btn btn-red">
+                    <td><a href="{{ route('delete_comissions', $c->id) }} " class="btn btn-red">
                         <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
                     </a></td>
                 </tr>
@@ -221,6 +303,14 @@
             </tbody>
                     
                 </table>
+                </div>
+                <br><br>
+                <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-green mb-2">
+                    <i class="fa fa-sign-out"></i>&nbsp;&nbsp; Salir
+                </a>  </form>
+
+                <br><br>
+                </div>
             </div>
         </div>
         

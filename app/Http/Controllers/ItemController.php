@@ -112,7 +112,7 @@ class ItemController extends Controller
         // $Iva = $Subtotal * 0.16;
         // $Total = $Subtotal + $Iva;
 
-        return (new InternalOrderController)->edit_order($Items->internal_order_id);
+        return redirect('internal_orders/edit/'.$Items->internal_order_id);
     }
 
     public function show($id)
@@ -176,8 +176,8 @@ class ItemController extends Controller
 
         $Iva = $Subtotal * 0.16;
         $Total = $Subtotal + $Iva;
-
-        return (new InternalOrderController)->edit_order($InternalOrders->id);
+        
+        return redirect('internal_orders/edit/'.$Items->internal_order_id);
     }
     public function update(Request $request, $id)
     {
