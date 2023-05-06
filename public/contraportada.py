@@ -455,7 +455,7 @@ for i in range(0,len(facturas)):
 for i in range(0,len(notas)):
     worksheet.write('H'+str(13+len(facturas)+i), str(notas['credit_note'].values[i])+' (credito)', red_content)
     worksheet.write('I'+str(13+len(facturas)+i), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(13+len(facturas)+i), notas['amount'].values[i], red_content)
+    worksheet.write('J'+str(13+len(facturas)+i), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K10:O10', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
@@ -523,8 +523,8 @@ else:
 worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
-worksheet.write('J'+str(trow),facturas["amount"].sum() , red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()-notas['amount'].sum(), red_content)
+worksheet.write('J'+str(trow),facturas["amount"].sum() -notas['amount'].sum(), red_content_bold)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
