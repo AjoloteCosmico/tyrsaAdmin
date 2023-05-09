@@ -485,9 +485,9 @@ for i in range(0,len(cobros)):
     worksheet.write('M'+str(13+i), moneda['code'].values[0], blue_content)
     worksheet.write('N'+str(13+i), cobros['amount'].values[i], blue_content)
     worksheet.write('O'+str(13+i), "{:.2f}".format(cobros['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
-    worksheet.write('P'+str(13+i), str(cobros['tc'].values[i]), red_content)
-    worksheet.write('Q'+str(13+i), str(importe_acumulado), red_content)
-    worksheet.write('R'+str(13+i), str(porcentaje_acumulado)+'%', red_content)
+    worksheet.write('P'+str(13+i), cobros['tc'].values[i], red_content)
+    worksheet.write('Q'+str(13+i), importe_acumulado, red_content)
+    worksheet.write('R'+str(13+i), "{:.2f}".format(porcentaje_acumulado)+'%', red_content)
     worksheet.write('S'+str(13+i), str(cobros['capturo'].values[i]), red_content)
     worksheet.write('T'+str(13+i), str(cobros['reviso'].values[i]), red_content)
     worksheet.write('U'+str(13+i), str(cobros['autorizo'].values[i]), red_content)
@@ -509,13 +509,12 @@ if(hpagos["amount"].sum()==orden["total"].values[0] ):
 else:
     
    worksheet.write('F'+str(trow+2),'No Okay' , blue_content)
-worksheet.write('G'+str(trow),hpagos["percentage"].sum() , blue_content_bold)
-worksheet.write('G'+str(trow+1),hpagos["percentage"].sum() -100, blue_content)
+worksheet.write('G'+str(trow),"{:.2f}".format(hpagos["percentage"].sum()) , blue_content_bold)
+worksheet.write('G'+str(trow+1),"{:.2f}".format(hpagos["percentage"].sum() -100), blue_content)
 if(hpagos["percentage"].sum()==100 ):
    worksheet.write('G'+str(trow+2),'Okay' , blue_content)
 else:
    worksheet.write('G'+str(trow+2),'NO Okay' , blue_content)
-
 
 
 #worksheet.merge_range('H'+str(trow)+':H'+str(trow+2), 'NA', blue_header_format_bold)
@@ -524,7 +523,7 @@ worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
 worksheet.write('J'+str(trow),facturas["amount"].sum() -notas['amount'].sum(), red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum(), red_content)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()+notas['amount'].sum(), red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
@@ -532,8 +531,8 @@ worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
 worksheet.write('N'+str(trow),cobros["amount"].sum() , blue_content_bold)
 worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
 
-worksheet.write('O'+str(trow), str(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+1), str(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write('O'+str(trow), "{:.2f}".format(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
    worksheet.write('O'+str(trow+2),'Okay' , blue_content_bold)
@@ -545,9 +544,9 @@ worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacion
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),'Cobrado', red_header_format)
 worksheet.merge_range('T'+str(trow+1)+':U'+str(trow+1),'Por cobrar', red_header_format)
-worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+2),str(orden['total'].values[0]), red_content)
-worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+2),str(orden['total'].values[0]), red_content)
-worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+2),str(orden['total'].values[0]),red_content)
+worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+2),orden['total'].values[0], red_content)
+worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+2),cobros["amount"].sum(), red_content)
+worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+2),orden["total"].values[0]-cobros["amount"].sum(),red_content)
 
 
 worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)    

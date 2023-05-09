@@ -64,7 +64,6 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');
     
     Route::get('cobro_pdf/{id}', [ReportsController::class, 'cobro_pdf'])->name('cobro_pdf');
-    
     Route::get('factura_pdf/{id}', [ReportsController::class, 'factura_pdf'])->name('factura_pdf');
     Route::get('credit_note_pdf/{id}', [ReportsController::class, 'note_pdf'])->name('note_pdf');
     

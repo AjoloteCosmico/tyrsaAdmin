@@ -82,6 +82,11 @@
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-eye"> </i> </button>
                                             </a>
+                                            &nbsp; &nbsp;
+                                        <a href="{{ route('factura_pdf', $f->id)}}">
+                                        <button class="btn btn-red">
+                                                <i class="fa fa-xl fa-file-pdf-o">pdf </i> 
+                                        </button></a>
                                             </div>
                                     
                                 </div>
