@@ -34,15 +34,15 @@ query = ('SELECT * from customers where id =1')
 
 
 #traer todas las facturas
-facturas=pd.read_sql('Select factures.* ,customers.customer ,customers.id as customer_id,internal_orders.invoice, internal_orders.payment_conditions,coins.exchange_sell, coins.coin, coins.symbol from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join coins on internal_orders.coin_id = coins.id',cnx)
+pedidos=pd.read_sql('Select internal_orders.* ,customers.customer ,customers.id as customer_id, sellers.seller_name,coins.exchange_sell, coins.coin, coins.symbol from ((internal_orders inner join sellers on internal_orders.seller_id = sellers.id) inner join customers on customers.id = internal_orders.customer_id )inner join coins on internal_orders.coin_id = coins.id',cnx)
 nordenes=len(pd.read_sql(query,cnx))
-df=facturas[['date']]
-print(facturas.columns)
+df=pedidos[['date']]
+# print(facturas.columns)
 writer = pd.ExcelWriter('storage/report/resumen_factura'+str(id)+'.xlsx', engine='xlsxwriter')
-if((int(id)!=0)&(int(tipo)==0)):
-   facturas=facturas.loc[facturas['order_id']==int(id)]
-if((int(id)!=0)&(int(tipo)==1)):
-   facturas=facturas.loc[facturas['customer_id']==int(id)]
+# if((int(id)!=0)&(int(tipo)==0)):
+#    facturas=pedidos.loc[pedidos['order_id']==int(id)]
+# if((int(id)!=0)&(int(tipo)==1)):
+#    facturas=facturas.loc[facturas['customer_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({

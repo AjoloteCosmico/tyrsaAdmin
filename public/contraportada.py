@@ -35,7 +35,7 @@ print(order_id)
 orden = pd.read_sql("select * from internal_orders where id="+str(order_id),cnx)
 cliente = pd.read_sql("select * from customers where id = "+str(orden["customer_id"].values[0]),cnx)
 moneda = pd.read_sql("select * from coins where id="+str(orden["coin_id"].values[0]),cnx)
-query = ('SELECT * from historical_payments where order_id = '+str(order_id))
+query = ('SELECT * from payments where order_id = '+str(order_id))
 #pagos historicos, los que fueron programados en un inicio
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
@@ -379,7 +379,7 @@ b4s = workbook.add_format({
     
 #dataframes
 
-df.to_excel(writer, sheet_name='Sheet1', startrow=9,startcol=6, header=False, index=False)
+df.to_excel(writer, sheet_name='Sheet1', startrow=9,startcol=5, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)

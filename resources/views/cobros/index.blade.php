@@ -27,26 +27,23 @@
                 <table class="table tablefactures table-striped text-xs text-center font-medium">
                     <thead>
                         <tr class="text-center">
-                            <th rowspan="2">PDA</th>
-                            <th rowspan="2">FECHA EMISION</th>
-                            <th rowspan="2">FACTURA</th>
-                            <th rowspan="2">BANCO</th>
-                            <th rowspan="2">P.I.</th>
-                            <th rowspan="2">CLIENTE </th>
-                            <th rowspan="2">MONEDA</th>
-                            <th rowspan="2">TC</th>
-                            <th colspan="2">IMPORTE TOTAL</th>
-                            <th rowspan="2">CAPTURO </th>
-                            <th rowspan="2">REVISO</th>
-                            <th rowspan="2">AUTORIZO</th>
-                            <th rowspan="2"> </th>
-                            <th rowspan="2"> </th>
-                           
-                        </tr>
-                        <TR>
+                            <th  >PDA</th>
+                            <th  >FECHA EMISION</th>
+                            <th  >FACTURA</th>
+                            <th  >BANCO</th>
+                            <th  >P.I.</th>
+                            <th  >CLIENTE </th>
+                            <th  >MONEDA</th>
+                            <th  >TC</th>
+                            
                             <TH>DLL</TH>
                             <TH>M.N.</TH>
-                        </TR>
+                            <th  >CAPTURO </th>
+                            <th  >REVISO</th>
+                            <th  >AUTORIZO</th>
+                            <th  > </th>
+                           
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach($Cobros as $c)
