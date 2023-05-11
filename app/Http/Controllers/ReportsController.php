@@ -223,7 +223,6 @@ public function note_pdf($id){
     $Sellers = Seller::find($InternalOrders->seller_id);
     $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
     $Coins=Coin::find($InternalOrders->coin_id);
-    $Factura=Factures::find($id);
     
     $pdf = PDF::loadView('reportes.nota_pdf', compact(
         'CompanyProfiles',
@@ -236,7 +235,7 @@ public function note_pdf($id){
         'Nota'));    
  
     $pdf->setPaper('A4', 'landscape');
- return $pdf->download('Nota'.$Factura->facture.'.pdf');   
+ return $pdf->download('Nota'.$Nota->facture.'.pdf');   
 //  
 }    
   public function prueba($name){
