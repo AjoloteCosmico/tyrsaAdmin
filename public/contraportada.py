@@ -424,7 +424,7 @@ worksheet.merge_range('Q7:R7', cobros['amount'].sum(), red_content)
 worksheet.write('S7', "I/I", red_header_format)
 worksheet.write('T7', moneda['code'].values[0], red_header_format)
 worksheet.write('P8', "POR COBRAR", red_header_format)
-worksheet.merge_range('Q8:R8','$'+ orden['total'].values[0]-cobros['amount'].sum(), red_content)
+worksheet.merge_range('Q8:R8', orden['total'].values[0]-cobros['amount'].sum(), red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 
