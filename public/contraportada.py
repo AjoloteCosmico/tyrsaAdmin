@@ -568,6 +568,8 @@ worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
 worksheet.set_column('N:N',15)
 worksheet.set_column('J:J',15)
+
+worksheet.set_column('O:O',14)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
