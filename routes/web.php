@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth']], function()
 
 
 
-    Route::get('reportes/cuentas_cobrar', [PaymentsController::class, 'rep_cuentas_cobrar'])->name('reportes.cuentas_cobrar');
+    Route::get('reportes/cuentas_cobrar', [ReportController::class, 'cuentas_cobrar'])->name('reportes.cuentas_cobrar');
     
     Route::get('items/create/{id}', [ItemController::class, 'create'])->name('items.creation');
     Route::get('accounting/pay_cancel/{id}', [PaymentsController::class, 'pay_cancel'])->name('pay_cancel');
