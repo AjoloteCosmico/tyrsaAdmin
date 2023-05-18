@@ -41,6 +41,7 @@ from ((
      """,cnx)
 cobros=pd.read_sql("select * from cobros",cnx)
 facturas=pd.read_sql("select * from factures",cnx)
+creditos=pd.read_sql("select * from credit_notes",cnx)
 print(cobros)
 nordenes=len(pedidos)
 df=pedidos[['date']]
@@ -298,11 +299,11 @@ for i in range(0,len(cobros)):
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)*100/pedidos['subtotal'].values[i])+"%", blue_content)
    #facturado
    if(pedidos['code'].values[i]=='MXN'):
-      worksheet.write('P'+row_index, pedidos['subtotal'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('P'+row_index, pedidos['subtotal'].values[i]-(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
       worksheet.write('Q'+row_index, 0, blue_content)
    else:
       worksheet.write('P'+row_index, 0, blue_content)
-      worksheet.write('Q'+row_index,pedidos['subtotal'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('Q'+row_index,pedidos['subtotal'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
   
    #por facturar
    if(pedidos['code'].values[i]=='MXN'):
@@ -314,7 +315,15 @@ for i in range(0,len(cobros)):
   
 trow=9+len(pedidos)
 
-worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Subtotales', blue_header_format_bold)
+worksheet.write('I'+str(trow), 'Subtotales', blue_header_format_bold)
+
+worksheet.write('J'+str(trow), 'Subtotales', blue_content_bold)
+worksheet.write('K'+str(trow), 'Subtotales', blue_content_bold)
+worksheet.write('L'+str(trow), 'Subtotales', blue_content_bold)
+worksheet.write('M'+str(trow), 'Subtotales', blue_content_bold)
+worksheet.write('N'+str(trow), 'Subtotales', blue_content_bold)
+worksheet.write('O'+str(trow), 'Subtotales', blue_content_bold)
+
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
 
