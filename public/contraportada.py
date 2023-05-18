@@ -39,7 +39,7 @@ query = ('SELECT * from payments where order_id = '+str(order_id))
 #pagos historicos, los que fueron programados en un inicio
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
-cobros=pd.read_sql("""Select cobros.*,capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
+cobros=pd.read_sql("""Select cobros.*,capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
     from (((cobros 
     left join users as capturistas on cobros.capturo=capturistas.id)
     left join users as revisores on cobros.reviso=revisores.id)
@@ -401,30 +401,30 @@ worksheet.merge_range('E8:F8', str(orden['reg_date'].values[0]), blue_content)
 
 #tabla superior totales
 worksheet.write('H6', "SUBTOTAL", red_header_format)
-worksheet.merge_range('I6:J6', '$'+str(orden['subtotal'].values[0]), red_content)
+worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  '$'+str(orden['total'].values[0]-orden['subtotal'].values[0]), red_content)
+worksheet.merge_range('I7:J7',  orden['total'].values[0]-orden['subtotal'].values[0], red_content)
 worksheet.write('H8', "TOTAL (I/I)", red_header_format_bold)
-worksheet.merge_range('I8:J8',  '$'+str(orden['total'].values[0]), red_content_bold)
+worksheet.merge_range('I8:J8',  orden['total'].values[0], red_content_bold)
 
 #tabla superior facturas
 worksheet.write('L6', "FACTURADO", blue_header_format)
-worksheet.merge_range('M6:N6', '$'+str(facturas['amount'].sum()), blue_content)
+worksheet.merge_range('M6:N6', facturas['amount'].sum(), blue_content)
 worksheet.merge_range('L7:N7', 'IVA INCLUIDO', blue_header_format)
 worksheet.write('L8', "POR FACTURAR", blue_header_format)
-worksheet.merge_range('M8:N8', '$'+str(hpagos['amount'].sum() -facturas['amount'].sum()), blue_content)
+worksheet.merge_range('M8:N8', hpagos['amount'].sum() -facturas['amount'].sum(), blue_content)
 
 #tabla superior por cobrar ¿?
 worksheet.write('P6', "D.A", red_header_format)
-worksheet.merge_range('Q6:R6', str(orden['total'].values[0]), red_content)
+worksheet.merge_range('Q6:R6', orden['total'].values[0], red_content)
 worksheet.write('S6', "I/I", red_header_format)
 worksheet.write('T6', moneda['code'].values[0], red_header_format)
 worksheet.write('P7', "COBRADO", red_header_format)
-worksheet.merge_range('Q7:R7', '$'+str(cobros['amount'].sum()), red_content)
+worksheet.merge_range('Q7:R7', cobros['amount'].sum(), red_content)
 worksheet.write('S7', "I/I", red_header_format)
 worksheet.write('T7', moneda['code'].values[0], red_header_format)
 worksheet.write('P8', "POR COBRAR", red_header_format)
-worksheet.merge_range('Q8:R8','$'+ str(orden['total'].values[0]-cobros['amount'].sum()), red_content)
+worksheet.merge_range('Q8:R8', orden['total'].values[0]-cobros['amount'].sum(), red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 
@@ -493,9 +493,9 @@ for i in range(0,len(cobros)):
     worksheet.write('P'+str(13+i), cobros['tc'].values[i], red_content)
     worksheet.write('Q'+str(13+i), importe_acumulado, red_content)
     worksheet.write('R'+str(13+i), "{:.2f}".format(porcentaje_acumulado)+'%', red_content)
-    worksheet.write('S'+str(13+i), str(cobros['capturo'].values[i]), red_content)
-    worksheet.write('T'+str(13+i), str(cobros['reviso'].values[i]), red_content)
-    worksheet.write('U'+str(13+i), str(cobros['autorizo'].values[i]), red_content)
+    worksheet.write('S'+str(13+i), str(cobros['capturista'].values[i]), red_content)
+    worksheet.write('T'+str(13+i), str(cobros['revisor'].values[i]), red_content)
+    worksheet.write('U'+str(13+i), str(cobros['autorizador'].values[i]), red_content)
 
 
 table_len=max(len(hpagos),len(facturas)+len(notas))
@@ -503,23 +503,23 @@ table_len=max(table_len,len(cobros))
 trow=14+table_len
 
 #validaciones ordenes_internas pagos historicos
-worksheet.merge_range('C'+str(trow)+':E'+str(trow), 'Totales', blue_header_format_bold)
-worksheet.merge_range('C'+str(trow+1)+':E'+str(trow+1), '(Debe ser 0)', blue_header_format)
-worksheet.merge_range('C'+str(trow+2)+':E'+str(trow+2), 'validacion', blue_header_format)
+worksheet.merge_range('C'+str(trow)+':E'+str(trow), 'TOTALES', blue_header_format_bold)
+worksheet.merge_range('C'+str(trow+1)+':E'+str(trow+1), '(DEBE SER 0)', blue_header_format)
+worksheet.merge_range('C'+str(trow+2)+':E'+str(trow+2), 'VALIDACION', blue_header_format)
 
 worksheet.write('F'+str(trow),hpagos["amount"].sum() , blue_content_bold)
 worksheet.write('F'+str(trow+1),hpagos["amount"].sum() - orden["total"].values[0], blue_content)
 if(hpagos["amount"].sum()==orden["total"].values[0] ):
-   worksheet.write('F'+str(trow+2),'Okay' , blue_content)
+   worksheet.write('F'+str(trow+2),'OK' , blue_content)
 else:
     
-   worksheet.write('F'+str(trow+2),'No Okay' , blue_content)
-worksheet.write('G'+str(trow),"{:.2f}".format(hpagos["percentage"].sum()) , blue_content_bold)
-worksheet.write('G'+str(trow+1),"{:.2f}".format(hpagos["percentage"].sum() -100), blue_content)
+   worksheet.write('F'+str(trow+2),'NO OK' , blue_content)
+worksheet.write('G'+str(trow),"{:.2f}".format(hpagos["percentage"].sum())+'%' , blue_content_bold)
+worksheet.write('G'+str(trow+1),"{:.2f}".format(hpagos["percentage"].sum() -100)+'%', blue_content)
 if(hpagos["percentage"].sum()==100 ):
-   worksheet.write('G'+str(trow+2),'Okay' , blue_content)
+   worksheet.write('G'+str(trow+2),'OK' , blue_content)
 else:
-   worksheet.write('G'+str(trow+2),'NO Okay' , blue_content)
+   worksheet.write('G'+str(trow+2),'NO Ok' , blue_content)
 
 
 #worksheet.merge_range('H'+str(trow)+':H'+str(trow+2), 'NA', blue_header_format_bold)
@@ -540,12 +540,12 @@ worksheet.write('O'+str(trow), "{:.2f}".format(cobros["amount"].sum()*100/orden[
 worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
-   worksheet.write('O'+str(trow+2),'Okay' , blue_content_bold)
+   worksheet.write('O'+str(trow+2),'OK' , blue_content_bold)
 else:
-   worksheet.write('O'+str(trow+2),'NO Okay' , blue_content_bold)
+   worksheet.write('O'+str(trow+2),'NO OK' , blue_content_bold)
 
 
-worksheet.merge_range('P'+str(trow)+':U'+str(trow),'Equivalente en moneda nacional (Iva incluido)', red_header_format_bold)
+worksheet.merge_range('P'+str(trow)+':U'+str(trow),'EQUIVALENTE EN MONEDA NACIONAL (IVA INCLUIDO))', red_header_format_bold)
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),'D.A.', red_header_format)
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),'Cobrado', red_header_format)
 worksheet.merge_range('T'+str(trow+1)+':U'+str(trow+1),'Por cobrar', red_header_format)
@@ -558,7 +558,7 @@ worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)
 if(orden["observations"].values[0]!=None):
    worksheet.merge_range(trow+5,1,trow+8,18, str(orden["observations"].values[0]), observaciones_format)
 else:    
-   worksheet.merge_range(trow+5,1,trow+8,18,'Sin observaciones', observaciones_format)
+   worksheet.merge_range(trow+5,1,trow+8,18,'SIN OBSERVACIONES', observaciones_format)
 
 
 
@@ -568,6 +568,8 @@ worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
 worksheet.set_column('N:N',15)
 worksheet.set_column('J:J',15)
+
+worksheet.set_column('O:O',14)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
