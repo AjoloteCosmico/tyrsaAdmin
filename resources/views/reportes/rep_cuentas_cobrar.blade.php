@@ -9,15 +9,36 @@
 @section('content')
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
+            
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
-                <a href="{{route('payments.reporte',[1,'consecutivo_pedido',0])}}">
+                    <h1>CUENTAS POR COBRAR PPOR PEDIDO INTERNO</h1>
+                <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
-                                <a href="{{route('payments.reporte',[1,'consecutivo_pedido',1])}}">
+                                <a href="{{route('reports.generate',[1,'CxC_pedido',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
+                                  <BR><BR></BR></BR>
+                    <h1>CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO</h1>
+                    <a href="{{route('reports.generate',[1,'CxC_cliente_consolidado',0])}}">
+                    <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                    </a>  
+                
+                <a href="{{route('reports.generate',[1,'CxC_cliente_consolidado',1])}}">
+                    <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                    </a>  
+                    <BR><BR></BR></BR>
+                    <h1>CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO</h1>
+                    <a href="{{route('reports.generate',[1,'desglosado',0])}}">
+                    <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                    </a>  
+                
+                <a href="{{route('reports.generate',[1,'CxC_cliente_desglosado',1])}}">
+                    <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                    </a>  
+                    
                                
                                
         
