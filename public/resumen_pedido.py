@@ -30,19 +30,19 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 query = ('SELECT * from customers where id =1')
 
 # join para cobros
-# facturas=pd.read_sql('Select factures.* ,customers.customer,internal_orders.invoice, users.name from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on factures.capturo=users.id',cnx)
+# pedidos=pd.read_sql('Select factures.* ,customers.customer,internal_orders.invoice, users.name from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on factures.capturo=users.id',cnx)
 
 
-#traer todas las facturas
+#traer todas las pedidos
 pedidos=pd.read_sql('Select internal_orders.* ,customers.customer ,customers.id as customer_id, sellers.seller_name,coins.exchange_sell, coins.coin, coins.symbol from ((internal_orders inner join sellers on internal_orders.seller_id = sellers.id) inner join customers on customers.id = internal_orders.customer_id )inner join coins on internal_orders.coin_id = coins.id',cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=pedidos[['date']]
-# print(facturas.columns)
+# print(pedidos.columns)
 writer = pd.ExcelWriter('storage/report/resumen_factura'+str(id)+'.xlsx', engine='xlsxwriter')
 # if((int(id)!=0)&(int(tipo)==0)):
-#    facturas=pedidos.loc[pedidos['order_id']==int(id)]
+#    pedidos=pedidos.loc[pedidos['order_id']==int(id)]
 # if((int(id)!=0)&(int(tipo)==1)):
-#    facturas=facturas.loc[facturas['customer_id']==int(id)]
+#    pedidos=pedidos.loc[pedidos['customer_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -240,29 +240,27 @@ worksheet.merge_range('O6:O7', 'CAPTURO ', blue_header_format)
 worksheet.merge_range('P6:P7', 'REVISO ', blue_header_format)
 worksheet.merge_range('Q6:Q7', 'AUTORIZO', blue_header_format)
 
-for i in range(0,len(facturas)):
+for i in range(0,len(pedidos)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
-   worksheet.write('D'+row_index, str(facturas['date'].values[i]), blue_content)
-   worksheet.write('E'+row_index, str(facturas['payment_conditions'].values[i]), blue_content)
-   worksheet.write('F'+row_index, str(facturas['payment_conditions'].values[i]), blue_content)
-   worksheet.write('G'+row_index, ' ', blue_content)
-   worksheet.write('H'+row_index, str(facturas['facture'].values[i]), blue_content)
-   worksheet.write('I'+row_index, str(facturas['invoice'].values[i]), blue_content)
-   worksheet.write('J'+row_index, str(facturas['customer'].values[i]), blue_content)
-   worksheet.write('K'+row_index, str(facturas['coin'].values[i]), blue_content)
-   worksheet.write('L'+row_index, str(facturas['exchange_sell'].values[i]), blue_content)
-   worksheet.write('M'+row_index, str(facturas['amount'].values[i]), blue_content)
-   worksheet.write('N'+row_index, str(facturas['exchange_sell'].values[i]*facturas['amount'].values[i]), blue_content)
+   worksheet.write('D'+row_index, str(pedidos['date'].values[i]), blue_content)
+   worksheet.write('E'+row_index, str(pedidos['payment_conditions'].values[i]), blue_content)
+   worksheet.write('F'+row_index, str(pedidos['payment_conditions'].values[i]), blue_content)
+   worksheet.write('I'+row_index, str(pedidos['invoice'].values[i]), blue_content)
+   worksheet.write('J'+row_index, str(pedidos['customer'].values[i]), blue_content)
+   worksheet.write('K'+row_index, str(pedidos['coin'].values[i]), blue_content)
+   worksheet.write('L'+row_index, str(pedidos['exchange_sell'].values[i]), blue_content)
+   worksheet.write('M'+row_index, str(pedidos['total'].values[i]), blue_content)
+   worksheet.write('N'+row_index, str(pedidos['exchange_sell'].values[i]*pedidos['amount'].values[i]), blue_content)
    worksheet.write('O'+row_index, ' ', blue_content)
    worksheet.write('P'+row_index, ' ', blue_content)
    worksheet.write('Q'+row_index, ' ', blue_content)
  
-trow=8+len(facturas)
+trow=8+len(pedidos)
 
 worksheet.merge_range('K'+str(trow)+':L'+str(trow), 'Total', blue_header_format_bold)
-worksheet.write('M'+str(trow), str(facturas['amount'].sum()), blue_content)
-worksheet.write('N'+str(trow), str(facturas['exchange_sell'].values[0]*facturas['amount'].sum()), blue_content_bold)
+worksheet.write('M'+str(trow), str(pedidos['amount'].sum()), blue_content)
+worksheet.write('N'+str(trow), str(pedidos['exchange_sell'].values[0]*pedidos['amount'].sum()), blue_content_bold)
    
 
 
