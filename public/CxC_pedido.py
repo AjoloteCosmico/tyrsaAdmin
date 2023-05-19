@@ -282,7 +282,7 @@ xcobrar_dlls=0
 for i in range(0,len(pedidos)):
    row_index=str(9+i)
    #datos generales del pedido
-   worksheet.write('B'+row_index, str(pedidos['noha'].values[0]), blue_content)
+   worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
    worksheet.write('C'+row_index, str(i+1), blue_content)
    worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
    worksheet.write('E'+row_index, str(pedidos['reg_date'].values[i]), blue_content)
@@ -344,7 +344,7 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
 #TOTAL FACTURADO MN
-worksheet.write_formula('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum()/1.16)*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
+worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum()/1.16)*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
 #TOTAL FACTURADOR DLLS
 worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR FACTURAR MN
