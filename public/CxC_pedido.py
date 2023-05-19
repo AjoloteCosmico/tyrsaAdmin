@@ -33,15 +33,26 @@ query = ('SELECT * from customers where id =1')
 
 #traer datos de los pedidos
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
-coins.exchange_sell, coins.coin, coins.symbol, coins.code
+coins.exchange_sell, coins.coin, coins.symbol
 from ((
     internal_orders
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
-cobros=pd.read_sql("select * from cobros",cnx)
-facturas=pd.read_sql("select * from factures",cnx)
-creditos=pd.read_sql("select * from credit_notes",cnx)
+cobros=pd.read_sql("""select * 
+                     from ((
+                         cobros
+    inner join internal_orders on internal_orders.id = cobros.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+facturas=pd.read_sql("""select * 
+                     from ((
+                         factures
+    inner join internal_orders on internal_orders.id = factures.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+creditos=pd.read_sql("""select * 
+                     from ((
+                         credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 print(cobros)
 nordenes=len(pedidos)
 df=pedidos[['date']]
@@ -238,8 +249,8 @@ worksheet.merge_range('H6:H8', 'MONEDA', blue_header_format)
 
 worksheet.merge_range('I6:O6', 'DERECHOS ADQUIRIDOS', blue_header_format)
 worksheet.merge_range('I7:J7', 'IMPORTE TOTAL SIN IVA', blue_header_format)
-worksheet.write('I8', 'DLLS', blue_header_format)
-worksheet.write('J8', 'MN', blue_header_format)
+worksheet.write('I8', 'MN', blue_header_format)
+worksheet.write('J8', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('K7:L7', 'COBRADO', blue_header_format)
@@ -264,6 +275,10 @@ worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
 worksheet.write('R8', 'MN', blue_header_format)
 worksheet.write('S8', 'DLLS', blue_header_format)
 #llenando la tabla
+xcobrar_mn=0
+xcobrar_dlls=0
+x_mn=0
+xcobrar_dlls=0
 for i in range(0,len(pedidos)):
    row_index=str(9+i)
    #datos generales del pedido
@@ -275,21 +290,21 @@ for i in range(0,len(pedidos)):
    worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
    worksheet.write('H'+row_index, str(pedidos['coin'].values[i]), blue_content)
    #subtotal
-   if(pedidos['code'].values[i]=='MXN'):
+   if(pedidos['coin_id'].values[i]==1):
       worksheet.write('I'+row_index, pedidos['subtotal'].values[i], blue_content)
       worksheet.write('J'+row_index, 0, blue_content)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
       worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
 #cobrado
-   if(pedidos['code'].values[i]=='MXN'):
+   if(pedidos['coin_id'].values[i]==1):
       worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
       worksheet.write('L'+row_index, 0, blue_content)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
       worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
    #por cobrar
-   if(pedidos['code'].values[i]=='MXN'):
+   if(pedidos['coin_id'].values[i]==1):
       worksheet.write('M'+row_index, pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
       worksheet.write('N'+row_index, 0, blue_content)
    else:
@@ -298,7 +313,7 @@ for i in range(0,len(pedidos)):
    
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)*100/pedidos['subtotal'].values[i])+"%", blue_content)
    #facturado
-   if(pedidos['code'].values[i]=='MXN'):
+   if(pedidos['coin_id'].values[i]==1):
       worksheet.write('P'+row_index, pedidos['subtotal'].values[i]-(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
       worksheet.write('Q'+row_index, 0, blue_content)
    else:
@@ -306,7 +321,7 @@ for i in range(0,len(pedidos)):
       worksheet.write('Q'+row_index,pedidos['subtotal'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
   
    #por facturar
-   if(pedidos['code'].values[i]=='MXN'):
+   if(pedidos['coin_id'].values[i]==1):
       worksheet.write('R'+row_index, pedidos['subtotal'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
       worksheet.write('S'+row_index, 0, blue_content)
    else:
@@ -315,21 +330,57 @@ for i in range(0,len(pedidos)):
   
 trow=9+len(pedidos)
 
-worksheet.write('I'+str(trow), 'Subtotales', blue_header_format_bold)
+worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
+#SUBTOTAL PEDIDOS MN
+worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum(), blue_content_bold)
+#SUBTOTAL PEDIDOS DLLS
+worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold)
+#TOTAL COBRADO MN
+worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
+#TOTAL COBRADO DLLS
+worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_bold)
+#TOTAL POR COBRAR MN
+worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_content_bold)
+#TOTAL POR COBRAR DLLS
+worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
+#TOTAL FACTURADO MN
+worksheet.write_formula('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum()/1.16)*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
+#TOTAL FACTURADOR DLLS
+worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
+#TOTAL POR FACTURAR MN
+worksheet.write_formula('Q'+str(trow),  '{=SUM(Q9:Q'+str(trow-1)+')}', blue_content_bold)
+#TOTAL POR FACTURAR DLLS
+worksheet.write_formula('R'+str(trow),  '{=SUM(R9:R'+str(trow-1)+')}',blue_content_bold)
+worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_content_bold)
 
-worksheet.write('J'+str(trow), 'Subtotales', blue_content_bold)
-worksheet.write('K'+str(trow), 'Subtotales', blue_content_bold)
-worksheet.write('L'+str(trow), 'Subtotales', blue_content_bold)
-worksheet.write('M'+str(trow), 'Subtotales', blue_content_bold)
-worksheet.write('N'+str(trow), 'Subtotales', blue_content_bold)
-worksheet.write('O'+str(trow), 'Subtotales', blue_content_bold)
+
+#TOTALES TOTAL DE ADEBIS
+worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
+worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_content_bold)
+
+worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
+
+worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_content_bold)
+
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_content_bold)
+
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
+
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
 
 worksheet.set_column('L:L',15)
+worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)
-worksheet.set_column('P:P',15)
+worksheet.set_column('I:N',15)
+worksheet.set_column('P:T',15)
+
 #worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
