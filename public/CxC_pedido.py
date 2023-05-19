@@ -264,7 +264,7 @@ worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
 worksheet.write('R8', 'MN', blue_header_format)
 worksheet.write('S8', 'DLLS', blue_header_format)
 #llenando la tabla
-for i in range(0,len(cobros)):
+for i in range(0,len(pedidos)):
    row_index=str(9+i)
    #datos generales del pedido
    worksheet.write('B'+row_index, str(pedidos['noha'].values[0]), blue_content)
