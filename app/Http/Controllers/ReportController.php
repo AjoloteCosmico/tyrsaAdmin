@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\InternalOrder;
+
+use App\Models\Equipo;
 use App\Models\payments;
 use App\Models\Customer;
 use App\Models\CompanyProfile;
@@ -21,4 +23,5 @@ class ReportController extends Controller
     public function contraportada_pdf($id){
 
     }
+
 }

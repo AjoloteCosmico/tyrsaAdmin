@@ -31,7 +31,7 @@
                     </a>  
                     <BR><BR></BR></BR>
                     <h1>CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO</h1>
-                    <a href="{{route('reports.generate',[1,'desglosado',0])}}">
+                    <a href="{{route('reports.generate',[1,'CxC_cliente_desglosado',0])}}">
                     <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                     </a>  
                 
