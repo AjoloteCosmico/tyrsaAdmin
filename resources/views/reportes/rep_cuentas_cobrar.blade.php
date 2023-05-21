@@ -12,7 +12,7 @@
             
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
-                    <h1>CUENTAS POR COBRAR PPOR PEDIDO INTERNO</h1>
+                    <h1>POR PEDIDO INTERNO</h1>
                 <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
@@ -21,7 +21,7 @@
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                   <BR><BR></BR></BR>
-                    <h1>CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO</h1>
+                    <h1> CONSOLIDADO POR CLIENTE</h1>
                     <a href="{{route('reports.generate',[1,'CxC_cliente_consolidado',0])}}">
                     <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                     </a>  
@@ -30,7 +30,7 @@
                     <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                     </a>  
                     <BR><BR></BR></BR>
-                    <h1>CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO</h1>
+                    <h1>DESGLOSADO POR CLIENTE</h1>
                     <a href="{{route('reports.generate',[1,'CxC_cliente_desglosado',0])}}">
                     <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                     </a>  

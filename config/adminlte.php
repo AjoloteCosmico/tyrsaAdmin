@@ -411,7 +411,7 @@ return [
                     //'can'  => 'VER ROLES',
                 ],
                 [
-                    'text' => ' CUENTAS POR CORBRAR',
+                    'text' => ' CUENTAS POR COBRAR',
                     'icon' => 'fas fa-file fa-fw',
                     'route'  => 'reportes.cuentas_cobrar',
                     'can'  => 'VER USUARIOS',
