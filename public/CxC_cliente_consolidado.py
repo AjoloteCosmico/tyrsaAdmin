@@ -226,7 +226,7 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df.to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
