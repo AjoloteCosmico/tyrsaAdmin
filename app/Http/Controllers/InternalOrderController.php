@@ -320,7 +320,7 @@ public function recalcular_total($id){
     $InternalOrder->save();
 
     $ret=$Items->where('category','=','Servicios')->sum('import')*0.04;
-    $InternalOrder->subtotal=$InternalOrder->subtotal(1-$InternalOrder->descuento);
+    $InternalOrder->subtotal=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+$InternalOrder->tasa+0.16;
     $InternalOrder->total=$InternalOrder->subtotal*($factor_aumento+1)+$ret ;
     $InternalOrder->save();
