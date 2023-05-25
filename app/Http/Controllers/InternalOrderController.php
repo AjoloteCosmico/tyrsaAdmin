@@ -472,7 +472,7 @@ public function recalcular_total($id){
             
             
             $InternalOrders->save();
-            $this->recalcular_total($InternalOrders->id)
+            $this->recalcular_total($InternalOrders->id);
             // return pay_contitions con internal order id
             // $InternalOrders->id
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
