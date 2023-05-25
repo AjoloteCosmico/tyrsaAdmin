@@ -289,7 +289,7 @@
                         
                         </tr> <tr>
                         <td><div class="badge badge-danger badge-outlined">IVA:</div></td>
-                        <td><div class="badge badge-primary badge-outlined">$  {{number_format(0.16 * $InternalOrders->subtotal,2)}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">$  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</div></td>
                         </tr>
                         <tr>
                         <td><div class="badge badge-danger badge-outlined">Total</div></td>
