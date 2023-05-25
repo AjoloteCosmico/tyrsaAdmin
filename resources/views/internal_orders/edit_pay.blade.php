@@ -120,8 +120,8 @@ $aux_count=$aux_count+1;
     <th scope="row">TOTAL: </th>
       
       <td>{{$Coins -> symbol}} {{ number_format($Subtotal)}} <br> (subtotal)</td>
-      <td> {{$Coins -> symbol}} {{number_format( $Subtotal*0.16)}} <br> (iva)</td>
-      <td> {{$Coins -> symbol}} {{number_format( $Subtotal*1.16)}}<br> (total)</td>
+      <td> {{$Coins -> symbol}} {{number_format( $Subtotal*(1-$InternalOrders->descuento)*0.16,2)}} <br> (iva)</td>
+      <td> {{$Coins -> symbol}} {{number_format( $InternalOrders->total,2)}}<br> (total)</td>
     </tr>
 </table>
 <br>

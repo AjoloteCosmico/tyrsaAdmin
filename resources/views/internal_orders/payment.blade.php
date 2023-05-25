@@ -114,7 +114,7 @@
     <td> SUMA:</td>
     </tr>
     <tr>
-    <td> Iva: {{$Coins -> symbol}} {{number_format( $Subtotal*0.16,2)}}</td>
+    <td> Iva: {{$Coins -> symbol}} {{number_format( $Subtotal*(1-$InternalOrders->descuento)*0.16,2)}}</td>
     <td id="monitor">
     </td>
     </tr>
