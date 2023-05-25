@@ -320,9 +320,9 @@ public function recalcular_total($id){
     $InternalOrder->save();
 
     $ret=$Items->where('category','=','Servicios')->sum('import')*0.04;
-    $InternalOrder->subtotal=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
+    $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+$InternalOrder->tasa+0.16;
-    $InternalOrder->total=$InternalOrder->subtotal*($factor_aumento+1)+$ret ;
+    $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)+$ret ;
     $InternalOrder->save();
 }
     
@@ -472,6 +472,7 @@ public function recalcular_total($id){
             
             
             $InternalOrders->save();
+            $this->recalcular_total($InternalOrders->id)
             // return pay_contitions con internal order id
             // $InternalOrders->id
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
