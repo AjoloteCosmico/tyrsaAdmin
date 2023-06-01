@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_comprobante',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR PEDIDOS')
+                @can('CREAR COBROS')
                 <a href="{{ route('cobros.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -60,22 +60,28 @@
                         <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
                         <td> {{$c->capturista}}</td>
                         <td>@if($c->reviso) {{$c->revisor}}
-                             @else  Marcar revisado <a href="{{ route('cobros.revisar', $c->id)}}">
+                             @else  
+                             @can('REVISAR COBROS')
+                             Marcar revisado <a href="{{ route('cobros.revisar', $c->id)}}">
                                         <button class="btn btn-green">
                                                 <i class="fas fa-xl fa-check   "></i>
                                                 </button>
                                         </a>
+                            @endcan
+
                                 @endif </td>
                         <td>@if($c->autorizo) {{$c->autorizador}}
-                             @else  Marcar autorizado <a href="{{ route('cobros.autorizar', $c->id)}}">
+                             @else  
+                             @can('AUTORIZAR COBROS')
+                             Marcar autorizado <a href="{{ route('cobros.autorizar', $c->id)}}">
                                         <button class="btn btn-green">
                                                 <i class="fas fa-xl fa-check   "></i>
                                                 </button>
-                                        </a>
+                                        </a> @endcan
                                 @endif</td>
                         <td> <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR FAMILIAS')
+                                        @can('EDITAR COBROS')
                                         <a href="{{ route('cobros.edit', $c->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
@@ -85,7 +91,7 @@
                                     </div>
                                     &nbsp; &nbsp;
                                     <div class="col-6 text-center w-10">
-                                        @can('BORRAR FAMILIAS')
+                                        @can('BORRAR COBROS')
                                         <form class="DeleteReg" action="{{ route('cobros.destroy', $c->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR PEDIDOS')
+                @can('CREAR NOTAS')
                 <a href="{{ route('factures.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -56,7 +56,7 @@
                           <td></td>
                           <td> <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR FAMILIAS')
+                                        @can('EDITAR NOTAS')
                                         <a href="{{ route('factures.edit', $f->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
@@ -66,7 +66,7 @@
                                     </div>
                                     &nbsp; &nbsp;
                                     <div class="col-6 text-center w-10">
-                                        @can('BORRAR FAMILIAS')
+                                        @can('BORRAR NOTAS')
                                         <form class="DeleteReg" action="{{ route('factures.destroy', $f->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
