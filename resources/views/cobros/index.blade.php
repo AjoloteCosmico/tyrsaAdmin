@@ -46,9 +46,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @php{{
+                            $i=1;
+                        }}
                         @foreach($Cobros as $c)
                         <tr>
-                        <td>{{$c->id}}</td>
+                        <td>{{$i}}</td>
                         <td>{{$c->date}}</td>
                         <td>{{$c->facture}}</td>
                         <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
@@ -115,6 +118,9 @@
                                 </div></td>
                                 
                         </tr>
+                        @php{{
+                            $i=$i+1;
+                        }}
                         @endforeach
                         
                     </tbody>

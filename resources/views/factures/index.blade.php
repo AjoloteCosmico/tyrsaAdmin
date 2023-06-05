@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR NOTAS')
+                @can('CREAR FACTURAS')
                 <a href="{{ route('factures.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -41,11 +41,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                    @php{{
+                            $i=1;
+                        }}
                         @foreach($Factures as $f)
 
                         <tr class="text-center">
-                          <td>{{$f->id}}</td>
+                          <td>{{$i}}</td>
                           <td>{{$f->date}}</td>
                           <td>{{$f->invoice}}</td>
                           <td>{{$f->payment_conditions}}</td>
@@ -56,7 +58,7 @@
                           <td></td>
                           <td> <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR NOTAS')
+                                        @can('EDITAR FACTURAS')
                                         <a href="{{ route('factures.edit', $f->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
@@ -66,7 +68,7 @@
                                     </div>
                                     &nbsp; &nbsp;
                                     <div class="col-6 text-center w-10">
-                                        @can('BORRAR NOTAS')
+                                        @can('BORRAR FACTURAS')
                                         <form class="DeleteReg" action="{{ route('factures.destroy', $f->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -92,6 +94,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php{{
+                            $i=$i+1;
+                        }}
                     @endforeach
                     </tbody>
                 </table>
