@@ -80,7 +80,7 @@ class RolController extends Controller
         $Categorias = Permission::where('id', '<=', 3)->get();
         $Catalogos = Permission::where('id', '>', 3)->where('id', '<=', 47)->get();
         $Pedidos = Permission::where('id', '>', 47)->where('id', '<=', 55)->get();
-        $Contabilidad = Permission::where('id', '>', 55)->where('id', '<=', 63)->get();
+        $Contabilidad = Permission::where('id', '>', 55)->where('id', '<=', 77)->get();
 
         return view('admin.roles.show', compact(
             'role',

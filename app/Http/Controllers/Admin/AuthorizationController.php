@@ -102,7 +102,6 @@ class AuthorizationController extends Controller
             $Authorizations->save();
         }        
 
-        
 
         return redirect()->route('authorizations.index')->with('update_reg', 'ok');
     }

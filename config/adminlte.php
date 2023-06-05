@@ -363,21 +363,21 @@ return [
             'icon' => 'fas fa-file',
             'url' => 'factures',
             'route'  => 'factures',
-            'can' => 'VER CUENTAS X COBRAR',
+            'can' => 'VER FACTURAS',
         ],
         [
             'text' => 'NOTAS DE CREDITO ',
             'icon' => 'fas fa-file ',
             'url' => 'credit_notes',
             'route'  => 'credit_notes',
-            'can' => 'VER CUENTAS X COBRAR',
+            'can' => 'VER NOTAS',
         ],
         [
             'text' => 'COBROS',
             'icon' => 'fa fa-money ',
             'url' => 'cobros',
             'route'  => 'cobros',
-            'can' => 'VER CUENTAS X COBRAR',
+            'can' => 'VER COBROS',
         ],
        
         

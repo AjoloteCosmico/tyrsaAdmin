@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_nota',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a> 
-                @can('CREAR PEDIDOS')
+                @can('CREAR NOTAS')
                 <a href="{{ route('credit_notes.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -39,11 +39,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @php{{
+                            $i=1;
+                        }}
                         @foreach($Notas as $nota)
 
                         <tr class="text-center">
-                          <td>{{$nota->id}}</td>
+                          <td>{{$i}}</td>
                           <td>{{$nota->date}}</td>
                           <td>{{$nota->credit_note}}</td>
                           <td>{{$nota->customer}}</td>
@@ -52,7 +54,7 @@
                           <td></td>
                           <td> <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR FAMILIAS')
+                                        @can('EDITAR NOTAS')
                                         <a href="{{ route('credit_notes.edit', $nota->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
@@ -62,7 +64,7 @@
                                     </div>
                                     &nbsp; &nbsp;
                                     <div class="col-6 text-center w-10">
-                                        @can('BORRAR FAMILIAS')
+                                        @can('BORRAR NOTAS')
                                         <form class="DeleteReg" action="{{ route('credit_notes.destroy', $nota->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -88,6 +90,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php{{
+                            $i=$i+1;
+                        }}
                     @endforeach
                     </tbody>
                 </table>
