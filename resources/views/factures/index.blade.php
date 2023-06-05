@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_factura',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR PEDIDOS')
+                @can('CREAR FACTURAS')
                 <a href="{{ route('factures.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
