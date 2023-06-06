@@ -290,8 +290,8 @@ for i in range(0,len(clientes)):
         facturas_dlls=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']!=1)]
         notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
         
-        total_mn=  pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1),'subtotal'].sum()
-        total_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1),'subtotal'].sum()
+        total_mn=  pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1),'total'].sum()
+        total_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1),'total'].sum()
 
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
@@ -313,7 +313,7 @@ for i in range(0,len(clientes)):
         worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum()  , blue_content)
         worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum()  , blue_content)
     
-        worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'subtotal'].sum())+"%", blue_content)
+        worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'total'].sum())+"%", blue_content)
         #facturado
         worksheet.write('P'+row_index,( facturas_mn['amount'].sum()-notas_mn['amount'].sum())  , blue_content)
         worksheet.write('Q'+row_index, ( facturas_dlls['amount'].sum()-notas_dlls['amount'].sum())  , blue_content)
@@ -338,7 +338,7 @@ for i in range(0,len(clientes)):
         #TOTAL POR COBRAR DLLS
         worksheet.write_formula('N'+str(trow),  '{=SUM(N'+str(9+counter)+':N'+str(trow-1)+')}',blue_content_bold)
         #TOTAL FACTURADO MN
-        worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum() )*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
+        worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['total'].sum()- cobros['amount'].sum() )*100/pedidos['total'].sum())+"%", blue_content_bold)
         #TOTAL FACTURADOR DLLS
         worksheet.write_formula('P'+str(trow),  '{=SUM(P'+str(9+counter)+':P'+str(trow-1)+')}', blue_content_bold)
         #TOTAL POR FACTURAR MN
