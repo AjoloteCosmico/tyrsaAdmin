@@ -298,35 +298,35 @@ for i in range(0,len(pedidos)):
       worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('L'+row_index, 0, blue_content)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('M'+row_index, pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('N'+row_index, 0, blue_content)
    else:
       worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index,pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('N'+row_index,pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
    
-   worksheet.write('O'+row_index, "{:.2f}".format((pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)*100/pedidos['subtotal'].values[i])+"%", blue_content)
+   worksheet.write('O'+row_index, "{:.2f}".format((pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['subtotal'].values[i])+"%", blue_content)
    #facturado
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('P'+row_index, pedidos['subtotal'].values[i]-(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
+      worksheet.write('P'+row_index, pedidos['subtotal'].values[i]-(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
       worksheet.write('Q'+row_index, 0, blue_content)
    else:
       worksheet.write('P'+row_index, 0, blue_content)
-      worksheet.write('Q'+row_index,pedidos['subtotal'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
+      worksheet.write('Q'+row_index,pedidos['subtotal'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
   
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('R'+row_index, pedidos['subtotal'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('R'+row_index, pedidos['subtotal'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('S'+row_index, 0, blue_content)
    else:
       worksheet.write('R'+row_index, 0, blue_content)
-      worksheet.write('S'+row_index,pedidos['subtotal'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('S'+row_index,pedidos['subtotal'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
   
 trow=9+len(pedidos)
 
@@ -344,7 +344,7 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
 #TOTAL FACTURADO MN
-worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum()/1.16)*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
+worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum())*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
 #TOTAL FACTURADOR DLLS
 worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR FACTURAR MN
