@@ -37,12 +37,12 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('items', ItemController::class);
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
-    Route::post('factures/update/{id}', [FactureController::class, 'update'])->name('factures.update');
+    Route::post('factures/update_2/{id}', [FactureController::class, 'update'])->name('factures.update2');
     Route::resource('cobros', CobrosController::class);
-    Route::post('cobros/update/{id}', [CobrosController::class, 'update'])->name('cobros.update');
+    Route::post('cobros/update_2"/{id}', [CobrosController::class, 'update'])->name('cobros.update2');
     
     Route::resource('credit_notes', NotasCreditoController::class);
-    Route::post('credit_notes/update/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update');
+    Route::post('credit_notes/update_"/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update2');
     
    
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');

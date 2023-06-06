@@ -39,9 +39,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php{{
+                        @php
                             $i=1;
-                        }}
+                        @endphp
                         @foreach($Notas as $nota)
 
                         <tr class="text-center">
@@ -90,9 +90,9 @@
                                 </div>
                             </td>
                         </tr>
-                        @php{{
+                        @php
                             $i=$i+1;
-                        }}
+                       @endphp
                     @endforeach
                     </tbody>
                 </table>

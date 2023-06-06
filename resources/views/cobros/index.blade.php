@@ -46,9 +46,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @php{{
+                    @php
                             $i=1;
-                        }}
+                        
+                        @endphp
+
                         @foreach($Cobros as $c)
                         <tr>
                         <td>{{$i}}</td>
@@ -118,9 +120,10 @@
                                 </div></td>
                                 
                         </tr>
-                        @php{{
+                        @php
                             $i=$i+1;
-                        }}
+                        
+                        @endphp
                         @endforeach
                         
                     </tbody>

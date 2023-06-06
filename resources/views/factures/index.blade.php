@@ -41,9 +41,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @php{{
+                    @php
                             $i=1;
-                        }}
+                        @endphp
                         @foreach($Factures as $f)
 
                         <tr class="text-center">
@@ -94,9 +94,9 @@
                                 </div>
                             </td>
                         </tr>
-                        @php{{
+                        @php
                             $i=$i+1;
-                        }}
+                       @endphp
                     @endforeach
                     </tbody>
                 </table>

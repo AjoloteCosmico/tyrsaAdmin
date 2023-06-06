@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR FACTURA:
             </h5>
         </div>
-        <form action="{{ route('factures.update',$Facture->id)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('factures.update2',$Facture->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="item" value=" "/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
