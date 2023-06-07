@@ -30,9 +30,8 @@ class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf,$tipo=0)
        {
-        
            $caminoalpoder=public_path();
-           $process = new Process([env('PY_COMAND'),$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           $process = new Process(['python',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);

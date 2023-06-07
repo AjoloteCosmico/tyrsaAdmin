@@ -112,6 +112,17 @@ class CobrosController extends Controller
                 $Cobro->date=$request->date;
                 $Cobro->capturo=Auth::user()->id;
                 $Cobro->save();
+
+                 //Facturas asociadas al cobro via checkboxes
+                if($request->facture){
+                    //dd($request->contacto);
+                      for($i=0; $i < count($request->facture); $i++){
+                          $registro=new note_facture();
+                          $registro->note_id=$Nota->id;
+                          $registro->facture_id=$request->facture[$i];
+                          $registro->save();
+                      }}
+
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                 

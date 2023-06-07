@@ -63,6 +63,32 @@
                                         </select>
                                         <x-jet-input-error for='facture_id' />
                                     </div>
+                                    
+                                    Seleccione las facturas a restar
+                                    <table class="table tableshippingaddress table-striped text-xs font-medium" >
+                                    <thead>
+                                                <tr class="text-center">
+                                                    <th>Factura</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Numero de <br> pago</th>
+                                                    <th>Seleccionar</th>
+                                                    
+                                                </tr>
+                                            </thead> 
+                                           <tbody id='ctable'>
+                                                @foreach($Factures as $f)
+                                                <tr class='{{$f->order_id}} '>
+                                                    <td class="text-center">{{$f->facture}}</td>
+                                                    <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
+                                                    <td class="text-center">{{$f->ordinal}}</td>
+                                                    <td class="text-center"><div class="row">
+                                                        <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"></div>
+                                                    </div> 
+                                                        &nbsp;&nbsp;&nbsp;  </td>
+                                                  </tr>
+                                        @endforeach
+                                            </tbody>
+                                        </table>
                                     <div class="form-group">
                                         <x-jet-label value="* Banco" />
                                         <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
