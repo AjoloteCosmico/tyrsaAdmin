@@ -55,7 +55,12 @@
                         <tr>
                         <td>{{$i}}</td>
                         <td>{{$c->date}}</td>
-                        <td>{{$c->facture}}</td>
+
+                        @if($FacturasCobradas->where('cobro_id',$c->id)->count()==1)
+                        <td>{{$FacturasCobradas->where('cobro_id',$c->id)->first()->facture}}</td>
+                        @else
+                        <td>{{$FacturasCobradas->where('cobro_id',$c->id)->count()}} Facturas asociadas</td>
+                        @endif
                         <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
                         <td>{{$c->invoice}}</td>
                         <td>{{$c->customer}}</td>

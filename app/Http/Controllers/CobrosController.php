@@ -49,8 +49,10 @@ class CobrosController extends Controller
         ->get();
         $FacturasCobradas=DB::table('factures')
         ->join('cobro_factures','cobro_factures.facture_id','=','factures.id')
+        ->select('factures.facture','cobro_factures.*')
         ->get();
-        return view('cobros.index',compact('Cobros'));
+        //dd($FacturasCobradas);
+        return view('cobros.index',compact('Cobros','FacturasCobradas'));
     }
     public function create(){
         //traer todas las facturas
