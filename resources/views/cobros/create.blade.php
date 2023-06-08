@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'FACTURA')
+@section('title', 'COMPROBANTE DE INGRESO')
 
 @section('content_header')
     <h1 class="font-bold"><i class="fa fa-money"></i>&nbsp;  COMPROBANTE DE INGRESO</h1>
@@ -89,7 +89,8 @@
                                         @endforeach
                                             </tbody>
                                         </table>
-                                    <div class="form-group">
+                                   <br><br>
+                                        <div class="form-group">
                                         <x-jet-label value="* Banco" />
                                         <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
                                         <option  > </option>    
@@ -213,7 +214,7 @@ $(document).on('keyup', '.price-format-input', function (e) {
      $(document).ready(function () {     
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
-console.log('entrando a la funcion');
+console.log('entrando a la funcion cambio cliente');
 console.log(seleccionado);
 removeOptions(document.getElementById('order_id'));
 console.log('hecho¿?');
@@ -245,24 +246,28 @@ var npagos={
 var seleccionado = document.getElementById('order_id').value;
 console.log('entrando a la funcion de num pagos');
 console.log(seleccionado);
-console.log(npagos[seleccionado]);
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
+console.log('entrando a la funcion cjaas');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("form-check-input");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
     }
-}
-document.getElementById('tpagos').value=npagos[seleccionado];
-   
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 
 })
@@ -281,27 +286,6 @@ $('#order_id').change(function(){
 var seleccionado = $(this).val();
 console.log('entrando a la funcion de num pagos');
 console.log(seleccionado);
-console.log(npagos[seleccionado]);
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
-    }
-}
-    
-document.getElementById('tpagos').value=npagos[seleccionado];
- 
-   
-  
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 })
      });
@@ -344,5 +328,47 @@ document.getElementById('tc').value={{$coin->exchange_sell}};
 })
      });
   
+</script>
+
+
+<script>
+var mytable = document.getElementById("ctable");
+for (var i = 0, row; row = mytable.rows[i]; i++) {
+     
+       mytable.style.display='';
+        
+        
+            row.style.display='none';
+            
+        
+    }
+    $(document).ready(function () {     
+$('#order_id').change(function(){
+var seleccionado = $(this).val();
+console.log('entrando a la funcion cjaas');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("form-check-input");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
+    }
+
+})
+});
 </script>
 @stop

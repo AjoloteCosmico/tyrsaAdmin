@@ -105,7 +105,7 @@ class CobrosController extends Controller
                 $Cobro->order_id=$request->order_id;
                 $Cobro->amount=$request->amount;
                 $Cobro->comp=$request->comp;
-                $Cobro->facture_id=$request->facture_id;
+                //$Cobro->facture_id=$request->facture_id;
                 $Cobro->bank_id=$request->bank_id;
                 $Cobro->coin_id=$request->coin_id;
                 $Cobro->tc=$request->tc;
