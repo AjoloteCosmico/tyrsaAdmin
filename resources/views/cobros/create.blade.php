@@ -53,7 +53,7 @@
                                         <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{old('comp')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                         <x-jet-input-error for='comp' />
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <x-jet-label value="* Factura" />
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
                                         <option  > </option>    
@@ -62,10 +62,15 @@
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='facture_id' />
-                                    </div>
+                                    </div> -->
                                     
-                                    Seleccione las facturas a restar
-                                    <table class="table tableshippingaddress table-striped text-xs font-medium" >
+                                    Seleccione las facturas a cubrir con el pago
+                                    <table class="table tableshippingaddress table-striped text-xs font-medium tableFixHead " style=".tableFixHead          { overflow: auto; height: 10px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+ border-collapse: collapse; width: 90%;
+th, td { padding: 8px 16px; }
+th     { background:#eee; }" >
                                     <thead>
                                                 <tr class="text-center">
                                                     <th>Factura</th>
@@ -159,7 +164,15 @@
 
 @section('css')
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" /> -->
+<style>
+    .tableFixHead          { overflow: auto; height: 10px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
 
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 90%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+</style>
 @stop
 
 @section('js')
