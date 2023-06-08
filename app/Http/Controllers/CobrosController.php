@@ -14,6 +14,8 @@ use App\Models\Factures;
 use App\Models\Seller;
 use App\Models\Cobro;
 
+use App\Models\cobro_facture;
+
 
 use App\Models\bank;
 use App\Http\Requests\StorepaymentsRequest;
@@ -33,7 +35,7 @@ class CobrosController extends Controller
         ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
-        ->join('factures', 'cobros.facture_id','=','factures.id')
+        ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
         ->join('banks', 'cobros.bank_id','=','banks.bank_id')
         
         ->leftjoin('users as capturistas', 'cobros.capturo','=','capturistas.id')
@@ -44,6 +46,9 @@ class CobrosController extends Controller
                  'internal_orders.invoice','factures.facture','banks.bank_clue',
                  'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
         // ->orderBy('internal_orders.invoice', 'DESC')
+        ->get();
+        $FacturasCobradas=DB::table('factures')
+        ->join('cobro_factures','cobro_factures.facture_id','=','factures.id')
         ->get();
         return view('cobros.index',compact('Cobros'));
     }
@@ -78,7 +83,6 @@ class CobrosController extends Controller
                         'order_id' => 'required',
                         'date' => 'required',
                         'comp'=> 'required',
-                        'facture_id'=> 'required',
                         'bank_id'=> 'required',
                         'coin_id'=> 'required',
                         'tc' => 'required',
@@ -117,8 +121,8 @@ class CobrosController extends Controller
                 if($request->facture){
                     //dd($request->contacto);
                       for($i=0; $i < count($request->facture); $i++){
-                          $registro=new note_facture();
-                          $registro->note_id=$Nota->id;
+                          $registro=new cobro_facture();
+                          $registro->cobro_id=$Cobro->id;
                           $registro->facture_id=$request->facture[$i];
                           $registro->save();
                       }}
@@ -127,7 +131,6 @@ class CobrosController extends Controller
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                 
 
-    
                 return redirect('cobros');
                 }
 
@@ -202,6 +205,11 @@ class CobrosController extends Controller
 
 
     public function destroy($id){
+        $Facturas=cobro_facture::where('cobro_id',$id)->get();
+            
+            foreach ($Facturas as $f) {
+                cobro_facture::destroy($f->id);
+            }
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
                     Cobro::destroy($id);
