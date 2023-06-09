@@ -75,17 +75,17 @@ th     { background:#eee; }" >
                                                 <tr class="text-center">
                                                     <th>Factura</th>
                                                     <th>Cantidad</th>
-                                                    <th>Numero de <br> pago</th>
+                                                    <th>Pedido</th>
                                                     <th>Seleccionar</th>
                                                     
                                                 </tr>
                                             </thead> 
                                            <tbody id='ctable'>
                                                 @foreach($Factures as $f)
-                                                <tr class='{{$f->order_id}} '>
+                                                <tr class='{{$f->customer_id}} '>
                                                     <td class="text-center">{{$f->facture}}</td>
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
-                                                    <td class="text-center">{{$f->ordinal}}</td>
+                                                    <td class="text-center">{{$f->invoice}}</td>
                                                     <td class="text-center"><div class="row">
                                                         <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"></div>
                                                     </div> 
@@ -356,7 +356,7 @@ for (var i = 0, row; row = mytable.rows[i]; i++) {
         
     }
     $(document).ready(function () {     
-$('#order_id').change(function(){
+$('#customer_id').change(function(){
 var seleccionado = $(this).val();
 console.log('entrando a la funcion cjaas');
 console.log(seleccionado)

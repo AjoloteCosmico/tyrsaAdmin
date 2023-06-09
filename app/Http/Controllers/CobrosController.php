@@ -58,7 +58,10 @@ class CobrosController extends Controller
         //traer todas las facturas
                 $Bancos=bank::all();
                 $Coins=Coin::all();
-                $Factures=Factures::all();
+                $Factures=DB::table('factures')
+                ->join('internal_orders','internal_orders.id','=','factures.order_id')
+                ->select('factures.*','internal_orders.customer_id','internal_orders.invoice')
+                ->get();
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
                 return view('cobros.create',compact(
