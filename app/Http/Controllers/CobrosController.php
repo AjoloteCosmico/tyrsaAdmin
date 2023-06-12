@@ -33,7 +33,6 @@ class CobrosController extends Controller
 {
     public function index(){
         $Cobros=DB::table('cobros')
-        ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
@@ -44,13 +43,15 @@ class CobrosController extends Controller
         ->leftjoin('users as autorizadores', 'cobros.autorizo','=','autorizadores.id')
         
         ->select('cobros.*','customers.customer','customers.clave', 'coins.coin','coins.symbol', 
-                 'internal_orders.invoice','factures.facture','banks.bank_clue',
+                 'factures.facture','banks.bank_clue',
                  'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
         $FacturasCobradas=DB::table('factures')
         ->join('cobro_factures','cobro_factures.facture_id','=','factures.id')
-        ->select('factures.facture','cobro_factures.*')
+        
+        ->join('internal_orders','factures.order_id','=','internal_orders.id')
+        ->select('factures.facture','cobro_factures.*','internal_orders.invoice')
         ->get();
         //dd($FacturasCobradas);
         return view('cobros.index',compact('Cobros','FacturasCobradas'));
