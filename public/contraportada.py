@@ -42,7 +42,7 @@ query = ('SELECT * from internal_orders')
 cobros=pd.read_sql("""Select cobro_orders.*, cobros.tc,cobros.comp,cobros.date,
 capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
     from ((((cobro_orders 
-    inner join cobros on cobros.id=cobro_order.cobro_id)
+    inner join cobros on cobros.id=cobro_orders.cobro_id)
     left join users as capturistas on cobros.capturo=capturistas.id)
     left join users as revisores on cobros.reviso=revisores.id)
     left join users as autorizadores on cobros.autorizo=autorizadores.id)
