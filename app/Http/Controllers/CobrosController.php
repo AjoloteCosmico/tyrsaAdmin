@@ -266,7 +266,7 @@ class CobrosController extends Controller
         $Ordenes=cobro_order::where('cobro_id',$id)->get();
             
             foreach ($Ordenes as $o) {
-                cobro_order:destroy($o->id);
+                cobro_order::destroy($o->id);
             }
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
