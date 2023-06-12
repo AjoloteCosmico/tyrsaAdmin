@@ -33,15 +33,7 @@
                                         </select>
                                         <x-jet-input-error for='customer_id' />
                                     </div>
-                                    <div class="form-group">
-                                        <x-jet-label value="* Pedido Interno" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
-                                          
-                                                <option  > </option>
-                                          
-                                        </select>
-                                        <x-jet-input-error for='order_id' />
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <x-jet-label value="Fecha de cobro" />
                                         <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
@@ -229,26 +221,7 @@ $('#customer_id').change(function(){
 var seleccionado = $(this).val();
 console.log('entrando a la funcion cambio cliente');
 console.log(seleccionado);
-removeOptions(document.getElementById('order_id'));
 console.log('hecho¿?');
-var desc = document.getElementById("order_id");
-@foreach($Customers as $cliente)
-if(seleccionado=='{{$cliente->id}}'){
-    var example_array = {
-        @foreach($InternalOrders as $order)
-        @if($order->customer_id==$cliente->id)
-    {{$order->id}} : '{{$order->invoice}}',
-         @endif
-    @endforeach
-};}
-   
-  
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 
 var npagos={
@@ -256,8 +229,6 @@ var npagos={
     {{$i->id}}:{{$i->payment_conditions}},
     @endforeach};
 
-var seleccionado = document.getElementById('order_id').value;
-console.log('entrando a la funcion de num pagos');
 console.log(seleccionado);
 console.log('entrando a la funcion cjaas');
 console.log(seleccionado)
@@ -285,25 +256,6 @@ for (var i = 0, row; row = table.rows[i]; i++) {
 
 })
      });
-</script>
-
-<script>
-
-$(document).ready(function () {     
-$('#order_id').change(function(){
-    var npagos={
-    @foreach($InternalOrders as $i)
-    {{$i->id}}:{{$i->payment_conditions}},
-    @endforeach};
-
-var seleccionado = $(this).val();
-console.log('entrando a la funcion de num pagos');
-console.log(seleccionado);
-
-})
-     });
-
-
 </script>
 
 

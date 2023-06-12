@@ -13,7 +13,6 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
-ncomp=str(sys.argv[1])# initialize list of lists
 cnx = mysql.connector.connect(user=DB_USERNAME,
                               password=DB_PASSWORD,
                               host='localhost',
@@ -23,8 +22,15 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 cursor=cnx.cursor(buffered=True)
 cobros=pd.read_sql('select * from cobros',cnx)
 cobros=cobros.fillna(0)
+# for i in range(0,len(cobros)):
+#     if(cobros['facture_id'].values[i]!=0):
+#         print(i)
+#         cursor.execute('insert into cobro_factures(cobro_id,facture_id) values('+str(cobros['id'].values[i])+','+str(cobros['facture_id'].values[i])+')')
+
 for i in range(0,len(cobros)):
-    if(cobros['facture_id'].values[i]!=0):
+    if(cobros['order_id'].values[i]!=0):
         print(i)
-        cursor.execute('insert into cobro_factures(cobro_id,facture_id) values('+str(cobros['id'].values[i])+','+str(cobros['facture_id'].values[i])+')')
+        cursor.execute('insert into cobro_orders(cobro_id,order_id) values('+str(cobros['id'].values[i])+','+str(cobros['order_id'].values[i])+')')
+
+
 cnx.commit()

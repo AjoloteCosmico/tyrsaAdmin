@@ -14,6 +14,7 @@ use App\Models\Factures;
 use App\Models\Seller;
 use App\Models\Cobro;
 
+use App\Models\cobro_order;
 use App\Models\cobro_facture;
 
 
@@ -85,7 +86,6 @@ class CobrosController extends Controller
                 
 
                 $rules = [
-                        'order_id' => 'required',
                         'date' => 'required',
                         'comp'=> 'required',
                         'bank_id'=> 'required',
@@ -98,7 +98,6 @@ class CobrosController extends Controller
                     ];
                 
                     $messages = [
-                        'order_id.required' => 'Seleccione un pedido',
                         'date.required' => 'La fecha  es necesaria',
                         'coin_id.required' => 'El tipo de Moneda es necesario',
                         'bank_id.required' => 'Seleccione una factura valida',
@@ -135,11 +134,57 @@ class CobrosController extends Controller
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                 
-
-                return redirect('cobros');
+                $Facturas=DB::table('cobro_factures')
+                ->join('factures','factures.id','=','cobro_factures.facture_id')
+                ->where('cobro_factures.cobro_id','=',$Cobro->id)
+                ->select('factures.order_id')
+                ->groupBy('factures.order_id')
+                ->get();
+                if($Facturas->count()>1){
+                    return $this->desglosar_cobro($Cobro->id);
+                }else{
+                    $registro= new cobro_order();
+                    $registro->order_id=$Facturas->first()->order_id;
+                    $registro->cobro_id=$Cobro->id;
+                    $registro->amount=$Cobro->amount;
+                    $registro->save();
+                    return redirect('cobros');
+                }
                 }
 
+        public function desglosar_cobro($id){
+            $Cobro=Cobro::find($id);
+            $Pedidos=DB::table('cobro_factures')
+                ->join('factures','factures.id','=','cobro_factures.facture_id')
+                ->join('internal_orders','internal_orders.id','=','factures.order_id')
+                ->where('cobro_factures.cobro_id','=',$Cobro->id)
+                ->select('factures.order_id','internal_orders.total','internal_orders.invoice')
+                ->groupBy('factures.order_id','internal_orders.total','internal_orders.invoice')
+                ->get();
+            return view('cobros.create_desglose',compact('Cobro','Pedidos'));
+            
+        }
 
+        public function store_desglose($id,Request $request){
+            $Cobro=Cobro::find($id);
+            $Pedidos=DB::table('cobro_factures')
+                ->join('factures','factures.id','=','cobro_factures.facture_id')
+                ->join('internal_orders','internal_orders.id','=','factures.order_id')
+                ->where('cobro_factures.cobro_id','=',$Cobro->id)
+                ->select('factures.order_id','internal_orders.total','internal_orders.invoice')
+                ->groupBy('factures.order_id','internal_orders.total','internal_orders.invoice')
+                ->get();
+        for($i=1;$i<=$Pedidos->count();$i++){
+            
+            $registro= new cobro_order();
+            $registro->cobro_id=$id;
+            $registro->order_id=$request->order_id[$i];
+            $registro->amount=$request->amount[$i];
+            $registro->save();
+        }
+        return redirect('cobros');
+
+        }
         public function edit($id){
             $Cobro=DB::table('cobros')
             ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
@@ -214,6 +259,11 @@ class CobrosController extends Controller
             
             foreach ($Facturas as $f) {
                 cobro_facture::destroy($f->id);
+            }
+        $Ordenes=cobro_order::where('cobro_id',$id)->get();
+            
+            foreach ($Ordenes as $o) {
+                cobro_order:destroy($o->id);
             }
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
