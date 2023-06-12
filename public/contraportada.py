@@ -39,12 +39,14 @@ query = ('SELECT * from payments where order_id = '+str(order_id))
 #pagos historicos, los que fueron programados en un inicio
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
-cobros=pd.read_sql("""Select cobros.*,capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
-    from (((cobros 
+cobros=pd.read_sql("""Select cobro_orders.*, cobros.tc,cobros.comp,cobros.date
+capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
+    from ((((cobro_orders 
+    inner join cobros on cobros.id=cobro_order.cobro_id)
     left join users as capturistas on cobros.capturo=capturistas.id)
     left join users as revisores on cobros.reviso=revisores.id)
     left join users as autorizadores on cobros.autorizo=autorizadores.id)
-    inner join factures on factures.id = cobros.facture_id where cobros.order_id = """+str(order_id),cnx)
+    inner join factures on factures.id = cobros.facture_id where cobro_orders.order_id = """+str(order_id),cnx)
 notas=pd.read_sql('Select* from credit_notes where order_id= '+str(orden['id'].values[0]),cnx)
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
