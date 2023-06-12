@@ -39,7 +39,7 @@ query = ('SELECT * from payments where order_id = '+str(order_id))
 #pagos historicos, los que fueron programados en un inicio
 hpagos=pd.read_sql(query,cnx)
 query = ('SELECT * from internal_orders')
-cobros=pd.read_sql("""Select cobro_orders.*, cobros.tc,cobros.comp,cobros.date
+cobros=pd.read_sql("""Select cobro_orders.*, cobros.tc,cobros.comp,cobros.date,
 capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
     from ((((cobro_orders 
     inner join cobros on cobros.id=cobro_order.cobro_id)
