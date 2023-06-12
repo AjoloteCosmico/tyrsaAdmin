@@ -30,7 +30,7 @@ cobros=cobros.fillna(0)
 for i in range(0,len(cobros)):
     if(cobros['order_id'].values[i]!=0):
         print(i)
-        cursor.execute('insert into cobro_orders(cobro_id,order_id) values('+str(cobros['id'].values[i])+','+str(cobros['order_id'].values[i])+')')
+        cursor.execute('insert into cobro_orders(cobro_id,order_id,amount) values('+str(cobros['id'].values[i])+','+str(cobros['order_id'].values[i])+','+str(cobros['amount'].values[i])+')')
 
 
 cnx.commit()
