@@ -132,7 +132,7 @@ class CobrosController extends Controller
                           $registro->facture_id=$request->facture[$i];
                           $registro->save();
                       }}
-                $Cobro->order_id=Facture::find($request->facture[0])->order_id;
+                $Cobro->order_id=Factures::find($request->facture[0])->order_id;
                 $Cobro->save();
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
