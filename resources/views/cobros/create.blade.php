@@ -108,7 +108,7 @@ th     { background:#eee; }" >
                                         <x-jet-input-error for='coin_id' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value=" TIPO DE CAMBIO" />
+                                        <x-jet-label value="TIPO DE CAMBIO" />
                                         <x-jet-input type="number" step="any" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>

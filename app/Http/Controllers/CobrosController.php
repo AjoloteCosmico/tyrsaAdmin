@@ -33,6 +33,7 @@ class CobrosController extends Controller
 {
     public function index(){
         $Cobros=DB::table('cobros')
+        ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
@@ -43,15 +44,13 @@ class CobrosController extends Controller
         ->leftjoin('users as autorizadores', 'cobros.autorizo','=','autorizadores.id')
         
         ->select('cobros.*','customers.customer','customers.clave', 'coins.coin','coins.symbol', 
-                 'factures.facture','banks.bank_clue',
+                 'internal_orders.invoice','factures.facture','banks.bank_clue',
                  'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
         $FacturasCobradas=DB::table('factures')
         ->join('cobro_factures','cobro_factures.facture_id','=','factures.id')
-        
-        ->join('internal_orders','factures.order_id','=','internal_orders.id')
-        ->select('factures.facture','cobro_factures.*','internal_orders.invoice')
+        ->select('factures.facture','cobro_factures.*')
         ->get();
         //dd($FacturasCobradas);
         return view('cobros.index',compact('Cobros','FacturasCobradas'));
@@ -87,6 +86,7 @@ class CobrosController extends Controller
                 
 
                 $rules = [
+                        'facture' => 'required',
                         'date' => 'required',
                         'comp'=> 'required',
                         'bank_id'=> 'required',
@@ -99,6 +99,7 @@ class CobrosController extends Controller
                     ];
                 
                     $messages = [
+                        'facture.required' => 'Seleccione almenos una factura',
                         'date.required' => 'La fecha  es necesaria',
                         'coin_id.required' => 'El tipo de Moneda es necesario',
                         'bank_id.required' => 'Seleccione una factura valida',
@@ -111,7 +112,7 @@ class CobrosController extends Controller
                 
                 $request->validate($rules, $messages);
                 $Cobro=new Cobro();
-                $Cobro->order_id=$request->order_id;
+                //$Cobro->order_id=$request->order_id;
                 $Cobro->amount=$request->amount;
                 $Cobro->comp=$request->comp;
                 //$Cobro->facture_id=$request->facture_id;
@@ -131,7 +132,8 @@ class CobrosController extends Controller
                           $registro->facture_id=$request->facture[$i];
                           $registro->save();
                       }}
-
+                $Cobro->order_id=Facture::find($request->facture[0])->order_id;
+                $Cobro->save();
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                 
