@@ -322,7 +322,7 @@ public function recalcular_total($id){
     $ret=$Items->where('family','=','TRASLADO')->sum('import')*$InternalOrder->tasa;
     $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
-    $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)+$ret ;
+    $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)-$ret ;
     $InternalOrder->save();
 }
     
