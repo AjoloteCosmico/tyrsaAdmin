@@ -14,7 +14,6 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
-
 a_color='#354F84'
 b_color='#91959E'
 # Conectar a DB
@@ -39,9 +38,10 @@ from ((
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
-cobros=pd.read_sql("""select * 
-                     from ((
-                         cobros
+cobros=pd.read_sql("""select cobro_orders.*
+                     from (((
+                         cobro_orders 
+    inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 facturas=pd.read_sql("""select * 
