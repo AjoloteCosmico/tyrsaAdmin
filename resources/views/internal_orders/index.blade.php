@@ -60,7 +60,7 @@
                                     <div class="col-6 text-center w-10">
                                         
                                         @can('BORRAR PEDIDOS')
-                                        <form class="DeleteReg" action="{{ route('internal_orders.destroy', $row->id) }}" method="POST">
+                                        <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-red ">
@@ -80,6 +80,16 @@
                                             </button>
                                         </form>
                                        
+                                        @can('BORRAR PEDIDO AUTORIZADO')
+                                        <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red ">
+                                                <i class="fa-solid fa-trash items-center"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+
                                     </div>
                                     @endif
                                 </div>
