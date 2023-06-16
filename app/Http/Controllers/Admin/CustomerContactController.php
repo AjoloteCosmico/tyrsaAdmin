@@ -34,7 +34,8 @@ class CustomerContactController extends Controller
 
     public function edit($id)
     {
-        //
+        $Contacto=CustomerContact::find($id);
+       return view('admin.customer_contacts.edit',compact('Contacto'));
     }
 
     public function update(Request $request, $id)
