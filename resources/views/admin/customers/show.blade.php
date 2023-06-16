@@ -158,6 +158,8 @@
                             <th>Teléfono</th>
                             <th>Email</th>
                             <th>Sede</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -171,6 +173,17 @@
                                 <td>{{$row->customer_contact_mobile}}</td>
                                 <td>{{$row->customer_contact_email}}</td>
                                 <td>{{$row->customer_contact_city}}</td>
+                                <td></td>
+                                <td>@can('BORRAR VENDEDORES')
+                                        <form class="DeleteReg" action="{{ route('customer_contacts.destroy', $row->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red ">
+                                                <i class="fas fa-trash items-center fa-xl"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+</td>
                             </tr>
                             @php
                         $index=$index+1;

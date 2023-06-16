@@ -24,7 +24,7 @@
                             
                             
                                     <div class="form-group">
-                                        <x-jet-label value="* Cliente" />
+                                        <x-jet-label value="* CLIENTE" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer_id'>
                                         <option  > </option>    
                                         @foreach ($Customers as $row)
@@ -35,7 +35,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <x-jet-label value="Fecha de cobro" />
+                                        <x-jet-label value="FECHA DEL COBRO" />
                                         <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
                                         <x-jet-input-error for='date' />
                                     </div>
@@ -56,7 +56,7 @@
                                         <x-jet-input-error for='facture_id' />
                                     </div> -->
                                     
-                                    Seleccione las facturas a cubrir con el pago
+                                    SELECCIONA LAS FACTURAS A CUBRIR CON EL COMPROBANTE
                                     <table class="table tableshippingaddress table-striped text-xs font-medium tableFixHead " style=".tableFixHead          { overflow: auto; height: 10px; }
 .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
 
@@ -65,10 +65,10 @@ th, td { padding: 8px 16px; }
 th     { background:#eee; }" >
                                     <thead>
                                                 <tr class="text-center">
-                                                    <th>Factura</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Pedido</th>
-                                                    <th>Seleccionar</th>
+                                                    <th>FACTURA</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PEDIDO</th>
+                                                    <th>SELECCIONAR</th>
                                                     
                                                 </tr>
                                             </thead> 
@@ -88,7 +88,7 @@ th     { background:#eee; }" >
                                         </table>
                                    <br><br>
                                         <div class="form-group">
-                                        <x-jet-label value="* Banco" />
+                                        <x-jet-label value="* BANCO" />
                                         <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
                                         <option  > </option>    
                                         @foreach ($Bancos as $row)
@@ -98,7 +98,7 @@ th     { background:#eee; }" >
                                         <x-jet-input-error for='bank_id' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="* Moneda" />
+                                        <x-jet-label value="* MONEDA" />
                                         <select class="form-capture  w-full text-xs uppercase" name="coin_id" id='coin_id'>
                                         <option  > </option>    
                                         @foreach ($Coins as $row)

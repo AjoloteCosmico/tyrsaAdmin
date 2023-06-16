@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::get('items/create/{id}', [ItemController::class, 'create'])->name('items.creation');
     Route::get('accounting/pay_cancel/{id}', [PaymentsController::class, 'pay_cancel'])->name('pay_cancel');
-    Route::post('tempitems/{id}', [TempItemController::class, 'create_item'])->name('tempitems.create_item');
+    Route::get('tempitems/{id}', [TempItemController::class, 'create_item'])->name('tempitems.create_item');
     Route::get('tempitems/edit/{id}/{captured}', [TempItemController::class, 'edit_item'])->name('tempitems.edit_item');
     Route::get('items/edit/{id}', [ItemController::class, 'edit_item'])->name('items.edit_item');
     Route::get('internal_orders/edit/{id}', [InternalOrderController::class, 'edit_order'])->name('internal_orders.edit_order');

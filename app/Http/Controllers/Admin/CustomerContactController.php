@@ -44,6 +44,9 @@ class CustomerContactController extends Controller
 
     public function destroy($id)
     {
-        //
+        $customer_id=CustomerContact::find($id)->customer_id;
+        CustomerContact::destroy($id);
+        //TODO: regresar al cliente que se estaba editando
+        return redirect('customers');
     }
 }

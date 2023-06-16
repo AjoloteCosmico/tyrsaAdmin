@@ -29,7 +29,7 @@
                             <th>Email</th>
                             <th>Iniciales</th>
                             <th>Estado</th>
-                           
+                           <th style="width : 20%;"> &nbsp;</th>
                             <th style="width : 20%;">-</th>
                         </tr>
                     </thead>
@@ -42,6 +42,14 @@
                             <td>{{$row->seller_email}}</td>
                             <td>{{$row->iniciales}}</td>
                             <td>{{$row->status}}</td>
+                            <td class="w-10">
+                            <div class="col-6 text-center w-10">
+                                        <button type="submit" class="btn btn-blue ">
+                                                <i class="fas fa-users"> </i>
+                                                Clientes
+                                            </button>
+                                            </div>
+                            </td>
                             <td class="w-10">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
@@ -64,6 +72,8 @@
                                             </button>
                                         </form>
                                         @endcan
+                                        
+                                    
                                     </div>
                                 </div>
                             </td>
