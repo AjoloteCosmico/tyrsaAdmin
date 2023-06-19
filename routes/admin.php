@@ -39,7 +39,11 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
     Route::resource('customer_contacts', CustomerContactController::class);
+    Route::post('customer_contacts/update_"/{id}', [CustomerContactController::class, 'update'])->name('customer_contacts.update2');
+    
     Route::resource('sellers', SellerController::class);
+    Route::get('sellers/customers/{id}', [ SellerController::class, 'customers'])->name('sellers.customers');
+    
     Route::get('administrador', [AdministradorController::class, 'index'])->name('admin.index');
 });
 

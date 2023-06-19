@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use DB;
 class SellerController extends Controller
 {
     public function index()
@@ -137,6 +137,18 @@ class SellerController extends Controller
         Seller::destroy($id);
 
         return redirect()->route('sellers.index')->with('eliminar', 'ok');
+    }
+
+    public function customers($id){
+        $Seller=Seller::find($id);
+        $Customers=DB::table('internal_orders')
+        ->join('customers','internal_orders.customer_id','customers.id')
+        ->select('customers.customer','customers.alias','customers.clave','customers.customer_rfc', DB::raw('count(*) as npedidos'), DB::raw('sum(internal_orders.total) as total'))
+        ->groupBy('customers.customer','customers.alias','customers.clave','customers.customer_rfc')
+        ->where('internal_orders.seller_id',$id)
+        ->get();
+       // dd($Customers);
+    return view('admin.sellers.customers',compact('Customers','Seller'));
     }
 }
 

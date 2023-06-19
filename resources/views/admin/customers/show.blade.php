@@ -173,7 +173,11 @@
                                 <td>{{$row->customer_contact_mobile}}</td>
                                 <td>{{$row->customer_contact_email}}</td>
                                 <td>{{$row->customer_contact_city}}</td>
-                                <td></td>
+                                <td> @can('EDITAR MONEDAS')
+                                        <a href="{{ route('customer_contacts.edit', $row->id)}}">
+                                            <i class="fas fa-edit btn btn-blue "></i></span>
+                                        </a>
+                                        @endcan</td>
                                 <td>@can('BORRAR VENDEDORES')
                                         <form class="DeleteReg" action="{{ route('customer_contacts.destroy', $row->id) }}" method="POST">
                                             @csrf

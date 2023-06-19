@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; EDITAR CONTACTO:
             </h5>
         </div>
-        <form action="{{ route('customer_contact.update',$Contacto->id)}}" method="PATCH" enctype="multipart/form-data">
+        <form action="{{ route('customer_contacts.update2',$Contacto->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
@@ -25,33 +25,33 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Nombre del contacto" />
-                                <x-jet-input type="text" name="customer_contact_name" class="w-full text-xs " value="{{$Contacto->customer_contact_name)}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="customer_contact_name" class="w-full text-xs " value="{{$Contacto->customer_contact_name}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='customer_contact_name' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Teléfono Movil" />
-                                <x-jet-input type="text" name="customer_mobile" class="w-full text-xs " value="{{$Contacto->customer_telephone)}}"/>
-                                <x-jet-input-error for='customer_mobile' />
+                                <x-jet-input type="text" name="customer_contact_mobile" class="w-full text-xs " value="{{$Contacto->customer_contact_mobile}}"/>
+                                <x-jet-input-error for='customer_contact_mobile' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Teléfono de Oficina" />
-                                <x-jet-input type="text" name="customer_telephone" class="w-full text-xs " value="{{$Contacto->customer_telephone)}}"/>
-                                <x-jet-input-error for='customer_telephone' />
+                                <x-jet-input type="text" name="customer_contact_office_phone" class="w-full text-xs " value="{{$Contacto->customer_contact_office_phone}}"/>
+                                <x-jet-input-error for='customer_contact_office_phone' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Extension" />
-                                <x-jet-input type="text" name="customer_telephone_ext" class="w-full text-xs " value="{{$Contacto->customer_telephone)}}"/>
-                                <x-jet-input-error for='customer_telephone_ext' />
+                                <x-jet-input type="text" name="customer_contact_office_phone_ext" class="w-full text-xs " value="{{$Contacto->customer_contact_office_phone_ext}}"/>
+                                <x-jet-input-error for='customer_contact_office_phone_ext' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Email Corporativo" />
-                                <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{$Contacto->customer_email)}}"/>
-                                <x-jet-input-error for='customer_email' />
+                                <x-jet-input type="text" name="customer_contact_email" class="w-full text-xs " value="{{$Contacto->customer_contact_email}}"/>
+                                <x-jet-input-error for='customer_contact_email' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Email personal" />
-                                <x-jet-input type="text" name="customer_personal_email" class="w-full text-xs " value="{{$Contacto->customer_personal_email)}}"/>
-                                <x-jet-input-error for='customer_personal_email' />
+                                <x-jet-input type="text" name="customer_contact_personal_email" class="w-full text-xs " value="{{$Contacto->customer_contact_personal_email}}"/>
+                                <x-jet-input-error for='customer_contact_personal_email' />
                             </div>
                         </div>
                     </div>
@@ -64,38 +64,38 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Estado" />
-                                <x-jet-input type="text" name="customer_state" class="w-full text-xs " value="{{$Contacto->customer_state)}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='customer_state' />
+                                <x-jet-input type="text" name="customer_contact_state" class="w-full text-xs " value="{{$Contacto->customer_contact_state}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='customer_contact_state' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Ciudad" />
-                                <x-jet-input type="text" name="customer_city" class="w-full text-xs " value="{{$Contacto->customer_city)}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='customer_city' />
+                                <x-jet-input type="text" name="customer_contact_city" class="w-full text-xs " value="{{$Contacto->customer_contact_city}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='customer_contact_city' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Colonia" />
-                                <x-jet-input type="text" name="customer_suburb" class="w-full text-xs " value="{{$Contacto->customer_suburb)}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='customer_suburb' />
+                                <x-jet-input type="text" name="customer_contact_suburb" class="w-full text-xs " value="{{$Contacto->customer_contact_suburb}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='customer_contact_suburb' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Calle" />
-                                <x-jet-input type="text" name="customer_street" class="w-full text-xs " value="{{$Contacto->customer_street)}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='customer_street' />
+                                <x-jet-input type="text" name="customer_contact_street" class="w-full text-xs " value="{{$Contacto->customer_contact_street}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='customer_contact_street' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Número Exterior" />
-                                <x-jet-input type="text" name="customer_outdoor" class="w-full text-xs " value="{{$Contacto->customer_outdoor)}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
-                                <x-jet-input-error for='customer_outdoor' />
+                                <x-jet-input type="text" name="customer_contact_outdoor" class="w-full text-xs " value="{{$Contacto->customer_contact_outdoor}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
+                                <x-jet-input-error for='customer_contact_outdoor' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="Número Interior" />
-                                <x-jet-input type="text" name="customer_indoor" class="w-full text-xs " value="{{$Contacto->customer_indoor)}}"/>
-                                <x-jet-input-error for='customer_indoor' />
+                                <x-jet-input type="text" name="customer_contact_indoor" class="w-full text-xs " value="{{$Contacto->customer_contact_indoor}}"/>
+                                <x-jet-input-error for='customer_contact_indoor' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* C.P." />
-                                <x-jet-input type="text" name="customer_zip_code" class="w-full text-xs " value="{{$Contacto->customer_zip_code)}}"/>
-                                <x-jet-input-error for='customer_zip_code' />
+                                <x-jet-input type="text" name="customer_contact_zip_code" class="w-full text-xs " value="{{$Contacto->customer_contact_zip_code}}"/>
+                                <x-jet-input-error for='customer_contact_zip_code' />
                             </div>
                         </div>
                     </div>

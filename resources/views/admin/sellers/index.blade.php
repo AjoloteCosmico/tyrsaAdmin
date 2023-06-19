@@ -44,10 +44,11 @@
                             <td>{{$row->status}}</td>
                             <td class="w-10">
                             <div class="col-6 text-center w-10">
-                                        <button type="submit" class="btn btn-blue ">
+                                <a href="{{route('sellers.customers',$row->id)}}">
+                                        <button class="btn btn-blue ">
                                                 <i class="fas fa-users"> </i>
                                                 Clientes
-                                            </button>
+                                            </button></a>
                                             </div>
                             </td>
                             <td class="w-10">
