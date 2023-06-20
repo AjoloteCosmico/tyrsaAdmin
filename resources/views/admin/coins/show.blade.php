@@ -24,27 +24,27 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Moneda" />
-                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{$Coins->coin}}"/>
+                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{$Coins->coin}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='coin' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="Símbolo" />
-                                <x-jet-input type="text" name="symbol" class="w-full text-xs " value="{{$Coins->symbol}}"/>
+                                <x-jet-input type="text" name="symbol" class="w-full text-xs " value="{{$Coins->symbol}}" />
                                 <x-jet-input-error for='symbol' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="Código" />
-                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{$Coins->code}}"/>
+                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{$Coins->code}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='code' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Tipo de Cambio Compra" />
-                                <x-jet-input type="number" step="0.01" name="exchange_buy" class="w-full text-xs " value="{{old('exchange_rate')}}"/>
+                                <x-jet-input type="number" step="any" name="exchange_buy" class="w-full text-xs " value="{{$Coins->exchange_buy}}"/>
                                 <x-jet-input-error for='exchange_buy' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Tipo de Cambio Venta" />
-                                <x-jet-input type="number" step="0.01" name="exchange_sell" class="w-full text-xs " value="{{old('exchange_rate')}}"/>
+                                <x-jet-input type="number" step="any" name="exchange_sell" class="w-full text-xs " value="{{$Coins->exchange_sell}}"/>
                                 <x-jet-input-error for='exchange_sell' />
                             </div>
                         </div>

@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Moneda" />
-                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{old('coin')}}"/>
+                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{old('coin')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='coin' />
                             </div>
                             <div class="form-group">
@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="Código" />
-                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{old('code')}}"/>
+                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{old('code')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='code' />
                             </div>
                             <div class="form-group">

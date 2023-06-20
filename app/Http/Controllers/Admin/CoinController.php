@@ -100,6 +100,8 @@ class CoinController extends Controller
 
     public function destroy($id)
     {
-        //
+        Coin::destroy($id);
+        return redirect()->route('coins.index')->with('delete_reg', 'ok');
+    
     }
 }
