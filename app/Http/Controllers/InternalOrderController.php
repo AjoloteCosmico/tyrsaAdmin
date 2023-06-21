@@ -872,8 +872,25 @@ public function recalcular_total($id){
 
      $firmas=signatures::where('order_id',$id);
      $firmas->delete();
+
+     $Cobros=Cobro::where('order_id',$id)->get();
+     foreach($Cobros as $c){
+        (new CobrosController)->destroy($c->id);
+     }
+     
+     $Facturas=Facture::where('order_id',$id)->get;
+     foreach($Facturas as $f){
+        (new FactureController)->destroy($f->id);
+     }
+     $Notas=CreditNote::where('order_id',$id)->get();
+     foreach($Notas as $n){
+        (new NotasCreditoController)->destroy($n->id);
+     }
      $orden=InternalOrder::find($id);
      $orden->delete();
+
+     
+
      return $this->index();
     }
     public function redefine(Request $request)

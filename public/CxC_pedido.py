@@ -24,7 +24,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 #Seccion para traer informacion de la base
-query = ('SELECT * from customers where id =1')
+query = ('SELECT * from customers where id = 1')
 
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
@@ -58,7 +58,6 @@ nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
 writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
-
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
