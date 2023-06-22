@@ -57,7 +57,7 @@ print(cobros)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
-writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/CxC_pedido_vigente'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
