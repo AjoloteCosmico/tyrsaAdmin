@@ -13,7 +13,8 @@
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
                     <h1>POR PEDIDO INTERNO</h1>
-                    <table>
+                    <br><br>
+                    <table style="width: ">
                         <tr> 
                             <td> Cobrado y por Cobrar</td>
                             <td>
@@ -31,13 +32,13 @@
                         <tr> 
                             <td> Solo Cuentas Vigentes</td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
+                            <a href="{{route('reports.generate',[1,'CxC_pedido_vigente',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'CxC_pedido',1])}}">
+                            <a href="{{route('reports.generate',[1,'CxC_pedido_vigente',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
