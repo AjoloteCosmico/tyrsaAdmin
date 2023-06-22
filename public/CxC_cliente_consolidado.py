@@ -138,24 +138,7 @@ red_header_format_bold = workbook.add_format({
     'font_color': 'white',
     'border': 1,
     'font_size':13})
-yellow_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#e8b321',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-green_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#2D936C',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
+
 
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
@@ -178,38 +161,14 @@ blue_content_bold = workbook.add_format({
     'font_size':11,
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
-yellow_content = workbook.add_format({
+blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
-red_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'border_color':b_color,
-    'font_size':10,
-    'num_format': '[$$-409]#,##0.00'})
-
-green_content = workbook.add_format({
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
-red_content_bold = workbook.add_format({
-    'bold':True,
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'border_color':'#80848E',
-    'font_size':11,
-    'num_format': '[$$-409]#,##0.00'})
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -299,7 +258,7 @@ for i in range(0,len(clientes)):
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
         worksheet.write('D'+row_index, str(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])), blue_content)
-        worksheet.write('E'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'reg_date'].values[0]), blue_content)
+        worksheet.write('E'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'reg_date'].values[0]), blue_content_date)
         worksheet.write('F'+row_index, str(clientes['clave'].values[i]), blue_content)
         worksheet.write('G'+row_index, str(clientes['alias'].values[i]), blue_content)
         worksheet.write('H'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'coin'].unique()), blue_content)
