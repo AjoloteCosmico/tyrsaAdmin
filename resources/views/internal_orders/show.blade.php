@@ -145,7 +145,7 @@
                         <td></td>
                         <td><div class="badge badge-primary badge-outlined">{{$semanasreg}}  </div></td>
                         <td> <div class="badge badge-primary badge-outlined">Emision PI </div></td>
-                        <td> <div class="badge badge-primary badge-outlined">{{date('j - m - Y', strtotime($InternalOrders->reg_date))}} </div></td>
+                        <td> <div class="badge badge-primary badge-outlined">{{date('d - m - Y', strtotime($InternalOrders->reg_date))}} </div></td>
                     </tr>
            
                     
@@ -353,7 +353,7 @@
                     @endphp
                     <tr>
                         <td><div class="badge badge-primary badge-outlined">{{$p}}</div></td>
-                        <td><div class="badge badge-primary badge-outlined">{{date('J - m - Y', strtotime($pay->date))}}</div></td>
+                        <td><div class="badge badge-primary badge-outlined">{{date('d - m - Y', strtotime($pay->date))}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{$dias}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">{{(int)floor($dias / 7)+1}}</div></td>
                         <td><div class="badge badge-primary badge-outlined">${{number_format($InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
