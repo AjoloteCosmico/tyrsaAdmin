@@ -184,33 +184,27 @@ worksheet.write('G8', 'NOMBRE CORTO', blue_header_format)
 
 worksheet.merge_range('H6:H8', 'MONEDA', blue_header_format)
 
-worksheet.merge_range('I6:O6', 'DERECHOS ADQUIRIDOS', blue_header_format)
+worksheet.merge_range('I6:M6', 'DERECHOS ADQUIRIDOS', blue_header_format)
 worksheet.merge_range('I7:J7', 'IMPORTE TOTAL SIN IVA', blue_header_format)
 worksheet.write('I8', 'MN', blue_header_format)
 worksheet.write('J8', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('K7:L7', 'COBRADO', blue_header_format)
+
+worksheet.merge_range('K7:L7', 'POR COBRAR', blue_header_format)
 worksheet.write('K8', 'MN', blue_header_format)
 worksheet.write('L8', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('M7:N7', 'POR COBRAR', blue_header_format)
-worksheet.write('M8', 'MN', blue_header_format)
-worksheet.write('N8', 'DLLS', blue_header_format)
+worksheet.merge_range('M7:M8', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
+
+worksheet.merge_range('N6:O6', 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_format)
 
 
-worksheet.merge_range('O7:O8', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
 
-worksheet.merge_range('P6:S6', 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_format)
-worksheet.merge_range('P7:Q7', 'FACTURADO', blue_header_format)
-worksheet.write('P8', 'MN', blue_header_format)
-worksheet.write('Q8', 'DLLS', blue_header_format)
-
-
-worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
-worksheet.write('R8', 'MN', blue_header_format)
-worksheet.write('S8', 'DLLS', blue_header_format)
+worksheet.merge_range('N7:O7', 'POR FACTURAR', blue_header_format)
+worksheet.write('N8', 'MN', blue_header_format)
+worksheet.write('O8', 'DLLS', blue_header_format)
 #llenando la tabla
 xcobrar_mn=0
 xcobrar_dlls=0
@@ -233,37 +227,23 @@ for i in range(0,len(pedidos)):
    else:
       worksheet.write('I'+row_index, 0, blue_content)
       worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
-#cobrado
+#por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('K'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('L'+row_index, 0, blue_content)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-   #por cobrar
-   if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('N'+row_index, 0, blue_content)
-   else:
-      worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('L'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
    
-   worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
-   #facturado
-   if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
-      worksheet.write('Q'+row_index, 0, blue_content)
-   else:
-      worksheet.write('P'+row_index, 0, blue_content)
-      worksheet.write('Q'+row_index,pedidos['total'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
-  
+   worksheet.write('M'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
+   
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('R'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('S'+row_index, 0, blue_content)
+      worksheet.write('N'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('O'+row_index, 0, blue_content)
    else:
-      worksheet.write('R'+row_index, 0, blue_content)
-      worksheet.write('S'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('N'+row_index, 0, blue_content)
+      worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
   
 trow=9+len(pedidos)
 
