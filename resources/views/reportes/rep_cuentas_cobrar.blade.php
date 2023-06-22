@@ -13,13 +13,38 @@
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
                     <h1>POR PEDIDO INTERNO</h1>
-                <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
+                    <table>
+                        <tr> 
+                            <td> Cobrado y por Cobrar</td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
-                                <a href="{{route('reports.generate',[1,'CxC_pedido',1])}}">
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'CxC_pedido',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
+                            </td>
+                        </tr>
+                        <tr> 
+                            <td> Solo Cuentas Vigentes</td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
+                                  <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                               
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'CxC_pedido',1])}}">
+                                  <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                            </td>
+                        </tr>
+                    </table>
+               
+                                
                                   <BR><BR></BR></BR>
                     <h1> CONSOLIDADO POR CLIENTE</h1>
                     <a href="{{route('reports.generate',[1,'CxC_cliente_consolidado',0])}}">
