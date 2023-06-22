@@ -219,7 +219,7 @@ worksheet.merge_range('H4:R4', 'Control de Facturas', rojo_b)
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
 
-worksheet.merge_range('E6:F6', 'PAGOS', blue_header_format)
+worksheet.merge_range('E6:F6', 'COBROS', blue_header_format)
 worksheet.write('E7', 'PROGRAMADO', blue_header_format)
 worksheet.write('F7', 'REAL', blue_header_format)
 

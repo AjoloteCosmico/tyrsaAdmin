@@ -3,7 +3,7 @@
 @section('title', 'PEDIDO INTERNO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-credit-card"></i>&nbsp; CONDICIONES DE PAGO</h1>
+    <h1 class="font-bold"><i class="fas fa-credit-card"></i>&nbsp; CONDICIONES DE COBRO</h1>
 @stop
 
 @section('content')
@@ -83,7 +83,7 @@
       <th scope="col">Monto sin IVA</th>
       <th scope="col">IVA</th>
       <th scope="col">TOTAL</th>
-      <th scope="col">Promesa de Pago </th>
+      <th scope="col">Promesa de COBRO </th>
       <th scope="col"># Dias </th>
       <th scope="col"># Semanas </th>
 
@@ -138,7 +138,7 @@
       <th scope="col">Monto sin IVA</th>
       <th scope="col">IVA</th>
       <th scope="col">TOTAL</th>
-      <th scope="col">Promesa de Pago </th>
+      <th scope="col">Promesa de COBRO </th>
       <th scope="col"># Dias </th>
       <th scope="col"># Semanas </th>
 

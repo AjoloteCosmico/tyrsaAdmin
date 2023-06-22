@@ -86,7 +86,7 @@
                                 Fecha de Entrega Instalación: <br> {{ date('d-m-Y', strtotime($InternalOrders->instalation_date))}}
                             </td>
                             <td>
-                                Condiciones de Pago: <br> {{ $InternalOrders->payment_conditions}}
+                                Condiciones de Cobro: <br> {{ $InternalOrders->payment_conditions}}
                             </td>
                         </tr>
                     </table>

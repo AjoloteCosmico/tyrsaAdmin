@@ -31,7 +31,7 @@
                             <th>PDA</th>
                             <th>FECHA EMISION</th>
                             <th>P.I.</th>
-                            <th>TOTAL <br> DE PAGOS </th>
+                            <th>TOTAL <br> DE COBROS </th>
                             <th>NUMERO <br> DE FACTURA</th>
                             <th>CLIENTE</th>
                             <th>IMPORTE </th>

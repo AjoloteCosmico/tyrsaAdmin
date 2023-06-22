@@ -141,7 +141,7 @@
       <th > Pedido</th>
       <th scope="col">concepto</th>
       <th scope="col">Cantidad</th>
-      <th scope="col">Fechade pago</th>
+      <th scope="col">Fecha de cobro</th>
       <th scope="col">Notas</th>
       <th scope="col">Estado</th>
     </tr>

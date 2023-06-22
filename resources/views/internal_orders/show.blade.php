@@ -302,18 +302,18 @@
                 <div class="col-sm-3 font-bold text-sm">
                 <table  >
                    <tr>
-                    <td><div class="badge badge-danger badge-outlined">Numero de Pagos:</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Numero de COBROs:</div></td>
                     <td><div class="badge badge-primary badge-outlined">{{$payments->count()}}</div></td>
                    </tr>
                    <tr> 
-                    <td><div class="badge badge-danger badge-outlined">Condiciones de Pago: @foreach($payments as $pay) <br> @endforeach</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Condiciones de COBRO: @foreach($payments as $pay) <br> @endforeach</div></td>
                     <td> <div class="badge badge-primary badge-outlined">@foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach</div>
                     </td>
                    </tr>
                    <tr>
-                    <td><div class="badge badge-danger badge-outlined">Promesas de Pago:</div></td>
+                    <td><div class="badge badge-danger badge-outlined">Promesas de Cobros:</div></td>
                     <td></td>
                    </tr>
                 </table>
@@ -321,10 +321,10 @@
                 
                <br><br>&nbsp; <br>
                <table >
-               <tr> <td colspan="9" style="text-align: center;"><div class="badge badge-danger badge-outlined">Tabla de Promesas de Pago </div></td></tr>
+               <tr> <td colspan="9" style="text-align: center;"><div class="badge badge-danger badge-outlined">Tabla de Promesas de Cobros / Derechos adquiridos </div></td></tr>
                
                 <tr>
-                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Pago No. <br><br> &nbsp;</div></td>
+                    <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> COBRO No. <br><br> &nbsp;</div></td>
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Fecha <br><br> Promesa </div></td>
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Dia<br><br> &nbsp;</div> </td>
                     <td rowspan="2"><div class="badge badge-danger badge-outlined"><br> Semana <br><br> &nbsp;</div></td>

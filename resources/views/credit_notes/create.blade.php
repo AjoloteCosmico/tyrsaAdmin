@@ -78,7 +78,7 @@
                                                 <tr class="text-center">
                                                     <th>Factura</th>
                                                     <th>Cantidad</th>
-                                                    <th>Numero de <br> pago</th>
+                                                    <th>Numero de <br> Cobros</th>
                                                     <th>Seleccionar</th>
                                                     
                                                 </tr>

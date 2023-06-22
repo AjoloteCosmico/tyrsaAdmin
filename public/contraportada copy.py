@@ -342,13 +342,13 @@ worksheet.write(8, 12, "DIFERENCIA", header_format)
 worksheet.merge_range(7,13,8,13, "TIPO DE CAMBIO",header_format)
 
 worksheet.merge_range(7,14,7,16, "EQUIVALENTE EN M.N.",header_format)
-worksheet.write(8, 14, "% DEL PAGO PARCIAL", header_format)
+worksheet.write(8, 14, "% DEL COBRO PARCIAL", header_format)
 worksheet.write(8,15 ,"IMPORTE ACUMULADO",header_format)
-worksheet.write(8,16 ,"PORCENTAJE DEL PAGO ACUMULADO",header_format)
+worksheet.write(8,16 ,"PORCENTAJE DEL COBRO ACUMULADO",header_format)
 
 
 for j in range(1,len(prog)+1):
-    worksheet.write(8+j, 1, 'Pago'+str(j), negro_b)
+    worksheet.write(8+j, 1, 'Cobro'+str(j), negro_b)
     worksheet.write(8+j, 2, moneda["coin"].values[0], negro_s)
     worksheet.write(8+j, 5, str(prog["percentage"].values[j-1])+'%', negro_s)
 

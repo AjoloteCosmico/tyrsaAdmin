@@ -48,7 +48,7 @@
                                         <x-jet-input-error for='date' />
                                     </div>
                                     <div class="form-group">
-                                        <x-jet-label value="TOTAL DE PAGOS" />
+                                        <x-jet-label value="TOTAL DE COBROS" />
                                         <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" disabled />
                                         <x-jet-input-error for='tpagos' />
                                     </div>

@@ -3,7 +3,7 @@
 @section('title', 'PEDIDO INTERNO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-credit-card"></i>&nbsp; CONDICIONES DE PAGO</h1>
+    <h1 class="font-bold"><i class="fas fa-credit-card"></i>&nbsp; CONDICIONES DE COBRO</h1>
     
 @stop
 
@@ -56,7 +56,7 @@
                     
 <p style ="font-size:250%;">TABLA PROMESA DE COBROS</p>
 <br>
-<h2 style='color:#2C426C; font-size: 150%'>* Todos los pagos incluyen IVA</h2>
+<h2 style='color:#2C426C; font-size: 150%'>* Todos los cobros incluyen IVA</h2>
 <br><br>
 <form action="{{ route('internal_orders.pay_redefine')}}" method="POST" enctype="multipart/form-data" id="form1">
 @csrf
@@ -85,7 +85,7 @@
   
   @foreach($pagados as $row)
      <tr>
-        <td> PAGO {{$aux_count}}</td>
+        <td> COBRO {{$aux_count}}</td>
         <td>  {{$row->percentage}}%</td>
         <td> {{ number_format($row->amount)}}</td>
         <td> {{$row->date}}</td>
@@ -98,7 +98,7 @@
      
      @foreach($no_pagados as $row)
      <tr>
-        <td>PAGO {{$aux_count}}</td>
+        <td>COBRO {{$aux_count}}</td>
         <td> <input type='number' min='0' max='100' step='5'  style='width: 80%;' name="{{'porcentaje['.$aux_count.']'}}" value = "{{$row->percentage}}" id="{{'P'.$aux_count}}">%</td>
         <td>{{$Coins -> symbol}} <input type='number' min='0' max='{{$Total}}' id="{{'R'.$aux_count}}" style='width: 70%;' disabled></td>
         <td> <input type='date'  required class='w-full text-xs' name="{{'date['.$aux_count.']'}}" value = "{{$row->date}}" id="{{'D'.$aux_count}}"></td>

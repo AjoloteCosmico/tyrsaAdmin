@@ -237,7 +237,7 @@ worksheet.merge_range('K6:K7', 'TC', blue_header_format)
 worksheet.merge_range('L6:L7', 'SUBTOTAL', blue_header_format)
 worksheet.merge_range('M6:M7', 'IVA', blue_header_format)
 worksheet.merge_range('N6:N7', 'TOTAL', blue_header_format)
-worksheet.merge_range('O6:O7', 'CONDICIONES DE PAGO', blue_header_format)
+worksheet.merge_range('O6:O7', 'CONDICIONES DE COBRO', blue_header_format)
 
 worksheet.merge_range('P6:Q6', 'EQUIVALENTE I/I', blue_header_format)
 worksheet.write('P7', 'ME', blue_header_format)

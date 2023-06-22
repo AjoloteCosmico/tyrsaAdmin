@@ -194,7 +194,7 @@ background-color: #2B416D;
                     <table>
                       
                   <tr>
-                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> <br> PAGO <br> <br> <br> <br> <br>  </div></td>
+                  <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> <br> COBRO <br> <br> <br> <br> <br>  </div></td>
                   <td colspan="4"> <div class="badge badge-danger badge-outlined"> <br>  &nbsp;&nbsp;&nbsp;&nbsp; PROGRAMADO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>  </div></td>
                   <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> FACTURA <BR> NUMERO <br> <br> </div></td>
                   <td rowspan="2"> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A) <br> <br></div></td>
@@ -209,16 +209,16 @@ background-color: #2B416D;
                     <td> <div class="badge badge-danger badge-outlined"> <br> MONEDA <br> <br> <br></div></td>
                     <td> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A) <br> <br></div></td>
                     <td> <div class="badge badge-danger badge-outlined"> <br> IMPORTE <br> IVA INCLUIDO  <br><br></div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> <br> % DEL <br> PAGO <br> PARCIAL  <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> % DEL <br> COBRO <br> PARCIAL  <br></div></td>
                     
                     <td> <div class="badge badge-danger badge-outlined"> <br> <br> NUMERO <br> <br></div></td>
                     <td> <div class="badge badge-danger badge-outlined"> <br> FECHA <BR>(D-M-A)<br> <br></div></td>
                     <td> <div class="badge badge-danger badge-outlined"> <br> <br> MONEDA <br> <br></div></td>
                     <td> <div class="badge badge-danger badge-outlined"><br> <br> IMPORTE <br> IVA INCLUIDO <br> </div></td>
-                    <td> <div class="badge badge-danger badge-outlined"> <br> <br> % DEL <br> PAGO <br> PARCIAL <br></div></td>
+                    <td> <div class="badge badge-danger badge-outlined"> <br> <br> % DEL <br> COBRO <br> PARCIAL <br></div></td>
                     
                     <td> <div class="badge badge-danger badge-outlined"> <br> IMPORTE <br> ACUMULADO <br> </div></td>
-                    <td> <div class="badge badge-danger badge-outlined"><br>  % DEL <br> PAGO <br> ACUMULADO<br> </div></td>
+                    <td> <div class="badge badge-danger badge-outlined"><br>  % DEL <br> COBRO <br> ACUMULADO<br> </div></td>
                     <td> <div class="badge badge-danger badge-outlined"> <br> CAPT <br> </div></td>
                     <td> <div class="badge badge-danger badge-outlined"><br>  G.A <br> </div></td>
                     <td> <div class="badge badge-danger badge-outlined"><br>  D.A <br></div></td>

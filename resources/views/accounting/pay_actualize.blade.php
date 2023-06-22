@@ -24,7 +24,7 @@
                             </td>
                         </tr>
                         <tr>
-                        Aplicacion de pago 
+                        Aplicacion de cobro
                         </tr>
                         
 </table>
@@ -43,7 +43,7 @@
                         <td>{{$order->invoice}}</td>
                     </tr>
                     <tr>
-                        <td style="background-color:#A6ADBC"> Cantidad del pago: </td>
+                        <td style="background-color:#A6ADBC"> Cantidad del cobro: </td>
                         <td> $ {{number_format($pay -> amount)}}</td>
                     </tr>
                     <tr>
@@ -157,7 +157,7 @@
                      <th>Moneda</th>
                     <th>Fecha</th>
                     <th>Importe <br>(IVA incluido)</th>
-                    <th>% del Pago <br> Parcial</th>
+                    <th>% del cobro <br> Parcial</th>
                     <th>Tipo de <br> Cambio</th>
                     
 

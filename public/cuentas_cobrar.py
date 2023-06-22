@@ -318,17 +318,17 @@ worksheet.merge_range('I8:L8', 'REAL', header_format)
 worksheet.write(8, 8, "MONEDA", header_format)
 worksheet.write(8, 9, "FECHA DD-MM-AA", header_format)
 worksheet.write(8, 10, "IMPORTE $ IVA INCLUIDO", header_format)
-worksheet.write(8, 11, "% DEL PAGO PARCIAL", header_format)
+worksheet.write(8, 11, "% DEL COBRO PARCIAL", header_format)
 
 worksheet.merge_range(7,12,8,12, "TIPO DE CAMBIO",header_format)
 
 worksheet.merge_range(7,13,7,14, "EQUIVALENTE EN M.N.",header_format)
 worksheet.write(8,13 ,"IMPORTE ACUMULADO",header_format)
-worksheet.write(8,14 ,"PORCENTAJE DEL PAGO ACUMULADO",header_format)
+worksheet.write(8,14 ,"PORCENTAJE DEL COBRO ACUMULADO",header_format)
 
 
 for j in range(1,len(prog)+1):
-    worksheet.write(8+j, 1, 'Pago'+str(j), negro_b)
+    worksheet.write(8+j, 1, 'Cobro'+str(j), negro_b)
 
 for j in range(1,len(df)+1):
     worksheet.write(8+j, 15, 'Nombre del capturista', negro_s)
@@ -345,12 +345,12 @@ worksheet.write(8, 16, 'GA', header_format)
 worksheet.write(8, 17, 'DA', header_format)
 
 #cabeceras
-worksheet.merge_range('B8:B9', 'PAGO  (COBRO)', blue_header_format)
+worksheet.merge_range('B8:B9', 'COBRO', blue_header_format)
 worksheet.merge_range('C8:F8', 'Progrmado', blue_hf)
 worksheet.write(8, 2, 'Moneda', blue_hf)
 worksheet.write(8, 3, 'Fecha', blue_hf)
 worksheet.write(8, 4, 'Importe', blue_hf)
-worksheet.write(8, 5, "% de pago", blue_hf)
+worksheet.write(8, 5, "% de Cobro", blue_hf)
 
 worksheet.write(3, 20, orden["invoice"].values[0], rojo_g)
 worksheet.write(5, 18,'$'+ str(orden["total"].values[0]), negro_b)
