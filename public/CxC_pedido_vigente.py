@@ -14,7 +14,6 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
-
 a_color='#354F84'
 b_color='#91959E'
 # Conectar a DB
@@ -25,7 +24,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 #Seccion para traer informacion de la base
-query = ('SELECT * from customers where id =1')
+query = ('SELECT * from customers where id = 1')
 
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
@@ -39,25 +38,26 @@ from ((
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
-clientes=pd.read_sql("select * from customers",cnx)
-cobros=pd.read_sql("""select cobros.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id  
-                     from (
-                         cobros
-    inner join internal_orders on internal_orders.id = cobros.order_id )""",cnx)
-facturas=pd.read_sql("""select factures.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id  
-                     from (
+cobros=pd.read_sql("""select cobro_orders.*
+                     from (((
+                         cobro_orders 
+    inner join cobros on cobros.id=cobro_orders.cobro_id)
+    inner join internal_orders on internal_orders.id = cobros.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+facturas=pd.read_sql("""select * 
+                     from ((
                          factures
-    inner join internal_orders on internal_orders.id = factures.order_id )""",cnx)
-creditos=pd.read_sql("""select credit_notes.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id as customer_pedido 
-                     from (
-                         credit_notes
-    inner join internal_orders on internal_orders.id = credit_notes.order_id ) """,cnx)
-print(creditos)
+    inner join internal_orders on internal_orders.id = factures.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+creditos=pd.read_sql("""select * 
+                     from ((
+                         credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+print(cobros)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
-writer = pd.ExcelWriter('storage/report/CxC_cliente_consolidado'+str(id)+'.xlsx', engine='xlsxwriter')
-
+writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -231,13 +231,13 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('H2:R3', 'CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO', negro_b)
+worksheet.merge_range('H2:R3', 'CUENTAS POR COBRAR POR P.I.', negro_b)
 worksheet.merge_range('H4:R4', 'CUENTAS POR COBRAR', rojo_b)
 
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
-#worksheet.merge_range('B6:B8', 'NOHA', blue_header_format)
+worksheet.merge_range('B6:B8', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C8', 'PDA', blue_header_format)
-worksheet.merge_range('D6:D8', 'PI CANTIDAD', blue_header_format)
+worksheet.merge_range('D6:D8', 'PI', blue_header_format)
 worksheet.merge_range('E6:E8', 'FECHA', blue_header_format)
 
 worksheet.merge_range('F6:G7', 'CLIENTE', blue_header_format)
@@ -274,57 +274,60 @@ worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
 worksheet.write('R8', 'MN', blue_header_format)
 worksheet.write('S8', 'DLLS', blue_header_format)
 #llenando la tabla
-counter=0
-for i in range(0,len(clientes)):
-   print(str(i)+' esa no')
-   if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
-        print(str(i)+'esta si')
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        
-        row_index=str(9+counter)
-        counter=counter+1
-        print(cobros.columns)
-        cobros_mn=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']==1)]
-        facturas_mn=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']==1)]
-        notas_mn=creditos.loc[(creditos['customer_pedido']==clientes['id'].values[i])&(creditos['coin_pedido']==1)]
-        
-        cobros_dlls=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']!=1)]
-        facturas_dlls=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']!=1)]
-        notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
-        
-        total_mn=  pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1),'total'].sum()
-        total_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1),'total'].sum()
-
-        #datos generales del pedido
-        #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
-        worksheet.write('C'+row_index, str(i+1), blue_content)
-        worksheet.write('D'+row_index, str(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])), blue_content)
-        worksheet.write('E'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'reg_date'].values[0]), blue_content)
-        worksheet.write('F'+row_index, str(clientes['clave'].values[i]), blue_content)
-        worksheet.write('G'+row_index, str(clientes['alias'].values[i]), blue_content)
-        worksheet.write('H'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'coin'].unique()), blue_content)
-        #subtotal
-    
-        worksheet.write('I'+row_index,total_mn, blue_content)
-        worksheet.write('J'+row_index, total_dlls, blue_content)
-    
-        #cobrado
-        worksheet.write('K'+row_index, cobros_mn['amount'].sum()  , blue_content)
-        worksheet.write('L'+row_index,cobros_dlls['amount'].sum()  , blue_content)
-        #por cobrar
-        worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum()-notas_mn['amount'].sum()  , blue_content)
-        worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum()-notas_dlls['amount'].sum()  , blue_content)
-    
-        worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'subtotal'].sum())+"%", blue_content)
-        #facturado
-        worksheet.write('P'+row_index,( facturas_mn['amount'].sum()-notas_mn['amount'].sum())  , blue_content)
-        worksheet.write('Q'+row_index, ( facturas_dlls['amount'].sum()-notas_dlls['amount'].sum())  , blue_content)
-    
-        #por facturar
-        worksheet.write('R'+row_index,total_mn-( facturas_mn['amount'].sum()-notas_mn['amount'].sum())  , blue_content)
-        worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum()-notas_dlls['amount'].sum())  , blue_content)
-    
-trow=9+counter
+xcobrar_mn=0
+xcobrar_dlls=0
+x_mn=0
+xcobrar_dlls=0
+for i in range(0,len(pedidos)):
+   row_index=str(9+i)
+   #datos generales del pedido
+   worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
+   worksheet.write('C'+row_index, str(i+1), blue_content)
+   worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
+   worksheet.write('E'+row_index, str(pedidos['reg_date'].values[i]), blue_content)
+   worksheet.write('F'+row_index, str(pedidos['clave'].values[i]), blue_content)
+   worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
+   worksheet.write('H'+row_index, str(pedidos['coin'].values[i]), blue_content)
+   #subtotal
+   if(pedidos['coin_id'].values[i]==1):
+      worksheet.write('I'+row_index, pedidos['subtotal'].values[i], blue_content)
+      worksheet.write('J'+row_index, 0, blue_content)
+   else:
+      worksheet.write('I'+row_index, 0, blue_content)
+      worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
+#cobrado
+   if(pedidos['coin_id'].values[i]==1):
+      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('L'+row_index, 0, blue_content)
+   else:
+      worksheet.write('K'+row_index, 0, blue_content)
+      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+   #por cobrar
+   if(pedidos['coin_id'].values[i]==1):
+      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('N'+row_index, 0, blue_content)
+   else:
+      worksheet.write('M'+row_index, 0, blue_content)
+      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+   
+   worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
+   #facturado
+   if(pedidos['coin_id'].values[i]==1):
+      worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
+      worksheet.write('Q'+row_index, 0, blue_content)
+   else:
+      worksheet.write('P'+row_index, 0, blue_content)
+      worksheet.write('Q'+row_index,pedidos['total'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
+  
+   #por facturar
+   if(pedidos['coin_id'].values[i]==1):
+      worksheet.write('R'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('S'+row_index, 0, blue_content)
+   else:
+      worksheet.write('R'+row_index, 0, blue_content)
+      worksheet.write('S'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+  
+trow=9+len(pedidos)
 
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
@@ -340,7 +343,7 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
 #TOTAL FACTURADO MN
-worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['total'].sum()- cobros['amount'].sum() )*100/pedidos['total'].sum())+"%", blue_content_bold)
+worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum())*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
 #TOTAL FACTURADOR DLLS
 worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR FACTURAR MN
