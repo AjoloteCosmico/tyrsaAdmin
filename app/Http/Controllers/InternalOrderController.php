@@ -5,6 +5,10 @@ use Session;
 use App\Models\Authorization;
 use App\Models\InternalOrder;
 use App\Models\Coin;
+
+use App\Models\Cobro;
+use App\Models\Factures;
+use App\Models\CreditNote;
 use App\Models\CompanyProfile;
 use App\Models\Customer;
 use App\Models\CustomerShippingAddress;
@@ -878,7 +882,7 @@ public function recalcular_total($id){
         (new CobrosController)->destroy($c->id);
      }
      
-     $Facturas=Facture::where('order_id',$id)->get;
+     $Facturas=Factures::where('order_id',$id)->get();
      foreach($Facturas as $f){
         (new FactureController)->destroy($f->id);
      }
