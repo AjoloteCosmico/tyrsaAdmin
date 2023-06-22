@@ -172,7 +172,7 @@ blue_content_date = workbook.add_format({
     'font_color': 'black',
     'font_size':9,
     'border_color':a_color,
-    'num_format': 'dd/mm/yy'})
+    'num_format': 'dd/mm/yyyy'})
 red_content = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -199,7 +199,7 @@ red_content_date = workbook.add_format({
     'font_color': 'black',
     'font_size':9,
     'border_color':b_color,
-    'num_format':'dd/mm/yy'})
+    'num_format':'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -433,7 +433,7 @@ worksheet.write('T8', moneda['code'].values[0], red_header_format)
 
 #tabla programado-----------------------
 #     encabezados----------------
-worksheet.merge_range('C10:C12', 'Pago \n (Cobro)', blue_header_format)
+worksheet.merge_range('C10:C12', 'COBRO ', blue_header_format)
 worksheet.merge_range('D10:G10', 'PI. Programado', blue_header_format)
 
 worksheet.merge_range('D11:D12', 'MONEDA', blue_header_format)
@@ -470,12 +470,12 @@ worksheet.merge_range('K11:K12', 'NUMERO', blue_header_format)
 worksheet.merge_range('L11:L12', 'FECHA \n DD-MM-AAA', blue_header_format)
 worksheet.merge_range('M11:M12', 'MONEDA', blue_header_format)
 worksheet.merge_range('N11:N12', 'IMPORTE \n IVA INCLUIDO', blue_header_format)
-worksheet.merge_range('O11:O12', '% DEL PAGO PARCIAL', blue_header_format)
+worksheet.merge_range('O11:O12', '% DEL COBRO PARCIAL', blue_header_format)
 #Tabla equivalente- pero sigue siendo la de comprobante eh
 worksheet.merge_range('P10:P12', 'TIPO DE \n CAMBIO', red_header_format)
 worksheet.merge_range('Q10:R10', 'EQUIVALENTE EN M.N.', red_header_format)
 worksheet.merge_range('Q11:Q12', 'IMPORTE $  ACUMULADO', red_header_format)
-worksheet.merge_range('R11:R12', '% DE PAGO ACUMULADO', red_header_format)
+worksheet.merge_range('R11:R12', '% DE COBRO ACUMULADO', red_header_format)
 worksheet.merge_range('S10:U10', 'VALIDACION DEL COBRO', red_header_format)
 worksheet.merge_range('S11:U11', 'Vo. Bo.', red_header_format)
 worksheet.write('S12', 'CAPTURA', red_header_format)
