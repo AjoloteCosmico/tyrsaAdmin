@@ -178,6 +178,16 @@ blue_content_bold = workbook.add_format({
     'font_size':11,
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',

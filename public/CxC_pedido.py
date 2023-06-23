@@ -138,7 +138,7 @@ blue_content_dll = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'bg_color': '#a9dea6',
+    'bg_color': '#b4e3b1',
     'border_color':a_color,
     'font_size':10,
     'num_format': '[$$-409]#,##0.00'})
@@ -255,9 +255,9 @@ for i in range(0,len(pedidos)):
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('N'+row_index, 0, blue_content)
+      worksheet.write('N'+row_index, 0, blue_content_dll)
    else:
-      worksheet.write('M'+row_index, 0, blue_content_dll)
+      worksheet.write('M'+row_index, 0, blue_content)
       worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
    
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)

@@ -177,6 +177,16 @@ observaciones_format = workbook.add_format({
     'fg_color':'#BDD7EE',
     'border': 1})
 
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 total_cereza_format = workbook.add_format({
     'bold': True,
     'text_wrap': True,

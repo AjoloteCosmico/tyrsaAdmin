@@ -163,6 +163,15 @@ total_cereza_format = workbook.add_format({
     'fg_color':'#F4B084',
     'border': 1})
 
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
@@ -223,27 +232,27 @@ for i in range(0,len(pedidos)):
    #subtotal
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('I'+row_index, pedidos['subtotal'].values[i], blue_content)
-      worksheet.write('J'+row_index, 0, blue_content)
+      worksheet.write('J'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
+      worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content_dll)
 #por cobrar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('K'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('L'+row_index, 0, blue_content)
+      worksheet.write('L'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('L'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
    
    worksheet.write('M'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('N'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('O'+row_index, 0, blue_content)
+      worksheet.write('O'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('N'+row_index, 0, blue_content)
-      worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
   
 trow=9+len(pedidos)
 
