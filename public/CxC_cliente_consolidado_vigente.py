@@ -283,17 +283,17 @@ for i in range(0,len(clientes)):
         #subtotal
     
         worksheet.write('I'+row_index,total_mn, blue_content)
-        worksheet.write('J'+row_index, total_dlls, blue_content)
+        worksheet.write('J'+row_index, total_dlls, blue_content_dll)
     
          #por cobrar
-        worksheet.write('K'+row_index, total_mn-cobros_mn['amount'].sum()-notas_mn['amount'].sum()  , blue_content)
-        worksheet.write('L'+row_index, total_dlls-cobros_dlls['amount'].sum()-notas_dlls['amount'].sum()  , blue_content)
+        worksheet.write('K'+row_index, total_mn-cobros_mn['amount'].sum() , blue_content)
+        worksheet.write('L'+row_index, total_dlls-cobros_dlls['amount'].sum()  , blue_content_dll)
     
         worksheet.write('M'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'subtotal'].sum())+"%", blue_content)
        
         #por facturar
-        worksheet.write('N'+row_index,total_mn-( facturas_mn['amount'].sum()-notas_mn['amount'].sum())  , blue_content)
-        worksheet.write('O'+row_index, total_dlls-( facturas_dlls['amount'].sum()-notas_dlls['amount'].sum())  , blue_content)
+        worksheet.write('N'+row_index,total_mn-( facturas_mn['amount'].sum())  , blue_content)
+        worksheet.write('O'+row_index, total_dlls-( facturas_dlls['amount'].sum())  , blue_content_dll)
     
 trow=9+counter
 
