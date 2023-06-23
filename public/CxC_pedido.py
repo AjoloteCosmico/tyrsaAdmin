@@ -57,7 +57,7 @@ print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
-tc=pd.read('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
+tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
 writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
