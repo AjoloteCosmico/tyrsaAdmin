@@ -53,7 +53,7 @@ creditos=pd.read_sql("""select *
                      from ((
                          credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-print(cobros)
+print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])

@@ -567,7 +567,7 @@ else:
 worksheet.set_column('F:F',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
-worksheet.set_column('P:P',15)
+worksheet.set_column('P:Q',15)
 worksheet.set_column('N:N',15)
 worksheet.set_column('J:J',15)
 

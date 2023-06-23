@@ -55,9 +55,8 @@ creditos=pd.read_sql("""select credit_notes.*,internal_orders.coin_id as coin_pe
 print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
-print(cobros['order_id'])
 writer = pd.ExcelWriter('storage/report/CxC_cliente_consolidado'+str(id)+'.xlsx', engine='xlsxwriter')
-
+print(creditos)
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
