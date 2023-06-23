@@ -57,6 +57,7 @@ print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
+tc=pd.read('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
 writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
@@ -226,13 +227,13 @@ for i in range(0,len(pedidos)):
    worksheet.write('F'+row_index, str(pedidos['clave'].values[i]), blue_content)
    worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
    worksheet.write('H'+row_index, str(pedidos['coin'].values[i]), blue_content)
-   #subtotal
+   #total
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('I'+row_index, pedidos['subtotal'].values[i], blue_content)
+      worksheet.write('I'+row_index, pedidos['total'].values[i], blue_content)
       worksheet.write('J'+row_index, 0, blue_content)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, pedidos['subtotal'].values[i], blue_content)
+      worksheet.write('J'+row_index, pedidos['total'].values[i], blue_content)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
@@ -242,11 +243,11 @@ for i in range(0,len(pedidos)):
       worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('N'+row_index, 0, blue_content)
    else:
       worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
    
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    #facturado
@@ -294,7 +295,11 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 #TOTALES TOTAL DE ADEBIS
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+(J'+str(trow)+' * '+str(tc)+')',blue_content_bold)
+
+worksheet.write('I'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('J'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
