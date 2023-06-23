@@ -295,7 +295,7 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 #TOTALES TOTAL DE ADEBIS
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+(J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 worksheet.write('I'+str(trow+2), 'TC', blue_header_format_bold)
 worksheet.write('J'+str(trow+2),tc , blue_content_bold)
