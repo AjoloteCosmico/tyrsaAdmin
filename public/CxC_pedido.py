@@ -132,6 +132,17 @@ blue_content = workbook.add_format({
     'font_size':10,
     'num_format': '[$$-409]#,##0.00'})
 
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#a9dea6',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
+
 blue_content_bold = workbook.add_format({
     'bold': True,
     'border': 1,
@@ -230,41 +241,41 @@ for i in range(0,len(pedidos)):
    #total
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('I'+row_index, pedidos['total'].values[i], blue_content)
-      worksheet.write('J'+row_index, 0, blue_content)
+      worksheet.write('J'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, pedidos['total'].values[i], blue_content)
+      worksheet.write('J'+row_index, pedidos['total'].values[i], blue_content_dll)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('L'+row_index, 0, blue_content)
+      worksheet.write('L'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('M'+row_index, pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('N'+row_index, 0, blue_content)
    else:
-      worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('M'+row_index, 0, blue_content_dll)
+      worksheet.write('N'+row_index,pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
    
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    #facturado
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
-      worksheet.write('Q'+row_index, 0, blue_content)
+      worksheet.write('Q'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('P'+row_index, 0, blue_content)
-      worksheet.write('Q'+row_index,pedidos['total'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content)
+      worksheet.write('Q'+row_index,pedidos['total'].values[i]- (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()), blue_content_dll)
   
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('R'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
-      worksheet.write('S'+row_index, 0, blue_content)
+      worksheet.write('S'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('R'+row_index, 0, blue_content)
-      worksheet.write('S'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('S'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
   
 trow=9+len(pedidos)
 
@@ -302,16 +313,27 @@ worksheet.write('J'+str(trow+2),tc , blue_content_bold)
 
 
 worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('K'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('L'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('M'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('N'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('P'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('Q'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('R'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('S'+str(trow+2),tc , blue_content_bold)
 
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)

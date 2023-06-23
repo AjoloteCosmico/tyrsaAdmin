@@ -38,8 +38,8 @@
                             <td>{{$row->coin}}</td>
                             <td>{{$row->symbol}}</td>
                             <td>{{$row->code}}</td>
-                            <td>{{$row->exchange_sell}}</td>
                             <td>{{$row->exchange_buy}}</td>
+                            <td>{{$row->exchange_sell}}</td>
                             <td>{{ date('d/m/Y', strtotime($row->date_application)) }}</td>
                             <td class="w-15">
                                 <div class="row">
