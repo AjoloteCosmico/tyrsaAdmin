@@ -281,8 +281,8 @@ for i in range(0,len(clientes)):
         worksheet.write('K'+row_index, cobros_mn['amount'].sum()  , blue_content)
         worksheet.write('L'+row_index,cobros_dlls['amount'].sum()  , blue_content_dll)
         #por cobrar
-        worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum() -notas_mn['amount'].sum() , blue_content)
-        worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum()-notas_dlls['amount'].sum()  , blue_content_dll)
+        worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum(), blue_content)
+        worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum()  , blue_content_dll)
     
         worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'total'].sum())+"%", blue_content)
         #facturado

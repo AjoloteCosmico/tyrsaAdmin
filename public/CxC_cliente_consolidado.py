@@ -291,7 +291,7 @@ for i in range(0,len(clientes)):
     
         #por facturar
         worksheet.write('R'+row_index,total_mn-( facturas_mn['amount'].sum())  +notas_mn['amount'].sum(), blue_content)
-        worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum()+notas_dlls['amount'].sum())  , blue_content_dll)
+        worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum())+notas_dlls['amount'].sum()  , blue_content_dll)
     
 trow=9+counter
 

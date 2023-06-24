@@ -294,8 +294,8 @@ for i in range(0,len(clientes)):
         worksheet.write('M'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'subtotal'].sum())+"%", blue_content)
        
         #por facturar
-        worksheet.write('N'+row_index,total_mn-( facturas_mn['amount'].sum()) +creditos.loc[creditos['order_id']==pedidos['id'].values[i]] , blue_content)
-        worksheet.write('O'+row_index, total_dlls-( facturas_dlls['amount'].sum()) +creditos.loc[creditos['order_id']==pedidos['id'].values[i]] , blue_content_dll)
+        worksheet.write('N'+row_index,total_mn-( facturas_mn['amount'].sum()) +notas_mn['amount'].sum() , blue_content)
+        worksheet.write('O'+row_index, total_dlls-( facturas_dlls['amount'].sum()) +notas_dlls['amount'].sum(), blue_content_dll)
     
 trow=9+counter
 
