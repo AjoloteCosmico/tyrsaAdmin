@@ -321,14 +321,10 @@ worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+J
 worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
 
-worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_content_bold)
+worksheet.merge_range('N'+str(trow+1)+':O'+str(trow+1),' ',blue_content_bold)
+worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  'SUM(N'+str(trow)+'+O'+str(trow)+')',blue_content_bold)
 
-worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_content_bold)
 
-worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
 
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
