@@ -330,7 +330,7 @@ worksheet.write('L'+str(trow+2),tc , blue_content_bold)
 
 
 worksheet.merge_range('N'+str(trow+1)+':O'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  '{=(N'+str(trow)+'+O'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 worksheet.write('N'+str(trow+2), 'TC', blue_header_format_bold)
 worksheet.write('O'+str(trow+2),tc , blue_content_bold)
 

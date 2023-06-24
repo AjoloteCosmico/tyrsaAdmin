@@ -58,7 +58,7 @@ df=pedidos[['date']]
 print(cobros['order_id'])
 tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
 
-writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado'+str(id)+'.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado_vigente'+str(id)+'.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
