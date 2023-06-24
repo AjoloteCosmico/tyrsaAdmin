@@ -88,8 +88,8 @@ class BankController extends Controller
 
     public function destroy($id)
     {
-        Coin::destroy($id);
-        return redirect()->route('coins.index')->with('delete_reg', 'ok');
+        bank::destroy($id);
+        return redirect()->route('banks.index')->with('delete_reg', 'ok');
     
     }
 }
