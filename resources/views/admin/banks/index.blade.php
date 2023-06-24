@@ -32,7 +32,7 @@
                     <tbody>
                         @foreach ($banks as $row)
                         <tr class="text-center">
-                            <td>{{$row->bank_id}}</td>
+                            <td>{{$row->id}}</td>
                             <td>{{$row->bank_description}}</td>
                             <td>{{$row->coin}}</td>
                             <td>{{$row->bank_clue}}</td>
@@ -40,7 +40,7 @@
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         @can('EDITAR MONEDAS')
-                                        <a >
+                                        <a href="{{ route('banks.edit',$row->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>

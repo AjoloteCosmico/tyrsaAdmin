@@ -22,23 +22,23 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="*BANCO" />
-                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{old('coin')}}"/>
-                                <x-jet-input-error for='coin' />
+                                <x-jet-input type="text" name="bank_description" class="w-full text-xs " value="{{old('bank_description')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='bank_description' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="CODIGO" />
-                                <x-jet-input type="text" name="symbol" class="w-full text-xs " value="{{old('symbol')}}"/>
-                                <x-jet-input-error for='symbol' />
+                                <x-jet-input type="text" name="bank_clue" class="w-full text-xs " value="{{old('bank_clue')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='bank_clue' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="*MONEDA " />
-                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{old('code')}}"/>
-                                <x-jet-input-error for='code' />
+                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{old('coin')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='coin' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* CUENTA" />
-                                <x-jet-input type="number" step="0.01" name="exchange_buy" class="w-full text-xs " value="{{old('exchange_rate')}}"/>
-                                <x-jet-input-error for='exchange_buy' />
+                                <x-jet-input type="text"  name="bank_account" class="w-full text-xs " value="{{old('bank_account')}}"/>
+                                <x-jet-input-error for='bank_account' />
                             </div>
                             
                         </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 gap-2">
-                <a href="{{ route('coins.index')}}" class="btn btn-black mb-2">
+                <a href="{{ route('banks.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
                 <button type="submit" class="btn btn-green mb-2">

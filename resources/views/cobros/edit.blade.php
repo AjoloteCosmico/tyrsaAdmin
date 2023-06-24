@@ -68,7 +68,7 @@
                                         <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
                                         <option  > </option>    
                                         @foreach ($Bancos as $row)
-                                                <option value="{{$row->bank_id}}" @if ($row->bank_id == $Cobro->bank_id) selected @endif > {{$row->bank_clue}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == $Cobro->bank_id) selected @endif > {{$row->bank_clue}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='bank_id' />

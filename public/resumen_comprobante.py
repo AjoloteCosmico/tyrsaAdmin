@@ -41,7 +41,7 @@ from (((((
     inner join coins on internal_orders.coin_id = coins.id)
     left join users on cobros.capturo=users.id)
     inner join factures on factures.id = cobros.facture_id)
-    inner join banks on banks.bank_id=cobros.bank_id """,cnx)
+    inner join banks on banks.id=cobros.bank_id """,cnx)
 print(cobros)
 nordenes=len(pd.read_sql(query,cnx))
 df=cobros[['date']]

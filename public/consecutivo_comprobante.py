@@ -43,7 +43,7 @@ cobros=pd.read_sql("""Select cobros.* ,
     left join users as revisores on cobros.reviso=revisores.id)
     left join users as autorizadores on cobros.autorizo=autorizadores.id)
     inner join factures on factures.id = cobros.facture_id)
-    inner join banks on banks.bank_id=cobros.bank_id """,cnx)
+    inner join banks on banks.id=cobros.bank_id """,cnx)
 
 
 cobros['date'].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
