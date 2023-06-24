@@ -56,6 +56,8 @@ print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
+tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
+
 writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado'+str(id)+'.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
@@ -274,9 +276,9 @@ for i in range(0,len(clientes)):
 
         worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
-        worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum(), blue_content_bold)
+        worksheet.write('I'+str(trow), total_mn, blue_content_bold)
         #SUBTOTAL PEDIDOS DLLS
-        worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold)
+        worksheet.write('J'+str(trow), total_dlls, blue_content_bold)
         #TOTAL COBRADO MN
         worksheet.write_formula('K'+str(trow),  '{=SUM(K'+str(9+counter)+':K'+str(trow-1)+')}', blue_content_bold)
         #TOTAL COBRADO DLLS
@@ -312,6 +314,8 @@ for i in range(0,len(clientes)):
 
         worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
         worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
+        
+        
         counter=counter+10
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)

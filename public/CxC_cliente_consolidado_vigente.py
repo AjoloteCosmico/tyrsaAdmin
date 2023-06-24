@@ -56,6 +56,8 @@ print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
+tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
+
 writer = pd.ExcelWriter('storage/report/CxC_cliente_consolidado'+str(id)+'.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
@@ -303,28 +305,34 @@ worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum
 #SUBTOTAL PEDIDOS DLLS
 worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold)
 #TOTAL POR COBRAR MN
-worksheet.write_formula('K'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR COBRAR DLLS
-worksheet.write_formula('L'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
+worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}',blue_content_bold)
 #TOTAL POR FACTURAR MN
-worksheet.write_formula('M'+str(trow),  '{=SUM(Q9:Q'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')/'+str(len(pedidos))+'}', blue_content_bold)
 #TOTAL POR FACTURAR DLLS
-worksheet.write_formula('N'+str(trow),  '{=SUM(R9:R'+str(trow-1)+')}',blue_content_bold)
-worksheet.write_formula('O'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_content_bold)
-
+worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
+worksheet.write_formula('O'+str(trow),  '{=SUM(O9:O'+str(trow-1)+')}',blue_content_bold)
 
 #TOTALES TOTAL DE ADEBIS
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+
+worksheet.write('I'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('J'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('K'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('L'+str(trow+2),tc , blue_content_bold)
+
 
 worksheet.merge_range('N'+str(trow+1)+':O'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  'SUM(N'+str(trow)+'+O'+str(trow)+')',blue_content_bold)
-
-
+worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write('N'+str(trow+2), 'TC', blue_header_format_bold)
+worksheet.write('O'+str(trow+2),tc , blue_content_bold)
 
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
