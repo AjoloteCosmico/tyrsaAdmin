@@ -250,11 +250,11 @@ for i in range(0,len(pedidos)):
    
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('N'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
+      worksheet.write('N'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i]], blue_content)
       worksheet.write('O'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('N'+row_index, 0, blue_content)
-      worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
+      worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i]], blue_content_dll)
   
 trow=9+len(pedidos)
 
@@ -268,11 +268,11 @@ worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_bold)
 #PORCENTAJE  TOTAL
-worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')/'+str(len(pedidos))+'}', blue_content_bold)
+worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')/'+str(len(pedidos))+'}', blue_content_bold)
 #TOTAL POR FACTURAR MN
-worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold)
+worksheet.write_formula('O'+str(trow),  '{=SUM(O9:O'+str(trow-1)+')}',blue_content_bold)
 #TOTAL POR FACTURAR DLL
-worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum())*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
+worksheet.write('M'+str(trow+1), "{:.2f}".format((pedidos['subtotal'].sum()- cobros['amount'].sum())*100/pedidos['subtotal'].sum())+"%", blue_content_bold)
 
 
 
@@ -292,7 +292,7 @@ worksheet.write('L'+str(trow+2),tc , blue_content_bold)
 
 
 worksheet.merge_range('N'+str(trow+1)+':O'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write_formula('N'+str(trow+1)+':O'+str(trow+1),  '{=(N'+str(trow)+'+O'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 worksheet.write('N'+str(trow+2), 'TC', blue_header_format_bold)
 worksheet.write('O'+str(trow+2),tc , blue_content_bold)
 
