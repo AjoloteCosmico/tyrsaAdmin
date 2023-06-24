@@ -37,7 +37,7 @@ class CobrosController extends Controller
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
-        ->join('banks', 'cobros.bank_id','=','banks.bank_id')
+        ->join('banks', 'cobros.bank_id','=','banks.id')
         
         ->leftjoin('users as capturistas', 'cobros.capturo','=','capturistas.id')
         ->leftjoin('users as revisores', 'cobros.reviso','=','revisores.id')
