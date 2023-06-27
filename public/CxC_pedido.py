@@ -268,7 +268,9 @@ for i in range(0,len(pedidos)):
    else:
       worksheet.write('P'+row_index, 0, blue_content)
       worksheet.write('Q'+row_index,facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
-      print(pedidos['id'].values[i])
+      print('dll')
+      print(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum())
+      print(creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('R'+row_index, pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
