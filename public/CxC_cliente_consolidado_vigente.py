@@ -252,6 +252,7 @@ worksheet.merge_range('N6:O6', 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_for
 worksheet.merge_range('N7:O7', 'POR FACTURAR', blue_header_format)
 worksheet.write('N8', 'MN', blue_header_format)
 worksheet.write('O8', 'DLLS', blue_header_format)
+worksheet.merge_range('P7:P8', 'STATUS', blue_header_format)
 #llenando la tabla
 counter=0
 for i in range(0,len(clientes)):
@@ -296,7 +297,12 @@ for i in range(0,len(clientes)):
         #por facturar
         worksheet.write('N'+row_index,total_mn-( facturas_mn['amount'].sum()) +notas_mn['amount'].sum() , blue_content)
         worksheet.write('O'+row_index, total_dlls-( facturas_dlls['amount'].sum()) +notas_dlls['amount'].sum(), blue_content_dll)
-    
+     #status
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()>0):
+            worksheet.write('P'+row_index,'ACTIVO', blue_content_dll)
+        else:
+            worksheet.write('P'+row_index,'CERRADO', blue_content_dll)
+        
 trow=9+counter
 
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)

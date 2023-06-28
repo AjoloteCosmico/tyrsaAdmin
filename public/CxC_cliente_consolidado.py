@@ -242,6 +242,8 @@ worksheet.write('Q8', 'DLLS', blue_header_format)
 worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
 worksheet.write('R8', 'MN', blue_header_format)
 worksheet.write('S8', 'DLLS', blue_header_format)
+
+worksheet.merge_range('T7:T8', 'STATUS', blue_header_format)
 #llenando la tabla
 counter=0
 for i in range(0,len(clientes)):
@@ -292,7 +294,12 @@ for i in range(0,len(clientes)):
         #por facturar
         worksheet.write('R'+row_index,total_mn-( facturas_mn['amount'].sum())  +notas_mn['amount'].sum(), blue_content)
         worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum())+notas_dlls['amount'].sum()  , blue_content_dll)
-    
+      #status
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()>0):
+            worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
+        else:
+            worksheet.write('T'+row_index,'CERRADO', blue_content_dll)
+        
 trow=9+counter
 
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)

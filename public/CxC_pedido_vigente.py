@@ -216,6 +216,8 @@ worksheet.merge_range('N6:O6', 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_for
 worksheet.merge_range('N7:O7', 'POR FACTURAR', blue_header_format)
 worksheet.write('N8', 'MN', blue_header_format)
 worksheet.write('O8', 'DLLS', blue_header_format)
+
+worksheet.merge_range('P7:P8', 'STATUS', blue_header_format)
 #llenando la tabla
 xcobrar_mn=0
 xcobrar_dlls=0
@@ -255,6 +257,11 @@ for i in range(0,len(pedidos)):
    else:
       worksheet.write('N'+row_index, 0, blue_content)
       worksheet.write('O'+row_index,pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
+  #status
+   if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+     worksheet.write('P'+row_index,'ACTIVO', blue_content_dll)
+   else:
+     worksheet.write('P'+row_index,'CERRADO', blue_content_dll)
   
 trow=9+len(pedidos)
 

@@ -229,6 +229,8 @@ for i in range(0,len(clientes)):
         worksheet.merge_range('R'+str(7+counter)+':S'+str(7+counter), 'POR FACTURAR', blue_header_format)
         worksheet.write('R'+str(8+counter), 'MN', blue_header_format)
         worksheet.write('S'+str(8+counter), 'DLLS', blue_header_format)
+        
+        worksheet.merge_range('T'+str(7+counter)+':T'+str(8+counter), 'STATUS', blue_header_format)
         row_index=str(9+counter)
         
         print(cobros.columns)
@@ -271,7 +273,12 @@ for i in range(0,len(clientes)):
         #por facturar
         worksheet.write('R'+row_index,total_mn-( facturas_mn['amount'].sum()) +notas_mn['amount'].sum() , blue_content)
         worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum()) +notas_mn['amount'].sum() , blue_content_dll)
-    
+         #status
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()>0):
+            worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
+        else:
+            worksheet.write('T'+row_index,'CERRADO', blue_content_dll)
+        
         trow=10+counter
 
         worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
