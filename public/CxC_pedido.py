@@ -82,7 +82,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -176,15 +179,26 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
+import datetime
+
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('H2:R3', 'CUENTAS POR COBRAR POR P.I.', negro_b)
-worksheet.merge_range('H4:R4', 'CUENTAS POR COBRAR', rojo_b)
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1 ', negro_b)
+worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
+worksheet.merge_range('B4:F4', 'CLASIFICADAS POR P.I.', negro_b)
 
-worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
+worksheet.write('H2', 'AÑO', negro_b)
+
+worksheet.write('I2', year, negro_b)
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+
+worksheet.write('L2', date, negro_b)
+worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('B6:B10', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI', blue_header_format)
