@@ -171,6 +171,17 @@ blue_content_date = workbook.add_format({
     'font_size':9,
     'border_color':a_color,
     'num_format': 'dd/mm/yyyy'})
+
+blue_content_bold_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':11,
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,

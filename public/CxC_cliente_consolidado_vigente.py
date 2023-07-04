@@ -162,6 +162,17 @@ blue_content_bold = workbook.add_format({
     'font_size':11,
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
+
+blue_content_bold_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':11,
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'})
 blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -322,15 +333,15 @@ worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
 worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum(), blue_content_bold)
 #SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold)
+worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
 #TOTAL COBRADO DLLS
-worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_bold_dll)
 #TOTAL POR COBRAR MN
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR COBRAR DLLS
-worksheet.write_formula('O'+str(trow),  '{=SUM(O9:O'+str(trow-1)+')}',blue_content_bold)
+worksheet.write_formula('O'+str(trow),  '{=SUM(O9:O'+str(trow-1)+')}',blue_content_bold_dll)
 #TOTAL FACTURADO MN
 worksheet.write('M'+str(trow+1), "{:.2f}".format((pedidos['total'].sum()- cobros['amount'].sum() )*100/pedidos['total'].sum())+"%", blue_content_bold)
 #TOTAL FACTURADOR DLLS
