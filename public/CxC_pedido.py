@@ -259,6 +259,7 @@ xcobrar_mn=0
 xcobrar_dlls=0
 x_mn=0
 xcobrar_dlls=0
+total_total=0
 for i in range(0,len(pedidos)):
    row_index=str(11+i)
    total=pedidos['total'].values[i]
@@ -266,6 +267,7 @@ for i in range(0,len(pedidos)):
    retencion=pedidos['tasa'].values[i]
    descuento=pedidos['descuento'].values[i]
    total_sn_iva=total-(subtotal*(1-descuento)*0.16)
+   total_total=total_total+total_sn_iva
    #datos generales del pedido
    worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
    worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -392,9 +394,9 @@ worksheet.merge_range('C'+str(trow+6)+':F'+str(trow+6),'POR COBRAR',blue_header_
 worksheet.merge_range('C'+str(trow+7)+':F'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
-worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),pedidos['subtotal'].sum(),blue_content_bold)
+worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),total_total,blue_content_bold)
 worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),cobros['amount'].sum()/1.16,blue_content_bold)
-worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),max(0,pedidos['subtotal'].sum()-cobros['amount'].sum()/1.16),blue_content_bold)
+worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),max(0,total_total-cobros['amount'].sum()/1.16),blue_content_bold)
 worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
 
 

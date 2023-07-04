@@ -198,53 +198,82 @@ total_cereza_format = workbook.add_format({
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('H2:R3', 'CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO', negro_b)
-worksheet.merge_range('H4:R4', 'CUENTAS POR COBRAR', rojo_b)
 
-worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
-#worksheet.merge_range('B6:B8', 'NOHA', blue_header_format)
-worksheet.merge_range('C6:C8', 'PDA', blue_header_format)
-worksheet.merge_range('D6:D8', 'PI CANTIDAD', blue_header_format)
-worksheet.merge_range('E6:E8', 'FECHA', blue_header_format)
+import datetime
 
-worksheet.merge_range('F6:G7', 'CLIENTE', blue_header_format)
-worksheet.write('F8', 'NUMERO', blue_header_format)
-worksheet.write('G8', 'NOMBRE CORTO', blue_header_format)
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+worksheet = writer.sheets['Sheet1']
+#Encabezado del documento--------------
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1 ', negro_b)
+worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
+worksheet.merge_range('B4:F4', 'CLASIFICADAS POR P.I.', negro_b)
 
-worksheet.merge_range('H6:H8', 'MONEDA', blue_header_format)
+worksheet.write('H2', 'AÑO', negro_b)
+
+worksheet.write('I2', year, negro_b)
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+
+worksheet.write('L2', date, negro_b)
+worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
+worksheet.merge_range('D6:D10', 'PI CANTIDAD', blue_header_format)
+worksheet.merge_range('E6:E10', """
+FECHA
+AAAA-MM-DD""", blue_header_format)
+
+worksheet.merge_range('F6:G9', 'CLIENTE', blue_header_format)
+worksheet.write('F10', 'NUMERO', blue_header_format)
+worksheet.write('G10', 'NOMBRE CORTO', blue_header_format)
+
+worksheet.merge_range('H6:H10', """ 
+                                  MONEDA""", blue_header_format)
 
 worksheet.merge_range('I6:O6', 'DERECHOS ADQUIRIDOS', blue_header_format)
-worksheet.merge_range('I7:J7', 'IMPORTE TOTAL SIN IVA', blue_header_format)
-worksheet.write('I8', 'MN', blue_header_format)
-worksheet.write('J8', 'DLLS', blue_header_format)
+worksheet.merge_range('I7:J9', """IMPORTE TOTAL 
+(DERECHOS ADQUIRIDOS) 
+SIN IVA""", blue_header_format)
+worksheet.write('I10', 'MN', blue_header_format)
+worksheet.write('J10', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('K7:L7', 'COBRADO', blue_header_format)
-worksheet.write('K8', 'MN', blue_header_format)
-worksheet.write('L8', 'DLLS', blue_header_format)
+worksheet.merge_range('K7:L9', """COBRADO
+(IMPORTE TOTAL COBRADO)
+SIN IVA""", blue_header_format)
+worksheet.write('K10', 'MN', blue_header_format)
+worksheet.write('L10', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('M7:N7', 'POR COBRAR', blue_header_format)
-worksheet.write('M8', 'MN', blue_header_format)
-worksheet.write('N8', 'DLLS', blue_header_format)
+worksheet.merge_range('M7:N9', """POR COBRAR
+(IMPORTE TOTAL POR COBRAR) 
+SIN IVA""", blue_header_format)
+worksheet.write('M10', 'MN', blue_header_format)
+worksheet.write('N10', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('O7:O8', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
+worksheet.merge_range('O7:O10', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
 
-worksheet.merge_range('P6:S6', 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_format)
-worksheet.merge_range('P7:Q7', 'FACTURADO', blue_header_format)
-worksheet.write('P8', 'MN', blue_header_format)
-worksheet.write('Q8', 'DLLS', blue_header_format)
+worksheet.merge_range('P6:S6', """DERECHOS ADQUIRIDOS POR COBRAR CONTABLES""", blue_header_format)
+worksheet.merge_range('P7:Q9', """FACTURADO
+CxC CONTABLES
+(SIN IVA)""", blue_header_format)
+worksheet.write('P10', 'MN', blue_header_format)
+worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
-worksheet.merge_range('R7:S7', 'POR FACTURAR', blue_header_format)
-worksheet.write('R8', 'MN', blue_header_format)
-worksheet.write('S8', 'DLLS', blue_header_format)
+worksheet.merge_range('R7:S9', """POR FACTURAR
+CXC CONTABLES
+(SIN IVA)""", blue_header_format)
+worksheet.write('R10', 'MN', blue_header_format)
+worksheet.write('S10', 'DLLS', blue_header_format)
 
-worksheet.merge_range('T7:T8', 'STATUS', blue_header_format)
-#llenando la tabla
+worksheet.merge_range('T6:T10', """
+
+ESTATUS""", blue_header_format)
+
 counter=0
 for i in range(0,len(clientes)):
    print(str(i)+' esa no')
