@@ -207,9 +207,9 @@ year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1 ', negro_b)
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 2 ', negro_b)
 worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
-worksheet.merge_range('B4:F4', 'CLASIFICADAS POR P.I.', negro_b)
+worksheet.merge_range('B4:F4', 'CLASIFICADAS POR CLIENTE CONSOLIDADO', negro_b)
 
 worksheet.write('H2', 'AÑO', negro_b)
 

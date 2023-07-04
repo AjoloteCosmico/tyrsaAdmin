@@ -33,7 +33,7 @@ query = ('SELECT * from customers where id =1')
 
 #traer datos de los pedidos
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
-coins.exchange_sell, coins.coin, coins.symbol
+coins.exchange_sell, coins.coin, coins.symbol,coins.code
 from ((
     internal_orders
     inner join customers on customers.id = internal_orders.customer_id )
@@ -179,59 +179,87 @@ total_cereza_format = workbook.add_format({
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
 
+import datetime
+
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+worksheet = writer.sheets['Sheet1']
+#Encabezado del documento--------------
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 3 ', negro_b)
+worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
+worksheet.merge_range('B4:F4', 'CLASIFICADAS POR CLIENTE DESGLOSADO', negro_b)
+
+worksheet.write('H2', 'AÑO', negro_b)
+
+worksheet.write('I2', year, negro_b)
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+
+worksheet.write('L2', date, negro_b)
+worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 #llenando la tabla
-counter=0
+counter=7
 for i in range(0,len(clientes)):
    print(str(i)+' esa no')
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
         print(str(i)+'esta si')
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        worksheet.merge_range('H'+str(2+counter)+':R'+str(3+counter), 'CUENTAS POR COBRAR POR CLIENTE CONSOLIDADO', negro_b)
-        worksheet.merge_range('H'+str(4+counter)+':R'+str(4+counter), 'CUENTAS POR COBRAR', rojo_b)
+        worksheet.merge_range('H'+str(4+counter)+':R'+str(4+counter), 'CUENTAS POR COBRAR POR CLIENTE DESGLOSADO', negro_b)
 
-        worksheet.merge_range('C'+str(6+counter)+':C'+str(8+counter), 'PDA', blue_header_format)
-        worksheet.merge_range('D'+str(6+counter)+':D'+str(8+counter), 'PI CANTIDAD', blue_header_format)
-        worksheet.merge_range('E'+str(6+counter)+':E'+str(8+counter), 'FECHA', blue_header_format)
+        worksheet.merge_range('C'+str(6+counter)+':C'+str(10+counter), 'PDA', blue_header_format)
+        worksheet.merge_range('D'+str(6+counter)+':D'+str(10+counter), 'PI CANTIDAD', blue_header_format)
+        worksheet.merge_range('E'+str(6+counter)+':E'+str(10+counter), 'FECHA', blue_header_format)
 
-        worksheet.merge_range('F'+str(6+counter)+':G'+str(7+counter), 'CLIENTE', blue_header_format)
-        worksheet.write('F'+str(8+counter), 'NUMERO', blue_header_format)
-        worksheet.write('G'+str(8+counter), 'NOMBRE CORTO', blue_header_format)
+        worksheet.merge_range('F'+str(6+counter)+':G'+str(9+counter), 'CLIENTE', blue_header_format)
+        worksheet.write('F'+str(10+counter), 'NUMERO', blue_header_format)
+        worksheet.write('G'+str(10+counter), 'NOMBRE CORTO', blue_header_format)
 
-        worksheet.merge_range('H'+str(6+counter)+':H'+str(8+counter), 'MONEDA', blue_header_format)
+        worksheet.merge_range('H'+str(6+counter)+':H'+str(10+counter), """ 
+                                  MONEDA""", blue_header_format)
 
         worksheet.merge_range('I'+str(6+counter)+':O'+str(6+counter), 'DERECHOS ADQUIRIDOS', blue_header_format)
-        worksheet.merge_range('I'+str(7+counter)+':J'+str(7+counter), 'IMPORTE TOTAL SIN IVA', blue_header_format)
-        worksheet.write('I'+str(8+counter), 'MN', blue_header_format)
-        worksheet.write('J'+str(8+counter), 'DLLS', blue_header_format)
+        worksheet.merge_range('I'+str(7+counter)+':J'+str(9+counter), """IMPORTE TOTAL 
+(DERECHOS ADQUIRIDOS) 
+SIN IVA""", blue_header_format)
+        worksheet.write('I'+str(10+counter), 'MN', blue_header_format)
+        worksheet.write('J'+str(10+counter), 'DLLS', blue_header_format)
 
 
-        worksheet.merge_range('K'+str(7+counter)+':L'+str(7+counter), 'COBRADO', blue_header_format)
-        worksheet.write('K'+str(8+counter), 'MN', blue_header_format)
-        worksheet.write('L'+str(8+counter), 'DLLS', blue_header_format)
+        worksheet.merge_range('K'+str(7+counter)+':L'+str(9+counter), """COBRADO
+(IMPORTE TOTAL COBRADO)
+SIN IVA""", blue_header_format)
+        worksheet.write('K'+str(10+counter), 'MN', blue_header_format)
+        worksheet.write('L'+str(10+counter), 'DLLS', blue_header_format)
 
 
-        worksheet.merge_range('M'+str(7+counter)+':N'+str(7+counter), 'POR COBRAR', blue_header_format)
-        worksheet.write('M'+str(8+counter), 'MN', blue_header_format)
-        worksheet.write('N'+str(8+counter), 'DLLS', blue_header_format)
+        worksheet.merge_range('M'+str(7+counter)+':N'+str(9+counter),  """POR COBRAR
+(IMPORTE TOTAL POR COBRAR) 
+SIN IVA""", blue_header_format)
+        worksheet.write('M'+str(10+counter), 'MN', blue_header_format)
+        worksheet.write('N'+str(10+counter), 'DLLS', blue_header_format)
 
 
-        worksheet.merge_range('O'+str(7+counter)+':O'+str(8+counter), '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
+        worksheet.merge_range('O'+str(7+counter)+':O'+str(10+counter), '% POR COBRAR DEL PEDIDO INTERNO', blue_header_format)
 
-        worksheet.merge_range('P'+str(6+counter)+':S'+str(6+counter), 'DERECHOS ADQUIRIDOS POR COBRAR', blue_header_format)
-        worksheet.merge_range('P'+str(7+counter)+':Q'+str(7+counter), 'FACTURADO', blue_header_format)
-        worksheet.write('P'+str(8+counter), 'MN', blue_header_format)
-        worksheet.write('Q'+str(8+counter), 'DLLS', blue_header_format)
+        worksheet.merge_range('P'+str(6+counter)+':S'+str(6+counter), 'DERECHOS ADQUIRIDOS POR COBRAR CONTABLES', blue_header_format)
+        worksheet.merge_range('P'+str(7+counter)+':Q'+str(9+counter), """FACTURADO
+CxC CONTABLES
+(SIN IVA)""", blue_header_format)
+        worksheet.write('P'+str(10+counter), 'MN', blue_header_format)
+        worksheet.write('Q'+str(10+counter), 'DLLS', blue_header_format)
 
 
-        worksheet.merge_range('R'+str(7+counter)+':S'+str(7+counter), 'POR FACTURAR', blue_header_format)
-        worksheet.write('R'+str(8+counter), 'MN', blue_header_format)
-        worksheet.write('S'+str(8+counter), 'DLLS', blue_header_format)
+        worksheet.merge_range('R'+str(7+counter)+':S'+str(9+counter), """POR FACTURAR
+CXC CONTABLES
+(SIN IVA)""", blue_header_format)
+        worksheet.write('R'+str(10+counter), 'MN', blue_header_format)
+        worksheet.write('S'+str(10+counter), 'DLLS', blue_header_format)
         
-        worksheet.merge_range('T'+str(7+counter)+':T'+str(8+counter), 'STATUS', blue_header_format)
-        row_index=str(9+counter)
+        worksheet.merge_range('T'+str(6+counter)+':T'+str(10+counter), 'STATUS', blue_header_format)
+        row_index=str(11+counter)
         
         print(cobros.columns)
         cobros_mn=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']==1)]
@@ -242,9 +270,12 @@ for i in range(0,len(clientes)):
         facturas_dlls=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']!=1)]
         notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
         
-        total_mn=  pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1),'total'].sum()
-        total_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1),'total'].sum()
-
+        pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
+        pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
+        
+        total_mn=  (pedidos_mn['total']-pedidos_mn['subtotal']*(1-pedidos_mn['descuento'])*0.16).sum()
+        total_dlls=(pedidos_dlls['total']-pedidos_dlls['subtotal']*(1-pedidos_dlls['descuento'])*0.16).sum()
+       
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -252,34 +283,39 @@ for i in range(0,len(clientes)):
         worksheet.write('E'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'reg_date'].values[0]), blue_content)
         worksheet.write('F'+row_index, str(clientes['clave'].values[i]), blue_content)
         worksheet.write('G'+row_index, str(clientes['alias'].values[i]), blue_content)
-        worksheet.write('H'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'coin'].unique()), blue_content)
+        worksheet.write('H'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'code'].values[0]), blue_content)
         #subtotal
     
         worksheet.write('I'+row_index,total_mn, blue_content)
         worksheet.write('J'+row_index, total_dlls, blue_content_dll)
     
         #cobrado
-        worksheet.write('K'+row_index, cobros_mn['amount'].sum()  , blue_content)
-        worksheet.write('L'+row_index,cobros_dlls['amount'].sum()  , blue_content_dll)
+        worksheet.write('K'+row_index, cobros_mn['amount'].sum()/1.16  , blue_content)
+        worksheet.write('L'+row_index,cobros_dlls['amount'].sum()/1.16  , blue_content_dll)
         #por cobrar
-        worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum()  , blue_content)
-        worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum() , blue_content_dll)
+        worksheet.write('M'+row_index, max(0,total_mn-cobros_mn['amount'].sum()/1.16)  , blue_content)
+        worksheet.write('N'+row_index, max(0,total_dlls-cobros_dlls['amount'].sum()/1.16) , blue_content_dll)
     
-        worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'total'].sum())+"%", blue_content)
+        worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()/1.16+cobros_mn['amount'].sum()/1.16) )*100/(total_dlls+total_mn))+"%", blue_content)
         #facturado
-        worksheet.write('P'+row_index,( facturas_mn['amount'].sum()-notas_mn['amount'].sum())  , blue_content)
-        worksheet.write('Q'+row_index, ( facturas_dlls['amount'].sum()-notas_dlls['amount'].sum())  , blue_content_dll)
-    
+        
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()/1.16-cobros_dlls['amount'].sum()/1.16>0):
+            worksheet.write('P'+row_index,max(0, facturas_mn['amount'].sum()/1.16-notas_mn['amount'].sum()/1.16)  , blue_content)
+            worksheet.write('Q'+row_index, max(0, facturas_dlls['amount'].sum()/1.16-notas_dlls['amount'].sum()/1.16)  , blue_content_dll)
+        else:
+            worksheet.write('P'+row_index,0  , blue_content)
+            worksheet.write('Q'+row_index, 0  , blue_content_dll)
+        
         #por facturar
-        worksheet.write('R'+row_index,total_mn-( facturas_mn['amount'].sum()) +notas_mn['amount'].sum() , blue_content)
-        worksheet.write('S'+row_index, total_dlls-( facturas_dlls['amount'].sum()) +notas_mn['amount'].sum() , blue_content_dll)
+        worksheet.write('R'+row_index,max(0,total_mn-( facturas_mn['amount'].sum()/1.16) +notas_mn['amount'].sum()/1.16) , blue_content)
+        worksheet.write('S'+row_index, max(0,total_dlls-( facturas_dlls['amount'].sum()/1.16) +notas_mn['amount'].sum()/1.16) , blue_content_dll)
          #status
-        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()>0):
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()/1.16-cobros_dlls['amount'].sum()/1.16>0):
             worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
         else:
             worksheet.write('T'+row_index,'CERRADO', blue_content_dll)
         
-        trow=10+counter
+        trow=12+counter
 
         worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
@@ -323,7 +359,7 @@ for i in range(0,len(clientes)):
         worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
         
         
-        counter=counter+10
+        counter=counter+13
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
