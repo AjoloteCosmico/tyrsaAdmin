@@ -65,7 +65,7 @@
                                         <option value="TRANSPORTADORES" >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" >SOFTWARE</option>
-                                        <option value="TRASLADO" >TRASLADO</option>
+                                        <option value="FLETE" >FLETE</option>
                                         <option value="OTRO" >OTRO</option>
                                 </select>
                                 

@@ -128,20 +128,23 @@ class ItemController extends Controller
     public function store(Request $request)
     {
          
-        $rules = [
-            'amount' => 'required',
-            'unit' => 'required',
-            'family' => 'required',
-            'code' => 'required',
-            'description' => 'required',
-            'unit_price' => 'required',
+        $rules = ['amount' => 'required',
+        'unit' => 'required',
+        'family' => 'required',
+        
+        
+        'sku' => 'required',
+        'description' => 'required',
+        'unit_price' => 'required',
         ];
 
         $messages = [
             'amount.required' => 'La Cantidad es requerida',
             'unit.required' => 'La unidad es requerida',
             'family.required' => 'La familia es requerida',
-            'code.required' => 'La clave es requerida',
+            
+            
+            'sku.required' => 'SKU requerido',
             'description.required' => 'La descripción es requerida',
             'unit_price.required' => 'El precio unitario es requerido',
         ];
@@ -157,25 +160,25 @@ class ItemController extends Controller
             $Items->item = $request->item;
             $Items->amount = $request->amount;
             $Items->unit = $request->unit;
-            $Items->family = $request->family;
-            $Items->code = $request->code;
+            if($request->family=='OTRO'){
+                $Items->family = $request->otro;
+            }
+            else{
+            $Items->family = $request->family;}
+            //$TempItems->subfamilia = $request->subfamily;
+            $Items->categoria = $request->category;
+            //$TempItems->products = $request->products;
+            //$TempItems->code = $request->code;
+           
+            $Items->sku = $request->sku;
+            
             $Items->description = $request->description;
             $Items->unit_price =(float) $request->unit_price;
             $Items->import = $Import;
             $Items->save();
         
+            
         
-        $InternalOrders = InternalOrder::where('id', $request->internal_order_id)->first();
-        $Customers = Customer::where('id', $InternalOrders->customer_id)->first();
-        $Items = Item::where('internal_order_id', $InternalOrders->id)->get();
-        if(count($Items) > 0){
-            $Subtotal = Item::where('internal_order_id', $InternalOrders->id)->sum('import');
-        }else{
-            $Subtotal = '0';
-        }
-
-        $Iva = $Subtotal * 0.16;
-        $Total = $Subtotal + $Iva;
         
         return redirect('internal_orders/edit/'.$Items->internal_order_id);
     }
@@ -185,7 +188,9 @@ class ItemController extends Controller
     }
 
     public function destroy($id)
-    {
-        //
+    {   $order_id=Item::find($id)->internal_order_id;
+        Item::destroy($id);
+        return redirect('internal_orders/edit/'.$order_id);
+    
     }
 }

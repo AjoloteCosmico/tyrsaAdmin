@@ -196,7 +196,7 @@
                 <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 text-right p-3">
-                                        <a href="{{ route('tempitems.create_item', $InternalOrders->id) }} " class="btn btn-green">
+                                        <a href="{{ route('items.creation', $InternalOrders->id) }} " class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                         </a>
                                     </div>
@@ -217,6 +217,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($Items as $row)
+
                                                 <tr class="text-center">
                                                     <td>{{ $row->item }}</td>
                                                     <td>{{ $row->amount }}</td>
@@ -224,11 +225,32 @@
                                                     <td>{{ $row->family }}</td>
                                                     <td>{{ $row->code }}</td>
                                                     <td>{{ $row->description }}</td>
-                                                    <td class="text-right">$ {{ number_format($row->unit_price, 2) }}</td>
-                                                    <td class="text-right">$ {{ number_format($row->import, 2) }}</td>
-                                                    <td><a href="{{ route('items.edit_item', [$row->id,1]) }} " class="btn btn-green">
-                                                        <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
-                                                   </a></td>
+                                                    <td >$ {{ number_format($row->unit_price, 2) }}</td>
+                                                    <td >$ {{ number_format($row->import, 2) }}</td>
+                                                    <td>
+                                                        <div class="row">
+                                                             <div class="col-6 text-center w-10">
+                                                                <a href="{{ route('items.edit_item', [$row->id,1]) }} " >
+                                                                <button type = "button" class="btn btn-green btn-lg"> <i class="fas fa-edit"></i> </button>
+                                                                </a>
+                                                             </div>
+
+                                                             <div class="col-6 text-center w-10">
+                                                             @can('BORRAR PEDIDOS')
+                                        <form class="DeleteReg" action="{{route('items.destroy', $row->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red btn-lg ">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                                             </div>
+                                                        </div>
+                                                        
+                                                    
+                                                    
+                                                 </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

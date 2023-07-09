@@ -46,7 +46,7 @@
                                         <option value="TRANSPORTADORES" @if ($Item->family == 'TRANSPORTADORES') selected @endif >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" @if ($Item->family == 'EQUIPO AUXILIAR') selected @endif >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" @if ($Item->family == 'SOFTWARE') selected @endif >SOFTWARE</option>
-                                        <option value="TRASLADO"  @if ($Item->family == 'TRASLADO') selected @endif >TRASLADO</option>
+                                        <option value="FLETE"  @if ($Item->family == 'FLETE') selected @endif >FLETE</option>
                                         <option value="OTRO" @if ($Item->family == 'OTRO') selected @endif >OTRO</option>
                                 
                                 </select>

@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('tempitems/{id}', [TempItemController::class, 'create_item'])->name('tempitems.create_item');
     Route::get('tempitems/edit/{id}/{captured}', [TempItemController::class, 'edit_item'])->name('tempitems.edit_item');
     Route::get('items/edit/{id}', [ItemController::class, 'edit_item'])->name('items.edit_item');
+    
     Route::get('internal_orders/edit/{id}', [InternalOrderController::class, 'edit_order'])->name('internal_orders.edit_order');
     Route::post('internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
     Route::post('internal_orders/firmar', [InternalOrderController::class, 'firmar'])->name('internal_orders.firmar');
