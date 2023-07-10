@@ -209,7 +209,7 @@ worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
-worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('B6:B10', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI', blue_header_format)
@@ -428,6 +428,8 @@ worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_co
 
 
 #AGRANDAR CPLUMNAS
+
+worksheet.set_column('A:A',15)
 worksheet.set_column('E:E',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
