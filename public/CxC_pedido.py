@@ -298,11 +298,11 @@ for i in range(0,len(pedidos)):
       total_total=total_total+total_sn_iva*tc
    #total
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('I'+row_index, total_sn_iva, blue_content)
+      worksheet.write('I'+row_index, subtotal, blue_content)
       worksheet.write('J'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, total_sn_iva, blue_content_dll)
+      worksheet.write('J'+row_index, subtotal, blue_content_dll)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
