@@ -279,7 +279,7 @@ for i in range(0,len(pedidos)):
    retencion=pedidos['tasa'].values[i]
    descuento=pedidos['descuento'].values[i]
    total_sn_iva=total-(subtotal*(1-descuento)*0.16)
-   
+   print(pedidos['invoice'].values[i])
    total_total=total_total+total_sn_iva
    #datos generales del pedido
    worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
@@ -305,11 +305,18 @@ for i in range(0,len(pedidos)):
       worksheet.write('J'+row_index, subtotal, blue_content_dll)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content)
+      if(total>0):
+         worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content)
+      else:
+         worksheet.write('K'+row_index, 0, blue_content)
+      
       worksheet.write('L'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content_dll)
+      if(total>0):
+        worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content_dll)
+      else:
+        worksheet.write('L'+row_index, 0, blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('M'+row_index, max(0,(pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
