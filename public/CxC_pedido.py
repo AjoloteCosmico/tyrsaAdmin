@@ -305,11 +305,11 @@ for i in range(0,len(pedidos)):
       worksheet.write('J'+row_index, subtotal, blue_content_dll)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+      worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content)
       worksheet.write('L'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content_dll)
+      worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum(), blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
       worksheet.write('M'+row_index, max(0,(pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
