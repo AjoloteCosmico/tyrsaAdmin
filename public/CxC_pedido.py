@@ -421,9 +421,9 @@ worksheet.merge_range('C'+str(trow+5)+':F'+str(trow+5),'COBRADOS',blue_header_fo
 worksheet.merge_range('C'+str(trow+6)+':F'+str(trow+6),'POR COBRAR',blue_header_format)
 worksheet.merge_range('C'+str(trow+7)+':F'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
 
-worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR MXN',blue_header_format)
-worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR DLL',blue_header_format)
-worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
 worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),' ',blue_content_bold)
@@ -440,8 +440,8 @@ worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'
 worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
 pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
 worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
-worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_dll),blue_content_bold)
-worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+8),str(pedidos_x_cobrar_dll),blue_content_bold)
+worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+8),str(pedidos_x_cobrar),blue_content_bold)
 
 
 
