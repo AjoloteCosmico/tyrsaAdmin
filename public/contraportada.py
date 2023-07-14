@@ -33,6 +33,8 @@ like_customer=pd.read_sql(query,cnx)
 order_id=int(id)
 print(order_id)
 orden = pd.read_sql("select * from internal_orders where id="+str(order_id),cnx)
+retencion=pd.read_sql("""select * from items where internal_order_id= """+str(order_id)+""" and family='FLETE'""",cnx)['import'].sum()*orden['tasa'].values[0]
+print("retencion:  "+str(retencion))
 cliente = pd.read_sql("select * from customers where id = "+str(orden["customer_id"].values[0]),cnx)
 moneda = pd.read_sql("select * from coins where id="+str(orden["coin_id"].values[0]),cnx)
 query = ('SELECT * from payments where order_id = '+str(order_id))
@@ -403,7 +405,7 @@ worksheet.merge_range('E8:F8', str(orden['reg_date'].values[0]), blue_content)
 
 #tabla superior totales
 worksheet.write('H6', "SUBTOTAL", red_header_format)
-worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
+worksheet.merge_range('I6:J6', orden['subtotal'].values[0]-retencion, red_content)
 worksheet.write('H7', "IVA", red_header_format)
 worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
 worksheet.write('H8', "TOTAL (I/I)", red_header_format_bold)
