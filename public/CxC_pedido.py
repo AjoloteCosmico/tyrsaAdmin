@@ -338,19 +338,20 @@ for i in range(0,len(pedidos)):
    #facturado
    if(pedidos['coin_id'].values[i]==1):
       if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
-         pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
+         
          worksheet.write('P'+row_index,0, blue_content)
       else:
+         pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
          worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
          
       worksheet.write('Q'+row_index, 0, blue_content_dll)
    else:#osea si no es moneda nacional
-      if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()==0):
+      if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
      #osease, si ya se cobro
-         pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
          worksheet.write('Q'+row_index, 0, blue_content_dll)
       else:
-      
+         
+         pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
          worksheet.write('Q'+row_index,(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content_dll)
       worksheet.write('P'+row_index, 0, blue_content)
       
