@@ -272,6 +272,8 @@ x_mn=0
 xcobrar_dlls=0
 total_total=0
 pedidos_x_cobrar=0
+pedidos_x_cobrar_mx=0
+pedidos_x_cobrar_dll=0
 for i in range(0,len(pedidos)):
    row_index=str(11+i)
    total=pedidos['total'].values[i]
@@ -319,25 +321,26 @@ for i in range(0,len(pedidos)):
         worksheet.write('L'+row_index, 0, blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, max(0,(pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
+      worksheet.write('M'+row_index, max(0,(pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content)
       worksheet.write('N'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index, max(0,(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
+      worksheet.write('N'+row_index, max(0,(pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content_dll)
    
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    #facturado
    if(pedidos['coin_id'].values[i]==1):
       if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
-     
+         pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
          worksheet.write('P'+row_index,0, blue_content)
       else:
          worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
-         pedidos_x_cobrar=pedidos_x_cobrar+1
+         
       worksheet.write('Q'+row_index, 0, blue_content_dll)
-   else:
+   else:#osea si no es moneda nacional
       if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()==0):
-     
+     #osease, si ya se cobro
+         pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
          worksheet.write('Q'+row_index, 0, blue_content_dll)
       else:
       
@@ -417,6 +420,9 @@ worksheet.merge_range('C'+str(trow+4)+':F'+str(trow+4),'DERECHOS ADQUIRIDOS',blu
 worksheet.merge_range('C'+str(trow+5)+':F'+str(trow+5),'COBRADOS',blue_header_format)
 worksheet.merge_range('C'+str(trow+6)+':F'+str(trow+6),'POR COBRAR',blue_header_format)
 worksheet.merge_range('C'+str(trow+7)+':F'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
+
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR MXN',blue_header_format)
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR DLL',blue_header_format)
 worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
@@ -432,7 +438,9 @@ worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'
 
 
 worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
-
+pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
+worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
+worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_dll),blue_content_bold)
 worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar),blue_content_bold)
 
 
