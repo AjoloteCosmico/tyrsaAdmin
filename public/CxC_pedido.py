@@ -321,12 +321,19 @@ for i in range(0,len(pedidos)):
         worksheet.write('L'+row_index, 0, blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('M'+row_index, max(0,(pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content)
+      if(total>0):
+        worksheet.write('M'+row_index, max(0,(pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content)
+      else:
+         worksheet.write('K'+row_index, 0, blue_content)
+      
       worksheet.write('N'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('M'+row_index, 0, blue_content)
-      worksheet.write('N'+row_index, max(0,(pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content_dll)
-   
+      if(total>0):
+        worksheet.write('N'+row_index, max(0,(pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content_dll)
+      else:
+        worksheet.write('K'+row_index, 0, blue_content)
+      
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    #facturado
    if(pedidos['coin_id'].values[i]==1):
