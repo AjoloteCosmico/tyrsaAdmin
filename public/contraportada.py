@@ -405,7 +405,7 @@ worksheet.merge_range('E8:F8', str(orden['reg_date'].values[0]), blue_content)
 worksheet.write('H6', "SUBTOTAL", red_header_format)
 worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  orden['total'].values[0]-orden['subtotal'].values[0], red_content)
+worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
 worksheet.write('H8', "TOTAL (I/I)", red_header_format_bold)
 worksheet.merge_range('I8:J8',  orden['total'].values[0], red_content_bold)
 

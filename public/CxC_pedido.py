@@ -460,7 +460,7 @@ worksheet.set_column('E:E',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)
-worksheet.set_column('I:N',15)
+worksheet.set_column('I:N',16)
 worksheet.set_column('P:T',15)
 
 #worksheet.set_landscape()
