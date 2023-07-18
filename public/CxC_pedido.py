@@ -300,15 +300,15 @@ for i in range(0,len(pedidos)):
       total_total=total_total+total_sn_iva*tc
    #total
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('I'+row_index, subtotal, blue_content)
+      worksheet.write('I'+row_index, total/1.16, blue_content)
       worksheet.write('J'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, subtotal, blue_content_dll)
+      worksheet.write('J'+row_index, total/1.16, blue_content_dll)
 #cobrado
    if(pedidos['coin_id'].values[i]==1):
       if(total>0):
-         worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content)
+         worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
       else:
          worksheet.write('K'+row_index, 0, blue_content)
       
@@ -316,13 +316,13 @@ for i in range(0,len(pedidos)):
    else:
       worksheet.write('K'+row_index, 0, blue_content)
       if(total>0):
-        worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total, blue_content_dll)
+        worksheet.write('L'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content_dll)
       else:
         worksheet.write('L'+row_index, 0, blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
       if(total>0):
-        worksheet.write('M'+row_index, max(0,(pedidos['subtotal'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content)
+        worksheet.write('M'+row_index, max(0,(total/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)), blue_content)
       else:
          worksheet.write('K'+row_index, 0, blue_content)
       
@@ -330,7 +330,7 @@ for i in range(0,len(pedidos)):
    else:
       worksheet.write('M'+row_index, 0, blue_content)
       if(total>0):
-        worksheet.write('N'+row_index, max(0,(pedidos['subtotal'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()*subtotal/total)), blue_content_dll)
+        worksheet.write('N'+row_index, max(0,(total/1.16 - cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)), blue_content_dll)
       else:
         worksheet.write('K'+row_index, 0, blue_content)
       
