@@ -383,7 +383,7 @@ b4s = workbook.add_format({
     
 #dataframes
 
-df.to_excel(writer, sheet_name='Sheet1', startrow=9,startcol=5, header=False, index=False)
+df.to_excel(writer, sheet_name='Sheet1', startrow=11,startcol=5, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
@@ -409,13 +409,13 @@ worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
 worksheet.write('H7', "IVA", red_header_format)
 worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
 
-worksheet.write('H7', "DESCUENTO", red_header_format)
+worksheet.write('H8', "DESCUENTO", red_header_format)
 worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(1-orden['descuento']), red_content)
 
-worksheet.write('H8', "RETENCION", red_header_format)
-worksheet.merge_range('I8:J8',  retencion, red_content)
-worksheet.write('H9', "TOTAL (I/I)", red_header_format_bold)
-worksheet.merge_range('I9:J9',  orden['total'].values[0], red_content_bold)
+worksheet.write('H9', "RETENCION", red_header_format)
+worksheet.merge_range('I9:J9',  retencion, red_content)
+worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
+worksheet.merge_range('I10:J10',  orden['total'].values[0], red_content_bold)
 
 #tabla superior facturas
 worksheet.write('L8', "FACTURADO", blue_header_format)
