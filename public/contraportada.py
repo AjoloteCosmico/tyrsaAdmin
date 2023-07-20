@@ -410,7 +410,7 @@ worksheet.write('H7', "IVA", red_header_format)
 worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
 
 worksheet.write('H8', "DESCUENTO", red_header_format)
-worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(1-orden['descuento']), red_content)
+worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(orden['descuento']), red_content)
 
 worksheet.write('H9', "RETENCION", red_header_format)
 worksheet.merge_range('I9:J9',  retencion, red_content)
