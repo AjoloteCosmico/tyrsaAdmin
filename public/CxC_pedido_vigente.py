@@ -209,7 +209,7 @@ worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
-worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('B6:B10', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI', blue_header_format)
@@ -257,55 +257,58 @@ xcobrar_mn=0
 xcobrar_dlls=0
 x_mn=0
 xcobrar_dlls=0
+row_index=10
 for i in range(0,len(pedidos)):
-   row_index=str(11+i)
-   total=pedidos['total'].values[i]
-   subtotal=pedidos['subtotal'].values[i]
-   retencion=pedidos['tasa'].values[i]
-   descuento=pedidos['descuento'].values[i]
-   total_sn_iva=total-(subtotal*(1-descuento)*0.16)
-   #datos generales del pedido
-   worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
-   worksheet.write('C'+row_index, str(i+1), blue_content)
-   worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
-   worksheet.write('E'+row_index, str(pedidos['reg_date'].values[i]), blue_content)
-   worksheet.write('F'+row_index, str(pedidos['clave'].values[i]), blue_content)
-   worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
-   if(pedidos['code'].values[i]=='MN'):
-      worksheet.write('H'+row_index, 'MXN', blue_content)
-   else:
-      worksheet.write('H'+row_index, str(pedidos['code'].values[i]), blue_content)   
-   #total
-   if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('I'+row_index, total_sn_iva, blue_content)
-      worksheet.write('J'+row_index, 0, blue_content_dll)
-   else:
-      worksheet.write('I'+row_index, 0, blue_content)
-      worksheet.write('J'+row_index, total_sn_iva, blue_content_dll)
- #por cobrar
-   if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('K'+row_index, max(0,(pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
-      worksheet.write('L'+row_index, 0, blue_content_dll)
-   else:
-      worksheet.write('K'+row_index, 0, blue_content)
-      worksheet.write('L'+row_index, max(0,(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
    
-   worksheet.write('M'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
+   total=pedidos['total'].values[i]
+   if(cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<total):
+        row_index=str(int(row_index)+1)
+        subtotal=pedidos['subtotal'].values[i]
+        retencion=pedidos['tasa'].values[i]
+        descuento=pedidos['descuento'].values[i]
+        total_sn_iva=total-(subtotal*(1-descuento)*0.16)
+        #datos generales del pedido
+        worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
+        worksheet.write('C'+row_index, str(i+1), blue_content)
+        worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
+        worksheet.write('E'+row_index, str(pedidos['reg_date'].values[i]), blue_content)
+        worksheet.write('F'+row_index, str(pedidos['clave'].values[i]), blue_content)
+        worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
+        if(pedidos['code'].values[i]=='MN'):
+            worksheet.write('H'+row_index, 'MXN', blue_content)
+        else:
+            worksheet.write('H'+row_index, str(pedidos['code'].values[i]), blue_content)   
+        #total
+        if(pedidos['coin_id'].values[i]==1):
+            worksheet.write('I'+row_index, total/1.16, blue_content)
+            worksheet.write('J'+row_index, 0, blue_content_dll)
+        else:
+            worksheet.write('I'+row_index, 0, blue_content)
+            worksheet.write('J'+row_index, total/1.16, blue_content_dll)
+        #por cobrar
+        if(pedidos['coin_id'].values[i]==1):
+            worksheet.write('K'+row_index, max(0,(pedidos['total'].values[i]-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
+            worksheet.write('L'+row_index, 0, blue_content_dll)
+        else:
+            worksheet.write('K'+row_index, 0, blue_content)
+            worksheet.write('L'+row_index, max(0,(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
+        
+        worksheet.write('M'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
 
-   #por facturar
-   if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('N'+row_index, max(0,(pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
-      worksheet.write('O'+row_index, 0, blue_content_dll)
-   else:
-      worksheet.write('N'+row_index, 0, blue_content)
-      worksheet.write('O'+row_index, max(0,(pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
-   #status
-   if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
-     worksheet.write('P'+row_index,'ACTIVO', blue_content)
-   else:
-     worksheet.write('P'+row_index,'CERRADO', blue_content)
-  
-trow=11+len(pedidos)
+        #por facturar
+        if(pedidos['coin_id'].values[i]==1):
+            worksheet.write('N'+row_index, max(0,(pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
+            worksheet.write('O'+row_index, 0, blue_content_dll)
+        else:
+            worksheet.write('N'+row_index, 0, blue_content)
+            worksheet.write('O'+row_index, max(0,(pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
+        #status
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+            worksheet.write('P'+row_index,'ACTIVO', blue_content)
+        else:
+            worksheet.write('P'+row_index,'CERRADO', blue_content)
+        
+trow=1+int(row_index)
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow) , 'SUBTOTALES', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
@@ -366,6 +369,8 @@ worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_co
 
 
 #AGRANDAR CPLUMNAS
+
+worksheet.set_column('A:A',15)
 worksheet.set_column('E:E',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)

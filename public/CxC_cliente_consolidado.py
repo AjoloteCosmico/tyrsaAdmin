@@ -229,7 +229,7 @@ worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
-worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI CANTIDAD', blue_header_format)
 worksheet.merge_range('E6:E10', """
@@ -306,8 +306,9 @@ for i in range(0,len(clientes)):
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
         
-        total_mn=  (pedidos_mn['total']-pedidos_mn['subtotal']*(1-pedidos_mn['descuento'])*0.16).sum()
-        total_dlls=(pedidos_dlls['total']-pedidos_dlls['subtotal']*(1-pedidos_dlls['descuento'])*0.16).sum()
+       
+        total_mn=  pedidos_mn['total'].sum()/1.16
+        total_dlls=pedidos_dlls['total'].sum()/1.16
         total_total=total_total+total_mn+total_dlls*tc
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
@@ -416,6 +417,7 @@ worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_co
 
 
 
+worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)

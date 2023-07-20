@@ -209,7 +209,7 @@ worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
-worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 #llenando la tabla
 counter=7
 for i in range(0,len(clientes)):
@@ -283,9 +283,9 @@ CXC CONTABLES
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
         
-        total_mn=  (pedidos_mn['total']-pedidos_mn['subtotal']*(1-pedidos_mn['descuento'])*0.16).sum()
-        total_dlls=(pedidos_dlls['total']-pedidos_dlls['subtotal']*(1-pedidos_dlls['descuento'])*0.16).sum()
        
+        total_mn=  pedidos_mn['total'].sum()/1.16
+        total_dlls=pedidos_dlls['total'].sum()/1.16
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -309,7 +309,7 @@ CXC CONTABLES
         worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()/1.16+cobros_mn['amount'].sum()/1.16) )*100/(total_dlls+total_mn))+"%", blue_content)
         #facturado
         
-        if(total_mn+total_dlls-cobros_mn['amount'].sum()/1.16-cobros_dlls['amount'].sum()/1.16>0):
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>0):
             worksheet.write('P'+row_index,max(0, facturas_mn['amount'].sum()/1.16-notas_mn['amount'].sum()/1.16)  , blue_content)
             worksheet.write('Q'+row_index, max(0, facturas_dlls['amount'].sum()/1.16-notas_dlls['amount'].sum()/1.16)  , blue_content_dll)
         else:
@@ -374,6 +374,7 @@ CXC CONTABLES
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
 
+worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)

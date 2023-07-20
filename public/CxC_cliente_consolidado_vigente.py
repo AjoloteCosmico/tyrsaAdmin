@@ -229,7 +229,7 @@ worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
-worksheet.insert_image("N1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI CANTIDAD', blue_header_format)
 worksheet.merge_range('E6:E10', """
@@ -295,8 +295,8 @@ for i in range(0,len(clientes)):
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
         
-        total_mn=  (pedidos_mn['total']-pedidos_mn['subtotal']*(1-pedidos_mn['descuento'])*0.16).sum()
-        total_dlls=(pedidos_dlls['total']-pedidos_dlls['subtotal']*(1-pedidos_dlls['descuento'])*0.16).sum()
+        total_mn=  pedidos_mn['total'].sum()/1.16
+        total_dlls=pedidos_dlls['total'].sum()/1.16
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -314,7 +314,7 @@ for i in range(0,len(clientes)):
         worksheet.write('K'+row_index, max(0,total_mn-cobros_mn['amount'].sum()/1.16) , blue_content)
         worksheet.write('L'+row_index, max(0,total_dlls-cobros_dlls['amount'].sum()/1.16)  , blue_content_dll)
     
-        worksheet.write('M'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum())/1.16 )*100/(total_dlls+total_mn))+"%", blue_content)
+        worksheet.write('M'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum()) )*100/(total_dlls+total_mn))+"%", blue_content)
         #facturado
         
 
@@ -322,7 +322,7 @@ for i in range(0,len(clientes)):
         worksheet.write('N'+row_index,max(0,total_mn-( facturas_mn['amount'].sum())/1.16  +notas_mn['amount'].sum()/1.16), blue_content)
         worksheet.write('O'+row_index,max(0,total_dlls-( facturas_dlls['amount'].sum()/1.16)+notas_dlls['amount'].sum()/1.16)  , blue_content_dll)
       #status
-        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>0):
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()>0):
             worksheet.write('P'+row_index,'ACTIVO', blue_content_dll)
         else:
             worksheet.write('P'+row_index,'CERRADO', blue_content_dll)
@@ -381,6 +381,7 @@ worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_co
 
 
 
+worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)
