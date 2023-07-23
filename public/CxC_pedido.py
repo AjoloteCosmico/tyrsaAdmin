@@ -321,18 +321,14 @@ for i in range(0,len(pedidos)):
         worksheet.write('L'+row_index, 0, blue_content_dll)
    #por cobrar
    if(pedidos['coin_id'].values[i]==1):
-      if(total>0):
-        worksheet.write('M'+row_index, max(0,(total/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)), blue_content)
-      else:
-         worksheet.write('K'+row_index, 0, blue_content)
+
+      worksheet.write('M'+row_index, total/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
       
       worksheet.write('N'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('M'+row_index, 0, blue_content)
-      if(total>0):
-        worksheet.write('N'+row_index, max(0,(total/1.16 - cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)), blue_content_dll)
-      else:
-        worksheet.write('K'+row_index, 0, blue_content)
+      
+      worksheet.write('N'+row_index, total/1.16 - cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content_dll)
       
    worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
    #facturado
@@ -372,9 +368,9 @@ trow=11+len(pedidos)
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow) , 'SUBTOTALES', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum(), blue_content_bold)
+worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'total'].sum()/1.16, blue_content_bold)
 #SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold_dll)
+worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'total'].sum()/1.16, blue_content_bold_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
 #TOTAL COBRADO DLLS
