@@ -45,6 +45,7 @@ class ReportsController extends Controller
             //$process=new Process(['localc','--headless','--convert-to','pdf','--outdir',$caminoalpoder.'/storage/report/',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
             //$process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' ".$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
             $process->setTimeout(240);
+            $process->setIdleTimeout(240);
             $process->run();
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
