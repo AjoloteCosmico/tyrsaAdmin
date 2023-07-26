@@ -40,8 +40,8 @@ class ReportsController extends Controller
            if($pdf==0){
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
            }else{
-            shell_exec('cd'.$caminoalpoder.'/storage/report/;'.' localc --headless --convert-to pdf '.$report.$id.'.xlsx');
-             $process2=new Process(['localc','--headless','--convert-to', 'pdf', $report.$id.'.xlsx']);
+            //shell_exec('cd'.$caminoalpoder.'/storage/report/;'.' localc --headless --convert-to pdf '.$report.$id.'.xlsx');
+             $process2=new Process(['localc','--headless','--convert-to', 'pdf', $report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
             //$process=new Process(['localc','--headless','--convert-to','pdf','--outdir',$caminoalpoder.'/storage/report/',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
             //$process2 = new Process(["soffice", "--convert-to","pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}",$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
             // $process2->setTimeout(null);
