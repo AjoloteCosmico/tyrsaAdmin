@@ -43,7 +43,7 @@ class ReportsController extends Controller
             
             // $process2=new Process(['localc','--convert-to', 'pdf', $report.$id.'.xlsx']);
             //$process=new Process(['localc','--headless','--convert-to','pdf','--outdir',$caminoalpoder.'/storage/report/',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
-            $process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' ".$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
+            $process2 = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' ".$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
             // $process2->setTimeout(null);
             // $process2->setIdleTimeout(null);
              $process2->run();
@@ -51,6 +51,7 @@ class ReportsController extends Controller
                 throw new ProcessFailedException($process2);
              }
              $data = $process2->getOutput();
+             
             return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
         
         
