@@ -45,7 +45,7 @@
                                     <option value="S en C" >SOCIEDAD EN COMANDITA SIMPLE </option>
                                     <option value="S.C.A" >SOCIEDAD EN COMANDITA POR ACCIONES </option>
                                     
-                                    <option value="R.S.C" @if($Customers->legal_name=='R.S.C') selected @endif>REGIMEN SIMPLIFICADO DE CONFIANZA </option>
+                                    <option value="R.S.C" >REGIMEN SIMPLIFICADO DE CONFIANZA </option>
                                     <option value="POR ASIGNAR" >POR ASIGNAR </option>
                                     <option value="otra" >OTRA </option>
                                     <option value="" > </option>
