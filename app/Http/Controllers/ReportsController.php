@@ -40,24 +40,21 @@ class ReportsController extends Controller
            if($pdf==0){
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
            }else{
-            
-            $process=new Process(['localc','--headless','--convert-to','pdf',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
+            //shell_exec('cd'.$caminoalpoder.'/storage/report/;'.' localc --headless --convert-to pdf '.$report.$id.'.xlsx');
+             $process2=new Process(['localc','--headless','--convert-to', 'pdf', $report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
             //$process=new Process(['localc','--headless','--convert-to','pdf','--outdir',$caminoalpoder.'/storage/report/',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
-            //$process = new Process(["soffice --convert-to 'pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}' ".$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-            }
-            $data = $process->getOutput();
+            //$process2 = new Process(["soffice", "--convert-to","pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}",$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
+            // $process2->setTimeout(null);
+            // $process2->setIdleTimeout(null);
+             $process2->run();
+             if (!$process2->isSuccessful()) {
+                throw new ProcessFailedException($process2);
+             }
+             $data = $process2->getOutput();
+             
             return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
-          
-        //       switch($report) {
-        //       case('contraportada'):
-        //        return $this->contraportada_pdf($id);
-        //        break;
-        //        default:
-        //        $msg="no report";
-        //    }
+        
+        
        }}
     
        public function contraportada()
@@ -110,8 +107,8 @@ class ReportsController extends Controller
            'Coins',
            'hpagos',
            'max',
-        'facturas',
-    'cobros'));    
+           'facturas',
+           'cobros'));    
     
        $pdf->setPaper('A4', 'landscape');
     return $pdf->download('contraportada_pedido'.$InternalOrders->invoice.'.pdf');   
