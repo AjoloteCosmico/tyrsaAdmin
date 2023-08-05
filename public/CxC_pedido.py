@@ -420,32 +420,32 @@ worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'
 #RESUMEN
 worksheet.merge_range('B'+str(trow+3)+':E'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
 
-worksheet.merge_range('C'+str(trow+4)+':F'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
-worksheet.merge_range('C'+str(trow+5)+':F'+str(trow+5),'COBRADOS',blue_header_format)
-worksheet.merge_range('C'+str(trow+6)+':F'+str(trow+6),'POR COBRAR',blue_header_format)
-worksheet.merge_range('C'+str(trow+7)+':F'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+4)+':E'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+5)+':E'+str(trow+5),'COBRADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+6)+':E'+str(trow+6),'POR COBRAR',blue_header_format)
+worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
 
-worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
-worksheet.merge_range('C'+str(trow+9)+':F'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
-worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
+worksheet.merge_range('B'+str(trow+8)+':E'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
+worksheet.merge_range('B'+str(trow+9)+':E'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
+worksheet.merge_range('B'+str(trow+10)+':E'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
-worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+4)+':H'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
+worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 
-worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+5)+':H'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('F'+str(trow+5)+':G'+str(trow+5),' ',blue_content_bold)
+worksheet.write_formula('F'+str(trow+5)+':G'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('F'+str(trow+6)+':G'+str(trow+6),' ',blue_content_bold)
+worksheet.write_formula('F'+str(trow+6)+':G'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 
-worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
+worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),str(len(pedidos)),blue_content_bold)
 pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
-worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
-worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
-worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
+worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
+worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
 
 
 
