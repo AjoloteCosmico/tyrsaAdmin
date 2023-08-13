@@ -105,8 +105,8 @@ header_format = workbook.add_format({
 blue_header_format = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
-    'text_wrap': True,
-    'valign': 'top',
+     'text_wrap': True,
+    'valign': 'vcenter',
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
@@ -115,7 +115,7 @@ blue_header_format_bold = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
     'text_wrap': True,
-    'valign': 'top',
+    'valign': 'vcenter',
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
@@ -198,7 +198,7 @@ year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1 ', negro_b)
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1 A ', negro_b)
 worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
 worksheet.merge_range('B4:F4', 'CLASIFICADAS POR P.I.', negro_b)
 
@@ -208,21 +208,19 @@ worksheet.write('I2', year, negro_b)
 worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
-worksheet.write('L2', date, negro_b)
+worksheet.merge_range('L2:L3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('B6:B10', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI', blue_header_format)
-worksheet.merge_range('E6:E10', """
-FECHA
+worksheet.merge_range('E6:E10', """FECHA
 AAAA-MM-DD""", blue_header_format)
 
 worksheet.merge_range('F6:G9', 'CLIENTE', blue_header_format)
 worksheet.write('F10', 'NUMERO', blue_header_format)
 worksheet.write('G10', 'NOMBRE CORTO', blue_header_format)
 
-worksheet.merge_range('H6:H10', """ 
-                                  MONEDA""", blue_header_format)
+worksheet.merge_range('H6:H10', """MONEDA""", blue_header_format)
 
 worksheet.merge_range('I6:O6', 'DERECHOS ADQUIRIDOS', blue_header_format)
 worksheet.merge_range('I7:J9', """IMPORTE TOTAL 
@@ -250,21 +248,19 @@ worksheet.merge_range('O7:O10', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_f
 
 worksheet.merge_range('P6:S6', """DERECHOS ADQUIRIDOS POR COBRAR CONTABLES""", blue_header_format)
 worksheet.merge_range('P7:Q9', """FACTURADO
-CxC CONTABLES
+DA X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('P10', 'MN', blue_header_format)
 worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-CXC CONTABLES
+DA X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
 
-worksheet.merge_range('T6:T10', """
-
-ESTATUS""", blue_header_format)
+worksheet.merge_range('T6:T10', """ESTATUS""", blue_header_format)
 #llenando la tabla
 xcobrar_mn=0
 xcobrar_dlls=0
@@ -338,7 +334,7 @@ for i in range(0,len(pedidos)):
          worksheet.write('P'+row_index,0, blue_content)
       else:
          pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
-         worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content)
+         worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
          
       worksheet.write('Q'+row_index, 0, blue_content_dll)
    else:#osea si no es moneda nacional
@@ -400,6 +396,11 @@ worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_
 worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
+
+#SUMA DE LAS FACTURAS
+worksheet.write('P'+str(trow+2),'TOTAL',blue_header_format)
+worksheet.merge_range('Q'+str(trow+2)+':R'+str(trow+2),' ', blue_content_bold)
+worksheet.write_formula('Q'+str(trow+2)+':R'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_content_bold)
 
 
 worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
