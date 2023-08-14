@@ -274,8 +274,8 @@ np=0
 for i in range(0,len(pedidos)):
     
     if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+        row_index=str(11+np)
         np=np+1
-        row_index=str(11+i)
         total=pedidos['total'].values[i]
         subtotal=pedidos['subtotal'].values[i]
         retencion=pedidos['tasa'].values[i]
