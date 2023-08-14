@@ -32,7 +32,7 @@
                         <tr> 
                             <td> Solo Cuentas Vigentes</td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'CxC_pedido_vigente',0])}}">
+                            <a href="{{route('reports.generate',[1,'CxC_pedido_vigentes',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
