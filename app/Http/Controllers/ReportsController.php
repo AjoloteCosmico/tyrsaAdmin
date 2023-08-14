@@ -31,7 +31,7 @@ class ReportsController extends Controller
        public function generate($id,$report,$pdf,$tipo=0)
        {
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           $process = new Process(['python',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
@@ -252,6 +252,7 @@ public function note_pdf($id){
         ->select('customers.id','customers.clave','customers.customer')
         ->groupBy('customers.id','customers.clave','customers.customer')
         ->get();
+        
         return view('reportes.rep_cuentas_cobrar', compact(
             'InternalOrders',  
             'Customers',
