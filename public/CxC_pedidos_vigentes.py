@@ -274,6 +274,7 @@ np=0
 for i in range(0,len(pedidos)):
     
     if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-0.001>0):
+
         row_index=str(11+np)
         np=np+1
         total=pedidos['total'].values[i]
@@ -282,6 +283,7 @@ for i in range(0,len(pedidos)):
         descuento=pedidos['descuento'].values[i]
         total_sn_iva=total-(subtotal*(1-descuento)*0.16)
         print(pedidos['invoice'].values[i])
+        print(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())
         total_total=total_total+total_sn_iva
         #datos generales del pedido
         worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
