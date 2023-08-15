@@ -398,7 +398,7 @@ worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'
 
 
 #SUMA DE LAS FACTURAS
-worksheet.write('P'+str(trow+2),'TOTAL',blue_header_format)
+worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2),' GRAN TOTAL',blue_header_format)
 worksheet.merge_range('Q'+str(trow+2)+':R'+str(trow+2),' ', blue_content_bold)
 worksheet.write_formula('Q'+str(trow+2)+':R'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_content_bold)
 
