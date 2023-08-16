@@ -330,6 +330,7 @@ for i in range(0,len(pedidos)):
    #facturado
    porcobrar=pedidos['total'].values[i]/1.16- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16
    facturado=facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16
+   print(porcobrar,facturado)
    if(pedidos['coin_id'].values[i]==1):
       if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-0.1 <=0):
          
