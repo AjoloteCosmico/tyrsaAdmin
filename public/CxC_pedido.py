@@ -352,11 +352,11 @@ for i in range(0,len(pedidos)):
       
    #por facturar
    if(pedidos['coin_id'].values[i]==1):
-      worksheet.write('R'+row_index,max(0,porcobrar-facturado), blue_content)
+      worksheet.write('R'+row_index,max(0,min(porcobrar,total/1.16-facturado)), blue_content)
       worksheet.write('S'+row_index, 0, blue_content_dll)
    else:
       worksheet.write('R'+row_index, 0, blue_content)
-      worksheet.write('S'+row_index, max(0,porcobrar-facturado), blue_content_dll)
+      worksheet.write('S'+row_index,max(0,min(porcobrar,total/1.16-facturado)), blue_content_dll)
    #status
    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
      worksheet.write('T'+row_index,'ACTIVO', blue_content)
