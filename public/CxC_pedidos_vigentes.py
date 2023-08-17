@@ -267,6 +267,8 @@ xcobrar_dlls=0
 x_mn=0
 xcobrar_dlls=0
 total_total=0
+total_dll=0
+total_mn=0
 pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
@@ -284,8 +286,7 @@ for i in range(0,len(pedidos)):
         total_sn_iva=total-(subtotal*(1-descuento)*0.16)
         # print(pedidos['invoice'].values[i])
         # print(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())
-        total_total=total_total+total_sn_iva
-        #datos generales del pedido
+        #datos generales del pedid
         worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
         worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
@@ -294,11 +295,11 @@ for i in range(0,len(pedidos)):
         worksheet.write('G'+row_index, str(pedidos['alias'].values[i]), blue_content)
         if(pedidos['code'].values[i]=='MN'):
             worksheet.write('H'+row_index, 'MXN', blue_content)
-            
+            total_mn=total_mn+total_sn_iva
             total_total=total_total+total_sn_iva
         else:
             worksheet.write('H'+row_index, str(pedidos['code'].values[i]), blue_content)   
-            
+            total_dll=total_dll+total_sn_iva
             total_total=total_total+total_sn_iva*tc
         #total
         if(pedidos['coin_id'].values[i]==1):
@@ -370,9 +371,9 @@ trow=11+np
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow) , 'SUBTOTALES', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'total'].sum()/1.16, blue_content_bold)
+worksheet.write('I'+str(trow), total_mn, blue_content_bold)
 #SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'total'].sum()/1.16, blue_content_bold_dll)
+worksheet.write('J'+str(trow),total_dll, blue_content_bold_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
 #TOTAL COBRADO DLLS
