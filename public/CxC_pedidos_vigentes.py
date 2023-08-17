@@ -248,14 +248,14 @@ worksheet.merge_range('O7:O10', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_f
 
 worksheet.merge_range('P6:S6', """DERECHOS ADQUIRIDOS POR COBRAR CONTABLES""", blue_header_format)
 worksheet.merge_range('P7:Q9', """FACTURADO
-DA X C
+C X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('P10', 'MN', blue_header_format)
 worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-DA X C
+ C X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
@@ -436,6 +436,7 @@ worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'PEDIDOS REPORTADOS',blue
 worksheet.merge_range('B'+str(trow+8)+':E'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
 worksheet.merge_range('B'+str(trow+9)+':E'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
 worksheet.merge_range('B'+str(trow+10)+':E'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
+worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
 worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
@@ -454,6 +455,15 @@ pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
 worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
 worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
 worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
+
+#Rellenar
+worksheet.merge_range('E'+str(trow)+':F'+str(trow+1),' ',blue_header_format)
+
+worksheet.write('O'+str(trow),' ',blue_content)
+worksheet.write('T'+str(trow),' ',blue_content)
+worksheet.write('O'+str(trow+1),' ',blue_content)
+worksheet.write('T'+str(trow+1),' ',blue_content)
 
 
 
