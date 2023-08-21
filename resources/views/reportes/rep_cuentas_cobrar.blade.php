@@ -17,6 +17,7 @@
                     <table style="width: 60%">
                         <tr> 
                             <td> Cobrado y por Cobrar (Columnas invertidas)</td>
+                            <br>
                             <td>
                             <a href="{{route('reports.generate',[1,'CxC_pedido',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
@@ -30,7 +31,7 @@
                             </td>
                         </tr>
                         <tr> 
-                            <td> Cobrado y por Cobrar (Como 1B)</td>
+                            <td> Cobrado y por Cobrar (Como 1B) <br></td>
                             <td>
                             <a href="{{route('reports.generate',[1,'CxC_pedido_b',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
