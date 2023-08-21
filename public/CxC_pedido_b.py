@@ -344,7 +344,7 @@ for i in range(0,len(pedidos)):
         else:
             
             pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
-            worksheet.write('Q'+row_index,(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16), blue_content_dll)
+            worksheet.write('Q'+row_index,(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16)-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content_dll)
         worksheet.write('P'+row_index, 0, blue_content)
         
     #por facturar
