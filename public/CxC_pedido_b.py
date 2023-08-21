@@ -349,11 +349,11 @@ for i in range(0,len(pedidos)):
         
     #por facturar
    if(pedidos['coin_id'].values[i]==1):
-        worksheet.write('R'+row_index, max(0,(pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
+        worksheet.write('R'+row_index, max(0,(pedidos['total'].values[i]/1.16-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
         worksheet.write('S'+row_index, 0, blue_content_dll)
    else:
         worksheet.write('R'+row_index, 0, blue_content)
-        worksheet.write('S'+row_index, max(0,(pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
+        worksheet.write('S'+row_index, max(0,(pedidos['total'].values[i]/1.16- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
     
 
 #Facturado correciones simplificadas, las segundas pue
