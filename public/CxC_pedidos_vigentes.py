@@ -275,7 +275,7 @@ pedidos_x_cobrar_dll=0
 np=0
 for i in range(0,len(pedidos)):
     
-    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-0.1>0):
+    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
 
         row_index=str(11+np)
         np=np+1
@@ -450,7 +450,7 @@ worksheet.merge_range('F'+str(trow+6)+':G'+str(trow+6),' ',blue_content_bold)
 worksheet.write_formula('F'+str(trow+6)+':G'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 
-worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),str(np),blue_content_bold)
+worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),str(len(pedidos)),blue_content_bold)
 pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
 worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
 worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
