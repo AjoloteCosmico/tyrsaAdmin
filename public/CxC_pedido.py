@@ -248,14 +248,14 @@ worksheet.merge_range('O7:O10', '% POR COBRAR DEL PEDIDO INTERNO', blue_header_f
 
 worksheet.merge_range('P6:S6', """DERECHOS ADQUIRIDOS POR COBRAR CONTABLES""", blue_header_format)
 worksheet.merge_range('P7:Q9', """FACTURADO
-C X C
+DA XC C X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('P10', 'MN', blue_header_format)
 worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-C X C
+DA XC C X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
