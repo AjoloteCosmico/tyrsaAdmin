@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerShippingAddress;
 use App\Models\TempInternalOrder;
+use App\Models\InternalOrder;
 use Illuminate\Http\Request;
-
+use Session;
 class CustomerShippingAddressController extends Controller
 {
     public function index()
@@ -114,7 +115,16 @@ class CustomerShippingAddressController extends Controller
 
     public function destroyb($id,$temp_id)
     {
-        CustomerShippingAddress::destroy($id);
+
+        $Ordenes=InternalOrder::where('customer_shipping_address_id',$id)->get();
+        if($Ordenes->count()<=0){
+            CustomerShippingAddress::destroy($id);
+            Session::put('eliminar', 'ok');
+        }
+        else{
+            Session::put('error_delete','ok');
+        }
+       
         $TempInternalOrders = TempInternalOrder::where('id', $temp_id)->first();
         $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->get();
@@ -122,7 +132,7 @@ class CustomerShippingAddressController extends Controller
         return view('internal_orders.capture_order_shippment_addresses', compact(
             'TempInternalOrders',
             'Customers',
-            'CustomerShippingAddresses',
+            'CustomerShippingAddresses', 
         ));
     
     }
