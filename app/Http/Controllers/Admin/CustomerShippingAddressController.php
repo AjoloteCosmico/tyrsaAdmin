@@ -76,7 +76,7 @@ class CustomerShippingAddressController extends Controller
             $Customers_Shipping_Addresses->customer_shipping_zip_code = $request->customer_shipping_zip_code;
             $Customers_Shipping_Addresses->save();
         }else{
-            
+            $MNSJ="YASTABA REGISTRADO";
         }
 
         $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
@@ -112,8 +112,18 @@ class CustomerShippingAddressController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroyb($id,$temp_id)
     {
-        //
+        CustomerShippingAddress::destroy($id);
+        $TempInternalOrders = TempInternalOrder::where('id', $temp_id)->first();
+        $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
+        $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->get();
+        
+        return view('internal_orders.capture_order_shippment_addresses', compact(
+            'TempInternalOrders',
+            'Customers',
+            'CustomerShippingAddresses',
+        ));
+    
     }
 }

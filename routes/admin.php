@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('customers/register', [ CustomerController::class, 'rfc'])->name('customers.rfc');
     
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
+    Route::get('customers_shipping_address/delete/{id}/{temp_id}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');
+    
+    
     Route::resource('customer_contacts', CustomerContactController::class);
     Route::post('customer_contacts/update_"/{id}', [CustomerContactController::class, 'update'])->name('customer_contacts.update2');
     

@@ -65,13 +65,12 @@
                                                             </div>
                                                             <div class="col-6 text-center w-10">
                                                                 {{-- @can('BORRAR DIRECCIONES') --}}
-                                                                {{--  <form class="DeleteReg" action="{{ route('customers_shipping_address.destroy', $row->id) }}" method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="btn btn-red h-9 w-9">
+                                                                 <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, $TempInternalOrders->id]) }}" method="POST">
+                                                                  
+                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
                                                                         <i class="fas fa-trash items-center"></i>
                                                                     </button>
-                                                                </form>  --}}
+                                                                  </a>  
                                                                 {{-- @endcan --}}
                                                             </div>
                                                         </div>
