@@ -243,21 +243,27 @@ public function store_comissions(Request $request)
         $TempInternalOrders->comision=$request->comision2 * 0.01;
         $TempInternalOrders->save();
         //dd($request->comision2,$TempInternalOrders->comision);
-        if(count($CustomerShippingAddresses) == 0){
-            $CustomerShippingAddresses = new CustomerShippingAddress();
-            $CustomerShippingAddresses->customer_id = $Customers->id;
-            $CustomerShippingAddresses->customer_shipping_alias = "DOMICILIO FISCAL";
-            $CustomerShippingAddresses->customer_shipping_state = $Customers->customer_state;
-            $CustomerShippingAddresses->customer_shipping_city = $Customers->customer_city;
-            $CustomerShippingAddresses->customer_shipping_suburb = $Customers->customer_suburb;
-            $CustomerShippingAddresses->customer_shipping_street = $Customers->customer_street;
-            $CustomerShippingAddresses->customer_shipping_outdoor = $Customers->customer_outdoor;
-            $CustomerShippingAddresses->customer_shipping_indoor = $Customers->customer_indoor;
-            $CustomerShippingAddresses->customer_shipping_zip_code = $Customers->customer_zip_code;
-            $CustomerShippingAddresses->save();
+        $CustomerAddress = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->first();
+       
+        if(!$CustomerAddress){
+            
+            $CustomerShippingAddres = new CustomerShippingAddress();
+            $CustomerShippingAddres->customer_id = $Customers->id;
+            $CustomerShippingAddres->customer_shipping_alias = "DOMICILIO FISCAL";
+            $CustomerShippingAddres->customer_shipping_state = $Customers->customer_state;
+            $CustomerShippingAddres->customer_shipping_city = $Customers->customer_city;
+            $CustomerShippingAddres->customer_shipping_suburb = $Customers->customer_suburb;
+            $CustomerShippingAddres->customer_shipping_street = $Customers->customer_street;
+            $CustomerShippingAddres->customer_shipping_outdoor = $Customers->customer_outdoor;
+            $CustomerShippingAddres->customer_shipping_indoor = $Customers->customer_indoor;
+            $CustomerShippingAddres->customer_shipping_zip_code = $Customers->customer_zip_code;
+            $CustomerShippingAddres->save();
 
-            $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $request->customer_id)->get();
+            
         }
+        $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $Customers->id)->get();
+        
+        
         $contactos=CustomerContact::where('customer_id',$Customers->id)->get();
         TempItem::truncate();
         
