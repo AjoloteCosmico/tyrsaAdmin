@@ -257,9 +257,7 @@ public function store_comissions(Request $request)
             $CustomerShippingAddres->customer_shipping_outdoor = $Customers->customer_outdoor;
             $CustomerShippingAddres->customer_shipping_indoor = $Customers->customer_indoor;
             $CustomerShippingAddres->customer_shipping_zip_code = $Customers->customer_zip_code;
-            $CustomerShippingAddres->save();
-
-            
+            $CustomerShippingAddres->save();   
         }
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $Customers->id)->get();
         
