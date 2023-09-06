@@ -305,15 +305,11 @@ for i in range(0,len(clientes)):
         notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
-        total_mn=0
-        for i in range(len(pedidos_mn)):
-            if(len(pedidos_mn)>0):
-                total_mn=total_mn+pedidos_mn['total'].values[i]/1.16
         
+       
+        total_mn=  pedidos_mn['total'].sum()/1.16
         total_dlls=pedidos_dlls['total'].sum()/1.16
         total_total=total_total+total_mn+total_dlls*tc
-
-        
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -348,7 +344,7 @@ for i in range(0,len(clientes)):
         #por facturar
         worksheet.write('R'+row_index,max(0,total_mn-( facturas_mn['amount'].sum())/1.16  +notas_mn['amount'].sum()/1.16), blue_content)
         worksheet.write('S'+row_index,max(0,total_dlls-( facturas_dlls['amount'].sum()/1.16)+notas_dlls['amount'].sum()/1.16)  , blue_content_dll)
-        #status
+      #status
         if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>0):
             worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
         else:
