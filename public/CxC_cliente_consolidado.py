@@ -305,9 +305,10 @@ for i in range(0,len(clientes)):
         notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
+        total_mn=0
+        for i in range(len(pedidos_mn)):
+            total_mn=total_mn+pedidos_mn['total'].values[i]/1.16
         
-        pedidos_mn['total']=pedidos_mn['total']/1.16
-        total_mn=  pedidos_mn['total'].sum()
         total_dlls=pedidos_dlls['total'].sum()/1.16
         total_total=total_total+total_mn+total_dlls*tc
 
