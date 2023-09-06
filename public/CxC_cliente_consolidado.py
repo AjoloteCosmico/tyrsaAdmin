@@ -307,7 +307,7 @@ for i in range(0,len(clientes)):
         pedidos_dlls=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']!=1)]
         
        
-        total_mn=  pedidos_mn['total'].sum()/1.16
+        total_mn=  pedidos_mn['total']/1.16.sum()
         total_dlls=pedidos_dlls['total'].sum()/1.16
         total_total=total_total+total_mn+total_dlls*tc
         #datos generales del pedido
