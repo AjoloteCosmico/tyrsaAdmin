@@ -52,6 +52,12 @@ creditos=pd.read_sql("""select credit_notes.*,internal_orders.coin_id as coin_pe
                      from (
                          credit_notes
     inner join internal_orders on internal_orders.id = credit_notes.order_id ) """,cnx)
+cobros2=pd.read_sql("""select cobro_orders.*
+                     from (((
+                         cobro_orders 
+    inner join cobros on cobros.id=cobro_orders.cobro_id)
+    inner join internal_orders on internal_orders.id = cobros.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
@@ -332,6 +338,31 @@ for i in range(0,len(clientes)):
     
         worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum())/1.16 )*100/(total_dlls+total_mn))+"%", blue_content)
         #facturado
+
+        #calculooooooo
+        fwritemn=0
+        xfwritemn=0
+        fwritedll=0
+        xfwritedll=0
+        estospedidos=pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]]
+        for j in range(len(estospedidos)):
+            if(estospedidos['coin_id'].values[j]==1):
+                if(estospedidos['total'].values[j]- cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()<=0):
+                    fwritemn=0
+                else:
+                    fwritemn=(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
+                fwritedll=0
+                xfwritedll=0
+                xfwritemn=max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
+            else:
+                if(estospedidos['total'].values[j]- cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()<=0):
+                    fwritedll=0
+                else:
+                    fwritedll=(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
+                fwritemn=0
+                xfwritemn=0
+                xfwritedll=max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
+            
         
         if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>0):
             worksheet.write('P'+row_index,( facturas_mn['amount'].sum()-notas_mn['amount'].sum())/1.16  , blue_content)

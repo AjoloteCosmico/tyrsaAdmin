@@ -53,10 +53,10 @@ creditos=pd.read_sql("""select *
                      from ((
                          credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-print(creditos)
+print(cobros)
 nordenes=len(pedidos)
 df=pedidos[['date']]
-print(cobros['order_id'])
+
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
 writer = pd.ExcelWriter('storage/report/CxC_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
