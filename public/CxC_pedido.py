@@ -305,6 +305,7 @@ for i in range(0,len(pedidos)):
    if(pedidos['coin_id'].values[i]==1):
       if(total>0):
          worksheet.write('K'+row_index, cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+         print(pedidos['invoice'].values[i],len(cobros.loc[cobros['order_id']==pedidos['id'].values[i]]))
       else:
          worksheet.write('K'+row_index, 0, blue_content)
       
