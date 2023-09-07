@@ -324,7 +324,7 @@ for i in range(0,len(clientes)):
         worksheet.write('J'+row_index, total_dlls, blue_content_dll)
     
         #cobrado
-        worksheet.write('K'+row_index, cobros_mn['amount'].sum()/1.16  , blue_content)
+        worksheet.write('K'+row_index, (cobros_mn['amount']/1.16).sum() , blue_content)
         worksheet.write('L'+row_index,cobros_dlls['amount'].sum()/1.16  , blue_content_dll)
         #por cobrar
         worksheet.write('M'+row_index, max(0,total_mn-cobros_mn['amount'].sum()/1.16) , blue_content)
@@ -354,9 +354,9 @@ trow=11+counter
 
 worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'subtotal'].sum(), blue_content_bold)
+worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'total'].sum()/1.16, blue_content_bold)
 #SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'subtotal'].sum(), blue_content_bold_dll)
+worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'total'].sum()/1.16, blue_content_bold_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
 #TOTAL COBRADO DLLS
