@@ -55,7 +55,7 @@ creditos=pd.read_sql("""select credit_notes.*,internal_orders.coin_id as coin_pe
 print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
-tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
+tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
 
 writer = pd.ExcelWriter('storage/report/CxC_cliente_consolidado_vigente'+str(id)+'.xlsx', engine='xlsxwriter')
 print(creditos)
