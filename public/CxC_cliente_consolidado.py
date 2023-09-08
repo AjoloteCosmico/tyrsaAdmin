@@ -479,7 +479,7 @@ worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),b
 worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
 
 #Rellenar
-worksheet.merge_range('G'+str(trow)+':H'+str(trow+1),' ',blue_header_format)
+# worksheet.merge_range('G'+str(trow)+':H'+str(trow+1),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
