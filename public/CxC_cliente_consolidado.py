@@ -471,15 +471,15 @@ for i in range(0,len(pedidos)):
             
             pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
             
-worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),str(len(pedidos)),blue_content_bold)
+worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
 pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
-worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
-worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
-worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
-worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
+worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
+worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
 
 #Rellenar
-worksheet.merge_range('E'+str(trow)+':F'+str(trow+1),' ',blue_header_format)
+worksheet.merge_range('G'+str(trow)+':H'+str(trow+1),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
