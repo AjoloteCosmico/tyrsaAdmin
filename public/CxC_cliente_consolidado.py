@@ -348,20 +348,20 @@ for i in range(0,len(clientes)):
         for j in range(len(estospedidos)):
             if(estospedidos['coin_id'].values[j]==1):
                 if(estospedidos['total'].values[j]- cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()<=0):
-                    fwritemn=0
+                    fwritemn=fwritemn+0
                 else:
-                    fwritemn=(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
-                fwritedll=0
-                xfwritedll=0
-                xfwritemn=max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
+                    fwritemn=fwritemn+(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
+                fwritedll=fwritedll+0
+                xfwritedll=xfwritedll+0
+                xfwritemn=xfwritemn+max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
             else:
                 if(estospedidos['total'].values[j]- cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()<=0):
-                    fwritedll=0
+                    fwritedll=fwritedll+0
                 else:
-                    fwritedll=(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
-                fwritemn=0
-                xfwritemn=0
-                xfwritedll=max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
+                    fwritedll=+fwritedll+(facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16-creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16)-cobros2.loc[cobros2['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16
+                fwritemn=fwritemn+0
+                xfwritemn=xfwritemn+0
+                xfwritedll=xfwritedll+max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
 
         worksheet.write('P'+row_index,fwritemn, blue_content)
         worksheet.write('Q'+row_index, fwritedll , blue_content_dll)
