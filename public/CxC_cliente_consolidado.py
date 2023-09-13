@@ -122,6 +122,7 @@ blue_header_format_bold = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1,
     'font_size':13})
 
@@ -328,10 +329,13 @@ for i in range(0,len(clientes)):
     
         worksheet.write('I'+row_index,total_mn, blue_content)
         worksheet.write('J'+row_index, total_dlls, blue_content_dll)
-    
+        
         #cobrado
         worksheet.write('K'+row_index, (cobros_mn['amount']/1.16).sum() , blue_content)
         worksheet.write('L'+row_index,cobros_dlls['amount'].sum()/1.16  , blue_content_dll)
+       
+        xcobrarmn=max(0,total_mn-cobros_mn['amount'].sum()/1.16) 
+        xcobrardll=max(0,total_dlls-cobros_dlls['amount'].sum()/1.16)
         #por cobrar
         worksheet.write('M'+row_index, max(0,total_mn-cobros_mn['amount'].sum()/1.16) , blue_content)
         worksheet.write('N'+row_index, max(0,total_dlls-cobros_dlls['amount'].sum()/1.16)  , blue_content_dll)
@@ -362,7 +366,8 @@ for i in range(0,len(clientes)):
                 fwritemn=fwritemn+0
                 xfwritemn=xfwritemn+0
                 xfwritedll=xfwritedll+max(0,(estospedidos['total'].values[j]/1.16-facturas.loc[facturas['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16+creditos.loc[creditos['order_id']==estospedidos['id'].values[j],'amount'].sum()/1.16))
-
+        xfwritemn=xcobrarmn- fwritemn
+        xfwritedll=xcobrardll- fwritedll
         worksheet.write('P'+row_index,fwritemn, blue_content)
         worksheet.write('Q'+row_index, fwritedll , blue_content_dll)
         
@@ -406,32 +411,33 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 #TIPO DE CAMBIO
 worksheet.merge_range('C'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
 worksheet.merge_range('C'+str(trow+1)+':D'+str(trow+1),tc,blue_content)
+worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 
 #TOTALES
-worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
-worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+2), 'TOTAL (EQV M.N)', blue_header_format_bold)
+worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
 
 
-worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_content_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
-worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_content_bold)
+worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
-worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+2),' ',blue_content_bold)
+worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+2),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
 
 
 #RESUMEN
-worksheet.merge_range('C'+str(trow+3)+':F'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
+worksheet.merge_range('C'+str(trow+3)+':H'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
 
 worksheet.merge_range('C'+str(trow+4)+':F'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
 worksheet.merge_range('C'+str(trow+5)+':F'+str(trow+5),'COBRADOS',blue_header_format)
@@ -468,7 +474,6 @@ for i in range(0,len(pedidos)):
         #osease, si ya se cobro
            x=4
         else:
-            
             pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
             
 worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
@@ -479,7 +484,7 @@ worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),b
 worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
 
 #Rellenar
-# worksheet.merge_range('G'+str(trow)+':H'+str(trow+1),' ',blue_header_format)
+worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)

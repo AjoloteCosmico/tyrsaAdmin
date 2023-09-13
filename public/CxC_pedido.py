@@ -401,6 +401,7 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 #TIPO DE CAMBIO
 worksheet.merge_range('B'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
 worksheet.merge_range('B'+str(trow+1)+':D'+str(trow+1),tc,blue_content)
+worksheet.merge_range('B'+str(trow+2)+':D'+str(trow+2),'   ',blue_header_format)
 
 #TOTALES
 worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
@@ -430,7 +431,7 @@ worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
 
 #RESUMEN
-worksheet.merge_range('B'+str(trow+3)+':E'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
+worksheet.merge_range('B'+str(trow+3)+':G'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
 
 worksheet.merge_range('B'+str(trow+4)+':E'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
 worksheet.merge_range('B'+str(trow+5)+':E'+str(trow+5),'COBRADOS',blue_header_format)
@@ -462,7 +463,7 @@ worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar),b
 worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
 
 #Rellenar
-worksheet.merge_range('E'+str(trow)+':F'+str(trow+1),' ',blue_header_format)
+worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
