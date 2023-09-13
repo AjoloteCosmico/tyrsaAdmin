@@ -429,7 +429,8 @@ worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
-worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), '  ', blue_header_format)
+worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
@@ -495,8 +496,6 @@ worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
-worksheet.write('O'+str(trow+1),' ',blue_content)
-worksheet.write('T'+str(trow+1),' ',blue_content)
 
 
 worksheet.set_column('A:A',15)
