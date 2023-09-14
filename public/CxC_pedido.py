@@ -342,7 +342,7 @@ for i in range(0,len(pedidos)):
             
         worksheet.write('Q'+row_index, 0, blue_content_dll)
    else:#osea si no es moneda nacional
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum() -1<=0):
         #osease, si ya se cobro
             worksheet.write('Q'+row_index, 0, blue_content_dll)
         else:
@@ -406,26 +406,26 @@ worksheet.merge_range('B'+str(trow+2)+':D'+str(trow+2),'   ',blue_header_format)
 
 #TOTALES
 worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
-worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_content_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
 
 #SUMA DE LAS FACTURAS
 worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2),' GRAN TOTAL',blue_header_format)
-worksheet.merge_range('Q'+str(trow+2)+':R'+str(trow+2),' ', blue_content_bold)
-worksheet.write_formula('Q'+str(trow+2)+':R'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_content_bold)
+worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_content_bold)
+worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_header_format_bold)
 
 
-worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_header_format_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
-worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_header_format_bold)
+worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_header_format_bold)
 worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_header_format_bold)
 worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
@@ -467,8 +467,10 @@ worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
-worksheet.write('O'+str(trow+1),' ',blue_content)
-worksheet.write('T'+str(trow+1),' ',blue_content)
+worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2),' ',blue_header_format)
+worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2),' ',blue_header_format)
+
+
 
 
 #AGRANDAR CPLUMNAS
