@@ -397,7 +397,6 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold_dll)
 #TOTAL FACTURADO MN
-worksheet.write('O'+str(trow+1), "{:.2f}".format((pedidos['total'].sum()- cobros['amount'].sum() )*100/pedidos['total'].sum())+"%", blue_content_bold)
 #TOTAL FACTURADOR DLLS
 worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
 #TOTAL POR FACTURAR MN
@@ -429,8 +428,6 @@ worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
 
-worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
-worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
 worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
@@ -497,6 +494,8 @@ worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
 
+worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)

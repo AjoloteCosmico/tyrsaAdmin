@@ -120,6 +120,7 @@ blue_header_format_bold = workbook.add_format({
     'border_color':'white',
     'font_color': 'white',
     'border': 1,
+    'num_format': '[$$-409]#,##0.00',
     'font_size':13})
 
 
@@ -332,7 +333,7 @@ for i in range(0,len(pedidos)):
   
 #facturado, logica 1-B
    if(pedidos['coin_id'].values[i]==1):
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
             
             worksheet.write('P'+row_index,0, blue_content)
         else:
@@ -341,7 +342,7 @@ for i in range(0,len(pedidos)):
             
         worksheet.write('Q'+row_index, 0, blue_content_dll)
    else:#osea si no es moneda nacional
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
         #osease, si ya se cobro
             worksheet.write('Q'+row_index, 0, blue_content_dll)
         else:
@@ -446,7 +447,6 @@ worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES COBRAD
 #TODO: calcular bien esto, total menos iva
 worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
 worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
-
 
 worksheet.merge_range('F'+str(trow+5)+':G'+str(trow+5),' ',blue_content_bold)
 worksheet.write_formula('F'+str(trow+5)+':G'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
