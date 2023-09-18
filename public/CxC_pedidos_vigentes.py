@@ -468,11 +468,11 @@ worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedido
 
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
+worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2),' ',blue_header_format)
+worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2),' ',blue_header_format)
 
 worksheet.write('O'+str(trow),' ',blue_content)
 worksheet.write('T'+str(trow),' ',blue_content)
-worksheet.write('O'+str(trow+1),' ',blue_content)
-worksheet.write('T'+str(trow+1),' ',blue_content)
 
 
 
