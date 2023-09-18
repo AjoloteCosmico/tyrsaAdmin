@@ -346,7 +346,7 @@ for i in range(0,len(pedidos)):
         worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
         #facturado
         if(pedidos['coin_id'].values[i]==1):
-            if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+            if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
                 
                 worksheet.write('P'+row_index,0, blue_content)
             else:
@@ -355,7 +355,7 @@ for i in range(0,len(pedidos)):
                 
             worksheet.write('Q'+row_index, 0, blue_content_dll)
         else:#osea si no es moneda nacional
-            if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+            if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
             #osease, si ya se cobro
                 worksheet.write('Q'+row_index, 0, blue_content_dll)
             else:

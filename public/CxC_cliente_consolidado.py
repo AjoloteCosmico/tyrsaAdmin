@@ -480,12 +480,12 @@ pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
 for i in range(0,len(pedidos)):
    if(pedidos['coin_id'].values[i]==1):
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
            x=1 
         else:
             pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
    else:#osea si no es moneda nacional
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
         #osease, si ya se cobro
            x=4
         else:
