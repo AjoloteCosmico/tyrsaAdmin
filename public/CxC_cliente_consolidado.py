@@ -418,7 +418,7 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 
 
 #TIPO DE CAMBIO
-worksheet.merge_range('C'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format_bold)
+worksheet.merge_range('C'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
 worksheet.merge_range('C'+str(trow+1)+':D'+str(trow+1),tc,blue_header_format)
 worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 
