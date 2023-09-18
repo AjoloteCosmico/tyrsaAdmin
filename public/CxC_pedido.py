@@ -123,7 +123,17 @@ blue_header_format_bold = workbook.add_format({
     'num_format': '[$$-409]#,##0.00',
     'font_size':13})
 
-
+blue_footer_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':11})
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
 blue_content = workbook.add_format({
@@ -400,33 +410,33 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 
 
 #TIPO DE CAMBIO
-worksheet.merge_range('B'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
-worksheet.merge_range('B'+str(trow+1)+':D'+str(trow+1),tc,blue_content)
+worksheet.merge_range('B'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format_bold)
+worksheet.merge_range('B'+str(trow+1)+':D'+str(trow+1),tc,blue_header_format)
 worksheet.merge_range('B'+str(trow+2)+':D'+str(trow+2),'   ',blue_header_format)
 
 #TOTALES
 worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
 worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_content_bold)
-worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
+worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 
 #SUMA DE LAS FACTURAS
 worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2),' GRAN TOTAL',blue_header_format)
 worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_content_bold)
-worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_header_format_bold)
+worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_footer_format_bold)
 
 
-worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_header_format_bold)
-worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
+worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_footer_format_bold)
+worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_header_format_bold)
-worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
+worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_footer_format_bold)
+worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_header_format_bold)
-worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_footer_format_bold)
+worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_header_format_bold)
-worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_header_format_bold)
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_footer_format_bold)
+worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
