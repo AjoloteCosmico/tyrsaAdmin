@@ -281,6 +281,7 @@ total_total=0
 pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
+pedidos['clave'] = pedidos['clave'].replace({' ':''}, regex=True)
 for i in range(0,len(pedidos)):
    row_index=str(11+i)
    total=pedidos['total'].values[i]

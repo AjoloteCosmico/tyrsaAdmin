@@ -285,7 +285,7 @@ pedidos_x_cobrar_dll=0
 np=0
 for i in range(0,len(pedidos)):
     
-    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
 
         row_index=str(11+np)
         np=np+1
@@ -372,7 +372,7 @@ for i in range(0,len(pedidos)):
             worksheet.write('R'+row_index, 0, blue_content)
             worksheet.write('S'+row_index, max(0,(pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
         #status
-        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
             worksheet.write('T'+row_index,'ACTIVO', blue_content)
         else:
             worksheet.write('T'+row_index,'CERRADO', blue_content)

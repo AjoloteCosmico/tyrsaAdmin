@@ -386,7 +386,7 @@ for i in range(0,len(clientes)):
         worksheet.write('R'+row_index,xfwritemn, blue_content)
         worksheet.write('S'+row_index,xfwritedll  , blue_content_dll)
       #status
-        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>0):
+        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>1):
             worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
         else:
             worksheet.write('T'+row_index,'CERRADO', blue_content_dll)
@@ -425,24 +425,24 @@ worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 #TOTALES
 worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
 worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2), 'GRAN TOTAL', blue_header_format)
-worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_content_bold)
+worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_footer_format_bold)
 worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 
-worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_content_bold)
+worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_footer_format_bold)
 worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_content_bold)
+worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_footer_format_bold)
 worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
+worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_footer_format_bold)
 worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 
-worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_footer_format_bold)
 worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_content_bold)
+worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_footer_format_bold)
 worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_footer_format_bold)
 
 
