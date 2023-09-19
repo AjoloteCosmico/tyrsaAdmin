@@ -388,7 +388,7 @@ for i in range(0,len(pedidos)):
   
   
    #status
-   if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>0):
+   if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
      worksheet.write('T'+row_index,'ACTIVO', blue_content)
    else:
      worksheet.write('T'+row_index,'CERRADO', blue_content)
