@@ -190,6 +190,26 @@ blue_content_bold_dll = workbook.add_format({
     'bg_color': '#b4e3b1',
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
 blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -395,25 +415,25 @@ trow=11+counter
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow), 'Subtotales', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'total'].sum()/1.16, blue_content_bold)
+worksheet.write('I'+str(trow), pedidos.loc[pedidos['coin_id']==1,'total'].sum()/1.16, blue_content_footer)
 #SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'total'].sum()/1.16, blue_content_bold_dll)
+worksheet.write('J'+str(trow), pedidos.loc[pedidos['coin_id']!=1,'total'].sum()/1.16, blue_content_footer_dll)
 #TOTAL COBRADO MN
-worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_footer)
 #TOTAL COBRADO DLLS
-worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_bold_dll)
+worksheet.write_formula('L'+str(trow),  '{=SUM(L9:L'+str(trow-1)+')}', blue_content_footer_dll)
 #TOTAL POR COBRAR MN
-worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_content_footer)
 #TOTAL POR COBRAR DLLS
-worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_bold_dll)
+worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_footer_dll)
 #TOTAL FACTURADO MN
 #TOTAL FACTURADOR DLLS
-worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_bold)
+worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_footer)
 #TOTAL POR FACTURAR MN
-worksheet.write_formula('Q'+str(trow),  '{=SUM(Q9:Q'+str(trow-1)+')}', blue_content_bold_dll)
+worksheet.write_formula('Q'+str(trow),  '{=SUM(Q9:Q'+str(trow-1)+')}', blue_content_footer_dll)
 #TOTAL POR FACTURAR DLLS
-worksheet.write_formula('R'+str(trow),  '{=SUM(R9:R'+str(trow-1)+')}',blue_content_bold)
-worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_content_bold_dll)
+worksheet.write_formula('R'+str(trow),  '{=SUM(R9:R'+str(trow-1)+')}',blue_content_footer)
+worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_content_footer_dll)
 
 
 
@@ -501,8 +521,8 @@ worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedido
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
-worksheet.write('O'+str(trow),' ',blue_content)
-worksheet.write('T'+str(trow),' ',blue_content)
+worksheet.write('O'+str(trow),' ',blue_content_footer)
+worksheet.write('T'+str(trow),' ',blue_content_footer)
 
 worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
 worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
