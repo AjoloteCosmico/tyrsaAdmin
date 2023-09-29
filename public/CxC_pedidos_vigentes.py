@@ -353,44 +353,48 @@ for i in range(0,len(pedidos)):
             else:
                 worksheet.write('L'+row_index, 0, blue_content_dll)
         #por cobrar
+        xc=total/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16
         if(pedidos['coin_id'].values[i]==1):
 
-            worksheet.write('M'+row_index, total/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+            worksheet.write('M'+row_index,xc , blue_content)
             
             worksheet.write('N'+row_index, 0, blue_content_dll)
         else:
             worksheet.write('M'+row_index, 0, blue_content)
             
-            worksheet.write('N'+row_index, total/1.16 - cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content_dll)
+            worksheet.write('N'+row_index,xc, blue_content_dll)
             
         worksheet.write('O'+row_index, "{:.2f}".format((pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum())*100/pedidos['total'].values[i])+"%", blue_content)
         #facturado
         if(pedidos['coin_id'].values[i]==1):
             if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
-                
+                fact=0
                 worksheet.write('P'+row_index,0, blue_content)
             else:
+                fact= (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16
                 pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
-                worksheet.write('P'+row_index, (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16, blue_content)
+                worksheet.write('P'+row_index,fact, blue_content)
                 
             worksheet.write('Q'+row_index, 0, blue_content_dll)
         else:#osea si no es moneda nacional
             if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
             #osease, si ya se cobro
-                worksheet.write('Q'+row_index, 0, blue_content_dll)
+                fact=0
+                worksheet.write('Q'+row_index, fact, blue_content_dll)
             else:
+                fact= (facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16-cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16
                 
                 pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
-                worksheet.write('Q'+row_index,(facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()-creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16, blue_content_dll)
+                worksheet.write('Q'+row_index,fact, blue_content_dll)
             worksheet.write('P'+row_index, 0, blue_content)
             
         #por facturar
         if(pedidos['coin_id'].values[i]==1):
-            worksheet.write('R'+row_index, max(0,(pedidos['total'].values[i]-facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content)
+            worksheet.write('R'+row_index,xc-fact, blue_content)
             worksheet.write('S'+row_index, 0, blue_content_dll)
         else:
             worksheet.write('R'+row_index, 0, blue_content)
-            worksheet.write('S'+row_index, max(0,(pedidos['total'].values[i]- facturas.loc[facturas['order_id']==pedidos['id'].values[i],'amount'].sum()+creditos.loc[creditos['order_id']==pedidos['id'].values[i],'amount'].sum())/1.16), blue_content_dll)
+            worksheet.write('S'+row_index, xc-fact, blue_content_dll)
         #status
         if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
             worksheet.write('T'+row_index,'ACTIVO', blue_content)
@@ -448,7 +452,7 @@ worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'
 worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_footer_format_bold)
 worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
-worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
+worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_footer_format_bold)
 worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
