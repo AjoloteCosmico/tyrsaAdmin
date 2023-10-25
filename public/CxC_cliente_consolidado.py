@@ -407,9 +407,9 @@ for i in range(0,len(clientes)):
         worksheet.write('S'+row_index,xfwritedll  , blue_content_dll)
       #status
         if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>1):
-            worksheet.write('T'+row_index,'ACTIVO', blue_content_dll)
+            worksheet.write('T'+row_index,'ACTIVO', blue_content)
         else:
-            worksheet.write('T'+row_index,'CERRADO', blue_content_dll)
+            worksheet.write('T'+row_index,'CERRADO', blue_content)
         
 trow=11+counter
 
