@@ -40,6 +40,7 @@ from ((
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
 clientes=pd.read_sql("select * from customers",cnx)
+
 cobros=pd.read_sql("""select cobros.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id  
                      from (
                          cobros
@@ -58,13 +59,13 @@ cobros2=pd.read_sql("""select cobro_orders.*
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-print(creditos)
+
 nordenes=len(pedidos)
 df=pedidos[['date']]
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
 
 writer = pd.ExcelWriter('storage/report/CxC_cliente_consolidado'+str(id)+'.xlsx', engine='xlsxwriter')
-print(creditos)
+
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -88,7 +89,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -263,6 +267,7 @@ worksheet.write('H2', 'AÑO', negro_b)
 
 worksheet.write('I2', year, negro_b)
 worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+                      
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
@@ -313,7 +318,7 @@ worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-CXC CONTABLES
+DA X COBRAR
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
@@ -325,14 +330,12 @@ ESTATUS""", blue_header_format)
 counter=0
 total_total=0
 for i in range(0,len(clientes)):
-   print(str(i)+' esa no')
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
-        print(str(i)+'esta si')
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(str(i)+'cliente',str(clientes['clave'].values[i]),clientes['alias'].values[i])
         row_index=str(11+counter)
         counter=counter+1
-        print(cobros.columns)
         cobros_mn=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']==1)]
         facturas_mn=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']==1)]
         notas_mn=creditos.loc[(creditos['customer_pedido']==clientes['id'].values[i])&(creditos['coin_pedido']==1)]
@@ -352,7 +355,7 @@ for i in range(0,len(clientes)):
         worksheet.write('C'+row_index, str(i+1), blue_content)
         worksheet.write('D'+row_index, str(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])), blue_content)
         worksheet.write('E'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'reg_date'].values[0]), blue_content_date)
-        worksheet.write('F'+row_index, str(clientes['clave'].values[i]), blue_content)
+        worksheet.write('F'+row_index, str(clientes['clave'].values[i]).replace(" ",""), blue_content)
         worksheet.write('G'+row_index, str(clientes['alias'].values[i]), blue_content)
         worksheet.write('H'+row_index, str(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i],'code'].values[0]), blue_content)
         #subtotal
@@ -406,7 +409,11 @@ for i in range(0,len(clientes)):
         worksheet.write('R'+row_index,xfwritemn, blue_content)
         worksheet.write('S'+row_index,xfwritedll  , blue_content_dll)
       #status
-        if(total_mn+total_dlls-cobros_mn['amount'].sum()-cobros_dlls['amount'].sum()/1.16>1):
+        print('totalmn',total_mn)
+        print('xcobrar',xcobrarmn)
+        print('totaldll',total_dlls)
+        print('xcobrardll',xcobrardll)
+        if((xcobrarmn>1)|(xcobrardll>1)):
             worksheet.write('T'+row_index,'ACTIVO', blue_content)
         else:
             worksheet.write('T'+row_index,'CERRADO', blue_content)
@@ -531,7 +538,7 @@ worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)
-worksheet.set_column('I:N',15)
+worksheet.set_column('I:N',16)
 worksheet.set_column('P:T',15)
 
 #worksheet.set_landscape()

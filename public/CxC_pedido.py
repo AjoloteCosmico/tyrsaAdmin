@@ -430,7 +430,6 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M9:M'+str(trow-1)+')}', blue_cont
 #TOTAL POR COBRAR DLLS
 worksheet.write_formula('N'+str(trow),  '{=SUM(N9:N'+str(trow-1)+')}',blue_content_footer_dll)
 #porcentake
-worksheet.write('O'+str(trow)," ", blue_content_footer)
 #TOTAL FACTURADOR DLLS
 worksheet.write_formula('P'+str(trow),  '{=SUM(P9:P'+str(trow-1)+')}', blue_content_footer)
 #TOTAL POR FACTURAR MN
@@ -448,13 +447,13 @@ worksheet.merge_range('B'+str(trow+2)+':D'+str(trow+2),'   ',blue_header_format)
 
 #TOTALES
 worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
-worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_content_bold)
+worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_footer_format_bold)
 worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
 
 #SUMA DE LAS FACTURAS
 worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2),' GRAN TOTAL',blue_header_format)
-worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_content_bold)
+worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_footer_format_bold)
 worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_footer_format_bold)
 
 
@@ -507,10 +506,8 @@ worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedido
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
-worksheet.write('O'+str(trow),' ',blue_content_footer)
-worksheet.write('T'+str(trow),' ',blue_content_footer)
-worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2),' ',blue_header_format)
-worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2),' ',blue_header_format)
+worksheet.merge_range('O'+str(trow)+':O'+str(trow+2),' ',blue_content_footer)
+worksheet.merge_range('T'+str(trow)+':T'+str(trow+2),' ',blue_header_format)
 
 
 
