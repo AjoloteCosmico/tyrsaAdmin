@@ -266,8 +266,7 @@ worksheet.merge_range('B4:F4', 'CLASIFICADAS POR CLIENTE CONSOLIDADO', negro_b)
 worksheet.write('H2', 'AÑO', negro_b)
 
 worksheet.write('I2', year, negro_b)
-worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
-                      
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE             
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
