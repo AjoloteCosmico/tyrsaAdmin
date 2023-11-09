@@ -86,7 +86,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -111,10 +114,43 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
+    'border': 1,
+    'font_size':13})
+blue_footer_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':11})
+red_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+
+red_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
@@ -156,14 +192,25 @@ blue_content_bold_dll = workbook.add_format({
     'bg_color': '#b4e3b1',
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
-blue_content_dll = workbook.add_format({
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
-    'font_color': 'black',
-    'bg_color': '#b4e3b1',
-    'border_color':a_color,
-    'font_size':10,
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
     'num_format': '[$$-409]#,##0.00'})
 blue_content_date = workbook.add_format({
     'border': 1,
@@ -181,6 +228,15 @@ observaciones_format = workbook.add_format({
     'fg_color':'#BDD7EE',
     'border': 1})
 
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 total_cereza_format = workbook.add_format({
     'bold': True,
     'text_wrap': True,
@@ -201,18 +257,6 @@ year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 3 ', negro_b)
-worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
-worksheet.merge_range('B4:F4', 'CLASIFICADAS POR CLIENTE DESGLOSADO', negro_b)
-
-worksheet.write('H2', 'AÑO', negro_b)
-
-worksheet.write('I2', year, negro_b)
-worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
-DD/MM/AAAA""", negro_b)
-
-worksheet.write('L2', date, negro_b)
-worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 #llenando la tabla
 row_index=7
 for i in range(0,len(clientes)):
@@ -220,8 +264,22 @@ for i in range(0,len(clientes)):
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
         print(str(i)+'esta si')
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        worksheet.merge_range('H'+str(4+row_index)+':R'+str(4+row_index), 'CUENTAS POR COBRAR POR CLIENTE DESGLOSADO', negro_b)
+        # worksheet.merge_range('H'+str(4+row_index)+':R'+str(4+row_index), 'CUENTAS POR COBRAR POR CLIENTE DESGLOSADO', negro_b)
+        worksheet.merge_range('B'+str(4+row_index)+':F'+str(4+row_index), 'CUENTAS POR COBRAR REPORTE 3A ', negro_b)
+        worksheet.merge_range('B'+str(5+row_index)+':F'+str(5+row_index), 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
+        worksheet.merge_range('B'+str(6+row_index)+':F'+str(6+row_index), 'DEESGLOSADAS POR CLIENTE (DPC)', negro_b)
 
+        worksheet.write('H'+str(4+row_index), 'AÑO', negro_b)
+
+        worksheet.write('I'+str(4+row_index), year, negro_b)
+        worksheet.merge_range('J'+str(4+row_index)+':K'+str(5+row_index), """FECHA DEL REPORTE
+        DD/MM/AAAA""", negro_b)
+
+        worksheet.write('L'+str(4+row_index), date, negro_b)
+        worksheet.insert_image("A"+str(3+row_index), "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+        worksheet.merge_range('H'+str(6+row_index)+':J'+str(6+row_index), "CLIENTE: "+str(clientes['customer'].values[i]), negro_b)
+
+        row_index=row_index+2
         worksheet.merge_range('C'+str(6+row_index)+':C'+str(10+row_index), 'PDA', blue_header_format)
         worksheet.merge_range('D'+str(6+row_index)+':D'+str(10+row_index), 'PI CANTIDAD', blue_header_format)
         worksheet.merge_range('E'+str(6+row_index)+':E'+str(10+row_index), 'FECHA', blue_header_format)
@@ -321,7 +379,7 @@ CXC CONTABLES
                     worksheet.write('P'+row_index, this_facturas['amount'].sum()/1.16-this_notas['amount'].sum()/1.16-this_cobros['amount'].sum()/1.16 , blue_content)
                     worksheet.write('Q'+row_index, 0 , blue_content_dll)
                     #por facturar
-                    worksheet.write('R'+row_index,xc-this_facturas['amount'].sum()/1.16-this_notas['amount'].sum()/1.16-this_cobros['amount'].sum()/1.16 , blue_content)
+                    worksheet.write('R'+row_index,xc-this_facturas['amount'].sum()/1.16+this_notas['amount'].sum()/1.16+this_cobros['amount'].sum()/1.16 , blue_content)
                     worksheet.write('S'+row_index, 0 , blue_content_dll)
                 else:
                     worksheet.write('P'+row_index, 0  , blue_content)
@@ -360,59 +418,136 @@ CXC CONTABLES
             
             
              #status
-            if(total_mn+total_dlls-cobros_mn['amount'].sum()/1.16-cobros_dlls['amount'].sum()/1.16>0):
+            if(xc>1):
                 worksheet.write('T'+row_index,'ACTIVO', blue_content)
             else:
                 worksheet.write('T'+row_index,'CERRADO', blue_content)
             row_index=str(int(row_index)+1)
         trow=int(row_index)
 
-        worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
+        
+        worksheet.merge_range('G'+str(trow)+'H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
-        worksheet.write('I'+str(trow), total_mn, blue_content_bold)
+        worksheet.write('I'+str(trow), total_mn, blue_content_footer)
         #SUBTOTAL PEDIDOS DLLS
-        worksheet.write('J'+str(trow), total_dlls, blue_content_bold)
+        worksheet.write('J'+str(trow), total_dlls, blue_content_footer_dll)
         #TOTAL COBRADO MN
-        worksheet.write_formula('K'+str(trow),  '{=SUM(K'+str(trow-len(this_pedidos))+':K'+str(trow-1)+')}', blue_content_bold)
+        worksheet.write_formula('K'+str(trow),  '{=SUM(K'+str(trow-len(this_pedidos))+':K'+str(trow-1)+')}', blue_footer_format_bold)
         #TOTAL COBRADO DLLS
-        worksheet.write_formula('L'+str(trow),  '{=SUM(L'+str(trow-len(this_pedidos))+':L'+str(trow-1)+')}', blue_content_bold)
+        worksheet.write_formula('L'+str(trow),  '{=SUM(L'+str(trow-len(this_pedidos))+':L'+str(trow-1)+')}', blue_footer_format_bold)
         #TOTAL POR COBRAR MN
-        worksheet.write_formula('M'+str(trow),  '{=SUM(M'+str(trow-len(this_pedidos))+':M'+str(trow-1)+')}', blue_content_bold)
+        worksheet.write_formula('M'+str(trow),  '{=SUM(M'+str(trow-len(this_pedidos))+':M'+str(trow-1)+')}', blue_footer_format_bold)
         #TOTAL POR COBRAR DLLS
-        worksheet.write_formula('N'+str(trow),  '{=SUM(N'+str(trow-len(this_pedidos))+':N'+str(trow-1)+')}',blue_content_bold)
+        worksheet.write_formula('N'+str(trow),  '{=SUM(N'+str(trow-len(this_pedidos))+':N'+str(trow-1)+')}',blue_footer_format_bold)
         #TOTAL FACTURADO MN
-        worksheet.write('O'+str(trow+1),  "{:.2f}".format((this_pedidos['total'].sum()-cobros_dlls['amount'].sum()-cobros_mn['amount'].sum())*100/this_pedidos['total'].sum())+"%", blue_content_bold)
+        worksheet.write('O'+str(trow),  "{:.2f}".format((this_pedidos['total'].sum()-cobros_dlls['amount'].sum()-cobros_mn['amount'].sum())*100/this_pedidos['total'].sum())+"%", blue_content_footer)
         #TOTAL FACTURADOR DLLS
-        worksheet.write_formula('P'+str(trow),  '{=SUM(P'+str(trow-len(this_pedidos))+':P'+str(trow-1)+')}', blue_content_bold)
+        worksheet.write_formula('P'+str(trow),  '{=SUM(P'+str(trow-len(this_pedidos))+':P'+str(trow-1)+')}', blue_footer_format_bold)
         #TOTAL POR FACTURAR MN
-        worksheet.write_formula('Q'+str(trow),  '{=SUM(Q'+str(trow-len(this_pedidos))+':Q'+str(trow-1)+')}', blue_content_bold)
+        worksheet.write_formula('Q'+str(trow),  '{=SUM(Q'+str(trow-len(this_pedidos))+':Q'+str(trow-1)+')}', blue_footer_format_bold)
         #TOTAL POR FACTURAR DLLS
-        worksheet.write_formula('R'+str(trow),  '{=SUM(R'+str(trow-len(this_pedidos))+':R'+str(trow-1)+')}',blue_content_bold)
-        worksheet.write_formula('S'+str(trow),  '{=SUM(S'+str(trow-len(this_pedidos))+':S'+str(trow-1)+')}',blue_content_bold)
+        worksheet.write_formula('R'+str(trow),  '{=SUM(R'+str(trow-len(this_pedidos))+':R'+str(trow-1)+')}',blue_footer_format_bold)
+        worksheet.write_formula('S'+str(trow),  '{=SUM(S'+str(trow-len(this_pedidos))+':S'+str(trow-1)+')}',blue_footer_format_bold)
 
 
         #TOTALES TOTAL DE ADEBIS
-        worksheet.write('H'+str(trow), 'Subtotales', blue_header_format_bold)
-        worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+1),' ',blue_content_bold)
-        worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+1),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_content_bold)
+        #TIPO DE CAMBIO
+        worksheet.merge_range('C'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
+        worksheet.merge_range('C'+str(trow+1)+':D'+str(trow+1),float(tc),blue_header_format)
+        worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 
-        worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+1),' ',blue_content_bold)
-        worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+1),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_content_bold)
+        #TOTALES
+        worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
+        worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2), 'GRAN TOTAL', blue_header_format)
 
-        worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+1),' ',blue_content_bold)
-        worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+1),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_content_bold)
+        worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_footer_format_bold)
+        worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_footer_format_bold)
 
-        worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_content_bold)
-        worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_content_bold)
+        worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_footer_format_bold)
+        worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_footer_format_bold)
 
-        worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_content_bold)
-        worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_content_bold)
-        
+        worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_footer_format_bold)
+        worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_footer_format_bold)
+
+        worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_footer_format_bold)
+        worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_footer_format_bold)
+
+        worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_footer_format_bold)
+        worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_footer_format_bold)
+        #gran total facturacion
+        worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_footer_format_bold)
+        worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_footer_format_bold)
+
+        #rellenar
+        worksheet.merge_range('E'+str(trow)+':F'+str(trow+2), ' ', blue_header_format)
+
+        worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
+        worksheet.merge_range('T'+str(trow)+':T'+str(trow+2), ' ', blue_header_format)
+
         
         row_index=trow
 
 # worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
 # worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
+
+
+#resumen
+trow=trow+3
+
+#RESUMEN
+worksheet.merge_range('C'+str(trow+3)+':H'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
+
+worksheet.merge_range('C'+str(trow+4)+':F'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
+worksheet.merge_range('C'+str(trow+5)+':F'+str(trow+5),'COBRADOS',blue_header_format)
+worksheet.merge_range('C'+str(trow+6)+':F'+str(trow+6),'POR COBRAR',blue_header_format)
+worksheet.merge_range('C'+str(trow+7)+':F'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
+
+worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
+worksheet.merge_range('C'+str(trow+9)+':F'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
+worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
+worksheet.merge_range('C'+str(trow+11)+':F'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
+
+#Calcular totales 
+total_cobros_mn=cobros.loc[(cobros['coin_pedido']==1),'amount'].sum()/1.16
+total_cobros_dlls=(cobros.loc[(cobros['coin_pedido']!=1),'amount'].sum()/1.16)*tc
+
+total_pedidos_mn=pedidos.loc[(pedidos['coin_id']==1),'total'].sum()/1.16
+total_pedidos_dlls=(pedidos.loc[(pedidos['coin_id']!=1),'total'].sum()/1.16)*tc
+
+
+
+#TODO: calcular bien esto, total menos iva
+
+worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4), total_pedidos_mn+total_pedidos_dlls,blue_content_bold)
+
+worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),  total_cobros_mn+total_cobros_dlls,blue_content_bold)
+
+worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),  total_pedidos_mn+total_pedidos_dlls-total_cobros_mn-total_cobros_dlls,blue_content_bold)
+
+pedidos_x_cobrar=0
+pedidos_x_cobrar_mx=0
+pedidos_x_cobrar_dll=0
+for i in range(0,len(pedidos)):
+   if(pedidos['coin_id'].values[i]==1):
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
+           x=1 
+        else:
+            pedidos_x_cobrar_mx=pedidos_x_cobrar_mx+1
+   else:#osea si no es moneda nacional
+        if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()-1<=0):
+        #osease, si ya se cobro
+           x=4
+        else:
+            pedidos_x_cobrar_dll=pedidos_x_cobrar_dll+1
+            
+worksheet.merge_range('G'+str(trow+7)+':H'+str(trow+7),str(len(pedidos)),blue_content_bold)
+pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
+worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
+worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
+worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
+
+
 
 worksheet.set_column('A:A',15)
 worksheet.set_column('E:E',20)
