@@ -445,7 +445,7 @@ worksheet.write_formula('S'+str(trow),  '{=SUM(S9:S'+str(trow-1)+')}',blue_conte
 
 #TIPO DE CAMBIO
 worksheet.merge_range('C'+str(trow)+':D'+str(trow),'TIPO DE CAMBIO',blue_header_format)
-worksheet.merge_range('C'+str(trow+1)+':D'+str(trow+1),tc,blue_header_format)
+worksheet.merge_range('C'+str(trow+1)+':D'+str(trow+1),float(tc),blue_header_format)
 worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 
 #TOTALES
@@ -527,11 +527,9 @@ worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedido
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
-worksheet.write('O'+str(trow),' ',blue_content_footer)
-worksheet.write('T'+str(trow),' ',blue_content_footer)
 
-worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
-worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('O'+str(trow)+':O'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('T'+str(trow)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)
