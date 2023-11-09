@@ -117,6 +117,7 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
