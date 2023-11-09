@@ -326,7 +326,7 @@ worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-DA X COBRAR
+DA X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
@@ -536,11 +536,9 @@ worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedido
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 
-worksheet.write('O'+str(trow),' ',blue_content_footer)
-worksheet.write('T'+str(trow),' ',blue_content_footer)
 
-worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
-worksheet.merge_range('T'+str(trow+1)+':T'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('O'+str(trow)+':O'+str(trow+2), ' ', blue_header_format)
+worksheet.merge_range('T'+str(trow)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.set_column('A:A',15)
 worksheet.set_column('L:L',15)

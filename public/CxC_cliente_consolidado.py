@@ -317,7 +317,7 @@ worksheet.write('Q10', 'DLLS', blue_header_format)
 
 
 worksheet.merge_range('R7:S9', """POR FACTURAR
-DA X COBRAR
+DA X C
 (SIN IVA)""", blue_header_format)
 worksheet.write('R10', 'MN', blue_header_format)
 worksheet.write('S10', 'DLLS', blue_header_format)
