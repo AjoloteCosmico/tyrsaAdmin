@@ -92,7 +92,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -258,14 +261,14 @@ year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 2 ', negro_b)
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 2B ', negro_b)
 worksheet.merge_range('B3:F3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
 worksheet.merge_range('B4:F4', 'CLASIFICADAS POR CLIENTE CONSOLIDADO', negro_b)
 
 worksheet.write('H2', 'AÑO', negro_b)
 
 worksheet.write('I2', year, negro_b)
-worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE   
 DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
