@@ -431,7 +431,7 @@ CXC CONTABLES
         trow=int(row_index)
 
         
-        worksheet.merge_range('G'+str(trow)+'H'+str(trow), 'Subtotales', blue_header_format_bold)
+        worksheet.merge_range('G'+str(trow)+':H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
         worksheet.write('I'+str(trow), total_mn, blue_content_footer)
         #SUBTOTAL PEDIDOS DLLS
@@ -462,6 +462,7 @@ CXC CONTABLES
         worksheet.merge_range('C'+str(trow+2)+':D'+str(trow+2),' ',blue_header_format)
 
         #TOTALES
+        
         worksheet.merge_range('G'+str(trow+1)+':H'+str(trow+1), 'TOTAL (EQV M.N)', blue_header_format_bold)
         worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2), 'GRAN TOTAL', blue_header_format)
 
@@ -488,7 +489,7 @@ CXC CONTABLES
 
         worksheet.merge_range('O'+str(trow+1)+':O'+str(trow+2), ' ', blue_header_format)
         worksheet.merge_range('T'+str(trow)+':T'+str(trow+2), ' ', blue_header_format)
-
+        
         
         row_index=trow
 
@@ -513,8 +514,8 @@ worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR CO
 worksheet.merge_range('C'+str(trow+11)+':F'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 
 #Calcular totales 
-total_cobros_mn=cobros.loc[(cobros['coin_pedido']==1),'amount'].sum()/1.16
-total_cobros_dlls=(cobros.loc[(cobros['coin_pedido']!=1),'amount'].sum()/1.16)*tc
+total_cobros_mn=cobros.loc[(cobros['coin_pedido']==1)&(cobros['order_id'].isin(pedidos.id.unique())),'amount'].sum()/1.16
+total_cobros_dlls=(cobros.loc[(cobros['coin_pedido']!=1)&(cobros['order_id'].isin(pedidos.id.unique())),'amount'].sum()/1.16)*tc
 
 total_pedidos_mn=pedidos.loc[(pedidos['coin_id']==1),'total'].sum()/1.16
 total_pedidos_dlls=(pedidos.loc[(pedidos['coin_id']!=1),'total'].sum()/1.16)*tc

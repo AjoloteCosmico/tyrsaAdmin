@@ -426,7 +426,7 @@ CXC CONTABLES
         trow=int(row_index)
 
         
-        worksheet.merge_range('G'+str(trow)+'H'+str(trow), 'Subtotales', blue_header_format_bold)
+        worksheet.merge_range('G'+str(trow)+':H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
         worksheet.write('I'+str(trow), total_mn, blue_content_footer)
         #SUBTOTAL PEDIDOS DLLS
