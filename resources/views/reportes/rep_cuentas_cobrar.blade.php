@@ -100,7 +100,7 @@
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[0,'CxC_cliente_desglosado',1])}}">
+                            <a href="{{route('reports.generate',[1,'CxC_cliente_desglosado',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
