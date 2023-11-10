@@ -67,7 +67,7 @@ pedidos=pedidos.loc[pedidos['total']-pedidos['saldo']>1]
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
 
 writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado_vigente'+str(id)+'.xlsx', engine='xlsxwriter')
-
+#no se que pasa
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
