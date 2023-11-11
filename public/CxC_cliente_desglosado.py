@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 #ESTE ARGUMENTO NO SE USA EN ESTE REPORTE, SERÁ 0 SIEMPRE UWU
-id=0
+id=str(sys.argv[1])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
