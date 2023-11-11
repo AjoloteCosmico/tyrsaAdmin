@@ -272,7 +272,7 @@ for i in range(0,len(clientes)):
         # worksheet.merge_range('H'+str(4+row_index)+':R'+str(4+row_index), 'CUENTAS POR COBRAR POR CLIENTE DESGLOSADO', negro_b)
         worksheet.merge_range('B'+str(4+row_index)+':F'+str(4+row_index), 'CUENTAS POR COBRAR REPORTE 3A ', negro_b)
         worksheet.merge_range('B'+str(5+row_index)+':F'+str(5+row_index), 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
-        worksheet.merge_range('B'+str(6+row_index)+':F'+str(6+row_index), 'DEESGLOSADAS POR CLIENTE (DPC)', negro_b)
+        worksheet.merge_range('B'+str(6+row_index)+':F'+str(6+row_index), 'DESGLOSADAS POR CLIENTE (DPC)', negro_b)
 
         worksheet.write('H'+str(4+row_index), 'AÑO', negro_b)
 
