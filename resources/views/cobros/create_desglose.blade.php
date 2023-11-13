@@ -136,13 +136,15 @@ document.getElementById("suma").innerHTML='$'+String(parseFloat(total).toFixed(2
     function guardar(){
         var npedidos=parseInt("{{$Pedidos->count()}}");
     var total = 0;
+    var flexin =0.001;
+
     var amount=parseFloat("{{$Cobro->amount}}");
     for (var i = 1; i <= npedidos; i++) {
       valor=document.getElementById("P"+i).value;
       if( parseFloat(valor)>0){
       total=total+ parseFloat(valor);}
     }
-    if(total==amount){
+    if(total>=amount-0.001 && total>=amount-0.001){
 
         document.getElementById("form1").submit();
 
