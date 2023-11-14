@@ -495,17 +495,7 @@ worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR CO
 worksheet.merge_range('C'+str(trow+11)+':F'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 worksheet.merge_range('C'+str(trow+12)+':F'+str(trow+12),'CLIENTES TOTALES REPORTADOS',blue_header_format)
 
-#TODO: calcular bien esto, total menos iva
-worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+4)+':H'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
-
-
-worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+5)+':H'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
-
-worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),' ',blue_content_bold)
-worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
-
+#volver a traer los datos originales
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol, coins.code
 from ((
@@ -513,12 +503,25 @@ from ((
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
-cobros=pd.read_sql("""select cobro_orders.*
+cobros=pd.read_sql("""select cobro_orders.*, internal_orders.coin_id
                      from (((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+
+derechos_adquiridos=( pedidos.loc[pedidos['coin_id']==1,'total'].sum() +pedidos.loc[pedidos['coin_id']!=1,'total'].sum()*tc  )/1.16
+cobrado=( cobros.loc[cobros['coin_id']==1,'amount'].sum() +cobros.loc[cobros['coin_id']!=1,'amount'].sum()*tc  )/1.16
+por_cobrar=derechos_adquiridos-cobrado
+worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),derechos_adquiridos,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+4)+':H'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+
+
+worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),cobrado,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+5)+':H'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+
+worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),por_cobrar,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 
 pedidos_x_cobrar=0
