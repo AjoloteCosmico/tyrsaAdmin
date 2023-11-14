@@ -272,8 +272,11 @@ DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
-worksheet.merge_range('D6:D10', 'PI CANTIDAD', blue_header_format)
+worksheet.merge_range('C6:C10', """                      
+
+PDA""", blue_header_format)
+worksheet.merge_range('D6:D10', """                      
+PI CANTIDAD""", blue_header_format)
 worksheet.merge_range('E6:E10', """
 FECHA
 AAAA-MM-DD""", blue_header_format)
@@ -533,6 +536,7 @@ worksheet.merge_range('O'+str(trow)+':O'+str(trow+2), ' ', blue_header_format)
 worksheet.merge_range('T'+str(trow)+':T'+str(trow+2), ' ', blue_header_format)
 
 worksheet.set_column('A:A',15)
+worksheet.set_column('D:D',11)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
 worksheet.set_column('H:H',15)
