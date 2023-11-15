@@ -53,7 +53,7 @@ creditos=pd.read_sql("""select credit_notes.*,internal_orders.coin_id as coin_pe
                      from (
                          credit_notes
     inner join internal_orders on internal_orders.id = credit_notes.order_id ) """,cnx)
-cobros2=pd.read_sql("""select cobro_orders.*
+cobros2=pd.read_sql("""select cobro_orders.* , coins.id as coin_pedido, internal_orders.customer_id
                      from (((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
@@ -339,11 +339,11 @@ for i in range(0,len(clientes)):
         print(str(i)+'cliente',str(clientes['clave'].values[i]),clientes['alias'].values[i])
         row_index=str(11+counter)
         counter=counter+1
-        cobros_mn=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']==1)]
+        cobros_mn=cobros2.loc[(cobros2['customer_id']==clientes['id'].values[i])&(cobros2['coin_pedido']==1)]
         facturas_mn=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']==1)]
         notas_mn=creditos.loc[(creditos['customer_pedido']==clientes['id'].values[i])&(creditos['coin_pedido']==1)]
         
-        cobros_dlls=cobros.loc[(cobros['customer_id']==clientes['id'].values[i])&(cobros['coin_pedido']!=1)]
+        cobros_dlls=cobros2.loc[(cobros2['customer_id']==clientes['id'].values[i])&(cobros2['coin_pedido']!=1)]
         facturas_dlls=facturas.loc[(facturas['customer_id']==clientes['id'].values[i])&(facturas['coin_pedido']!=1)]
         notas_dlls=creditos.loc[(creditos['customer_id']==clientes['id'].values[i])&(creditos['coin_pedido']!=1)]
         pedidos_mn=pedidos.loc[(pedidos['customer_id']==clientes['id'].values[i])&(pedidos['coin_id']==1)]
@@ -373,8 +373,8 @@ for i in range(0,len(clientes)):
         xcobrarmn=max(0,total_mn-cobros_mn['amount'].sum()/1.16) 
         xcobrardll=max(0,total_dlls-cobros_dlls['amount'].sum()/1.16)
         #por cobrar
-        worksheet.write('M'+row_index, max(0,total_mn-cobros_mn['amount'].sum()/1.16) , blue_content)
-        worksheet.write('N'+row_index, max(0,total_dlls-cobros_dlls['amount'].sum()/1.16)  , blue_content_dll)
+        worksheet.write('M'+row_index, total_mn-cobros_mn['amount'].sum()/1.16 , blue_content)
+        worksheet.write('N'+row_index, total_dlls-cobros_dlls['amount'].sum()/1.16 , blue_content_dll)
     
         worksheet.write('O'+row_index, "{:.2f}".format((total_mn+total_dlls-(cobros_dlls['amount'].sum()+cobros_mn['amount'].sum())/1.16 )*100/(total_dlls+total_mn))+"%", blue_content)
         #facturado
