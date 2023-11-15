@@ -122,7 +122,7 @@ blue_header_format = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
     'text_wrap': True,
-    'valign': 'top',
+    'valign': 'vcenter',
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
@@ -281,21 +281,16 @@ DD/MM/AAAA""", negro_b)
 
 worksheet.write('L2', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-worksheet.merge_range('C6:C10', """                      
-
-PDA""", blue_header_format)
-worksheet.merge_range('D6:D10', """                      
-PI CANTIDAD""", blue_header_format)
-worksheet.merge_range('E6:E10', """
-FECHA
+worksheet.merge_range('C6:C10', """PDA""", blue_header_format)
+worksheet.merge_range('D6:D10', """PI CANTIDAD""", blue_header_format)
+worksheet.merge_range('E6:E10', """FECHA
 AAAA-MM-DD""", blue_header_format)
 
 worksheet.merge_range('F6:G9', 'CLIENTE', blue_header_format)
 worksheet.write('F10', 'NUMERO', blue_header_format)
 worksheet.write('G10', 'NOMBRE CORTO', blue_header_format)
 
-worksheet.merge_range('H6:H10', """ 
-                                  MONEDA""", blue_header_format)
+worksheet.merge_range('H6:H10', """MONEDA""", blue_header_format)
 
 worksheet.merge_range('I6:O6', 'DERECHOS ADQUIRIDOS', blue_header_format)
 worksheet.merge_range('I7:J9', """IMPORTE TOTAL 
@@ -554,7 +549,7 @@ worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),
 worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
 worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
 worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
-worksheet.merge_range('G'+str(trow+12)+':H'+str(trow+12),str(len(clientes)),blue_content_bold)
+worksheet.merge_range('G'+str(trow+12)+':H'+str(trow+12),str(len(pedidos['customer_id'].unique())),blue_content_bold)
 
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)

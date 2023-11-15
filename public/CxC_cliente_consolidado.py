@@ -546,7 +546,7 @@ worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),
 worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
 worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
 worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
-worksheet.merge_range('G'+str(trow+12)+':H'+str(trow+12),str(len(clientes)),blue_content_bold)
+worksheet.merge_range('G'+str(trow+12)+':H'+str(trow+12),str(len(pedidos['customer_id'].unique())),blue_content_bold)
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
 

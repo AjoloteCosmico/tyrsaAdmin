@@ -112,6 +112,8 @@ blue_header_format = workbook.add_format({
     'text_wrap': True,
     'valign': 'top',
     'align': 'center',
+    
+    'valign': 'vcenter',
     'border_color':'white',
     'font_color': 'white',
     'num_format': '[$$-409]#,##0.00',
@@ -280,16 +282,15 @@ for i in range(0,len(clientes)):
         worksheet.merge_range('H'+str(6+row_index)+':J'+str(6+row_index), "CLIENTE: "+str(clientes['customer'].values[i]), negro_b)
 
         row_index=row_index+2
-        worksheet.merge_range('C'+str(6+row_index)+':C'+str(10+row_index), 'PDA', blue_header_format)
-        worksheet.merge_range('D'+str(6+row_index)+':D'+str(10+row_index), 'PI CANTIDAD', blue_header_format)
-        worksheet.merge_range('E'+str(6+row_index)+':E'+str(10+row_index), 'FECHA', blue_header_format)
+        worksheet.merge_range('C'+str(6+row_index)+':C'+str(10+row_index), """PDA""", blue_header_format)
+        worksheet.merge_range('D'+str(6+row_index)+':D'+str(10+row_index), """PI CANTIDAD""", blue_header_format)
+        worksheet.merge_range('E'+str(6+row_index)+':E'+str(10+row_index), """FECHA""", blue_header_format)
 
-        worksheet.merge_range('F'+str(6+row_index)+':G'+str(9+row_index), 'CLIENTE', blue_header_format)
+        worksheet.merge_range('F'+str(6+row_index)+':G'+str(9+row_index), """CLIENTE""", blue_header_format)
         worksheet.write('F'+str(10+row_index), 'NUMERO', blue_header_format)
         worksheet.write('G'+str(10+row_index), 'NOMBRE CORTO', blue_header_format)
 
-        worksheet.merge_range('H'+str(6+row_index)+':H'+str(10+row_index), """ 
-                                  MONEDA""", blue_header_format)
+        worksheet.merge_range('H'+str(6+row_index)+':H'+str(10+row_index), """MONEDA""", blue_header_format)
 
         worksheet.merge_range('I'+str(6+row_index)+':O'+str(6+row_index), 'DERECHOS ADQUIRIDOS', blue_header_format)
         worksheet.merge_range('I'+str(7+row_index)+':J'+str(9+row_index), """IMPORTE TOTAL 
@@ -324,7 +325,7 @@ CxC CONTABLES
 
 
         worksheet.merge_range('R'+str(7+row_index)+':S'+str(9+row_index), """POR FACTURAR
-CXC CONTABLES
+DA X C
 (SIN IVA)""", blue_header_format)
         worksheet.write('R'+str(10+row_index), 'MN', blue_header_format)
         worksheet.write('S'+str(10+row_index), 'DLLS', blue_header_format)
@@ -506,23 +507,36 @@ worksheet.merge_range('C'+str(trow+8)+':F'+str(trow+8),'PEDIDOS  POR COBRAR MXN'
 worksheet.merge_range('C'+str(trow+9)+':F'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
 worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
 worksheet.merge_range('C'+str(trow+11)+':F'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
+worksheet.merge_range('C'+str(trow+12)+':F'+str(trow+12),'CLIENTES TOTALES REPORTADOS',blue_header_format)
 
-#Calcular totales 
-total_cobros_mn=cobros.loc[(cobros['coin_pedido']==1),'amount'].sum()/1.16
-total_cobros_dlls=(cobros.loc[(cobros['coin_pedido']!=1),'amount'].sum()/1.16)*tc
+#volver a traer los datos originales
+pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
+coins.exchange_sell, coins.coin, coins.symbol, coins.code
+from ((
+    internal_orders
+    inner join customers on customers.id = internal_orders.customer_id )
+    inner join coins on internal_orders.coin_id = coins.id)
+     """,cnx)
+cobros=pd.read_sql("""select cobro_orders.*, internal_orders.coin_id
+                     from (((
+                         cobro_orders 
+    inner join cobros on cobros.id=cobro_orders.cobro_id)
+    inner join internal_orders on internal_orders.id = cobros.order_id )
+    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 
-total_pedidos_mn=pedidos.loc[(pedidos['coin_id']==1),'total'].sum()/1.16
-total_pedidos_dlls=(pedidos.loc[(pedidos['coin_id']!=1),'total'].sum()/1.16)*tc
+derechos_adquiridos=( pedidos.loc[pedidos['coin_id']==1,'total'].sum() +pedidos.loc[pedidos['coin_id']!=1,'total'].sum()*tc  )/1.16
+cobrado=( cobros.loc[cobros['coin_id']==1,'amount'].sum() +cobros.loc[cobros['coin_id']!=1,'amount'].sum()*tc  )/1.16
+por_cobrar=derechos_adquiridos-cobrado
+worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),derechos_adquiridos,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+4)+':H'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 
+worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),cobrado,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+5)+':H'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-#TODO: calcular bien esto, total menos iva
+worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),por_cobrar,blue_content_bold)
+# worksheet.write_formula('G'+str(trow+6)+':H'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4), total_pedidos_mn+total_pedidos_dlls,blue_content_bold)
-
-worksheet.merge_range('G'+str(trow+5)+':H'+str(trow+5),  total_cobros_mn+total_cobros_dlls,blue_content_bold)
-
-worksheet.merge_range('G'+str(trow+6)+':H'+str(trow+6),  total_pedidos_mn+total_pedidos_dlls-total_cobros_mn-total_cobros_dlls,blue_content_bold)
 
 pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
@@ -546,10 +560,11 @@ worksheet.merge_range('G'+str(trow+8)+':H'+str(trow+8),str(pedidos_x_cobrar_mx),
 worksheet.merge_range('G'+str(trow+9)+':H'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
 worksheet.merge_range('G'+str(trow+10)+':H'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
 worksheet.merge_range('G'+str(trow+11)+':H'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
-
+worksheet.merge_range('G'+str(trow+12)+':H'+str(trow+12),str(len(pedidos['customer_id'].unique())),blue_content_bold)
 
 
 worksheet.set_column('A:A',15)
+worksheet.set_column('D:D',11)
 worksheet.set_column('E:E',20)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)
