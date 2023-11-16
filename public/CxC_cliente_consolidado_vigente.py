@@ -68,7 +68,7 @@ df=pedidos[['date']]
     #Agregar columna con saldo en los cobros
 pedidos=pedidos.assign(saldo=0.0)
 for i in range(len(pedidos)):
-    pedidos['saldo'].values[i]=cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()
+    pedidos['saldo'].values[i]=cobros2.loc[cobros2['order_id']==pedidos['id'].values[i],'amount'].sum()
 pedidos=pedidos.loc[pedidos['total']-pedidos['saldo']>1]
 cobros2=cobros2.merge(pedidos[['id','code']].rename(columns={'id':'order_id'}),how='inner',on='order_id')
 

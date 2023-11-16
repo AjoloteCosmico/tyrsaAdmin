@@ -511,24 +511,27 @@ worksheet.merge_range('C'+str(trow+9)+':F'+str(trow+9),'PEDIDOS POR COBRAR DLL',
 worksheet.merge_range('C'+str(trow+10)+':F'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
 worksheet.merge_range('C'+str(trow+11)+':F'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 worksheet.merge_range('C'+str(trow+12)+':F'+str(trow+12),'CLIENTES TOTALES REPORTADOS',blue_header_format)
-
-#volver a traer los datos originales
-pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
-coins.exchange_sell, coins.coin, coins.symbol, coins.code
-from ((
-    internal_orders
-    inner join customers on customers.id = internal_orders.customer_id )
-    inner join coins on internal_orders.coin_id = coins.id)
-     """,cnx)
-cobros=pd.read_sql("""select cobro_orders.*, internal_orders.coin_id
+cobros2=pd.read_sql("""select cobro_orders.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id 
                      from (((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 
+nordenes=len(pedidos)
+df=pedidos[['date']]
+
+#Filtrando datos---------------------------------------
+#Separar pedidos vigentes
+    #Agregar columna con saldo en los cobros
+pedidos=pedidos.assign(saldo=0.0)
+for i in range(len(pedidos)):
+    pedidos['saldo'].values[i]=cobros2.loc[cobros2['order_id']==pedidos['id'].values[i],'amount'].sum()
+pedidos=pedidos.loc[pedidos['total']-pedidos['saldo']>1]
+cobros2=cobros2.merge(pedidos[['id','code']].rename(columns={'id':'order_id'}),how='inner',on='order_id')
+
 derechos_adquiridos=( pedidos.loc[pedidos['coin_id']==1,'total'].sum() +pedidos.loc[pedidos['coin_id']!=1,'total'].sum()*tc  )/1.16
-cobrado=( cobros.loc[cobros['coin_id']==1,'amount'].sum() +cobros.loc[cobros['coin_id']!=1,'amount'].sum()*tc  )/1.16
+cobrado=( cobros2.loc[cobros2['coin_pedido']==1,'amount'].sum() +cobros2.loc[cobros2['coin_pedido']!=1,'amount'].sum()*tc  )/1.16
 por_cobrar=derechos_adquiridos-cobrado
 worksheet.merge_range('G'+str(trow+4)+':H'+str(trow+4),derechos_adquiridos,blue_content_bold)
 # worksheet.write_formula('G'+str(trow+4)+':H'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
