@@ -141,8 +141,8 @@
  $primerdia  = new DateTime($pdia."-1-1");
   $semanasreg = (int) floor( $reg->diff($primerdia)->format('%a')/7)+1;}}
 @endphp
-                        <td><div class="badge badge-danger badge-outlined">Domicilio Embarque: </div></td>
-                        <td></td>
+                        <td colspan="2"><div class="badge badge-danger badge-outlined">Domicilio Embarque: </div></td>
+                        
                         <td><div class="badge badge-primary badge-outlined">{{$semanasreg}}  </div></td>
                         <td> <div class="badge badge-primary badge-outlined">Emision PI </div></td>
                         <td> <div class="badge badge-primary badge-outlined">{{date('d - m - Y', strtotime($InternalOrders->reg_date))}} </div></td>
