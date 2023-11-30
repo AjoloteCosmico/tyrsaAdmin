@@ -53,7 +53,7 @@
             <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
             <div >
-                    <table class="table table-responsive text-xs">
+                    <table class="table table-responsive text-xs" style="table-layout:fixed ; width:100%;">
                     <th colspan="7">Datos del Cliente</th>
                      </tr>
                     <tr class="text-center">
