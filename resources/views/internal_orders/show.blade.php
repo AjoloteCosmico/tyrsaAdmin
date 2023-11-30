@@ -71,7 +71,7 @@
                     <tr class="text-center">
                         <td><div class="badge badge-danger badge-outlined">  Razon Social: </div></td>
                         <td colspan="4" ><div class="badge badge-primary badge-outlined"> {{$Customers->customer}}</div></td>
-                        <td><div class="badge badge-danger badge-outlined">  Regimen de capital: </div></td>
+                        <td style="word-break: break-all;"><div class="badge badge-danger badge-outlined">  Regimen de capital: </div></td>
                         <td  ><div class="badge badge-primary badge-outlined"> {{$Customers->legal_name}}</div></td>
                         
                         <!-- 6 columas -->
@@ -636,7 +636,7 @@
   /* line-height: 1; 
   color: #fff;
   /* text-align: center;*/
-  white-space: nowrap; 
+  white-space: pre-line; 
    vertical-align: middle; 
   border-radius: 5px;
   /* padding: 15px; */
