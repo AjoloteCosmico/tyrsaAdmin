@@ -270,7 +270,7 @@ worksheet.write('I2', year, negro_b)
 worksheet.merge_range('J2:K3', """FECHA DEL REPORTE             
 DD/MM/AAAA""", negro_b)
 
-worksheet.write('L2', date, negro_b)
+worksheet.merge_range('L2:L3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 worksheet.merge_range('C6:C10', """                      
 
