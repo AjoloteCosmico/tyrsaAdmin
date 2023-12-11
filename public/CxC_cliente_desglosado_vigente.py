@@ -249,7 +249,7 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=10,startcol=6, header=False, index=False)
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=17,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 
@@ -258,7 +258,7 @@ import datetime
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 year = date.strftime("%Y")
-df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=10,startcol=6, header=False, index=False)
+# df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=20,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 #llenando la tabla
@@ -269,9 +269,9 @@ for i in range(0,len(clientes)):
         print(str(i)+'esta si')
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         # worksheet.merge_range('H'+str(4+row_index)+':R'+str(4+row_index), 'CUENTAS POR COBRAR POR CLIENTE DESGLOSADO', negro_b)
-        worksheet.merge_range('B'+str(4+row_index)+':F'+str(4+row_index), 'CUENTAS POR COBRAR REPORTE 3A ', negro_b)
+        worksheet.merge_range('B'+str(4+row_index)+':F'+str(4+row_index), 'CUENTAS POR COBRAR REPORTE 3B ', negro_b)
         worksheet.merge_range('B'+str(5+row_index)+':F'+str(5+row_index), 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
-        worksheet.merge_range('B'+str(6+row_index)+':F'+str(6+row_index), 'DESGLOSADAS POR CLIENTE (DPC)', negro_b)
+        worksheet.merge_range('B'+str(6+row_index)+':F'+str(6+row_index), 'DESGLOSADAS POR CLIENTE VIGENTES (DPCV)', negro_b)
 
         worksheet.write('H'+str(4+row_index), 'AÑO', negro_b)
 
@@ -279,7 +279,7 @@ for i in range(0,len(clientes)):
         worksheet.merge_range('J'+str(4+row_index)+':K'+str(5+row_index), """FECHA DEL REPORTE
         DD/MM/AAAA""", negro_b)
 
-        worksheet.write('L'+str(4+row_index), date, negro_b)
+        worksheet.merge_range('L'+str(4+row_index)+':L'+str(5+row_index), date, negro_b)
         worksheet.insert_image("A"+str(3+row_index), "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
         worksheet.merge_range('H'+str(6+row_index)+':J'+str(6+row_index), "CLIENTE: "+str(clientes['customer'].values[i]), negro_b)
 
