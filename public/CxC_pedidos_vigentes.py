@@ -53,7 +53,18 @@ creditos=pd.read_sql("""select *
                      from ((
                          credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-print(creditos)
+
+
+#Agregar columna con saldo en los cobros
+pedidos=pedidos.assign(saldo=0.0)
+for i in range(len(pedidos)):
+    pedidos['saldo'].values[i]=cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()
+    if(cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=1):
+        print('here')
+
+pedidosc=pedidos.loc[pedidos['total']-pedidos['saldo']<=1]
+pedidos_interes=pedidosc.loc[pedidosc['total']<pedidosc['saldo']]
+saldo_excedido=(pedidos_interes['saldo'].sum()-pedidos_interes['total'].sum())/1.16
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
@@ -462,33 +473,37 @@ worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'
 worksheet.merge_range('B'+str(trow+3)+':G'+str(trow+3),'RESUMEN DEL REPORTE',blue_header_format_bold)
 
 worksheet.merge_range('B'+str(trow+4)+':E'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
-worksheet.merge_range('B'+str(trow+5)+':E'+str(trow+5),'COBRADOS',blue_header_format)
-worksheet.merge_range('B'+str(trow+6)+':E'+str(trow+6),'POR COBRAR',blue_header_format)
-worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'PEDIDOS REPORTADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+5)+':E'+str(trow+5),'COBROS EXCEDIDOS EN PEDIDOS CERRADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+6)+':E'+str(trow+6),'COBRADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'POR COBRAR',blue_header_format)
+worksheet.merge_range('B'+str(trow+8)+':E'+str(trow+8),'PEDIDOS REPORTADOS',blue_header_format)
 
-worksheet.merge_range('B'+str(trow+8)+':E'+str(trow+8),'PEDIDOS  POR COBRAR MXN',blue_header_format)
-worksheet.merge_range('B'+str(trow+9)+':E'+str(trow+9),'PEDIDOS POR COBRAR DLL',blue_header_format)
-worksheet.merge_range('B'+str(trow+10)+':E'+str(trow+10),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
-worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
+worksheet.merge_range('B'+str(trow+9)+':E'+str(trow+9),'PEDIDOS  POR COBRAR MXN',blue_header_format)
+worksheet.merge_range('B'+str(trow+10)+':E'+str(trow+10),'PEDIDOS POR COBRAR DLL',blue_header_format)
+worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES POR COBRAR',blue_header_format)
+worksheet.merge_range('B'+str(trow+12)+':E'+str(trow+12),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
 worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
 worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
-
-worksheet.merge_range('F'+str(trow+5)+':G'+str(trow+5),' ',blue_content_bold)
-worksheet.write_formula('F'+str(trow+5)+':G'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('F'+str(trow+5)+':G'+str(trow+5),saldo_excedido,blue_content_bold)
 
 worksheet.merge_range('F'+str(trow+6)+':G'+str(trow+6),' ',blue_content_bold)
-worksheet.write_formula('F'+str(trow+6)+':G'+str(trow+6),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.write_formula('F'+str(trow+6)+':G'+str(trow+6),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')+F'+str(trow+5)+'}',blue_content_bold)
 
 
-worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),str(len(pedidos)),blue_content_bold)
+
+worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),' ',blue_content_bold)
+worksheet.write_formula('F'+str(trow+7)+':G'+str(trow+7),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')-F'+str(trow+5)+'}',blue_content_bold)
+
+
+worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(len(pedidos)),blue_content_bold)
 pedidos_x_cobrar=pedidos_x_cobrar_mx+pedidos_x_cobrar_dll
-worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(pedidos_x_cobrar_mx),blue_content_bold)
-worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_dll),blue_content_bold)
-worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar),blue_content_bold)
-worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('F'+str(trow+9)+':G'+str(trow+9),str(pedidos_x_cobrar_mx),blue_content_bold)
+worksheet.merge_range('F'+str(trow+10)+':G'+str(trow+10),str(pedidos_x_cobrar_dll),blue_content_bold)
+worksheet.merge_range('F'+str(trow+11)+':G'+str(trow+11),str(pedidos_x_cobrar),blue_content_bold)
+worksheet.merge_range('F'+str(trow+12)+':G'+str(trow+12),str(len(pedidos)-pedidos_x_cobrar),blue_content_bold)
 
 #Rellenar
 worksheet.merge_range('E'+str(trow)+':F'+str(trow+2),' ',blue_header_format)
