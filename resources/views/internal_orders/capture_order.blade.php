@@ -151,7 +151,7 @@
 </div>
 <br> <br>
 
-       <input type="text" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
+       <input type="text uppercase" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
        <x-jet-input-error for='seller_id' />
    </div>
    <div class="form-group">
