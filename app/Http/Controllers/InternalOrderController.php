@@ -336,7 +336,9 @@ public function recalcular_total($id){
     
     public function store(Request $request)
     {
-        $noha=InternalOrder::all()->count();
+        $Year=now()->format('Y');
+        dd($Year);
+        $noha=InternalOrder::whereYear('created_at', $Year)->count();
         $Id = $request->temp_internal_order_id;
         $TempInternalOrders = TempInternalOrder::find($Id);
         $TempInternalOrders->subtotal = $request->subtotal;
