@@ -137,7 +137,7 @@
 </div>
 <br> <br>
 
-       <input type="text" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
        <x-jet-input-error for='seller_id' />
    </div>
 
@@ -151,7 +151,7 @@
 </div>
 <br> <br>
 
-       <input type="text uppercase" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
        <x-jet-input-error for='seller_id' />
    </div>
    <div class="form-group">
@@ -164,7 +164,7 @@
 </div>
 <br> <br>
 
-       <input type="text" name="oc" style='width: 10%;' id='oc'  value="0">
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 10%;' id='oc'  value="0">
        <x-jet-input-error for='seller_id' />
    </div>
 
