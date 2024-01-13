@@ -100,6 +100,25 @@
                             @endif
                             @endforeach
                         </div>
+                        <div class="col-4 gap-3 text-sm">
+                            @php
+                                $count = 0;
+                            @endphp
+                            @foreach ($Confidencialidad as $row)
+                            {!! Form::checkbox('permission[]', $row->id, in_array($row->id, $rolePermissions) ? true : false, ['class'=>'input-jet']) !!}
+                            {{$row->name}}<br>
+                            @if ($count == 3)
+                                <hr>
+                                @php
+                                $count = 0;
+                                @endphp
+                            @else
+                                @php
+                                $count = $count + 1;
+                                @endphp
+                            @endif
+                            @endforeach
+                        </div>
                     </div>
                     <x-jet-input-error for='permission' />
                 </div>
