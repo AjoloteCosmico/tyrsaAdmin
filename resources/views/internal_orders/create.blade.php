@@ -31,6 +31,7 @@
                                     
         
 <div class="row"></div>
+@can('NOHAA MANUAL')
 
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="automatico();">
@@ -39,12 +40,18 @@
 <label class="btn btn-outline-primary" for="btnradio3">Ingresar <br> Folio </label>
 </div>
 <br> <br>
+@else
+<h1 class="font-bold " >EL NOHA Y EL FOLIO SE AGREGARAN DE MANERA AUTOMATICA</h1>
+@endcan
+
+
 <div class="form-group" id="folio" style="display:none;">
                             <x-jet-label value="FOLIO" />
                             <x-jet-input type="number" min="0" name="invoice" id="invoice" value=0  /> 
                             </div>      
-<br><br>
 
+@can('NOHAA MANUAL')
+<br><br>
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio" id="btnradioa" autocomplete="off" checked onclick="automatico2();">
 <label class="btn btn-outline-primary" for="btnradioa">NOHA<br> automatico</label>
@@ -52,6 +59,9 @@
 <label class="btn btn-outline-primary" for="btnradiob">Ingresar <br> NOHA </label>
 </div>
 <br> <br>
+@endcan
+
+
 <div class="form-group" id="noha-group" style="display:none;">
                             <x-jet-label value="NOHA" />
                             <x-jet-input type="number" min="0" name="noha" id="noha" value=0  /> 

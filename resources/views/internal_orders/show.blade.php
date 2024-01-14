@@ -392,6 +392,7 @@
                
                <div class="col-sm-9 font-bold text-sm">
                <br><br>&nbsp;
+               @can('VER CORREOS')
                <table align="left">
 
                 <tr class="text-center"><td colspan="2"><div class="badge badge-danger badge-outlined">Correos Personales </div></td></tr>
@@ -409,6 +410,7 @@
                   
 
                </table>
+               @endcan
                <br><br><br>&nbsp;
                </div>
 <br>&nbsp;
@@ -431,6 +433,8 @@
                         <td><div class="badge badge-primary badge-outlined"> ${{number_format($InternalOrders->comision * $InternalOrders->total,2)}} </div></td>
                     </tr>
                     </table>
+
+                    @can('VER DGI')
                     <table>
                 <tr class="text-center"><th colspan="5">DGI</th></tr>
                 <tr class="text-center">
@@ -463,6 +467,7 @@
                  </tbody>
 
                </table>
+               @endcan
                </div>
 
 
