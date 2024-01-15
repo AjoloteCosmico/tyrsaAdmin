@@ -31,7 +31,7 @@
                                     
         
 <div class="row"></div>
-@can('NOHAA MANUAL')
+@can('NOHA MANUAL')
 
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="automatico();">
@@ -50,7 +50,7 @@
                             <x-jet-input type="number" min="0" name="invoice" id="invoice" value=0  /> 
                             </div>      
 
-@can('NOHAA MANUAL')
+@can('NOHA MANUAL')
 <br><br>
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio" id="btnradioa" autocomplete="off" checked onclick="automatico2();">
