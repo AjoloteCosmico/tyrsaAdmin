@@ -397,6 +397,14 @@ return [
             'can' => 'VER APLICACIONES DE PAGO',
         ],
         [
+            'text' => 'VISUALZIACION DE DATOS',
+            'icon' => 'fas fa-bar-chart fa-fw',
+            
+            'route'  => 'visualizacion',
+            'can' => 'VER PEDIDOS',
+        ],
+        
+        [
             'header' => '===============',
             //'can' => 'Reportes',
         ],
