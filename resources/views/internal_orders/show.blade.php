@@ -119,11 +119,11 @@
                     </tr>
 
                     <tr>
-                        <td colspan="11"> </td>
+                        <td colspan="12"> </td>
                     </tr>
 
                     <tr>
-                        <td colspan="9"> </td>
+                        <td colspan="10"> </td>
                         <th>cp:</th>
                         <td>{{$CustomerShippingAddresses->customer_shipping_zip_code}} </td>
                     </tr>
@@ -131,14 +131,17 @@
                     <tr>
                         <th>vendedor:  </th>
                         <td> {{$Sellers->iniciales}} </td>
-                        <th colspan="2"></th>
-                        <td></td>
-                        <th> no. vendedor:</th>
-                        <td colspan="2">  {{$Sellers->id}}</td>
+                        
+                        <th colspan="2"> no. vendedor:</th>
+                        <td >  {{$Sellers->id}}</td>
+                        
+                        <th colspan="2">Comision del vend:</th>
+
+                        <td colspan="2">  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
+                        <th colspan="2"> cot no:</th>
+                        <td>  {{$InternalOrders->ncotizacion}} </td>
                         <th> Moneda:</th>
                         <td>  {{$Coins->code}} </td>
-                        <th colspan="2">Comision:</th>
-                        <td colspan="2">  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
                     </tr>
                     <tr>
                         <th colspan="2">categoria del proyecto:  </th>
@@ -147,7 +150,7 @@
                         <th colspan="4">Descripcion global del proyecto:  </th>
                         <td colspan="2"> {{$InternalOrders->description}} </td>
                         <th colspan="2">ubicacion de la tienda:  </th>
-                        <td > Edomex </td>
+                        <td colspan="2" > Edomex </td>
                         
                         </tr>
                     </table>
