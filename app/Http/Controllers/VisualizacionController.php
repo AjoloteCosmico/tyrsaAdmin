@@ -23,5 +23,5 @@ class VisualizacionController extends Controller
          ->setXAxis(['1 día', '2 días', '3 días', 'más antiguos']);
          return view('visualizacion.index',compact('grafica_autorizados'));
    }
-        
+   
 }
