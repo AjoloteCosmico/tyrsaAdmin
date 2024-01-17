@@ -11,6 +11,8 @@ use App\Http\Controllers\CobrosController;
 use App\Http\Controllers\UlamaController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\NotasCreditoController;
+
+use App\Http\Controllers\VisualizacionController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -50,6 +52,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');
     Route::get('cobros/autorizar/{id}', [CobrosController::class, 'autorizar'])->name('cobros.autorizar');
     Route::get('aberelpdf/{name}', [ReportsController::class, 'prueba'])->name('pdf.prueba');
+    Route::get('visualization', [VisualizacionController::class, 'pedidos_no_autorizados'])->name('visualizacion');
     
 
 

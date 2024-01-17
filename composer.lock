@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f80b22168ca8b9ac562a43bafd1173fc",
+    "content-hash": "6f6f9397c56942eddea0582d7f2d4da2",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -48,6 +48,70 @@
                 "source": "https://github.com/ColorlibHQ/AdminLTE/tree/v3.2.0"
             },
             "time": "2022-02-07T20:33:09+00:00"
+        },
+        {
+            "name": "arielmejiadev/larapex-charts",
+            "version": "7.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ArielMejiaDev/larapex-charts.git",
+                "reference": "d1f933b0e1495f6833bff551829a76efd703aec7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ArielMejiaDev/larapex-charts/zipball/d1f933b0e1495f6833bff551829a76efd703aec7",
+                "reference": "d1f933b0e1495f6833bff551829a76efd703aec7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "^9.0|^10.0",
+                "php": "^8.0|^8.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.5",
+                "orchestra/testbench": "^7.0|^8.0",
+                "phpunit/phpunit": "^9.0|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArielMejiaDev\\LarapexCharts\\LarapexChartsServiceProvider"
+                    ],
+                    "aliases": {
+                        "LarapexChart": "ArielMejiaDev\\LarapexCharts\\Facades\\LarapexChart"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArielMejiaDev\\LarapexCharts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ArielMejiaDev",
+                    "email": "arielmejiadev@gmail.com"
+                }
+            ],
+            "description": "Package to provide easy api to build apex charts on Laravel",
+            "homepage": "https://larapex-charts.netlify.app/",
+            "keywords": [
+                "apexcharts",
+                "arielmejiadev",
+                "charts",
+                "larapex"
+            ],
+            "support": {
+                "issues": "https://github.com/ArielMejiaDev/larapex-charts/issues",
+                "source": "https://github.com/ArielMejiaDev/larapex-charts/tree/7.0.0"
+            },
+            "time": "2024-01-03T04:13:33+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",

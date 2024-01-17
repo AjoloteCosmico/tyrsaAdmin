@@ -302,7 +302,6 @@ SIN IVA""", blue_header_format)
 worksheet.write('K10', 'MN', blue_header_format)
 worksheet.write('L10', 'DLLS', blue_header_format)
 
-
 worksheet.merge_range('M7:N9', """POR COBRAR
 (IMPORTE TOTAL POR COBRAR) 
 SIN IVA""", blue_header_format)
