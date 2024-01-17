@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Session;
 use App\Models\Authorization;
-use App\Models\Requisition;
+use App\Models\InternalOrder;
 use App\Models\Coin;
 
 use App\Models\Cobro;
