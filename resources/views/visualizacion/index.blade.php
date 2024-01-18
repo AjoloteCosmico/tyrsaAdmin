@@ -11,14 +11,10 @@
 @section('content')
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
-            
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
-                    <br><br>
-                    
-                               
+                    <br><br>                    
                     {!! $grafica_autorizados->container() !!}
-
                     <table style="width: 60%">
                         <tr> 
                             <td> Cosecutivo Pedidos no autorizados</td>
@@ -34,15 +30,10 @@
                                   </a>  
                             </td>
                         </tr>
-                       
                     </table>
-
                  <script src="{{ $grafica_autorizados->cdn() }}"></script>
                 {!! $grafica_autorizados->script() !!}
-
-  
-        
-            </div>
+              </div>
             </div>
         </div>
     </div>

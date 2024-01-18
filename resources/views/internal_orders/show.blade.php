@@ -219,31 +219,36 @@
                             @endforeach
                     
                     </table>
-                    
-                    <table style="border: none; border-collapse: collapse;">
 
+
+                    <br><br>
+                    <table style="border: none; border-collapse: collapse;">
                         <tr style="border: none; border-collapse: collapse;">
-                            <td style="border: none; border-collapse: collapse;">
-                            <table  >
+                        <td style="border: none; border-collapse: collapse;">
+                        <table>
                    <tr>
                     <th>Numero de COBROs:</div></td>
                     <td> {{$payments->count()}}</div></td>
                    </tr>
                    <tr> 
-                    <th>Condiciones de COBRO: @foreach($payments as $pay) <br> @endforeach</div></td>
+                    <th>Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</div></td>
                     <td>  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach</div>
                     </td>
                    </tr>
                    <tr>
-                    <th>Promesas de Cobros:</div></td>
+                    <th>Forma de pago:</th>
                     <td></td>
+                   </tr>
+                   <tr>
+                    <th>Observacioens: <br> <br> <br> </th>
+                    <td> <br> -<br> </td>
                    </tr>
                 </table>
                             </td>
-                            <td style="border: none; border-collapse: collapse;">
-                            <table style="width:40%"align="right"> >
+                            <td style="border: none; border-collapse: collapse; width: 60%">
+                            <table style="width:100%"align="right"> 
                         <tr>
                         <th>Subtotal: </div></td>
                         <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
@@ -347,63 +352,7 @@
                 
                </table>
                
-               <div class="col-sm-9 font-bold text-sm">
-               <br><br>&nbsp;
-
-               @can('VER DGI')
-               <table align="left">
-
-                <tr class="text-center"><th colspan="2">   Correos Personales </th></tr>
-                <tr class="text-center">
-                    <th>Contacto</td>
-                    <th>Email Personal</td>
-                 </tr>
-                 
-                 @foreach($Contacts as $row)
-                    <tr>
-                        <td> {{$row->id}}</div></td>
-                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
-                    </tr>
-                    @endforeach
-                  
-
-               </table> @endcan
-
-                    @can('VER DGI')
-                    <table>
-                <tr class="text-center"><th colspan="5">DGI</th></tr>
-                <tr class="text-center">
-                    <th>Vendedor</div></td>
-                    <th>Inicia</div></td>
-                    <th>Descripcion</div></td>
-                    <th>% </div></td>
-                    <th>Monto con IVA </div></td>
-                 </tr>
-
-               <br>
-                 @foreach($Comisiones as $c)
-                    <tr>
-                        <td> {{$c->seller_name}}</div></td>
-                        <td> {{$c->iniciales}}</div></td>
-                        <td>  {{$c->description}}</div></td>
-                        <td>  {{$c->percentage * 100}} %</div></td>
-                        <td>  ${{number_format($c->percentage * $InternalOrders->total,2)}} </div></td>
-                    </tr>
-                    @endforeach
-                    
-                   <tr>
-                    <td></td>
-                    <td></td>
-                    <th>Totales:</div></td>
-                    <td> {{$Comisiones->sum('percentage')*100 }} %</div></td>
-                    <td> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage'),2) }}</div></td>
-                    
-                   </tr>
-                 </tbody>
-
-               </table>
-               @endcan
-               </div>
+               
 
 
             </div>
@@ -513,6 +462,62 @@
                 </div>
             </div>
             <br> <br> 
+           
+               </table> @endcan
+
+                    @can('VER DGI')
+                    <table>
+                <tr class="text-center"><th colspan="5">DGI</th></tr>
+                <tr class="text-center">
+                    <th>Vendedor</div></td>
+                    <th>Inicia</div></td>
+                    <th>Descripcion</div></td>
+                    <th>% </div></td>
+                    <th>Monto con IVA </div></td>
+                 </tr>
+
+               <br>
+                 @foreach($Comisiones as $c)
+                    <tr>
+                        <td> {{$c->seller_name}}</div></td>
+                        <td> {{$c->iniciales}}</div></td>
+                        <td>  {{$c->description}}</div></td>
+                        <td>  {{$c->percentage * 100}} %</div></td>
+                        <td>  ${{number_format($c->percentage * $InternalOrders->total,2)}} </div></td>
+                    </tr>
+                    @endforeach
+                    
+                   <tr>
+                    <td></td>
+                    <td></td>
+                    <th>Totales:</div></td>
+                    <td> {{$Comisiones->sum('percentage')*100 }} %</div></td>
+                    <td> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage'),2) }}</div></td>
+                    
+                   </tr>
+                 </tbody>
+
+               </table>
+               @endcan
+
+               @can('VER DGI')
+               <table align="left">
+
+                <tr class="text-center"><th colspan="2">   Correos Personales </th></tr>
+                <tr class="text-center">
+                    <th>Contacto</td>
+                    <th>Email Personal</td>
+                 </tr>
+                 
+                 @foreach($Contacts as $row)
+                    <tr>
+                        <td> {{$row->id}}</div></td>
+                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
+                    </tr>
+                    @endforeach
+                  
+
+               <br>
             @if($InternalOrders->status == 'autorizado')
             <br><br><br><br><br>
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>

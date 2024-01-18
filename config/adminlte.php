@@ -396,13 +396,13 @@ return [
             'route'  => 'payed_accounts',
             'can' => 'VER APLICACIONES DE PAGO',
         ],
-        [
-            'text' => 'VISUALZIACION DE DATOS',
-            'icon' => 'fas fa-bar-chart fa-fw',
+        // [
+        //     'text' => 'VISUALZIACION DE DATOS',
+        //     'icon' => 'fas fa-bar-chart fa-fw',
             
-            'route'  => 'visualizacion',
-            'can' => 'VER PEDIDOS',
-        ],
+        //     'route'  => 'visualizacion',
+        //     'can' => 'VER PEDIDOS',
+        // ],
         
         [
             'header' => '===============',
