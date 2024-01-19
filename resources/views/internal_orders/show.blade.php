@@ -66,7 +66,7 @@
             <br>
             <div >
                         <!-- 14 columas, para poder copiar del excel -->
-            <table class="table table-responsive text-xs">
+            <table >
                 <tr><th colspan="14">Datos del Cliete</th></tr>
                     <tr class="text-center">
                         <th colspan="2"> Numero del cliente:</th>
@@ -189,7 +189,7 @@
                 
             <br> &nbsp;
             
-            
+           
                     <table style="text-align: center;">
                         
                             <tr class="text-center">
@@ -220,73 +220,72 @@
                     
                     </table>
 
-
-                    <br><br>
-                    <table style="border: none; border-collapse: collapse;">
-                        <tr style="border: none; border-collapse: collapse;">
-                        <td style="border: none; border-collapse: collapse;">
-                        <table>
-                   <tr>
+ <br><br>
+            <!-- tablaunida -->
+            <table>
+                <tr>
                     <th>Numero de COBROs:</div></td>
                     <td> {{$payments->count()}}</div></td>
-                   </tr>
-                   <tr> 
-                    <th>Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</div></td>
-                    <td>  @foreach($payments as $pay)
+                    <td style="border: none;"> </td><!-- celda de espacio -->
+                    <th>Subtotal: </td>
+                    <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
+                       
+                </tr>
+
+                <tr> 
+                    <th rowspan="2">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</div></td>
+                    <td rowspan="2">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach</div>
                     </td>
-                   </tr>
-                   <tr>
+                    <td  rowspan="2" style="border: none;"> </td><!-- celda de espacio -->
+                    <th>Descuento: </td>
+                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </div></td>
+                       
+                </tr>
+
+                <tr>
+                <th>I.E.P.S:</td>
+                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</div></td>   
+                </tr>
+                
+                <tr>
                     <th>Forma de pago:</th>
                     <td></td>
-                   </tr>
-                   <tr>
-                    <th>Observacioens: <br> <br> <br> </th>
-                    <td> <br> -<br> </td>
-                   </tr>
-                </table>
-                            </td>
-                            <td style="border: none; border-collapse: collapse; width: 60%">
-                            <table style="width:100%"align="right"> 
-                        <tr>
-                        <th>Subtotal: </div></td>
-                        <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
-                        </tr>
-                        <tr>
-                        <th>Descuento: </div></td>
-                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </div></td>
-                        </tr>
-                        <tr>
-                        <th>I.E.P.S:</div></td>
-                        <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</div></td>
-                        </tr>
-                        <tr>
-                        <th>RET ISR:</div></td>
-                        <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
-                        </tr>
-                        <tr>
-                        <th>RET IVA:</div></td>
+                    <td style="border: none;"> </td><!-- celda de espacio -->
+                    <th>RET ISR:</td>
+                    <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
+                           
+                    
+                </tr>
+                
+                <tr>
+                    <th rowspan="3">Observacioens: <br> <br> <br> </th>
+                    <td rowspan="3"> <br> -<br> </td>
+                    <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
+                    <th>RET IVA:</td>
                         <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>
                         
-                        </tr> <tr>
-                        <th>IVA:</div></td>
+                </tr>
+                <tr>
+                        <th>IVA:</td>
                         <td> $  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</div></td>
                         </tr>
                         <tr>
-                        <th>Total</div></td>
+                        <th>Total</td>
                         <td> $ {{number_format($InternalOrders->total,2)}}</div></td>
                         </tr>
-                        
-                    </table>
-                            </td>
-                        </tr>
-                    </table>
+            </table>
+    
 
                 
                <br><br>&nbsp; <br>
+
+
+
+
                <table >
-               <tr> <td colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros / Derechos adquiridos </div></td></tr>
+               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros / Derechos adquiridos </div></th></tr>
                
                 <tr>
                     <th rowspan="2">   <br> COBRO No. <br><br> &nbsp;</th>
@@ -342,7 +341,7 @@
                </table>
                 
                <br>&nbsp;
-               <table style="text-align: center;">
+               <table style="text-align: center;" id="tabla-obsevaciones">
                 <tr>
                     <th>Observaciones: </div></td>
                 </tr>
@@ -355,117 +354,87 @@
                
 
 
-            </div>
-            <div class="row p-4">
-                <div class="col-sm-4 col-xs-12 text-center text-xs font-bold">
-                    <table>
-                        <tr>
-                            <td>
+           
+            
+            <br> <br> 
+           
+             
+
+               <table style="border: none;">
+                <tr  style="border: none;">
+                    <td style="border: none;"><table  style="border: none; ">
+                        <tr style="border: none; border-collapse: collapse;">
+                            <td style="border: none;">
                                 {{$Sellers->seller_name}}<br>
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
                             </td>
                         </tr>
-                        <tr>
-                            <td>&nbsp;</td>
+                        <tr style="border: none; ">
+                            <td style="border: none;">&nbsp;</td>
                         </tr>
-                        <tr>
-                            <td>&nbsp;</td>
+                        <tr style="border: none;">
+                            <td style="border: none;">&nbsp;</td>
                         </tr>
-                        <tr>
-                            <td>
+                        <tr style="border: none;">
+                            <td  style="border: none;">
                             {{$Sellers->firma}}
                                 <br>
-                                <hr><br><br>
+                                <hr style="border-top: 0.3vw solid black; border-color:#000000"><br><br>
 
                                 Elaboró
                             </td>
                         </tr>
-                    </table>
-                </div>
-                <div class="col-sm-3 col-xs-12 text-center text-xs font-bold">
-                    &nbsp;
-                </div>
-                
-                <div class="col-sm-5 col-xs-12 text-center text-xs font-bold">
-                    <br>
-                    {{-- <form action="{{ route('internal_orders.dgi') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    
-                    <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id}}"/>
-                           
-                                     <select class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 50%;'>
-                                            @foreach ($ASellers as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
-                                            @endforeach
-                                        </select>
-                    
-                                    <div class="form-group">
-                                    <div class="row">
-                                      <div class=col>
-                                        <x-jet-label value="dgi" />
-                                        <input type="number" name="dgi" style='width: 50%;'max=100 min=0 step=0.1 value=0> %
-                                        <x-jet-input-error for='seller_id' />
-                                    </div>
-                                    <div class="col">
-                                            <button class="btn btn-blue">Agregar Comision DGI</button>
-                                        </div></div>
-                                    </div>
-                                    
-                    
-                      </form> --}}
-                      
-                            
-                      
-                     @foreach ($requiredSignatures as $firma)
+                    </table></td>
+
+                    @foreach ($requiredSignatures as $firma)
        
+<td style="border: none;">
+       <ul>
+           <li>
+               <div class="row">
 
-                        <ul>
-                            <li>
-                                <div class="row">
 
+                   @if($firma->status == 0)
+                   <form action="{{ route('internal_orders.firmar') }}" method="POST" enctype="multipart/form-data">
+                   @csrf
+                   <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
+                   <div class="col">
+                       <span class="text-xs uppercase">Firma: {{$firma->job}}</span><br>
+                   </div>
 
-                                    @if($firma->status == 0)
-                                    <form action="{{ route('internal_orders.firmar') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
-                                    <div class="col">
-                                        <span class="text-xs uppercase">Firma: {{$firma->job}}</span><br>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <x-jet-input type="password" name="key" class="w-flex text-xs"/>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-green">Firmar</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                    @else
-                                    <table>
-                                        <tbody>
-                                            <tr style="font-size:16px; font-weight:bold"><td>{{$firma->firma}}</td></tr>
-                                            <tr><td><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
-                                    </td></tr>
-                                        </tbody>
-                                    </table>
-                                     
-                                    <br><br><br><br>
-                                    @endif
-                                </div>
-                            </li>
-                        </ul>
-                    @endforeach
-                    <br>
-                    <hr><br>
-                    Autorizaciones
-                </div>
-            </div>
-            <br> <br> 
-           
-               </table> @endcan
+                   <div class="row">
+                       <div class="col">
+                           <x-jet-input type="password" name="key" class="w-flex text-xs"/>
+                       </div>
+                       <div class="col">
+                           <button class="btn btn-green">Firmar</button>
+                       </div>
+                   </div>
+                   </form>
+                   @else
+                   <table  style="border: none; border-collapse: collapse;">
+                       <tbody>
+                           <tr style="font-size:16px; font-weight:bold"><td>{{$firma->firma}}</td></tr>
+                           <tr><td><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
+                   </td></tr>
+                       </tbody>
+                   </table>
+                    
+                   <br><br><br><br>
+                   @endif
+               </div>
+           </li>
+       </ul>
+       </td>
+   @endforeach
+                </tr>
+               </table>
+               
 
                     @can('VER DGI')
+                    <br> <br>
+                    <center> <h1> CONFIDENCIAL</h1> </center>
+<br>
                     <table>
                 <tr class="text-center"><th colspan="5">DGI</th></tr>
                 <tr class="text-center">
@@ -500,6 +469,9 @@
                </table>
                @endcan
 
+
+            
+<br><br>
                @can('VER DGI')
                <table align="left">
 
@@ -515,7 +487,7 @@
                         <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
                     </tr>
                     @endforeach
-                  
+                  </table> @endcan
 
                <br>
             @if($InternalOrders->status == 'autorizado')
