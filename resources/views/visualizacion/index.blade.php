@@ -25,7 +25,7 @@
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'pedidos_sn_aut.py',1])}}">
+                            <a href="{{route('reports.generate',[1,'pedidos_sn_aut',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
