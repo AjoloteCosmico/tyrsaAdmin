@@ -19,7 +19,7 @@
                         <tr> 
                             <td> Cosecutivo Pedidos no autorizados</td>
                             <td>
-                            <a href="{{route('reports.generate',[0,'pedidos_sn_aut.py',0])}}">
+                            <a href="{{route('reports.generate',[0,'pedidos_sn_aut',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
