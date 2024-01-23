@@ -33,7 +33,7 @@
                         </td>
                         <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <table>
-                            <tr> <th colspan="2"> Requisicion numero:</th></tr>
+                            <tr> <th colspan="2"> P.I. numero:</th></tr>
                             <tr> <td colspan="2">  {{$InternalOrders->invoice}}</td></tr>
                             <tr> <th>NOHA: </th> <td> {{$InternalOrders->noha}} </td></tr>
                         </table>
@@ -281,9 +281,6 @@
                 
                <br><br>&nbsp; <br>
 
-
-
-
                <table >
                <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros / Derechos adquiridos </div></th></tr>
                
@@ -334,8 +331,6 @@
                         <td> ${{number_format($InternalOrders->subtotal*0.16,2) }}</div></td>
                         <td> ${{number_format($payments->sum('amount'),2) }}</div></td>
                         <td> 100%</div></td>
-                        
-                
                     </tr>
                 </tbody>
                </table>
