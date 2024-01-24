@@ -34,16 +34,16 @@
                         <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <table>
                             <tr> <th colspan="2"> Requisicion numero:</th></tr>
-                            <tr> <td colspan="2">  {{$InternalOrders->invoice}}</td></tr>
-                            <tr> <th>NOHA: </th> <td> {{$InternalOrders->noha}} </td></tr>
+                            <tr> <td colspan="2" style="font-size: 1.8vw; padding: 0.5vw">  {{$InternalOrders->invoice}}</td></tr>
+                            <tr> <th>NOHA: </th> <td style="font-size: 1.0vw; padding: 0.2vw"> {{$InternalOrders->noha}} </td></tr>
                         </table>
                           <br>     
-
                         <table>
-                            <tr> <th colspan="2"> Fechas (dd-mm-aa):</th></tr>
-                            <tr> <th>Fecha de Emision: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->reg_date))}}  </td></tr>
-                            <tr> <th>Fecha de Entra: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->date_delivery))}}  </td></tr>
-                        
+                            <tr> <th> semana </th>
+                                <th colspan="2"> Fechas (dd-mm-aa):</th></tr>
+                            <tr>  <td>{{date('W', strtotime($InternalOrders->reg_date))}}  </td> <th>Emision: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->reg_date))}}  </td></tr>
+                            <tr>  <td> {{date('W', strtotime($InternalOrders->date_delivery))}}   </td> <th>E. equipo: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->date_delivery))}}  </td></tr>
+                            <tr>  <td> {{date('W', strtotime($InternalOrders->instalation_date))}}   </td> <th>E. Final: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->instalation_date))}}  </td></tr>
                         </table>
 
 
