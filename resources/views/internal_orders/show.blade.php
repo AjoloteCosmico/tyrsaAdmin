@@ -33,7 +33,7 @@
                         </td>
                         <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <table>
-                            <tr> <th colspan="2"> Requisicion numero:</th></tr>
+                            <tr> <th colspan="2"> P.I. Numero:</th></tr>
                             <tr> <td colspan="2" style="font-size: 1.8vw; padding: 0.5vw">  {{$InternalOrders->invoice}}</td></tr>
                             <tr> <th>NOHA: </th> <td style="font-size: 1.0vw; padding: 0.2vw"> {{$InternalOrders->noha}} </td></tr>
                         </table>
@@ -67,7 +67,7 @@
             <div >
                         <!-- 14 columas, para poder copiar del excel -->
             <table >
-                <tr><th colspan="14">Datos del Cliete</th></tr>
+                <tr><th colspan="14">Datos del Cliente</th></tr>
                     <tr class="text-center">
                         <th colspan="2"> Numero del cliente:</th>
                         <td colspan="2"> {{$Customers->clave}} </td>
@@ -260,7 +260,7 @@
                 </tr>
                 
                 <tr>
-                    <th rowspan="3">Observacioens: <br> <br> <br> </th>
+                    <th rowspan="3">Observaciones: <br> <br> <br> </th>
                     <td rowspan="3"> <br> -<br> </td>
                     <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET IVA:</td>
@@ -351,7 +351,35 @@
 
            
             
-            <br> <br> 
+            <br> 
+            <table>
+            <tr class="text-center"><th colspan="7">Comision principal</th></tr>
+                <tr class="text-center">
+                    <th>Vendedor no.</th>
+                    <th>Inicia</th>
+                    <th>Descripcion</th>
+                    <th>% </th>
+                    <th>Monto con IVA </th>
+                    <th>Moneda </th>
+                    <th>EQUIVALENTE EN  M.N. SIN IVA </th>
+                 </tr>
+
+               <br>
+                 
+                    <tr>
+                        <td> {{$Sellers->id}}</td>
+                        <td> {{$Sellers->iniciales}}</td>
+                        <td>  Comision Principal</td>
+                        <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
+                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td> {{$Coins->code}}</td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                    </tr>
+                    
+                    
+                   <tr>
+            </table>
+            <br> 
            
              
 
@@ -431,33 +459,37 @@
                     <center> <h1> CONFIDENCIAL</h1> </center>
 <br>
                     <table>
-                <tr class="text-center"><th colspan="5">DGI</th></tr>
+                <tr class="text-center"><th colspan="7">DGI</th></tr>
                 <tr class="text-center">
-                    <th>Vendedor</div></td>
-                    <th>Inicia</div></td>
-                    <th>Descripcion</div></td>
-                    <th>% </div></td>
-                    <th>Monto con IVA </div></td>
+                    <th>Vendedor no.</th>
+                    <th>Inicia</th>
+                    <th>Descripcion</th>
+                    <th>% </th>
+                    <th>Monto con IVA </th>
+                    <th>Moneda </th>
+                    <th>EQUIVALENTE EN  M.N. SIN IVA </th>
                  </tr>
 
                <br>
                  @foreach($Comisiones as $c)
                     <tr>
-                        <td> {{$c->seller_name}}</div></td>
-                        <td> {{$c->iniciales}}</div></td>
-                        <td>  {{$c->description}}</div></td>
-                        <td>  {{$c->percentage * 100}} %</div></td>
-                        <td>  ${{number_format($c->percentage * $InternalOrders->total,2)}} </div></td>
+                        <td> {{$c->id}}</td>
+                        <td> {{$c->iniciales}}</td>
+                        <td>  {{$c->description}}</td>
+                        <td>  {{$c->percentage * 100}} %</td>
+                        <td>  ${{number_format(($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td> {{$Coins->code}}</td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
                     </tr>
                     @endforeach
                     
                    <tr>
-                    <td></td>
-                    <td></td>
-                    <th>Totales:</div></td>
-                    <td> {{$Comisiones->sum('percentage')*100 }} %</div></td>
-                    <td> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage'),2) }}</div></td>
                     
+                    <th colspan="3">Totales:</th>
+                    <th> {{$Comisiones->sum('percentage')*100 }} %</div></td>
+                    <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')/1.16 ,2) }}</div></td>
+                    <th> {{$Coins->code}}</td>
+                    <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')/1.16) ,2) }} </td>
                    </tr>
                  </tbody>
 
