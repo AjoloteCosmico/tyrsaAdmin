@@ -545,20 +545,22 @@
                                          
 
                     @else 
+                    <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
                     @endif
                     <br><br><br>
                 </div></div>
-                     <!-- <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();">   -->
-                     <button type = "button" class="btn btn-red btn-sm "  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                      
-                     <!-- <a href="{{ route('pedido_pdf', $InternalOrders->id) }} " class="btn btn-red btn-sm">
-                     <button type = "button" class="btn btn-red "> <i class="fas fa-file-pdf"> &nbsp; PDF </i> </button>
-                                    </a></td> -->
+                <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green mb-2">
+                <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                                    </a>
+
+                  
+
+                  
+                   
                                     
-                   <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green btn-sm">
-                     <button type = "button" class="btn btn-green "> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
-                                    </a></td>
 
                                     
                     
@@ -580,110 +582,31 @@
 <style>
     td{
         border: 1px solid black;
+        padding: 0.2vw;
     }
     th{
         border: 1px solid white;
+        padding: 0.2vw;
     }
-    .demo-preview {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin: auto;
-  text-align: center;
+ 
+tr:first-child th {
+  border-top: none;
 }
-.demo-preview .badge{
-  margin-right:10px;
+
+tr:last-child th {
+  border-bottom: none;
+}
+
+tr th:first-child {
+  border-left: none;
+}
+
+tr th:last-child {
+  border-right: none;
 }
 .com-text{
     white-space: pre-wrap;
       word-wrap: break-word;
-}
-.badge {
-    display: block;
-     padding: 1em;
-  font-size: small;
-  font-weight: 600;
-  /* padding: 3px 6px; */
-  border:3px solid transparent;
-  /* min-width: 10px; */
-  /* line-height: 1; 
-  color: #fff;
-  /* text-align: center;*/
-  white-space: pre-line; 
-   vertical-align: middle; 
-  border-radius: 5px;
-  /* padding: 15px; */
-  width: 100%;
-  min-height: 1px;    
-  height:auto !important;
-  height:100%;
-}
-
-.badge.badge-default {
-  background-color: #B0BEC5
-}
-
-.badge.badge-primary {
-  background-color: #2B416D
-}
-
-.badge.badge-secondary {
-  background-color: #323a45
-}
-
-.badge.badge-success {
-  background-color: #64DD17
-}
-
-.badge.badge-warning {
-  background-color: #FFD600
-}
-
-.badge.badge-info {
-  background-color: #29B6F6
-}
-
-.badge.badge-danger {
-  background-color: #9b9b9b;
-  border-color: #9b9b9b;
-}
-
-.badge.badge-outlined {
-  background-color: transparent
-}
-
-.badge.badge-outlined.badge-default {
-  border-color: #B0BEC5;
-  color: #B0BEC5
-}
-
-.badge.badge-outlined.badge-primary {
-  
-  border-color: #9b9b9b;
-  color: #000000
-}
-.badge.badge-outlined.badge-danger {
-border-color: #2B416D;
-background-color: #2B416D;
-  color: #ffffff;
-}
-.badge.badge-outlined.badge-secondary {
-  border-color: #323a45;
-  color: #323a45;
-}
-
-.badge.badge-outlined.badge-success {
-  border-color: #64DD17;
-  color: #64DD17
-}
-
-.badge.badge-outlined.badge-warning {
-  border-color: #FFD600;
-  color: #FFD600
-}
-
-.badge.badge-outlined.badge-info {
-  border-color: #29B6F6;
-  color: #29B6F6
 }
 
 
