@@ -441,8 +441,9 @@
                    @else
                    <table  style="border: none; border-collapse: collapse;">
                        <tbody>
-                           <tr style="font-size:16px; font-weight:bold"><td>{{$firma->firma}}</td></tr>
-                           <tr><td><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
+                           <tr style="font-size:16px; font-weight:bold" style="border: none;"><td style="border: none;">{{$firma->firma}} <br>  <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
+                              </td></tr>
+                           <tr style="border: none;"><td style="border: none;"><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
                    </td></tr>
                        </tbody>
                    </table>
@@ -532,7 +533,7 @@
                  @foreach($Contacts as $row)
                     <tr>
                         <td> {{$row->id}}</div></td>
-                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
+                        <td><div style="text-transform: lowercase;">{{$row->customer_contact_email}}</div></td>
                     </tr>
                     @endforeach
                   </table> @endcan
