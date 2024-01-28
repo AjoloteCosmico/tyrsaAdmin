@@ -21,9 +21,9 @@
                             <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <br>
             Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
-            C.P. 54,963, Tultepec, Edo. México, R.F.C. <br>
+            C.P. 54,963, Tultepec, Edo. México,<b> R.F.C.</b>  <br> <br>
             TCO990507S91 Tels: (55) 26472033 / 26473330 <br>
- <div style="text-transform: lowercase;"> info@tyrsa.com.mx www.tyrsa.com.mx</div>     <br>
+ <div style="text-transform: lowercase;"> info@tyrsa.com.mx <b> <a href="https://www.tyrsa.com.mx"> www.tyrsa.com.mx</a> </b></div>     <br>
                         <!-- Domicilio Fiscal:
                                 {{$CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '}}
                                 {{$CompanyProfiles->intdoor.' '.$CompanyProfiles->suburb}}
@@ -34,7 +34,7 @@
                         <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <table>
                             <tr> <th colspan="2"> P.I. Numero:</th></tr>
-                            <tr> <td colspan="2" style="font-size: 1.8vw; padding: 0.5vw">  {{$InternalOrders->invoice}}</td></tr>
+                            <tr> <td colspan="2" style="font-size: 1.8vw; padding: 0.5vw; color: blue">  {{$InternalOrders->invoice}}</td></tr>
                             <tr> <th>NOHA: </th> <td style="font-size: 1.0vw; padding: 0.2vw"> {{$InternalOrders->noha}} </td></tr>
                         </table>
                           <br>     
@@ -119,7 +119,7 @@
                     </tr>
 
                     <tr>
-                        <td colspan="12"> </td>
+                        <td colspan="12">  <br></td>
                     </tr>
 
                     <tr>
@@ -164,8 +164,8 @@
                         <th> Nombre </th>
                         <th>    Tel movil </th>
                         <th>    Tel fijo </th>
-                        <th> Ext. </th>
-                        <th> Email &nbsp; &nbsp; &nbsp; </th>
+                        <th> Extension </th>
+                        <th> Email empresrial &nbsp; &nbsp; &nbsp; </th>
                     </tr>
                     @php
                         $contact_index=1;
@@ -189,7 +189,8 @@
                 
             <br> &nbsp;
             
-           
+           <h1>Descripcion de las partidas (Proyecto)</h1>
+            @foreach ($Items as $row)
                     <table style="text-align: center;">
                         
                             <tr class="text-center">
@@ -199,11 +200,10 @@
                                 <th>Familia</th>
                                 <th>sku</th> 
                                 <th>Precio unit(sin iva)</th>
-                                <th>Importe</th>
+                                <th  style="width:20%;" >Importe</th>
                             </tr>
                         
                         
-                            @foreach ($Items as $row)
                             <tr class="text-center">
                                 <td> {{ $row->item }}</div></td>
                                 <td> {{ $row->amount }}</div></td>
@@ -216,11 +216,12 @@
                             <tr>
                                 <td colspan="5"> {!!  nl2br($row->description )!!} </td>
                             </tr>
+                    </table>
+                    <br>
                             @endforeach
                     
-                    </table>
 
- <br><br>
+ <br>
             <!-- tablaunida -->
             <table>
                 <tr>
@@ -251,7 +252,7 @@
                 
                 <tr>
                     <th>Forma de pago:</th>
-                    <td></td>
+                    <td> Transferencia Electronica</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
                     <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
@@ -278,17 +279,27 @@
             </table>
     
 
+                <br>
+                @php
+                $formatterES = new NumberFormatter("es", NumberFormatter::SPELLOUT);
                 
+                @endphp
+                <table>
+                    <tr>
+                        <th> &nbsp; &nbsp; Son:&nbsp; &nbsp;  </th>
+                        <td> {{$formatterES->format($InternalOrders->total);}}  {{$Coins->coin}}</td>
+                    </tr>
+                </table>
                <br><br>&nbsp; <br>
 
                <table >
-               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros / Derechos adquiridos </div></th></tr>
+               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion) </div></th></tr>
                
                 <tr>
                     <th rowspan="2">   <br> COBRO No. <br><br> &nbsp;</th>
-                    <th rowspan="2">   <br> Fecha <br><br> Promesa </th>
-                    <th rowspan="2">   <br> Dia<br><br> &nbsp; </th>
-                    <th rowspan="2">   <br> Semana <br><br> &nbsp;</th>
+                    <th rowspan="2">   <br> Fecha <br><br> Planeada </th>
+                    <th rowspan="2">   <br> Dia<br> <br>(365 )&nbsp; </th>
+                    <th rowspan="2">   <br> Semana <br><br>(52) &nbsp;</th>
                     <th colspan="3">   Importe por cobrar</th>
                     <th rowspan="2">   <br><br> % del Total<br><br> &nbsp;</th>
                 </tr>
@@ -381,40 +392,33 @@
             </table>
             <br> 
            
-             
+             <br><br>
 
                <table style="border: none;">
-                <tr  style="border: none;">
-                    <td style="border: none;"><table  style="border: none; ">
+                <tr  id="primer_tr" style="border: none;">
+                    <td style="border: none; word-wrap: break-word; width: 20%;">
+                    <table  style="border: none; ">
                         <tr style="border: none; border-collapse: collapse;">
-                            <td style="border: none;">
-                                {{$Sellers->seller_name}}<br>
+                            <td style="border: none; word-wrap: break-word;">
+                                Firma o codigo
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
+                              <br> <br>
+                              
+                            <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
+                               
+                              <p style="color:red"> Elaboró </p><br>
+                                   {{$Sellers->firma}}
                             </td>
                         </tr>
-                        <tr style="border: none; ">
-                            <td style="border: none;">&nbsp;</td>
-                        </tr>
-                        <tr style="border: none;">
-                            <td style="border: none;">&nbsp;</td>
-                        </tr>
-                        <tr style="border: none;">
-                            <td  style="border: none;">
-                            {{$Sellers->firma}}
-                                <br>
-                                <hr style="border-top: 0.3vw solid black; border-color:#000000"><br><br>
-
-                                Elaboró
-                            </td>
-                        </tr>
-                    </table></td>
+                    </table>
+                </td>
 
                     @foreach ($requiredSignatures as $firma)
        
-<td style="border: none;">
+<td style="border: none;  width: 20%;">
        <ul>
            <li>
-               <div class="row">
+               <div class="row" style="padding:0.5vw">
 
 
                    @if($firma->status == 0)
@@ -425,11 +429,11 @@
                        <span class="text-xs uppercase">Firma: {{$firma->job}}</span><br>
                    </div>
 
-                   <div class="row">
-                       <div class="col">
+                   <div class="col">
+                       <div class="row">
                            <x-jet-input type="password" name="key" class="w-flex text-xs"/>
                        </div>
-                       <div class="col">
+                       <div class="row">
                            <button class="btn btn-green">Firmar</button>
                        </div>
                    </div>
@@ -450,6 +454,23 @@
        </ul>
        </td>
    @endforeach
+
+   @for ($i = $requiredSignatures->count()+1 ; $i <= 4; $i++)
+   <td style="border: none;"><table  style="border: none; ">
+                        <tr style="border: none; border-collapse: collapse;">
+                            <td style="border: none; word-wrap: break-word;">
+                                Firma o codigo
+                              <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
+                              <br> <br>
+                              
+                            <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
+                               
+                              <p style="color:red"> Autorizacion {{$i}} </p><br>
+                                   Iniciales
+                            </td>
+                        </tr>
+                    </table></td>
+    @endfor
                 </tr>
                </table>
                
@@ -558,6 +579,9 @@
 <style>
     td{
         border: 1px solid black;
+    }
+    th{
+        border: 1px solid white;
     }
     .demo-preview {
   padding-top: 10px;
