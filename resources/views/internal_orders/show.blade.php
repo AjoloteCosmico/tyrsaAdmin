@@ -476,10 +476,15 @@
                </table>
                
 
-                    @can('VER DGI')
+                @can('VER DGI')
                     <br> <br>
                     <center> <h1> CONFIDENCIAL</h1> </center>
 <br>
+
+                    @can('ASIGNAR DGI')
+                    <!-- que aparezca solo si el pedido no esta aut -->
+                <button class="btn btn-primary"> Asignar dgi</button>   
+                    @endcan
                     <table>
                 <tr class="text-center"><th colspan="7">DGI</th></tr>
                 <tr class="text-center">

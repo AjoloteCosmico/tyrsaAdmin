@@ -23,7 +23,7 @@
                 @endcan
             </div>
             <div class="w-100">&nbsp;</div>
-            <div class="col-6 col-sm-12 table-responsive">
+            <div class="table-responsive">
                 <table class="table tableinternalorders table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
@@ -43,11 +43,11 @@
                             <td>{{$row->id}}</td>
                             <td>{{$row->invoice}}</td>
                             <td>{{date('d-m-Y', strtotime($row->date)) }}</td>
-                            <td>{{$row->customer}}</td>
+                            <td style="word-wrap: break-word; width: 38.3vh">{{$row->customer}}</td>
                             <td>{{$row->clave}}</td>
                             <td>{{$row->seller_name}}</td>
                             <td>{{$row->status}}</td>
-                            <td class="w-15">
+                            <td class="w-18">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('VER PEDIDOS')
