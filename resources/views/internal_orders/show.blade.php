@@ -483,7 +483,8 @@
 
                     @can('ASIGNAR DGI')
                     <!-- que aparezca solo si el pedido no esta aut -->
-                <button class="btn btn-primary"> Asignar dgi</button>   
+                <a href="{{route('change_dgi',$InternalOrders->id)}}"><button class="btn btn-black mb-2"> Asignar dgi</button>  </a>
+                <br> 
                     @endcan
                     <table>
                 <tr class="text-center"><th colspan="7">DGI</th></tr>

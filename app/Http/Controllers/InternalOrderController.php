@@ -103,7 +103,9 @@ class InternalOrderController extends Controller
     }
    
     public function comissions(Request $request)
-    {           $rules = [
+    {           
+        
+    $rules = [
         'customer_id' => 'required',
         'temp_internal_order_id' => 'required',
         'date_delivery' => 'required',
@@ -1035,6 +1037,20 @@ public function recalcular_total($id){
         InternalOrder::truncate();
         return $this->index();
     }
+
+    public function change_dgi($id,$message=""){
+        $InternalOrders = InternalOrder::where('id', $id)->first();
+        $Message=$message;
+        $Sellers = Seller::all();
+        $Comisiones=DB::table('comissions')
+         ->join('sellers', 'sellers.id', '=', 'comissions.seller_id')
+         ->where('order_id',$InternalOrders->id)
+         ->select('comissions.*','sellers.seller_name','sellers.iniciales')
+         ->get();
+        return view('internal_orders.change_dgi', compact(
+            'InternalOrders','Sellers','Comisiones','Message'
+        ));
+        }
 }
 
 
