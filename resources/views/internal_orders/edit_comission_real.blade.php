@@ -16,6 +16,7 @@
         <form action="{{ route('update_comissions',$Comission->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="order_id" value="{{ $InternalOrders->id }}"/>
+        <x-jet-input type="hidden" name="origin" value="{{ $origin }}"/>
         
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">

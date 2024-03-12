@@ -13,9 +13,11 @@
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
+                @CAN('VER RESUMEN PI')
             <a href="{{ route('reports.generate',[0,'resumen_pedido',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
+                @endcan
                 @can('CREAR PEDIDOS')
                 <a href="{{ route('internal_orders.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo

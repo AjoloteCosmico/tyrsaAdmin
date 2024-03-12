@@ -272,7 +272,7 @@ return [
                     'text' => ' BANCOS',
                     'icon' => 'fas fa-bank fa-fw',
                     'route'  => 'banks.index',
-                    'can'  => 'VER MONEDAS',
+                    'can'  => 'VER BANCOS',
                 ],
                 [
                     'text' => ' MONEDAS',
@@ -283,13 +283,13 @@ return [
                 [
                     'text' => ' CATEGORIAS',
                     'icon' => 'fas fa-list-alt fa-fw',
-                    'route'  => 'coins.index',
-                    'can'  => 'VER MONEDAS',
+                    'route'  => 'categories',
+                    'can'  => 'VER CATEGORIAS',
                 ],
                 [
                     'text' => 'PRODUCTOS',
                     'icon' => 'fas fa-list-alt fa-fw',
-                    'route'  => 'coins.index',
+                    'route'  => 'products',
                     'can'  => 'VER MONEDAS',
                 ],
                 [
