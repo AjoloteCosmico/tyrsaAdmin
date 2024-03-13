@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('sellers', SellerController::class);
     Route::get('sellers/customers/{id}', [ SellerController::class, 'customers'])->name('sellers.customers');
     
+    Route::get('sellers_asign', [ SellerController::class, 'asign_customers'])->name('sellers.asign_customers');
+    
     Route::get('administrador', [AdministradorController::class, 'index'])->name('admin.index');
 });
 

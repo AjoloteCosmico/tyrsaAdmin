@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Seller;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use DB;
 class SellerController extends Controller
@@ -149,6 +150,30 @@ class SellerController extends Controller
         ->get();
        // dd($Customers);
     return view('admin.sellers.customers',compact('Customers','Seller'));
+    }
+
+    public function asign_customers(){
+        
+        $Sellers=Seller::all();
+        
+      foreach($Sellers as $seller){
+        
+        $Customers=DB::table('customers')
+        ->join('internal_orders','internal_orders.customer_id','customers.id')
+        ->select('customers.*')
+        ->where('internal_orders.seller_id',$seller->id)
+      
+        ->get();
+        foreach($Customers as $customer){
+            $c=Customer::find($customer->id);
+            $c->seller_id=$seller->id;
+            $c->save();
+        }
+
+      } 
+      return redirect()->route('notas');
+
+
     }
 }
 
