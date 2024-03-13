@@ -283,13 +283,13 @@ return [
                 [
                     'text' => ' CATEGORIAS',
                     'icon' => 'fas fa-list-alt fa-fw',
-                    'route'  => 'coins.index',
+                    'route'  => 'categories',
                     'can'  => 'VER MONEDAS',
                 ],
                 [
                     'text' => 'PRODUCTOS',
                     'icon' => 'fas fa-list-alt fa-fw',
-                    'route'  => 'coins.index',
+                    'route'  => 'products_show',
                     'can'  => 'VER MONEDAS',
                 ],
                 [
