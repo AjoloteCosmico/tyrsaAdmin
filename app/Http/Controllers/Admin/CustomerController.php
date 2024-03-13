@@ -4,21 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Seller;
 use App\Models\CustomerContact;
+use DB;
 use Illuminate\Http\Request;
 use Session;
 class CustomerController extends Controller
 {
     public function index()
     {
-        $Customers = Customer::all();
+        $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
+        ->select('customers.*','sellers.iniciales')->get();
 
         return view('admin.customers.index', compact(
             'Customers',
         ));
     }
     public function create(){
-        return view('admin.customers.create');
+        $Sellers=Seller::all();
+        return view('admin.customers.create',compact('Sellers'));
     }
 
     public function validar_rfc()
@@ -265,6 +269,19 @@ class CustomerController extends Controller
                     ->get();
         return response()->json($data);
     }
-
+    public function select_seller($id)
+    {
+        $Sellers=Seller::all();
+        $Customer=Customer::find($id);
+        return view('admin.customers.asign',compact('Sellers','Customer'));
+    }
+    public function update_seller(Request $request,$id)
+    {
+        
+        $Customer=Customer::find($id);
+        $Customer->seller_id=$request->seller;
+        $Customer->save();
+        return redirect()->route('customers.index');
+        }
 
 }

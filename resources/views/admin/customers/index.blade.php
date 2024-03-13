@@ -32,6 +32,7 @@
                             <th>Municipio</th>
                             
                             <th>Teléfono</th>
+                            <th> Vendedor</th>
                             <th style="width : 10%;">&nbsp;&nbsp; </th>
                         </tr>
                     </thead>
@@ -39,7 +40,7 @@
                         @foreach ($Customers as $row)
                         <tr>
                             <td>{{$row->clave}}</td>
-                            <td>{{$row->customer}}</td>
+                            <td style="word-wrap: break-word; width: 20.3vh">{{$row->customer}}</td>
                             
                             <td>{{$row->legal_name}}</td>
                             <td>{{$row->alias}}</td>
@@ -48,6 +49,19 @@
                             <td>{{$row->customer_city}}</td>
                             <!-- <td>{{$row->customer_email}}</td> -->
                             <td>{{$row->customer_telephone}}</td>
+                            <td>
+                                @if($row->iniciales) {{$row->iniciales}}
+                                @else  
+                                        @can('ASIGNAR CLIENTES')
+                                        <div >
+                                        <a href="{{ route('customers.select_seller', $row->id)}}">
+                                        <button type="button" class="btn btn-blue " style="font-size: 0.5vw;">
+                                                <i class="fas fa-user items-center fa-lg"></i> Asignar
+                                            </button>
+                                        </a></div>
+                                        @endcan
+                                     @endif
+                            </td>
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
@@ -71,6 +85,7 @@
                                         </form>
                                         @endcan
                                     </div>
+
                                 </div>
                             </td>
                         </tr>

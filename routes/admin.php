@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('customers', CustomerController::class);
     Route::post('customers/register', [ CustomerController::class, 'rfc'])->name('customers.rfc');
     
+    Route::get('customers/select_seller/{id}', [ CustomerController::class, 'select_seller'])->name('customers.select_seller');
+    Route::post('customers/update_seller/{id}', [ CustomerController::class, 'update_seller'])->name('customers.update_seller');
+
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
     Route::get('customers_shipping_address/delete/{id}/{temp_id}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');
     
@@ -50,7 +53,10 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('sellers/customers/{id}', [ SellerController::class, 'customers'])->name('sellers.customers');
     
     Route::get('sellers_asign', [ SellerController::class, 'asign_customers'])->name('sellers.asign_customers');
-    
+
+    Route::get('sellers/select_customers/{id}', [ SellerController::class, 'select_customers'])->name('sellers.select_customers');
+    Route::post('sellers/update_customers/{id}', [ SellerController::class, 'update_customers'])->name('sellers.update_customers');
+
     Route::get('administrador', [AdministradorController::class, 'index'])->name('admin.index');
 });
 
