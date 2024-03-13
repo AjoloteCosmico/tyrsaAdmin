@@ -25,21 +25,10 @@
                     <tbody>
                         @foreach ($Customers as $row)
                         <tr class="text-center">
-                            <td>{{$row->id}}</td>
-                            <td>{{$row->seller_name}}</td>
-                            <td>{{$row->seller_mobile}}</td>
-                            <td>{{$row->seller_email}}</td>
-                            <td>{{$row->iniciales}}</td>
-                            <td>{{$row->status}}</td>
-                            <td class="w-10">
-                            <div class="col-6 text-center w-10">
-                                <a href="{{route('sellers.customers',$row->id)}}">
-                                        <button class="btn btn-blue ">
-                                                <i class="fas fa-users"> </i>
-                                                Clientes
-                                            </button></a>
-                                            </div>
-                            </td>
+                            <td>{{$row->clave}}</td>
+                            <td>{{$row->customer}}</td>
+                            <td>{{$row->alias}}</td>
+                           
                             <td class="w-10">
                                
                                         @can('ASIGNAR CLIENTES')

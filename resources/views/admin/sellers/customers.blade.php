@@ -11,6 +11,13 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 </div>
+                <div class="col-6 text-center w-10">
+                                <a href="{{route('sellers.select_customers',$Seller->id)}}">
+                                        <button class="btn btn-blue ">
+                                                <i class="fas fa-users"> </i>
+                                               Asignar Clientes
+                                            </button></a>
+                                            </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-sm-12 table-responsive">
                 <table class="table  datatable table-striped text-xs font-medium">
@@ -19,8 +26,6 @@
                             <th>Clave</th>
                             <th>Cliente</th>
                             <th>Nombre Corto</th>
-                            
-                            
                             <th>RFC</th>
                             <th>Num Pedidos</th>
                             <th>Monto total en Pedidos</th>

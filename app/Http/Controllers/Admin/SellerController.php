@@ -175,5 +175,12 @@ class SellerController extends Controller
 
 
     }
+
+    public function select_customers($id){
+        $Seller=Seller::find($id);
+        $Customers=Customer::all();
+
+        return view('admin.sellers.asign' ,compact('Seller','Customers'));
+    }
 }
 
