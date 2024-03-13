@@ -272,7 +272,7 @@ return [
                     'text' => ' BANCOS',
                     'icon' => 'fas fa-bank fa-fw',
                     'route'  => 'banks.index',
-                    'can'  => 'VER MONEDAS',
+                    'can'  => 'VER BANCOS',
                 ],
                 [
                     'text' => ' MONEDAS',
@@ -284,12 +284,20 @@ return [
                     'text' => ' CATEGORIAS',
                     'icon' => 'fas fa-list-alt fa-fw',
                     'route'  => 'categories',
+<<<<<<< HEAD
                     'can'  => 'VER MONEDAS',
+=======
+                    'can'  => 'VER CATEGORIAS',
+>>>>>>> aba309fa26b8be33d4661ab90716aa8000594d98
                 ],
                 [
                     'text' => 'PRODUCTOS',
                     'icon' => 'fas fa-list-alt fa-fw',
+<<<<<<< HEAD
                     'route'  => 'products_show',
+=======
+                    'route'  => 'products',
+>>>>>>> aba309fa26b8be33d4661ab90716aa8000594d98
                     'can'  => 'VER MONEDAS',
                 ],
                 [

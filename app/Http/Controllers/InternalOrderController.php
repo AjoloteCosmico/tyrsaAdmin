@@ -214,8 +214,10 @@ public function store_comissions(Request $request)
       ->get();
  
       if($allComissions->count() > 0){
-         
-         return redirect()->route('internal_orders.edit_order',$InternalOrders->id)->with([ 'duplicated' => 'Si' ]);;
+        if($request->origin=='edit_dgi'){
+            return redirect()->route('change_dgi',$InternalOrders->id)->with([ 'duplicated' => 'Si' ]);
+          }else{
+         return redirect()->route('internal_orders.edit_order',$InternalOrders->id)->with([ 'duplicated' => 'Si' ]);}
       }else{
       $comision = new comissions();
       $comision->seller_id=$request->seller_id;
@@ -224,7 +226,10 @@ public function store_comissions(Request $request)
       $comision->description=$request->description;
       $comision->save();
       
-      return redirect('internal_orders/edit/'.$InternalOrders->id);}
+      if($request->origin=='edit_dgi'){
+        return redirect()->route('change_dgi',$InternalOrders->id);
+      }else{
+      return redirect('internal_orders/edit/'.$InternalOrders->id);}}
      }
     
 
@@ -1000,7 +1005,7 @@ public function recalcular_total($id){
         return $this->capture_comissions($TempInternalOrders->id,' ');
     }
     
-    public function edit_comissions($id){
+    public function edit_comissions($id,$origin){
         $Comission=comissions::find($id);
         $InternalOrders = InternalOrder::find($Comission->order_id);
         $Sellers = Seller::all();
@@ -1008,6 +1013,7 @@ public function recalcular_total($id){
             'Comission',
             'InternalOrders',
             'Sellers',
+            'origin'
         ));
     }
     public function update_comissions($id,Request $request){
@@ -1017,12 +1023,25 @@ public function recalcular_total($id){
         $Comission->percentage=$request->comision*0.01;
         $Comission->description=$request->description;
         $Comission->save();
-        return redirect('internal_orders/edit/'.$InternalOrders->id);
-    }
-    public function delete_comissions($id){
+        
+        if($request->origin=='edit_dgi'){
+            return redirect()->route('change_dgi',$InternalOrders->id);
+         
+        }
+        else{
+            return redirect('internal_orders/edit/'.$InternalOrders->id);
+        } }
+    public function delete_comissions($id,$origin){
         $Comission=comissions::find($id);
         $InternalOrders = InternalOrder::find($Comission->order_id);
         comissions::destroy($id);
+        if($origin=='edit_dgi'){
+            return redirect()->route('change_dgi',$InternalOrders->id)->with([ 'borrado' => 'Si' ]);
+         
+        }
+        else{
+            return redirect('internal_orders/edit/'.$InternalOrders->id);
+        }
         return redirect('internal_orders/edit/'.$InternalOrders->id);
     }
     public function exterminio(){

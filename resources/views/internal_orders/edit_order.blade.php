@@ -267,6 +267,7 @@
                 <form action="{{ route('store_comissions') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <x-jet-input type="hidden" name="internal_order_id" value="{{ $InternalOrders->id }}"/>
+            <x-jet-input type="hidden" name="origin" value="edit_order"/>
             <x-jet-input type="hidden" name="p_seller_id" id="p_seller_id"  value="."/>
             <x-jet-input type="hidden" name="p_comission" id="p_comission" value="."/>
     <div class ="row" >
@@ -320,10 +321,10 @@
                     <td>{{$c->percentage * 100}} %  </td>
                     
                     <td>{{$c->description}}  </td>
-                    <td><a href="{{ route('edit_comissions', $c->id) }} " class="btn btn-green">
+                    <td><a href="{{ route('edit_comissions', [$c->id,'edit_order']) }} " class="btn btn-green">
                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                     </a></td>
-                    <td><a href="{{ route('delete_comissions', $c->id) }} " class="btn btn-red">
+                    <td><a href="{{ route('delete_comissions', [$c->id,'edit_order']) }} " class="btn btn-red">
                         <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
                     </a></td>
                 </tr>
