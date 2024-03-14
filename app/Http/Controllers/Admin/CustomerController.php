@@ -14,12 +14,16 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        // if(Auth::user()->can('ASIGNAR CLIENTES')){
-        //     dd
-        // }
-        $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
-        ->select('customers.*','sellers.iniciales')->get();
-
+         if(Auth::user()->can('ASIGNAR CLIENTES')){
+            $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
+            ->select('customers.*','sellers.iniciales')->get();
+        }
+        else{
+            $Seller_key=Auth::user()->iniciales;
+            $Customers= $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
+            ->select('customers.*','sellers.iniciales')
+            ->where('sellers.iniciales',$Seller_key)->get();
+        }
         return view('admin.customers.index', compact(
             'Customers',
         ));
