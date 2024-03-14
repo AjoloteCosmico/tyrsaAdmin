@@ -142,13 +142,13 @@ class SellerController extends Controller
 
     public function customers($id){
         $Seller=Seller::find($id);
-        $Customers=DB::table('internal_orders')
-        ->join('customers','internal_orders.customer_id','customers.id')
-        ->select('customers.customer','customers.alias','customers.clave','customers.customer_rfc', DB::raw('count(*) as npedidos'), DB::raw('sum(internal_orders.total) as total'))
-        ->groupBy('customers.customer','customers.alias','customers.clave','customers.customer_rfc')
-        ->where('internal_orders.seller_id',$id)
+        $Customers=DB::table('customers')->where('customers.seller_id',$id)
+        ->leftJoin('internal_orders','internal_orders.customer_id','customers.id')
+        ->select('customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id', DB::raw('count(*) as npedidos'), DB::raw('sum(internal_orders.total) as total'))
+        ->groupBy('customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id',)
+        
         ->get();
-       // dd($Customers);
+    //    dd($Customers);
     return view('admin.sellers.customers',compact('Customers','Seller'));
     }
 
@@ -181,6 +181,16 @@ class SellerController extends Controller
         $Customers=Customer::all();
 
         return view('admin.sellers.asign' ,compact('Seller','Customers'));
+    }
+    public function update_customers(Request $request,$id){
+        $Seller=Seller::find($id);
+        foreach($request->customers as $c_id){
+
+            $Customer=Customer::find($c_id);
+            $Customer->seller_id=$Seller->id;
+            $Customer->save();
+    }
+        return redirect()->route('sellers.customers',$Seller->id);
     }
 }
 

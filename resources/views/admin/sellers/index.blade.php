@@ -18,7 +18,7 @@
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-sm-12 table-responsive">
-                <table class="table  datatable table-striped text-xs font-medium">
+                <table class="table tableusuarios table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>
@@ -42,11 +42,11 @@
                             <td>{{$row->seller_email}}</td>
                             <td>{{$row->iniciales}}</td>
                             <td>{{$row->status}}</td>
-                            <td class="w-10">
-                            <div class="col-6 text-center w-10">
+                            <td >
+                            <div class="col-6 text-center">
                                 <a href="{{route('sellers.customers',$row->id)}}">
-                                        <button class="btn btn-blue ">
-                                                <i class="fas fa-users"> </i>
+                                        <button class="btn btn-blue " style="font-size:0.6vw">
+                                                <i class="fas fa-users fa-lg"> </i> <br>
                                                 Clientes
                                             </button></a>
                                             </div>
@@ -93,6 +93,7 @@
 
 @section('js')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogosellers.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogousers.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 

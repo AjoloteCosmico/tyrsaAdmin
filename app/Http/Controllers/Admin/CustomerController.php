@@ -7,12 +7,16 @@ use App\Models\Customer;
 use App\Models\Seller;
 use App\Models\CustomerContact;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Session;
 class CustomerController extends Controller
 {
     public function index()
     {
+        // if(Auth::user()->can('ASIGNAR CLIENTES')){
+        //     dd
+        // }
         $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
         ->select('customers.*','sellers.iniciales')->get();
 
