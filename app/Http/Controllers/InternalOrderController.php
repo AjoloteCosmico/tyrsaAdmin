@@ -1066,7 +1066,7 @@ public function recalcular_total($id){
          ->where('order_id',$InternalOrders->id)
          ->select('comissions.*','sellers.seller_name','sellers.iniciales')
          ->get();
-        return view('internal_orders.edit_dgi', compact(
+        return view('internal_orders.change_dgi', compact(
             'InternalOrders','Sellers','Comisiones','Message'
         ));
         }
