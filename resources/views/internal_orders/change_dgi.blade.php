@@ -156,4 +156,8 @@ document.getElementById("your-id").addEventListener("click", function () {
 @if (Session::has('borrado'))
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_delete_reg.js') }}"></script>
 @endif
+
+@if (Session::has('created'))
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_create_reg.js') }}"></script>
+@endif
 @stop

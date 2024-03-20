@@ -227,7 +227,7 @@ public function store_comissions(Request $request)
       $comision->save();
       
       if($request->origin=='edit_dgi'){
-        return redirect()->route('change_dgi',$InternalOrders->id);
+        return redirect()->route('change_dgi',$InternalOrders->id)->with([ 'created' => 'Si' ]);
       }else{
       return redirect('internal_orders/edit/'.$InternalOrders->id);}}
      }
