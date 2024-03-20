@@ -88,9 +88,19 @@
                     <td><a href="{{ route('edit_comissions', [$c->id,'edit_dgi']) }} " class="btn btn-green">
                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                     </a></td>
-                    <td><a href="{{ route('delete_comissions', [$c->id,'edit_dgi']) }} " class="btn btn-red">
-                        <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
-                    </a></td>
+                    <td>
+                        
+                    @can('ASIGNAR DGI')
+                                        <form class="DeleteReg" action="{{ route('delete_comissions', [$c->id,'edit_dgi']) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red">
+                                                <i class="fas fa-trash items-center fa-xl"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+
+                </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -133,6 +143,9 @@ document.getElementById("your-id").addEventListener("click", function () {
 });
 </script>
 
+
+
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 @if (Session::has('duplicated'))
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/duplicated_seller_comission.js') }}"></script>
 @endif

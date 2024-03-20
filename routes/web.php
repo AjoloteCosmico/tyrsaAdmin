@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('change_dgi/{id}/{mesagge?}', [InternalOrderController::class, 'change_dgi'])->name('change_dgi');
     Route::get('comision_real/edit/{id}/{origin}', [InternalOrderController::class, 'edit_comissions'])->name('edit_comissions');
     Route::post('comision_real/update/{id}', [InternalOrderController::class, 'update_comissions'])->name('update_comissions');
-    Route::get('comision_real/delete/{id}/{origin}', [InternalOrderController::class, 'delete_comissions'])->name('delete_comissions');
+    Route::delete('comision_real/delete/{id}/{origin}', [InternalOrderController::class, 'delete_comissions'])->name('delete_comissions');
     Route::post('store_comission', [InternalOrderController::class, 'store_comissions'])->name('store_comissions');
     
     Route::get('accounting/order/{id}', [PaymentsController::class, 'cuentas_order'])->name('accounting.cuentas_order');
