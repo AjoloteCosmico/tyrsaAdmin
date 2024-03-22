@@ -119,9 +119,9 @@
             </div>
             <div class="col-12 text-right p-2 gap-2">
               
-                <a href="{{route('internal_orders.show',$InternalOrders->id)}}"><button type="button" class="btn btn-green mb-2"></a>
+                <a href="{{route('internal_orders.show',$InternalOrders->id)}}"><button type="button" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Terminar
-                </button>
+                </button></a>
             </div>
         </div>
         
