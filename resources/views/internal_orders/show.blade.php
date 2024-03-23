@@ -138,8 +138,8 @@
                         <th colspan="2">Comision del vend:</th>
 
                         <td colspan="2">  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <th colspan="2"> cot no:</th>
-                        <td>  {{$InternalOrders->ncotizacion}} </td>
+                        <th colspan="2">O.C:</th>
+                        <td>  {{$InternalOrders->oc}} </td>
                         <th> Moneda:</th>
                         <td>  {{$Coins->code}} </td>
                     </tr>
@@ -382,9 +382,9 @@
                         <td> {{$Sellers->iniciales}}</td>
                         <td>  Comision Principal</td>
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
                     </tr>
                     
                     
@@ -507,7 +507,7 @@
                         <td>  {{$c->percentage * 100}} %</td>
                         <td>  ${{number_format(($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
                     </tr>
                     @endforeach
                     
@@ -515,7 +515,7 @@
                     
                     <th colspan="3">Totales:</th>
                     <th> {{$Comisiones->sum('percentage')*100 }} %</div></td>
-                    <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')/1.16 ,2) }}</div></td>
+                    <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')*100/1.16 ,2) }}</div></td>
                     <th> {{$Coins->code}}</td>
                     <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')/1.16) ,2) }} </td>
                    </tr>
