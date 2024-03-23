@@ -33,13 +33,31 @@ class InternalOrderController extends Controller
 {
     public function index()
     {
-        //$InternalOrders = vinternal_orders::all();
-        $InternalOrders = DB::table('customers')
+        if(Auth::user()->can('ASIGNAR CLIENTES')){
+            
+            $InternalOrders = DB::table('customers')
             ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
             ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
             ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
             ->orderBy('internal_orders.invoice', 'DESC')
+            ->get();  }   
+            else{
+                
+            $Seller_key=Seller::where('seller_name',Auth::user()->name)->first()->id;
+            
+           $InternalOrders = DB::table('customers')
+            ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
+            ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
+            
+            ->where('customers.seller_id',$Seller_key)
+            ->orWhere('internal_orders.seller_id',$Seller_key)
+            ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
+            
+            ->orderBy('internal_orders.invoice', 'DESC')
             ->get();
+            }
+        //$InternalOrders = vinternal_orders::all();
+       
         return view('internal_orders.index', compact('InternalOrders'));
     }
 
