@@ -43,7 +43,12 @@ class InternalOrderController extends Controller
             ->get();  }   
             else{
                 
-            $Seller_key=Seller::where('seller_name',Auth::user()->name)->first()->id;
+            $Seller=Seller::where('seller_name',Auth::user()->name)->first();
+            if($Seller){
+                $Seller_key=$Seller->id;
+            }else{
+                $Seller_key=0;
+            }
             
            $InternalOrders = DB::table('customers')
             ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
