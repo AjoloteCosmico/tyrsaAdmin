@@ -517,7 +517,7 @@
                     <th> {{$Comisiones->sum('percentage')*100 }} %</div></td>
                     <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')*100/1.16 ,2) }}</div></td>
                     <th> {{$Coins->code}}</td>
-                    <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')/1.16) ,2) }} </td>
+                    <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')*100/1.16) ,2) }} </td>
                    </tr>
                  </tbody>
 
