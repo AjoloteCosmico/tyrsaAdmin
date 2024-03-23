@@ -45,7 +45,17 @@ class InternalOrderController extends Controller
 
     public function create()
     {
+        if(Auth::user()->can('ASIGNAR CLIENTES')){
+            
         $Customers = Customer::all()->sortBy('clave');
+        }   
+        else{
+            $Seller_key=Auth::user()->name;
+            $Customers= $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
+            ->select('customers.*','sellers.iniciales')
+            ->where('sellers.seller_name',$Seller_key)->orderBy('clave')->get();
+            // dd($Customers);
+        }
         $contactos=CustomerContact::all();
         return view('internal_orders.create', compact(
             'Customers',

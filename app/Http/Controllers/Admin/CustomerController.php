@@ -17,12 +17,13 @@ class CustomerController extends Controller
          if(Auth::user()->can('ASIGNAR CLIENTES')){
             $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
             ->select('customers.*','sellers.iniciales')->get();
-        }
+        }   
         else{
-            $Seller_key=Auth::user()->iniciales;
+            $Seller_key=Auth::user()->name;
             $Customers= $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
             ->select('customers.*','sellers.iniciales')
-            ->where('sellers.iniciales',$Seller_key)->get();
+            ->where('sellers.seller_name',$Seller_key)->get();
+            // dd($Customers);
         }
         return view('admin.customers.index', compact(
             'Customers',
