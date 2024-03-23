@@ -47,7 +47,7 @@ class InternalOrderController extends Controller
             if($Seller){
                 $Seller_key=$Seller->id;
             }else{
-                $Seller_key=0;
+                $Seller_key=-1;
             }
             
            $InternalOrders = DB::table('customers')
