@@ -28,6 +28,6 @@ pedidos=pd.read_sql('select * from internal_orders',cnx)
 #         cursor.execute('insert into cobro_factures(cobro_id,facture_id) values('+str(cobros['id'].values[i])+','+str(cobros['facture_id'].values[i])+')')
 
 for i in range(0,len(pedidos)):
-    cursor.execute('update customers set seller_id='+str(pedidos['seller_id'].values[i])+'where customer.id ='+str(pedidos['customer_id'].values[i]))
+    cursor.execute('update customers set seller_id = '+str(pedidos['seller_id'].values[i])+' where customer.id = ' +str(pedidos['customer_id'].values[i]))
 
 cnx.commit()
