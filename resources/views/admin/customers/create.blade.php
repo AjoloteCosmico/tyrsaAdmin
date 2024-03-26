@@ -73,7 +73,7 @@
                                 <x-jet-input-error for='clave' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="* Email Coorporativo" />
+                                <x-jet-label value="* Email Corporativo" />
                                 <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{old('customer_email')}}"/>
                                 <x-jet-input-error for='customer_email' />
                             </div>
