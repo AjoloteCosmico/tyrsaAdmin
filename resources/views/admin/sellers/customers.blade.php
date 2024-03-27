@@ -20,7 +20,7 @@
                                             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-sm-12 table-responsive">
-                <table class="table  datatable table-striped text-xs font-medium">
+                <table class="table  datatable tableusuarios table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
                             <th>Clave</th>
@@ -49,7 +49,9 @@
     </div>
 @stop
 
-@section('css')
-    
+@section('js')
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogousers.js') }}"></script>
+
 @stop
+
 
