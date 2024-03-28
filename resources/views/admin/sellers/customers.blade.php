@@ -11,13 +11,22 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 </div>
+                <div class="row"> 
                 <div class="col-6 text-center w-10">
+                    
                                 <a href="{{route('sellers.select_customers',$Seller->id)}}">
                                         <button class="btn btn-blue ">
                                                 <i class="fas fa-users"> </i>
                                                Asignar Clientes
                                             </button></a>
-                                            </div>
+                                            
+                                <a href="{{route('sellers.index')}}">
+                                        <button class="btn btn-black ">
+                                                <i class="fas fa-users"> </i>
+                                               Volver al manu
+                                            </button></a>
+                                    </div>
+                                                  </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-sm-12 table-responsive">
                 <table class="table  datatable tableusuarios table-striped text-xs font-medium">
