@@ -24,8 +24,8 @@
                 <div class="col">
                                 <a href="{{route('sellers.index')}}">
                                         <button class="btn btn-black ">
-                                                <i class="fas fa-users"> </i>
-                                               Volver al manu
+                                                <i class="fas fa-arrow-left"> </i>
+                                               Volver al menu
                                             </button></a>
                                     </div>
                                                   </div>
