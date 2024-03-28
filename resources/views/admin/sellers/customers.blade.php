@@ -12,14 +12,16 @@
             <div class="col-sm-12 text-right">
                 </div>
                 <div class="row"> 
-                <div class="col-6 text-center w-10">
+                <div class="col">
                     
                                 <a href="{{route('sellers.select_customers',$Seller->id)}}">
                                         <button class="btn btn-blue ">
                                                 <i class="fas fa-users"> </i>
                                                Asignar Clientes
                                             </button></a>
-                                            
+                                </div>
+                                
+                <div class="col">
                                 <a href="{{route('sellers.index')}}">
                                         <button class="btn btn-black ">
                                                 <i class="fas fa-users"> </i>
