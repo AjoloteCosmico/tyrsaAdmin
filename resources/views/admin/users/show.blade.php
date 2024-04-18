@@ -25,7 +25,7 @@
             <div class="col-xs-12 p-2 gap-2">
                 <div class="form-group">
                     <x-jet-label value="* Email" />
-                    {!! Form::text('email', $usuario->email, ['class'=>'inputjet w-full text-xs uppercase']) !!}
+                    {!! Form::text('email', $usuario->email, ['class'=>'inputjet w-full text-xs']) !!}
                     <x-jet-input-error for='email' />
                 </div>
             </div>
