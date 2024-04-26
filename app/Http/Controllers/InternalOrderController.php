@@ -36,11 +36,11 @@ class InternalOrderController extends Controller
         if(Auth::user()->can('ASIGNAR CLIENTES')){
             
             $InternalOrders = DB::table('customers')
-            ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
-            ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
-            ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
-            ->orderBy('internal_orders.invoice', 'DESC')
-            ->get();  }   
+                ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
+                ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
+                ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
+                ->orderBy('internal_orders.invoice', 'DESC')
+                ->get();  }   
             else{
                 
             $Seller=Seller::where('seller_name',Auth::user()->name)->first();

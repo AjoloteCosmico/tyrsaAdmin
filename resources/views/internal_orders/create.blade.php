@@ -31,7 +31,7 @@
                                     
         
 <div class="row"></div>
-@can('NOHA MANUAL')
+@can('FOLIO MANUAL')
 
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="automatico();">
@@ -41,7 +41,7 @@
 </div>
 <br> <br>
 @else
-<h1 class="font-bold " >EL NOHA Y EL FOLIO SE AGREGARAN DE MANERA AUTOMATICA</h1>
+<h1 class="font-bold " >EL FOLIO SE AGREGARA DE MANERA AUTOMATICA</h1>
 @endcan
 
 
@@ -59,6 +59,8 @@
 <label class="btn btn-outline-primary" for="btnradiob">Ingresar <br> NOHA </label>
 </div>
 <br> <br>
+@else
+<h1 class="font-bold " >EL NOHA SE AGREGARA DE MANERA AUTOMATICA</h1>
 @endcan
 
 
