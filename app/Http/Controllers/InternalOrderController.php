@@ -641,7 +641,7 @@ public function recalcular_total($id){
     $signature = signatures::find($request->signature_id);
     $internal_order = InternalOrder::find($signature->order_id);
     $auth = Authorization::find($signature->auth_id);
-    $stored_key = $auth ->key_code;
+    $stored_key = Auth::user()->password;
     $key_code =  $request->key;
     $isPasswordCorrect = Hash::check($key_code, $stored_key);
     if($isPasswordCorrect){
