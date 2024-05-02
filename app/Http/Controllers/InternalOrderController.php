@@ -33,7 +33,7 @@ class InternalOrderController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->can('ASIGNAR CLIENTES')){
+        if(Auth::user()->can('VER TODOS LOS PEDIDOS')){
             
             $InternalOrders = DB::table('customers')
                 ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
