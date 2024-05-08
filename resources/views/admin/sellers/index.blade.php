@@ -36,7 +36,7 @@
                     <tbody>
                         @foreach ($Sellers as $row)
                         <tr class="text-center">
-                            <td>{{$row->id}}</td>
+                            <td>{{$row->folio}}</td>
                             <td>{{$row->seller_name}}</td>
                             <td>{{$row->seller_mobile}}</td>
                             <td>{{$row->seller_email}}</td>

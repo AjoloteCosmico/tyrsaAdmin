@@ -54,6 +54,14 @@ class SellerController extends Controller
         $request->validate($rules, $messages);
 
         $Sellers = new Seller();
+
+        //por confirmar, nescesario agregar campo folio int  a sellers
+        $Folio = Seller::orderBy('folio', 'DESC')->first();
+        $Folio=$Folio->folio+1;
+        
+        $Sellers->folio= $request->folio;
+        //end por confirmar
+        
         $Sellers->seller_name = $request->seller_name;
         $Sellers->seller_mobile = $request->seller_mobile;
         $Sellers->seller_office_phone = $request->seller_office_phone;
@@ -74,6 +82,7 @@ class SellerController extends Controller
         $Sellers->firma= $request->seller_sign;
         $Sellers->status= $request->seller_status;
         $Sellers->iniciales= $request->seller_initials;
+
         $Sellers->save();
 
         return redirect()->route('sellers.index')->with('create_reg', 'ok');
@@ -95,6 +104,7 @@ class SellerController extends Controller
     {
         $rules = [
             'seller_name' => 'required',
+            'folio' => 'required|unique:sellers',
             'seller_mobile' => 'required|numeric|digits:10',
             'seller_office_phone' => 'required|numeric|digits:10',
             'seller_email' => 'required|email',
@@ -102,6 +112,7 @@ class SellerController extends Controller
 
         $messages = [
             'seller_name.required' => 'Captura el Nombre del Vendedor',
+            'folio.required' => 'Captura el Numero del Vendedor',
             'seller_mobile.required' => 'Captura el Número Celular del Vendedor',
             'seller_mobile.numeric' => 'El número celular debe ser númerico',
             'seller_mobile.digits' => 'Captura el número celular a 10 dígitos',
@@ -116,6 +127,7 @@ class SellerController extends Controller
 
         $Sellers = Seller::find($id);
         $Sellers->seller_name = $request->seller_name;
+        $Sellers->folio = $request->folio;
         $Sellers->seller_mobile = $request->seller_mobile;
         $Sellers->seller_office_phone = $request->seller_office_phone;
         $Sellers->seller_office_phone_ext = $request->seller_office_phone_ext;

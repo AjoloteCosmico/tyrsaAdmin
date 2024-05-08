@@ -31,6 +31,11 @@
                                 <x-jet-input-error for='seller_name' />
                             </div>
                             <div class="form-group">
+                                <x-jet-label value="* Numero" />
+                                <x-jet-input type="number" step="1" name="folio" class="w-full text-xs " value="{{ $Sellers->folio }}"/>
+                                <x-jet-input-error for='folio' />
+                            </div>
+                            <div class="form-group">
                                 <x-jet-label value="* Teléfono Móvil" />
                                 <x-jet-input type="text" name="seller_mobile" class="w-full text-xs " value="{{ $Sellers->seller_mobile }}"/>
                                 <x-jet-input-error for='seller_mobile' />
