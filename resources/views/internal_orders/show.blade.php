@@ -133,7 +133,7 @@
                         <td> {{$Sellers->iniciales}} </td>
                         
                         <th colspan="2"> no. vendedor:</th>
-                        <td >  {{$Sellers->id}}</td>
+                        <td >  {{$Sellers->folio}}</td>
                         
                         <th colspan="2">Comision del vend:</th>
 
