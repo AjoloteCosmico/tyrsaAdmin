@@ -287,7 +287,7 @@
                 <table>
                     <tr>
                         <th> &nbsp; &nbsp; Son:&nbsp; &nbsp;  </th>
-                        <td> {{$formatterES->format($InternalOrders->total);}}  {{$Coins->coin}}</td>
+                        <td> {{str_replace('coma','punto',$formatterES->format(number_format($InternalOrders->total,2)))}}  {{$Coins->coin}}</td>
                     </tr>
                 </table>
                <br><br>&nbsp; <br>
