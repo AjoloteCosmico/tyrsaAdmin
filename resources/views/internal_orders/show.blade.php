@@ -311,7 +311,6 @@
                 <tbody>
                     @php
                     $p=0;
-                    
                     @endphp
                     @foreach($payments as $pay)
                     
@@ -493,7 +492,7 @@
                     <th>Inicia</th>
                     <th>Descripcion</th>
                     <th>% </th>
-                    <th>Monto con IVA </th>
+                    <th>Monto sin IVA </th>
                     <th>Moneda </th>
                     <th>EQUIVALENTE EN  M.N. SIN IVA </th>
                  </tr>
@@ -507,7 +506,7 @@
                         <td>  {{$c->percentage * 100}} %</td>
                         <td>  ${{number_format(($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * $InternalOrders->total) / 1.16 ,2)}} </td>
                     </tr>
                     @endforeach
                     
@@ -515,9 +514,9 @@
                     
                     <th colspan="3">Totales:</th>
                     <th> {{$Comisiones->sum('percentage')*100 }} %</div></td>
-                    <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')*100/1.16 ,2) }}</div></td>
+                    <th> ${{number_format($InternalOrders->total*$Comisiones->sum('percentage')/1.16 ,2) }}</div></td>
                     <th> {{$Coins->code}}</td>
-                    <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')*100/1.16) ,2) }} </td>
+                    <th> ${{number_format($Coins->exchange_sell*($InternalOrders->total*$Comisiones->sum('percentage')/1.16) ,2) }} </td>
                    </tr>
                  </tbody>
 
