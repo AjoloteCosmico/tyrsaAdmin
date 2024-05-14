@@ -524,8 +524,7 @@
                @endcan
 
 
-            
-<br><br>
+                <br><br>
                @can('VER DGI')
                <table align="left">
 
