@@ -124,7 +124,7 @@
 
                     <tr>
                         <td colspan="10"> </td>
-                        <th>cp:</th>
+                        <th> cp:</th>
                         <td>{{$CustomerShippingAddresses->customer_shipping_zip_code}} </td>
                     </tr>
 
@@ -304,7 +304,7 @@
                     <th rowspan="2">   <br><br> % del Total<br><br> &nbsp;</th>
                 </tr>
                 <tr>
-                    <th>Subtotal</div></td>
+                    <th>Subtotal con descuento</div></td>
                     <th>Iva</div></td>
                     <th>Total con Iva</div></td>
                 </tr>
@@ -327,8 +327,8 @@
                         <td> {{date('d - m - Y', strtotime($pay->date))}}</div></td>
                         <td> {{$dias}}</div></td>
                         <td> {{(int)floor($dias / 7)+1}}</div></td>
-                        <td> ${{number_format($InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
-                        <td> ${{number_format($InternalOrders->subtotal *$pay->percentage*0.0016,2)}}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal *$pay->percentage*0.0016,2)}}</div></td>
                         <td> ${{number_format($pay->amount,2)}}</div></td>
                         <td> {{$pay->percentage}} %</div></td>
                         
