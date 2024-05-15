@@ -504,7 +504,7 @@
                         <td> {{$c->iniciales}}</td>
                         <td>  {{$c->description}}</td>
                         <td>  {{$c->percentage * 100}} %</td>
-                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   {{(1-$InternalOrders->descuento)}}</td>
+                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   </td>
                         <td> {{$Coins->code}}</td>
                         <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal)  ,2)}} </td>
                     </tr>
