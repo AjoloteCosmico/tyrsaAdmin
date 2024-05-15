@@ -381,9 +381,9 @@
                         <td> {{$Sellers->iniciales}}</td>
                         <td>  Comision Principal</td>
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
+                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total)*100 / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
                     </tr>
                     
                     
