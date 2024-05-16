@@ -337,8 +337,8 @@
                     @endforeach
                     <tr>  
                         <th colspan="4">Totales:</div></td>
-                        <td> ${{number_format($InternalOrders->subtotal,2) }}</div></td>
-                        <td> ${{number_format($InternalOrders->subtotal*0.16,2) }}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal,2) }}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal*0.16,2) }}</div></td>
                         <td> ${{number_format($payments->sum('amount'),2) }}</div></td>
                         <td> 100%</div></td>
                     </tr>
