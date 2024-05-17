@@ -304,7 +304,7 @@
                     <th rowspan="2">   <br><br> % del Total<br><br> &nbsp;</th>
                 </tr>
                 <tr>
-                    <th>Subtotal con descuento</div></td>
+                    <th>Subtotal</div></td>
                     <th>Iva</div></td>
                     <th>Total con Iva</div></td>
                 </tr>
@@ -369,7 +369,7 @@
                     <th>Inicia</th>
                     <th>Descripcion</th>
                     <th>% </th>
-                    <th>Monto con IVA </th>
+                    <th>Monto sin IVA </th>
                     <th>Moneda </th>
                     <th>EQUIVALENTE EN  M.N. SIN IVA </th>
                  </tr>
@@ -381,9 +381,9 @@
                         <td> {{$Sellers->iniciales}}</td>
                         <td>  Comision Principal</td>
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <td>  ${{number_format(($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*$InternalOrders->subtotal ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * $InternalOrders->total) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) / 1.16 ,2)}} </td>
                     </tr>
                     
                     
