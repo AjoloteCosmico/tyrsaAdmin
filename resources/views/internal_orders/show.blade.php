@@ -285,6 +285,10 @@
                 
                 $mystring=$formatterES->format(round($InternalOrders->total,2));
                 $newstring = substr($mystring, 0, strrpos($mystring, 'coma'));
+                
+                if(strrpos($mystring, 'coma')==false){
+                    $newstring = $mystring;
+                }
                 if($Coins->coin=='NACIONAL'){
                     $coin_name='PESOS';
                     $abrev_coin='M.N';
@@ -293,11 +297,11 @@
                     $abrev_coin='';
                 }
                 
-                if(round($InternalOrders->total,2)*10%10==0){
+                if(round($InternalOrders->total,2)*100%100==0){
                     $resto='';
                      
                 }else{
-                    $resto=strval(round($InternalOrders->total,2)*10%10 *10).'/100';
+                    $resto=strval((round($InternalOrders->total,2)*100%100) ).'/100';
 
                 }
                                    @endphp
