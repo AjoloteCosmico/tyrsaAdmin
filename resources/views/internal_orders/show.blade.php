@@ -283,11 +283,28 @@
                 @php
                 $formatterES = new NumberFormatter("es", NumberFormatter::SPELLOUT);
                 
-                @endphp
+                $mystring=$formatterES->format(round($InternalOrders->total,2));
+                $newstring = substr($mystring, 0, strrpos($mystring, 'coma'));
+                if($Coins->coin=='NACIONAL'){
+                    $coin_name='PESOS';
+                    $abrev_coin='M.N';
+                }else{
+                    $coin_name=$Coins->coin;
+                    $abrev_coin='';
+                }
+                
+                if(round($InternalOrders->total,2)*10%10==0){
+                    $resto='';
+                     
+                }else{
+                    $resto=strval(round($InternalOrders->total,2)*10%10 *10).'/100';
+
+                }
+                                   @endphp
                 <table>
                     <tr>
                         <th> &nbsp; &nbsp; Son:&nbsp; &nbsp;  </th>
-                        <td> {{str_replace('coma','punto',$formatterES->format(round($InternalOrders->total,2)))}}  {{$Coins->coin}}</td>
+                        <td> {{ $newstring.' '.$coin_name.' '.$resto.' '.$abrev_coin }}  </td>
                     </tr>
                 </table>
                <br><br>&nbsp; <br>
