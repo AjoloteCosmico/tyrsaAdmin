@@ -404,7 +404,7 @@
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
                         <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*$InternalOrders->subtotal ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) / 1.16 ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
                     </tr>
                     
                     
