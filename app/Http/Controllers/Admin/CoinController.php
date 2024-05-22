@@ -11,6 +11,9 @@ class CoinController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->can('CATALOGOS')){
+            return redirect()->route('dashboard');
+        }
         $Coins = Coin::all();
 
         return view('admin.coins.index', compact('Coins'));

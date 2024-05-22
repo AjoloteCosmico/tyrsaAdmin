@@ -14,6 +14,9 @@ class CustomerController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->can('CATALOGOS')){
+            return redirect()->route('dashboard');
+        }
          if(Auth::user()->can('ASIGNAR CLIENTES')){
             $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
             ->select('customers.*','sellers.iniciales')->get();

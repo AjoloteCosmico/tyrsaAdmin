@@ -16,6 +16,9 @@ class UserController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->can('CATALOGOS')){
+            return redirect()->route('dashboard');
+        }
         $usuarios = User::where('id', '<>', '1')->get();
 
         return view('admin.users.index', compact(

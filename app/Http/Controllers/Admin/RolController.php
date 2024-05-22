@@ -21,6 +21,9 @@ class RolController extends Controller
 
     public function index()
     {
+        if(!Auth::user()->can('CATALOGOS')){
+            return redirect()->route('dashboard');
+        }
         $roles = Role::all();
 
         return view('admin.roles.index', compact('roles'));
