@@ -7,11 +7,15 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use DB;
 class SellerController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->can('CATALOGOS')){
+            return redirect()->route('dashboard');
+        }
         $Sellers = Seller::all();
 
         return view('admin.sellers.index', compact('Sellers'));
