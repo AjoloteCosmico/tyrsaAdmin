@@ -59,6 +59,9 @@ class ReportsController extends Controller
     
        public function contraportada()
        {
+        if(!Auth::user()->can('DESCARGAR CONTRAPORTADA')){
+            return redirect()->route('dashboard');
+        }
            $InternalOrders =  DB::table('internal_orders')
            ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
            ->join('coins', 'internal_orders.coin_id','=','coins.id')
@@ -239,6 +242,9 @@ public function note_pdf($id){
            
   }
   public function cuentas_cobrar(){
+    if(!Auth::user()->can('DESCARGAR CXC')){
+        return redirect()->route('dashboard');
+    }
     $InternalOrders =  DB::table('internal_orders')
         ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')

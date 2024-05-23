@@ -180,13 +180,22 @@ class PaymentsController extends Controller
 
     public function consecutivo_pedido()
     {
+        if(!Auth::user()->can('DESCARGAR CONSECUTIVO PI')){
+            return redirect()->route('dashboard');
+        }
         return view('reportes.consecutivo_pedido');}
 
     public function consecutivo_factura()
         {
+            if(!Auth::user()->can('DESCARGAR CONSECUTIVO FACTURAS')){
+                return redirect()->route('dashboard');
+            }
             return view('reportes.consecutivo_factura');}
     public function consecutivo_comprobante()
         {
+            if(!Auth::user()->can('DESCARGAR CONSECUTIVO COMPROBANTE')){
+                return redirect()->route('dashboard');
+            }
             return view('reportes.consecutivo_comprobante');}
         
     public function comprobante_ingresoS()
