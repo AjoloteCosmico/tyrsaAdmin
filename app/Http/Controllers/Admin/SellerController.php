@@ -63,7 +63,7 @@ class SellerController extends Controller
         $Folio = Seller::orderBy('folio', 'DESC')->first();
         $Folio=$Folio->folio+1;
         
-        $Sellers->folio= $request->folio;
+        $Sellers->folio= $Folio;
         //end por confirmar
         
         $Sellers->seller_name = $request->seller_name;
