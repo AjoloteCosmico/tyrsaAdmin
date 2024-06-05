@@ -106,9 +106,12 @@ class SellerController extends Controller
 
     public function update(Request $request, $id)
     {
+        
+        $Sellers = Seller::find($id);
+
         $rules = [
             'seller_name' => 'required',
-            'folio' => 'required|unique:sellers',
+            'folio' => 'required|unique:sellers,folio,'.$Sellers->folio,
             'seller_mobile' => 'required|numeric|digits:10',
             'seller_office_phone' => 'required|numeric|digits:10',
             'seller_email' => 'required|email',
