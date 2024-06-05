@@ -111,7 +111,7 @@ class SellerController extends Controller
 
         $rules = [
             'seller_name' => 'required',
-            'folio' => 'required|unique:sellers,folio,'.$Sellers->folio,
+            'folio' => 'required|unique:sellers,folio,'.$id,
             'seller_mobile' => 'required|numeric|digits:10',
             'seller_office_phone' => 'required|numeric|digits:10',
             'seller_email' => 'required|email',
