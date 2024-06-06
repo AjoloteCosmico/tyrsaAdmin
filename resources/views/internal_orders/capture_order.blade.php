@@ -138,7 +138,7 @@
 <br> <br>
 
        <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
-       <x-jet-input-error for='seller_id' />
+       <x-jet-input-error for='ncotizacion' />
    </div>
 
 <div class="form-group">

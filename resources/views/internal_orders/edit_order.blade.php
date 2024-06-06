@@ -107,6 +107,48 @@
                                <x-jet-input-error for='payment_conditions' />
                            </div>
                        </div>
+                       
+                       <div class="form-group">
+       <x-jet-label value="Numero de Cotizacion" />
+       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+<input type="radio" class="btn-check" name="btnradio5" id="btnradio5" autocomplete="off" checked onclick="manual('ncotizacion');">
+<label class="btn btn-outline-primary" for="btnradio5">Si</label>
+<input type="radio" class="btn-check" name="btnradio6" id="btnradio6" autocomplete="off" onclick="automatico('ncotizacion');">
+<label class="btn btn-outline-primary" for="btnradio6">No</label>
+</div>
+<br> <br>
+
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="{{$InternalOrders->ncotizacion}}">
+       <x-jet-input-error for='ncotizacion' />
+   </div>
+
+<div class="form-group">
+       <x-jet-label value="Numero de Contrato" />
+       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+<input type="radio" class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off" checked onclick="manual('ncontrato');">
+<label class="btn btn-outline-primary" for="btnradio1">Si</label>
+<input type="radio" class="btn-check" name="btnradio2" id="btnradio2" autocomplete="off" onclick="automatico('ncontrato');">
+<label class="btn btn-outline-primary" for="btnradio2">No</label>
+</div>
+<br> <br>
+
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncontrato" style='width: 10%;' id='ncontrato'  value="{{$InternalOrders->ncontrato}}">
+       <x-jet-input-error for='seller_id' />
+   </div>
+   <div class="form-group">
+       <x-jet-label value="Orden de Compra" />
+       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+<input type="radio" class="btn-check" name="btnradio3" id="btnradio3" autocomplete="off" checked onclick="manual('oc');">
+<label class="btn btn-outline-primary" for="btnradio3">Si</label>
+<input type="radio" class="btn-check" name="btnradio4" id="btnradio4" autocomplete="off" onclick="automatico('oc');">
+<label class="btn btn-outline-primary" for="btnradio4">No</label>
+</div>
+<br> <br>
+
+       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 10%;' id='oc'  value="{{$InternalOrders->oc}}">
+       <x-jet-input-error for='seller_id' />
+   </div>
+
                    </div>
                    <div class="w-100">&nbsp;</div>
                    <div class="row">
@@ -358,6 +400,36 @@
         document.querySelectorAll('[name=shipping_address').forEach((x) => x.checked = false);
     }
 </script>
+
+<script>
+    function automatico(campo) {
+    console.log(campo);
+    
+    var entrada = document.getElementById(campo);
+    entrada.style.display="none";
+    entrada.value=0;
+}
+
+
+function manual(campo) {
+    var entrada = document.getElementById(campo);
+    console.log(campo);
+    
+    entrada.style.display="block";
+}
+
+@if($InternalOrders->ncotizacion==0)
+automatico('ncotizacion');
+@endif
+@if($InternalOrders->ncontrato==0)
+automatico('ncontrato');
+@endif
+@if($InternalOrders->oc==0)
+automatico('oc');
+@endif
+</script>
+
+
 
 {{--  <script>
     $(document).ready(function()

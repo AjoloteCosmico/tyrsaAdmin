@@ -968,6 +968,10 @@ public function recalcular_total($id){
 
         $InternalOrders->descuento=$request->descuento* 0.01;
         
+        $InternalOrders->oc=$request->oc;
+        $InternalOrders->ncotizacion=$request->ncotizacion;
+        $InternalOrders->ncontrato=$request->ncontrato;
+        
         $InternalOrders->tasa=$request->tasa* 0.01;
         $InternalOrders->status="CAPTURADO";
         $Items = Item::where('internal_order_id', $InternalOrders->id)->get();
