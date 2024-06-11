@@ -305,6 +305,7 @@
                                         <x-jet-input-error for='item' />  --}}
                                     </div>
 <br><br>
+@can('VER DGI')
 
 <h1>Agregar o editar Comisiones:</h1>
 <br>
@@ -346,7 +347,7 @@
                                     </div>
                 
             
-        @can('VER DGI')
+       
                 <table class="table tableitems table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
@@ -377,8 +378,9 @@
             </tbody>
                     
                 </table>
-        @endcan
+      
                 </div>
+                @endcan
                 <br><br>
                 <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-green mb-2">
                     <i class="fa fa-sign-out"></i>&nbsp;&nbsp; Salir
