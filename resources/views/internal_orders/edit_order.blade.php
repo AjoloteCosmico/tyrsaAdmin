@@ -213,7 +213,7 @@
                            </div>
                            @endcan
                            <div class="form-group">
-                               <x-jet-label value="descuento" />
+                               <x-jet-label value="Descuento" />
                                <input type="number" name="descuento" style='width: 10%;' max=100 min=0 step=0.1  value="{{$InternalOrders->descuento * 100}}"> %
                                <x-jet-input-error for='descuento' />
                            </div>
