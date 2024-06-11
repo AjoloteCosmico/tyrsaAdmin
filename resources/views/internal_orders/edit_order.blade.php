@@ -204,12 +204,14 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                          @can('VER DGI')
                            <div class="form-group">
                                <x-jet-label value=" % Dgi" />
                                <input type="number" name="dgi" style='width: 10%;' max=100 min=0 step=0.1 value="{{$InternalOrders->dgi * 100}}"> %
                                <x-jet-input-error for='seller_id' />
                            </div>
-                           
+                           @endcan
                            <div class="form-group">
                                <x-jet-label value="descuento" />
                                <input type="number" name="descuento" style='width: 10%;' max=100 min=0 step=0.1  value="{{$InternalOrders->descuento * 100}}"> %
@@ -344,6 +346,7 @@
                                     </div>
                 
             
+        @can('VER DGI')
                 <table class="table tableitems table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
@@ -374,6 +377,7 @@
             </tbody>
                     
                 </table>
+        @endcan
                 </div>
                 <br><br>
                 <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-green mb-2">
