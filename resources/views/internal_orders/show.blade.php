@@ -568,7 +568,10 @@
             <br><br><br><br><br>
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
                                          
-
+                        <a href="{{ route('internal_orders.confirm_unautorize', $InternalOrders->id) }} ">
+                        <button type = "button" class="btn btn-red mb-2"> <i class="fas fa-warning"> &nbsp; Desautorizar</i> </button>
+                   
+                        </a>
                         <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Desautorizar</i> </button>
                     @else 
                     <br><br><br><br><br>

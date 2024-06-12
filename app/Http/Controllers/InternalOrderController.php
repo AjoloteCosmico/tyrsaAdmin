@@ -1107,6 +1107,93 @@ public function recalcular_total($id){
             'InternalOrders','Sellers','Comisiones','Message'
         ));
         }
+
+    public function confirm_unautorize($id){
+        $InternalOrder=InternalOrder::find($id);
+        $CompanyProfiles = CompanyProfile::first();
+        $comp=$CompanyProfiles->id;
+        $InternalOrders = InternalOrder::find($id);
+        $Customers = Customer::find($InternalOrders->customer_id);
+        $Contacts =DB::table('order_contacts')
+        ->join('customer_contacts', 'customer_contacts.id', '=', 'order_contacts.contact_id')
+        ->where('order_contacts.order_id', $id)
+        ->select('customer_contacts.*')
+        ->get();
+        $Sellers = Seller::find($InternalOrders->seller_id);
+        $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
+        $Coins = Coin::find($InternalOrders->coin_id);
+        $Items = Item::where('internal_order_id', $id)->get();
+        $requiredSignatures = DB::table('authorizations')
+        ->join('signatures', 'authorizations.id', '=', 'signatures.auth_id')
+        ->where('signatures.order_id', $id)
+        ->select('signatures.*','authorizations.job')
+        ->get();
+        $Subtotal = $InternalOrders->subtotal;
+        $payments=payments::where('order_id',$InternalOrders->id)->get();
+        $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
+        
+        $ASellers = Seller::all();
+        $Comisiones=DB::table('comissions')
+     ->join('sellers', 'sellers.id', '=', 'comissions.seller_id')
+     ->where('order_id',$InternalOrders->id)
+     ->select('comissions.*','sellers.seller_name','sellers.iniciales')
+     ->get();
+     
+        return view('internal_orders.unautorize',compact('CompanyProfiles',
+        'InternalOrders',
+        'Customers',
+        'Sellers',
+        'CustomerShippingAddresses',
+        'Coins',
+        'Items',
+        'Authorizations',
+        'id',
+        'requiredSignatures',
+        'Contacts',
+        'payments',
+        'ASellers',
+        'Comisiones',));
+    }
+
+    public function unautorize(Request $request,$id){
+    
+        $InternalOrders=InternalOrder::find($id);
+        $stored_key = Auth::user()->password;
+        $key_code =  $request->password;
+        $isPasswordCorrect = Hash::check($key_code, $stored_key);
+        if($isPasswordCorrect){
+            
+            $signatures=signatures::where('order_id',$id)->delete();
+            $Signature=new signatures();
+            $Signature->order_id = $InternalOrders->id;
+            $Signature->auth_id = 2;
+            $Signature->save();
+            if($InternalOrders->subtotal >= 500000){
+                    $Signature=new signatures();
+                    //$Signature->order_id = $InternalOrders->id;
+                    //$Signature->auth_id = 5;
+                    //$Signature->save(); 
+                    $Signature->order_id = $InternalOrders->id;
+                    $Signature->auth_id = 3;
+                    $Signature->save(); 
+                    $Signature=new signatures();
+                    $Signature->order_id = $InternalOrders->id;
+                    $Signature->auth_id = 4;
+                    $Signature->save(); 
+                 }
+            if($InternalOrders->subtotal >= 5000000){
+                    $Signature=new signatures();
+                    $Signature->order_id = $InternalOrders->id;
+                    $Signature->auth_id = 6;
+                    $Signature->save(); 
+                 }
+            $InternalOrders->status='CAPTURADO';
+            $InternalOrders->save();
+            return redirect()->route('internal_orders.show',$id)->with('unautorized','ok');
+        }else{
+        return redirect()->route('internal_orders.show',$id)->with('unautorized','fail');
+    }
+}
 }
 
 
