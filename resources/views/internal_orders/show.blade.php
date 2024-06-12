@@ -569,6 +569,7 @@
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
                                          
 
+                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Desautorizar</i> </button>
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
