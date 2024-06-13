@@ -665,4 +665,30 @@ tr th:last-child {
                 }
     
 </script>
+
+@if (session('unautorized') == 'ok')
+<script>
+      Swal.fire({
+            icon: 'success',
+            title: "<i>El pedido se desautorizo con exito</i>", 
+            html: `El pedido ha regresado a status CAPTURADO` ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+            });
+</script>
+@endif
+
+@if (session('unautorized') == 'fail')
+<script>
+      Swal.fire({
+            icon: 'error',
+            title: "<i>El pedido no se desautorizó</i>", 
+            html: `la contraseña es incorrecta` ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+            });
+</script>
+@endif
 @stop
