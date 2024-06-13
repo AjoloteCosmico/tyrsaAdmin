@@ -568,11 +568,11 @@
             <br><br><br><br><br>
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
                                          
-                        <a href="{{ route('internal_orders.confirm_unautorize', $InternalOrders->id) }} ">
-                        <button type = "button" class="btn btn-red mb-2"> <i class="fas fa-warning"> &nbsp; Desautorizar</i> </button>
+                        
+                        <button type = "button" class="btn btn-red mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
                    
-                        </a>
-                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Desautorizar</i> </button>
+                      
+                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; </i>  </button>
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
@@ -596,8 +596,7 @@
   
         </div>
     </div>
-    
-            
+      
 @stop
 
 @section('css')
@@ -646,5 +645,24 @@ tr th:last-child {
 <script>
     $('#badge').css('height', $('#badge').parent('td').height());
 </script>
+<script>
+    function confirm_unauthorize(){
+        Swal.fire({
+            icon: 'warning',
+            title: "<i>¿Estas seguro que deseas desautorizar este pedido?</i>", 
+            html: `EL pedido regresara al status <b>CAPTURADO</b> <br> 
+                <form action="{{ route('internal_orders.unautorize',$InternalOrders->id)}}" method='POST' enctype='multipart/form-data'>
+                    @csrf 
+                    <br>
 
+                    <input type='password' name='password'> 
+                    <button type="submit" class="btn btn-warning " style="background-color: #FCBF26"> Confirmar </button>
+                    </form> ` ,  
+                    showCancelButton: true,
+                    showConfirmButton: false,
+
+            });
+                }
+    
+</script>
 @stop
