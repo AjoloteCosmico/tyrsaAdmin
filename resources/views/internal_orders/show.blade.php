@@ -569,21 +569,28 @@
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
                                          
                         
-                        <button type = "button" class="btn btn-red mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
+                <button type = "button" class="btn btn-red mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
                    
+                <br><br><br>
+                    </div></div>
+                <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                
                       
-                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; </i>  </button>
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
-                    @endif
+                    
+                    
                     <br><br><br>
-                </div></div>
-                     
-                <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
-                <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green mb-2">
-                <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                    </div></div>
+                    <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
+                    <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                     </a>
+                    
+                    <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                
+                    @endif
+                     
 
                   
 

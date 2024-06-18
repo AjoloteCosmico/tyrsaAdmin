@@ -532,6 +532,11 @@ public function recalcular_total($id){
     }
 
     public function edit_order($id){
+        $InternalOrders = InternalOrder::find($id);
+        if($InternalOrders->status!='CAPTURADO'){
+            return redirect()->back();
+        }
+        
         $this->recalcular_total($id);
         $CompanyProfiles = CompanyProfile::first();
         //$comp=$CompanyProfiles->id;
