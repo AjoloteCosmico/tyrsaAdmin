@@ -568,9 +568,10 @@
             <br><br><br><br><br>
                         <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
                                          
-                        
+                
+               @can('VER DGI')        
                 <button type = "button" class="btn btn-red mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
-                   
+                @endcan   
                 <br><br><br>
                     </div></div>
                 <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
