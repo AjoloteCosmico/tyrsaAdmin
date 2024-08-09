@@ -260,6 +260,8 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 #llenando la tabla
 row_index=7
+
+clientes=clientes.sort_values(by='clave')
 for i in range(0,len(clientes)):
    print(str(i)+' esa no')
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
@@ -348,6 +350,7 @@ DA X C
         
         total_mn=  pedidos_mn['total'].sum()/1.16
         total_dlls=pedidos_dlls['total'].sum()/1.16
+
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
         for k in range(len(this_pedidos)):

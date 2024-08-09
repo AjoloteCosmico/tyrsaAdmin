@@ -263,6 +263,8 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 #llenando la tabla
 row_index=7
+
+clientes=clientes.sort_values(by='clave')
 for i in range(0,len(clientes)):
    print(str(i)+' esa no')
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
