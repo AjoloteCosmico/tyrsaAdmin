@@ -29,7 +29,6 @@ query = ('SELECT * from customers where id = 1')
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
 
-
 #traer datos de los pedidos
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol, coins.code
@@ -314,6 +313,7 @@ pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
 np=0
+pedidos=pedidos.sort_values(by='invoice')
 for i in range(0,len(pedidos)):
     
     if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):

@@ -336,6 +336,8 @@ ESTATUS""", blue_header_format)
 
 counter=0
 total_total=0
+
+clientes=clientes.sort_values(by='clave')
 for i in range(0,len(clientes)):
    if(len(pedidos.loc[pedidos['customer_id']==clientes['id'].values[i]])>0):
         
