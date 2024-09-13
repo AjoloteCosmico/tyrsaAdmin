@@ -637,7 +637,6 @@ tr th:last-child {
       word-wrap: break-word;
 }
 
-
 </style>
 @stop
 
