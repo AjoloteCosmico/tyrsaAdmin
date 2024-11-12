@@ -454,6 +454,12 @@ return [
                     'route'  => 'reportes.consecutivo_comprobante',
                     'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
                 ],
+                [
+                    'text' => ' OBJETIVOS Y RESULTADOS GENERALES',
+                    'icon' => 'fas fa-file fa-fw',
+                    'route'  => 'reportes.objetivos',
+                    'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
+                ],
                 
         ],
     ],],
