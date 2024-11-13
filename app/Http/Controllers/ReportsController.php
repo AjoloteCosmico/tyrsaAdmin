@@ -265,4 +265,21 @@ public function note_pdf($id){
         ));
     
   }
+  public function objetivos(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Sellers=Seller::all();
+    $InternalOrders=DB::table('internal_orders')
+    ->join('sellers','sellers.id','internal_orders.seller_id')
+    ->select('internal_orders.*','sellers.seller_name')
+    ->get();
+    $Year=now()->year;
+    return view('reportes.objetivos',compact(
+                   'Sellers',
+                   'InternalOrders',
+                   'Year',
+                   'CompanyProfiles',
+                   'comp',
+    ));
+  }
 }

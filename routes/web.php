@@ -65,6 +65,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('reportes/comprobante_ingresos', [PaymentsController::class, 'comprobante_ingresos'])->name('reportes.comprobante_ingresos');
     Route::get('reportes/consecutivo_comprobante', [PaymentsController::class, 'consecutivo_comprobante'])->name('reportes.consecutivo_comprobante');
     Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
+    
+    Route::get('reportes/objetivo', [ReportsController::class, 'objetivos'])->name('reportes.objetivos');
     //  generar reporte
     Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');
     
