@@ -268,12 +268,14 @@ public function note_pdf($id){
   public function objetivos(){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
+    $Year=now()->year;
     $Sellers=Seller::all();
     $InternalOrders=DB::table('internal_orders')
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->select('internal_orders.*','sellers.seller_name')
+    ->where('date','>=',$Year.'-01-01')
     ->get();
-    $Year=now()->year;
+    // dd($InternalOrders);
     return view('reportes.objetivos',compact(
                    'Sellers',
                    'InternalOrders',
