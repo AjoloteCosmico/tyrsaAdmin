@@ -28,6 +28,9 @@
                             
                             <th>Email</th>
                             <th>Iniciales</th>
+                            @can('VER DGI')
+                            <th>DGI</th>
+                            @endcan
                             <th>Estado</th>
                            <th style="width : 20%;"> &nbsp;</th>
                             <th style="width : 20%;">-</th>
@@ -41,6 +44,9 @@
                             <td>{{$row->seller_mobile}}</td>
                             <td>{{$row->seller_email}}</td>
                             <td>{{$row->iniciales}}</td>
+                            @can('VER DGI')
+                            <td>{{number_format($row->dgi *100,2)}} %</td>
+                            @endcan
                             <td>{{$row->status}}</td>
                             <td >
                             <div class="col-6 text-center">

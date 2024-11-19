@@ -26,6 +26,8 @@ use PDF;
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
 use Illuminate\Support\Facades\Auth;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
+
 class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf,$tipo=0)
@@ -276,12 +278,42 @@ public function note_pdf($id){
     ->where('date','>=',$Year.'-01-01')
     ->get();
     // dd($InternalOrders);
+
+    #Grafica vendedores
+    $vendedores = Seller::withCount('internalOrders')
+    ->where('status','ACTIVO')
+    ->orderBy('internal_orders_count','desc')
+    ->get();
+    // dd($vendedores);
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle('Pedidos por vendedor')
+    ->setSubtitle('Anual vendedores activos')
+    ->addData($vendedores->pluck('internal_orders_count')->toArray())
+    ->setLabels($vendedores->pluck('seller_name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $Mes_data=array();
+    for($i=1;$i<=12;$i++){
+        array_push($Mes_data,
+        $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+        ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+        ->count());
+    }
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle('Pedidos por Mes')
+    ->setSubtitle('Anual')
+    ->addData('total pedidos',$Mes_data)
+    ->setLabels($Meses);
+    
     return view('reportes.objetivos',compact(
                    'Sellers',
                    'InternalOrders',
                    'Year',
                    'CompanyProfiles',
                    'comp',
+                   'SellerChart',
+                    'MesesChart'
     ));
   }
 }

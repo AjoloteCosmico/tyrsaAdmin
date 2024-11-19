@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Seller extends Model
 {
     use HasFactory;
+    public function internalOrders()
+    {
+        return $this->hasMany(InternalOrder::class, 'seller_id');
+    }
 }

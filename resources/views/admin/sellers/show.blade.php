@@ -56,9 +56,23 @@
                                 <x-jet-input-error for='seller_office_phone_ext' />
                             </div>
                             <div class="form-group">
+                                <x-jet-label value="Iniciales" />
+                                <x-jet-input type="text" name="seller_initials" class="w-full text-xs "  value="{{ $Sellers->iniciales }}"/>
+                                <x-jet-input-error for='seller_initials' />
+                            </div>
+                            <div class="form-group">
                                 <x-jet-label value="Firma" />
                                 <x-jet-input type="text" name="seller_sign" class="w-full text-xs "  value="{{ $Sellers->firma }}"/>
                                 <x-jet-input-error for='seller_sign' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Status" />
+                                <select class="form-select" aria-label="Default select example" name ="seller_status">                               
+                                        
+                                        <option value="ACTIVO" @if($Sellers->status=='ACTIVO') selected @endif>Activo</option>
+                                        <option value="INACTIVO" @if($Sellers->status=='INACTIVO') selected @endif>Inactivo</option>
+                                    
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -105,7 +119,22 @@
                                 <x-jet-input-error for='seller_zip_code' />
                             </div>
                         </div>
+                        
                     </div>
+                    @can('ASIGNAR DGI')
+                    <div class="card">
+                        <div class="card-header">
+                            <h1 class="h5 text-center fw">DGI</h1>
+                        </div>
+                        <div class="card-body">
+                        <div class="form-group">
+                                <x-jet-label value="Comisión dgi preestablecida para este vendedor" />
+                                <x-jet-input type="number" step="0.01"  name="dgi" style="width:6.4vw" class="w-full text-xs " value="{{ number_format($Sellers->dgi *100 ,2)}}"/>%
+                                <x-jet-input-error for='dgi' />
+                            </div>
+                         </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">

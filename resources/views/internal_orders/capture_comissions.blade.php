@@ -55,7 +55,9 @@
                                         
         <br><br><br>
     @can('ASIGNAR DGI')
-        <h3> Agregar otras Comisiones: </h3>
+        <h3> <b> Agregar otras Comisiones: </b></h3>
+        <h2>Las comisiones DGI se asignan automaticamente</h2>
+        <br>
         @include('internal_orders.asignar_dgi')
     @endcan
                                 </div>

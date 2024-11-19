@@ -72,11 +72,19 @@
                             </td>
                     </tr>
                 </table>
+                <!-- botones para switchear entre pestañas -->
+                <div>
+  <button id="btn-tabla" class="boton activo" onclick="mostrar('tabla', this)">Tabla</button>
+  <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">Gráficos</button>
+</div>
+                <div class="table-responsive contenedor" id="tabla" style="display: block;">
+             
                         <!-- 14 columas, para poder copiar del excel -->
-               <table class="table text-xs font-medium table-striped " >
+               <table class="table text-xs font-medium table-striped "  id="example" >
                <thead> 
+                <!-- 15 columnas -->
                <tr class="text-center">
-                    <th>Vendedor</th>
+                    <th width="18%">Vendedor</th>
                     <th>Enero</th>
                     <th>Febrero</th>
                     <th>Marzo</th>
@@ -90,7 +98,7 @@
                     <th>Noviembre</th>
                     <th>Diciembre</th>
                     <th>Total</th>
-                    <th width="6%">% </th>
+                    <th width="8%"> &nbsp;% &nbsp; &nbsp;</th>
                 </tr>
                 </thead>
                 @foreach($Sellers as $seller)
@@ -107,6 +115,7 @@
                 </tr>
                 @endforeach
                 <tfoot>
+
                 <tr>
                     <th>TOTAL MENSUAL</th>
                     @for($i=1;$i<=12;$i++)
@@ -128,7 +137,20 @@
                 </tr>
                 </tfoot>
                </table>
-                     
+                     </div>
+          <div class="contenedor" id="graficos">
+          <div class="container px-4 mx-auto">
+
+            <div class="p-6 m-20 bg-white rounded shadow">
+                {!! $SellerChart->container() !!}
+            </div>
+            
+            <div class="p-6 m-20 bg-white rounded shadow">
+                {!! $MesesChart->container() !!}
+            </div>
+
+            </div>
+          </div>          
 
                   
 
@@ -159,6 +181,38 @@
 
 <style>
  th { white-space: nowrap; }
+  /* Estilos de los botones */
+  .boton {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #e0e0e0;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    outline: none;
+    margin: 0; /* Sin espacio entre los botones */
+  }
+
+  .boton.activo {
+    background-color: #007bff;
+    color: white;
+    border-bottom: 1px solid white; /* Para que parezca unido al contenedor */
+  }
+
+  .boton:hover {
+    background-color: #ccc;
+  }
+
+  /* Contenedores */
+  .contenedor {
+    display: none; /* Ocultar inicialmente */
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: -1px; /* Para unir con el botón */
+    border-radius: 0 5px 5px 5px; /* Redondeo sólo en la parte inferior */
+  }
+
+
 </style>
 @stop
 
@@ -173,11 +227,31 @@
 
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
 <script>
-    new DataTable('#table',{
-    
-      buttons: ['copy','excel']
-        
-    
-    });
+new DataTable('#example');
 </script>
+<script>
+  function mostrar(id, boton) {
+    // Ocultar todos los contenedores
+    document.querySelectorAll('.contenedor').forEach(div => {
+      div.style.display = 'none';
+    });
+
+    // Mostrar el contenedor seleccionado
+    document.getElementById(id).style.display = 'block';
+
+    // Cambiar estado de los botones
+    document.querySelectorAll('.boton').forEach(btn => {
+      btn.classList.remove('activo');
+    });
+    boton.classList.add('activo');
+  }
+</script>
+
+<script src="{{ $SellerChart->cdn() }}"></script>
+
+{{ $SellerChart->script() }}
+
+<script src="{{ $MesesChart->cdn() }}"></script>
+
+{{ $MesesChart->script() }}
 @endpush

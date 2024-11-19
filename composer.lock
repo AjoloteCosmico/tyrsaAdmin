@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f6f9397c56942eddea0582d7f2d4da2",
+    "content-hash": "aba9a51d228b7a2b59626847ddceea93",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -51,16 +51,16 @@
         },
         {
             "name": "arielmejiadev/larapex-charts",
-            "version": "7.0.0",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ArielMejiaDev/larapex-charts.git",
-                "reference": "d1f933b0e1495f6833bff551829a76efd703aec7"
+                "reference": "5461a65f730c66735599e142e384d2689209eedf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ArielMejiaDev/larapex-charts/zipball/d1f933b0e1495f6833bff551829a76efd703aec7",
-                "reference": "d1f933b0e1495f6833bff551829a76efd703aec7",
+                "url": "https://api.github.com/repos/ArielMejiaDev/larapex-charts/zipball/5461a65f730c66735599e142e384d2689209eedf",
+                "reference": "5461a65f730c66735599e142e384d2689209eedf",
                 "shasum": ""
             },
             "require": {
@@ -109,9 +109,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ArielMejiaDev/larapex-charts/issues",
-                "source": "https://github.com/ArielMejiaDev/larapex-charts/tree/7.0.0"
+                "source": "https://github.com/ArielMejiaDev/larapex-charts/tree/8.1.0"
             },
-            "time": "2024-01-03T04:13:33+00:00"
+            "time": "2024-02-08T16:17:30+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",

@@ -124,7 +124,7 @@ class InternalOrderController extends Controller
         $Coins = Coin::all();
         $Sellers = Seller::all();
         $hoy = now();
-        
+
         return view('internal_orders.capture_order', compact(
             'TempInternalOrders',
             'Customers',
@@ -190,6 +190,18 @@ class InternalOrderController extends Controller
      session(['p_comission' => '']);
      session(['p_seller_id' => ' ']);
      
+     #Asignar automaticamente DGI
+     $Socios=Seller::where('dgi','>',0)->get();
+    //  dd($Socios);
+     foreach($Socios as $socio){
+        
+     $comision = new temp_comissions();
+     $comision->seller_id=$socio->id;
+     $comision->percentage=$socio->dgi*0.01;
+     $comision->temp_order_id=$TempInternalOrders->id;
+     $comision->description='DGI';
+     $comision->save();
+     }
     return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 
