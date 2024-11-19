@@ -211,5 +211,9 @@ class SellerController extends Controller
     }
         return redirect()->route('sellers.customers',$Seller->id);
     }
+    public function dgi_index(){  
+        $Socios=Seller::where('dgi','>',0)->get();
+        return view('admin.sellers.dgi',compact('Socios'));
+    }
 }
 

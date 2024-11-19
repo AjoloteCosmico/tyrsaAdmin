@@ -129,7 +129,7 @@
                         <div class="card-body">
                         <div class="form-group">
                                 <x-jet-label value="Comisión dgi preestablecida para este vendedor" />
-                                <x-jet-input type="number" step="0.01"  name="dgi" style="width:6.4vw" class="w-full text-xs " value="{{ number_format($Sellers->dgi *100 ,2)}}"/>%
+                                <x-jet-input type="number" step="0.01"  name="dgi" style="width:6.4vw" class="w-full text-xs " value="{{ number_format($Sellers->dgi ,2)}}"/>%
                                 <x-jet-input-error for='dgi' />
                             </div>
                          </div>

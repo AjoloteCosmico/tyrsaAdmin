@@ -45,7 +45,7 @@
                             <td>{{$row->seller_email}}</td>
                             <td>{{$row->iniciales}}</td>
                             @can('VER DGI')
-                            <td>{{number_format($row->dgi *100,2)}} %</td>
+                            <td>{{number_format($row->dgi,2)}} %</td>
                             @endcan
                             <td>{{$row->status}}</td>
                             <td >
