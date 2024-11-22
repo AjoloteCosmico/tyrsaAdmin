@@ -240,6 +240,7 @@ import datetime
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 year = date.strftime("%Y")
+dias_transcurridos=date-datetime.date(int(year), 1, 1)
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
@@ -281,17 +282,25 @@ for i in range(len(vendedores)):
             ls=str(int(year)+1)+'-01-01'
         worksheet.write(6+i,mes+2, len(pxv.loc[(pxv['date']<ls)&(pxv['date']>=li)]), blue_content_unit)
     
+worksheet.write('B'+str(len(vendedores)+8), 'Total Mensual', blue_header_format)
+for i in ['C','D','E','F','G','H','I','J','K','L','M','N']:
+
+    worksheet.write_formula(i+str(len(vendedores)+8),  '=SUMA('+i+'7:'+i+str(len(vendedores)+6)+')',blue_content_bold)
 
 
 
-worksheet.write('B'+str(len(vendedores)+7), 'Objetivo Anual', blue_header_format)
-worksheet.write('D'+str(len(vendedores)+7), str(objetivo), blue_content_bold)
 
-worksheet.write('B'+str(len(vendedores)+8), 'Dias transcurridos', blue_header_format)
-worksheet.write('D'+str(len(vendedores)+8), str(objetivo), blue_content_bold)
+worksheet.write('B'+str(len(vendedores)+10), 'Objetivo Anual', blue_header_format)
+worksheet.write('C'+str(len(vendedores)+10), str(objetivo), blue_content_bold)
 
-worksheet.write('B'+str(len(vendedores)+7), 'Objetivo a la fecha', blue_header_format)
-worksheet.write('D'+str(len(vendedores)+7), str(round(len(pedidos)/objetivo,2))+'%', blue_content_bold)
+worksheet.write('B'+str(len(vendedores)+11), 'Dias transcurridos', blue_header_format)
+worksheet.write('C'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_content_bold)
+
+worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
+worksheet.write('C'+str(len(vendedores)+12), str(len(pedidos)), blue_content_bold)
+
+worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completadp', blue_header_format)
+worksheet.write('C'+str(len(vendedores)+13), str(round(len(pedidos)*100/objetivo,2))+'%', blue_content_bold)
 #Grafica
 chart = workbook.add_chart({'type': 'column'})
 
