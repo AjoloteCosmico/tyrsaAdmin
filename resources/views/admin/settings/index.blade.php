@@ -26,6 +26,7 @@
                             <th>Salario Mínimo</th>
                             <th>UMA</th>
                             <th>% IVA</th>
+                            <th>OBJETIVO ANUAL</th>
                             <th>AÑO</th>
                             <th></th>
                         </tr>
@@ -38,6 +39,7 @@
                             <td>$ {{$row->minimum_salary}}</td>
                             <td>$ {{$row->uma}}</td>
                             <td>{{$row->iva}} %</td>
+                            <td>{{$row->objetivo_anual}}</td>
                             <td>{{$row->year_application}}</td>
                             <td class="w-15">
                                 <div class="row">

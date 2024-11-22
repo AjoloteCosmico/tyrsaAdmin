@@ -89,6 +89,7 @@ class SettingController extends Controller
         $Settings->minimum_salary = $request->minimum_salary;
         $Settings->uma = $request->uma;
         $Settings->iva = $request->iva;
+        $Settings->objetivo_anual = $request->obj;
         $Settings->year_application = $request->year_application;
         $Settings->save();
 

@@ -51,6 +51,11 @@
                                 <x-jet-input type="number" name="year_application" class="w-full text-xs " value="{{$Settings->year_application}}"/>
                                 <x-jet-input-error for='year_application' />
                             </div>  --}}
+                            <div class="form-group">
+                                <x-jet-label value="Objetivo Anual" />
+                                <x-jet-input type="number" name="obj" class="w-full text-xs " value="{{$Settings->objetivo_anual}}"/>
+                                <x-jet-input-error for='obj' />
+                            </div>
                         </div>
                     </div>
                 </div>

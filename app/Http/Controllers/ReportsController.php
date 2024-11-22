@@ -267,6 +267,7 @@ public function note_pdf($id){
         ));
     
   }
+ 
   public function objetivos(){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
@@ -285,10 +286,15 @@ public function note_pdf($id){
     ->orderBy('internal_orders_count','desc')
     ->get();
     // dd($vendedores);
+    $ven_data=$vendedores->pluck('internal_orders_count')->toArray();
+    foreach($ven_data as &$hits) {
+        $hits = round(($hits * 100)/ $vendedores->sum('internal_orders_count'),2);
+     }
+    // dd($ven_data);
     $SellerChart=LarapexChart::pieChart()
     ->setTitle('Pedidos por vendedor')
     ->setSubtitle('Anual vendedores activos')
-    ->addData($vendedores->pluck('internal_orders_count')->toArray())
+    ->addData($ven_data)
     ->setLabels($vendedores->pluck('seller_name')->toArray());
     #Grafica por meses
     $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',

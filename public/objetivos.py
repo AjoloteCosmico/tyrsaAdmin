@@ -55,6 +55,8 @@ creditos=pd.read_sql("""select *
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 vendedores=pd.read_sql("""select * 
                      from sellers""",cnx)
+objetivo=pd.read_sql("""select * 
+                     from settings""",cnx)['objetivo_anual'].values[0]
 
 print(cobros)
 nordenes=len(pedidos)
@@ -281,6 +283,15 @@ for i in range(len(vendedores)):
     
 
 
+
+worksheet.write('B'+str(len(vendedores)+7), 'Objetivo Anual', blue_header_format)
+worksheet.write('D'+str(len(vendedores)+7), str(objetivo), blue_content_bold)
+
+worksheet.write('B'+str(len(vendedores)+8), 'Dias transcurridos', blue_header_format)
+worksheet.write('D'+str(len(vendedores)+8), str(objetivo), blue_content_bold)
+
+worksheet.write('B'+str(len(vendedores)+7), 'Objetivo a la fecha', blue_header_format)
+worksheet.write('D'+str(len(vendedores)+7), str(round(len(pedidos)/objetivo,2))+'%', blue_content_bold)
 #Grafica
 chart = workbook.add_chart({'type': 'column'})
 
