@@ -90,6 +90,7 @@ class SettingController extends Controller
         $Settings->uma = $request->uma;
         $Settings->iva = $request->iva;
         $Settings->objetivo_anual = $request->obj;
+        $Settings->objetivo_monto = $request->obj_monto;
         $Settings->year_application = $request->year_application;
         $Settings->save();
 
