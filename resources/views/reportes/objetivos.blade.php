@@ -3,7 +3,7 @@
 @section('title', 'PEDIDOS INTERNOS')
 
 @section('content_header')
-    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; PEDIDO INTERNO</h1>
+    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; REPORTE DE OBJETIVOS</h1>
 @stop
 
 @section('content')     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
@@ -54,7 +54,7 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">OBJETIVOS Y RESULTADOS</h5>
+            <h5 class="text-lg text-center text-bold">OBJETIVOS Y RESULTADOS POR {{$Monto}} </h5>
             <br>
             <div >
                 <table>
@@ -105,9 +105,12 @@
                 <tr>
                     <td>{{$seller->seller_name}}</td>
                     @for($i=1;$i<=12;$i++)
-                                          
-                    <td>{{$InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </td>
+                      @if($Monto=='MONTO')                    
+                        <td> $ {{number_format($InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),2)}}  </td>
+                        @else
+                        <td>{{$InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </td>
                         
+                        @endif
                     @endfor
                     <td>{{$InternalOrders->where('seller_id',$seller->id)->count()}}</td>
                     

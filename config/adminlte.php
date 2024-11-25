@@ -463,7 +463,13 @@ return [
                 [
                     'text' => ' OBJETIVOS Y RESULTADOS GENERALES',
                     'icon' => 'fas fa-file fa-fw',
-                    'route'  => 'reportes.objetivos',
+                    'url'  => '/reportes/objetivo/PEDIDO',
+                    'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
+                ],
+                [
+                    'text' => ' OBJETIVOS Y RESULTADOS POR MONTO ',
+                    'icon' => 'fas fa-file fa-fw',
+                    'url'  => 'reportes/objetivo/MONTO',
                     'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
                 ],
                 
