@@ -329,7 +329,7 @@ worksheet.set_landscape()
 
 worksheet_charts = workbook.add_worksheet("Gráficas")
 worksheet_charts.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1/8', negro_b)
-worksheet_charts.merge_range('B3:F3', 'OBJETIVOS Y RESULTADOS POR PEDIDO', negro_s)
+worksheet_charts.merge_range('B3:F3', 'OBJETIVOS Y RESULTADOS POR MONTO', negro_s)
 
 worksheet_charts.write('H2', 'AÑO', negro_b)
 worksheet_charts.write('I2', year, negro_b)
