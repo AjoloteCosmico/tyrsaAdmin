@@ -249,7 +249,7 @@ df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=Fals
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1/8', negro_b)
-worksheet.merge_range('B3:F3', 'OBJETIVOS Y RESULTADOS POR PEDIDO', negro_s)
+worksheet.merge_range('B3:F3', 'OBJETIVOS Y RESULTADOS POR MONTO', negro_s)
 
 worksheet.write('H2', 'AÑO', negro_b)
 worksheet.write('I2', year, negro_b)
@@ -273,7 +273,6 @@ worksheet.write('M6', 'NOVIEMBRE', blue_header_format)
 worksheet.write('N6', 'DICIEMBRE', blue_header_format)
 
 worksheet.write('O6', 'TOTAL', blue_header_format)
-
 worksheet.write('P6', 'PORCENTAJE', blue_header_format)
 
 for i in range(len(vendedores)):
@@ -285,7 +284,7 @@ for i in range(len(vendedores)):
         ls=year+'-'+str(mes+2)+'-01'
         if(mes+1==12):
             ls=str(int(year)+1)+'-01-01'
-        worksheet.write(6+i,mes+2, len(pxv.loc[(pxv['date']<ls)&(pxv['date']>=li)]), blue_content)
+        worksheet.write(6+i,mes+2, pxv.loc[(pxv['date']<ls)&(pxv['date']>=li),'total'].sum(), blue_content)
     worksheet.write('O'+str(7+i), pxv['total'].sum(), blue_content)
     worksheet.write('P'+str(7+i), str(round((pxv['total'].sum()*100)/pedidos['total'].sum(),2))+'%', blue_content)
      
@@ -299,16 +298,16 @@ worksheet.write('P'+str(len(vendedores)+8),  '100%',blue_content_bold)
 
 
 worksheet.write('B'+str(len(vendedores)+10), 'Objetivo Anual (MONTO)', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+10), str(objetivo), blue_content_bold)
+worksheet.merge_range('C'+str(len(vendedores)+10)+':D'+str(len(vendedores)+10), objetivo, blue_content_bold)
 
 worksheet.write('B'+str(len(vendedores)+11), 'Dias transcurridos', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_content_bold)
+worksheet.merge_range('C'+str(len(vendedores)+11)+':D'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_content_bold)
 
 worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+12), str(pedidos['total'].sum()), blue_content_bold)
+worksheet.merge_range('C'+str(len(vendedores)+12)+':D'+str(len(vendedores)+12), pedidos['total'].sum(), blue_content_bold)
 
 worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completadp', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+13), str(round(pedidos['total'].sum()*100/objetivo,2))+'%', blue_content_bold)
+worksheet.merge_range('C'+str(len(vendedores)+13)+':D'+str(len(vendedores)+13), str(round(pedidos['total'].sum()*100/objetivo,2))+'%', blue_content_bold)
 #Grafica
 # chart = workbook.add_chart({'type': 'column'})
 
@@ -321,12 +320,7 @@ worksheet.write('C'+str(len(vendedores)+13), str(round(pedidos['total'].sum()*10
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('B:B',35)
-worksheet.set_column('E:E',15)
-worksheet.set_column('L:L',15)
-worksheet.set_column('G:G',15)
-worksheet.set_column('H:H',15)
-worksheet.set_column('I:N',16)
-worksheet.set_column('P:T',15)
+worksheet.set_column('C:O',18)
 
 #worksheet.set_landscape()
 worksheet.set_paper(9)
@@ -374,7 +368,7 @@ chart.add_series({'values': '=Sheet1!$C$'+str(8+len(vendedores))+':$N$'+str(8+le
                   'name':'TOTAL'})
 
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('C20', chart,{'x_scale': 2, 'y_scale': 0.75})
+worksheet_charts.insert_chart('C20', chart,{'x_scale': 2, 'y_scale': 1.25})
 
 worksheet_charts.set_column('B:C',20)
 worksheet_charts.set_column('L:L',20)

@@ -321,11 +321,7 @@ worksheet.write('C'+str(len(vendedores)+13), str(round(len(pedidos)*100/objetivo
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('B:B',35)
-worksheet.set_column('E:E',15)
-worksheet.set_column('L:L',15)
-worksheet.set_column('G:G',15)
-worksheet.set_column('H:H',15)
-worksheet.set_column('I:N',16)
+worksheet.set_column('E:O',18)
 worksheet.set_column('P:T',15)
 
 #worksheet.set_landscape()
@@ -374,7 +370,7 @@ chart.add_series({'values': '=Sheet1!$C$'+str(8+len(vendedores))+':$N$'+str(8+le
                   'name':'TOTAL'})
 
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('C20', chart,{'x_scale': 2, 'y_scale': 0.75})
+worksheet_charts.insert_chart('C20', chart,{'x_scale': 2, 'y_scale': 1.25})
 
 worksheet_charts.set_column('B:C',20)
 worksheet_charts.set_column('L:L',20)
