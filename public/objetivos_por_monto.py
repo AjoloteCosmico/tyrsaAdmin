@@ -336,6 +336,7 @@ worksheet_charts.write('I2', year, negro_b)
 worksheet_charts.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 worksheet_charts.merge_range('L2:L3', date, negro_b)
+worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 
 # Create a new chart object.
 chart = workbook.add_chart({'type': 'pie'})
@@ -353,8 +354,7 @@ chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(7+ len(vendedores)),
                   })
 
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('B4', chart,{'x_scale': 2.15, 'y_scale': 1.35})
-worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 
 
 # Create a new chart object.
@@ -377,7 +377,7 @@ chart.add_series({'values': '=Sheet1!$C$'+str(8+len(vendedores))+':$N$'+str(8+le
                   })
 
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('B24', chart,{'x_scale': 2.15, 'y_scale': 1.35})
+worksheet_charts.insert_chart('B25', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 
 worksheet_charts.set_column('B:C',20)
 worksheet_charts.set_column('L:L',20)
