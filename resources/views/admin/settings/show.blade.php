@@ -52,9 +52,14 @@
                                 <x-jet-input-error for='year_application' />
                             </div>  --}}
                             <div class="form-group">
-                                <x-jet-label value="Objetivo Anual" />
+                                <x-jet-label value="Objetivo Anual (en no. P.I.)" />
                                 <x-jet-input type="number" name="obj" class="w-full text-xs " value="{{$Settings->objetivo_anual}}"/>
                                 <x-jet-input-error for='obj' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Objetivo Anual (monto en moneda nacional)" />
+                                <x-jet-input type="number" name="obj_monto" class="w-full text-xs " value="{{$Settings->objetivo_monto}}"/>
+                                <x-jet-input-error for='obj_monto' />
                             </div>
                         </div>
                     </div>
