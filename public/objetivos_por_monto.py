@@ -306,7 +306,7 @@ worksheet.merge_range('C'+str(len(vendedores)+11)+':D'+str(len(vendedores)+11), 
 worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
 worksheet.merge_range('C'+str(len(vendedores)+12)+':D'+str(len(vendedores)+12), pedidos['total'].sum(), blue_content_bold)
 
-worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completadp', blue_header_format)
+worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completado', blue_header_format)
 worksheet.merge_range('C'+str(len(vendedores)+13)+':D'+str(len(vendedores)+13), str(round(pedidos['total'].sum()*100/objetivo,2))+'%', blue_content_bold)
 #Grafica
 # chart = workbook.add_chart({'type': 'column'})

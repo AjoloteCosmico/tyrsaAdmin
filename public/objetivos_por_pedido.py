@@ -307,7 +307,7 @@ worksheet.write('C'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_
 worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
 worksheet.write('C'+str(len(vendedores)+12), str(len(pedidos)), blue_content_bold)
 
-worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completadp', blue_header_format)
+worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completado', blue_header_format)
 worksheet.write('C'+str(len(vendedores)+13), str(round(len(pedidos)*100/objetivo,2))+'%', blue_content_bold)
 #Grafica
 # chart = workbook.add_chart({'type': 'column'})

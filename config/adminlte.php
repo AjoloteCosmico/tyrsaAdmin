@@ -464,13 +464,13 @@ return [
                     'text' => ' OBJETIVOS Y RESULTADOS GENERALES',
                     'icon' => 'fas fa-file fa-fw',
                     'url'  => '/reportes/objetivo/PEDIDO',
-                    'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
+                    'can'  => 'DESCARGAR OBJETIVOS PI',
                 ],
                 [
                     'text' => ' OBJETIVOS Y RESULTADOS POR MONTO ',
                     'icon' => 'fas fa-file fa-fw',
                     'url'  => 'reportes/objetivo/MONTO',
-                    'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
+                    'can'  => 'DESCARGAR OBJETIVOS MONTO',
                 ],
                 
         ],

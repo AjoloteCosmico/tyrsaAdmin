@@ -296,15 +296,17 @@ public function note_pdf($id){
         $ven_data=$vendedores->pluck('total')->toArray();
         foreach($ven_data as &$hits) {
         $hits = round(($hits * 100)/ $vendedores->sum('total'),2);
-     }
-     $Mes_data=array();
-    for($i=1;$i<=12;$i++){
-        array_push($Mes_data,
-        $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
-        ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
-        ->sum('total'));
+         }
+         $subtitle='Porcentaje del monto total de P.I';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('total'));
+        }
     }
-    }
+
     else{
 
     #por total de pedidos
@@ -316,19 +318,21 @@ public function note_pdf($id){
         foreach($ven_data as &$hits) {
             $hits = round(($hits * 100)/ $vendedores->sum('internal_orders_count'),2);
          }
-         $Mes_data=array();
-    for($i=1;$i<=12;$i++){
-        array_push($Mes_data,
-        $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
-        ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
-        ->count());
-    }
+         
+        $subtitle='Porcentaje total de P.I';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->count());
+        }
     }
     // dd($vendedores);
     
     // dd($ven_data);
     $SellerChart=LarapexChart::pieChart()
-    ->setTitle('Pedidos por vendedor')
+    ->setTitle($subtitle)
     ->setSubtitle('Anual vendedores activos')
     ->addData($ven_data)
     ->setLabels($vendedores->pluck('seller_name')->toArray());
