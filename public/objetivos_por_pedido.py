@@ -307,7 +307,7 @@ worksheet.write('C'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_
 worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
 worksheet.write('C'+str(len(vendedores)+12), str(len(pedidos)), blue_content_bold)
 
-worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completadp', blue_header_format)
+worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completado', blue_header_format)
 worksheet.write('C'+str(len(vendedores)+13), str(round(len(pedidos)*100/objetivo,2))+'%', blue_content_bold)
 #Grafica
 # chart = workbook.add_chart({'type': 'column'})
@@ -347,8 +347,20 @@ chart = workbook.add_chart({'type': 'pie'})
 chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(7+ len(vendedores)),
                   'categories': '=Sheet1!$B$7:$B$'+str(7+ len(vendedores))})
 
+# Add a series to the chart.
+chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(7+ len(vendedores)),
+                  'categories': '=Sheet1!$B$7:$B$'+str(7+ len(vendedores)),
+                  'percentage': True,
+                    'leader_lines': True,
+                    'position': 'best_fit',
+                    'data_labels': {
+                    'value': True,
+                    'font': {'color': 'gray','size': 10}
+                }
+                  })
+
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('C5', chart)
+worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 
 
 # Create a new chart object.
@@ -367,10 +379,11 @@ for i in range(len(vendedores)):
 
 chart.add_series({'values': '=Sheet1!$C$'+str(8+len(vendedores))+':$N$'+str(8+len(vendedores)),
                   'categories': '=Sheet1!$C$6:$N$6',
-                  'name':'TOTAL'})
+                  'name':'TOTAL',
+                  })
 
 # Insert the chart into the worksheet.
-worksheet_charts.insert_chart('C20', chart,{'x_scale': 2, 'y_scale': 1.25})
+worksheet_charts.insert_chart('B25', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 
 worksheet_charts.set_column('B:C',20)
 worksheet_charts.set_column('L:L',20)

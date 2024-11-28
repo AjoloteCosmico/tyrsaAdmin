@@ -121,7 +121,7 @@
                         </div>
                         
                     </div>
-                    @can('ASIGNAR DGI')
+                    <!-- @can('ASIGNAR DGI')
                     <div class="card">
                         <div class="card-header">
                             <h1 class="h5 text-center fw">DGI</h1>
@@ -134,7 +134,7 @@
                             </div>
                          </div>
                         </div>
-                    @endif
+                    @endif -->
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">
