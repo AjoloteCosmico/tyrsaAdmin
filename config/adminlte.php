@@ -472,6 +472,12 @@ return [
                     'url'  => 'reportes/objetivo/MONTO',
                     'can'  => 'DESCARGAR OBJETIVOS MONTO',
                 ],
+                [
+                    'text' => ' RANGO DE VENTAS ',
+                    'icon' => 'fas fa-file fa-fw',
+                    'route'  => 'reportes.rango_ventas',
+                    'can'  => 'DESCARGAR OBJETIVOS MONTO',
+                ],
                 
         ],
     ],],
