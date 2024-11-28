@@ -357,4 +357,94 @@ public function note_pdf($id){
                     'Monto',
     ));
   }
+
+  public function rangos(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Sellers=Seller::all();
+    $InternalOrders=DB::table('internal_orders')
+    ->join('sellers','sellers.id','internal_orders.seller_id')
+    ->select('internal_orders.*','sellers.seller_name')
+    ->where('date','>=',$Year.'-01-01')
+    ->get();
+    // dd($InternalOrders);
+
+    #Grafica vendedores
+    if($Monto=='MONTO'){
+
+    #por montn total de pedidos
+        $vendedores = DB::table('sellers')
+        ->where('sellers.status','ACTIVO')
+        ->join('internal_orders','internal_orders.seller_id','=','sellers.id')
+        ->select('sellers.seller_name')
+        ->selectRaw("SUM(internal_orders.total) as total")
+        ->groupBy('internal_orders.seller_id','sellers.seller_name')
+        ->orderBy('total','desc')
+        ->get();
+        // dd($vendedores);
+        $ven_data=$vendedores->pluck('total')->toArray();
+        foreach($ven_data as &$hits) {
+        $hits = round(($hits * 100)/ $vendedores->sum('total'),2);
+         }
+         $subtitle='Porcentaje del monto total de P.I';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('total'));
+        }
+    }
+
+    else{
+
+    #por total de pedidos
+        $vendedores = Seller::withCount('internalOrders')
+        ->where('status','ACTIVO')
+        ->orderBy('internal_orders_count','desc')
+        ->get();
+        $ven_data=$vendedores->pluck('internal_orders_count')->toArray();
+        foreach($ven_data as &$hits) {
+            $hits = round(($hits * 100)/ $vendedores->sum('internal_orders_count'),2);
+         }
+         
+        $subtitle='Porcentaje total de P.I';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->count());
+        }
+    }
+    // dd($vendedores);
+    
+    // dd($ven_data);
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle($subtitle)
+    ->setSubtitle('Anual vendedores activos')
+    ->addData($ven_data)
+    ->setLabels($vendedores->pluck('seller_name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle('Pedidos por Mes')
+    ->setSubtitle('Anual')
+    ->addData('total pedidos',$Mes_data)
+    ->setLabels($Meses);
+    
+    return view('reportes.objetivos',compact(
+                   'Sellers',
+                   'InternalOrders',
+                   'Year',
+                   'CompanyProfiles',
+                   'comp',
+                   'SellerChart',
+                    'MesesChart',
+                    'Monto',
+    ));
+  }
 }
