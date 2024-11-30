@@ -298,6 +298,7 @@ public function note_pdf($id){
         $hits = round(($hits * 100)/ $vendedores->sum('total'),2);
          }
          $subtitle='Porcentaje del monto total de P.I';
+         $meses_title='Suma total del monto de PI';
         $Mes_data=array();
         for($i=1;$i<=12;$i++){
             array_push($Mes_data,
@@ -320,6 +321,7 @@ public function note_pdf($id){
          }
          
         $subtitle='Porcentaje total de P.I';
+        $meses_title='Suma total  de PI';
         $Mes_data=array();
         for($i=1;$i<=12;$i++){
             array_push($Mes_data,
@@ -341,7 +343,7 @@ public function note_pdf($id){
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
     $MesesChart=LarapexChart::lineChart()
-    ->setTitle('Pedidos por Mes')
+    ->setTitle($meses_title)
     ->setSubtitle('Anual')
     ->addData('total pedidos',$Mes_data)
     ->setLabels($Meses);
