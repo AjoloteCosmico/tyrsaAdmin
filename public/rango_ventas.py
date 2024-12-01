@@ -1,5 +1,6 @@
 import sys
 import mysql.connector
+import numpy as np
 import xlsxwriter
 import pandas as pd
 import sys
@@ -28,7 +29,11 @@ query = ('SELECT * from customers where id = 1')
 
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
-
+#TODO: inciroirar el año desde el server al variable year
+clientes=pd.read_sql("""select  SUM(internal_orders.total) as total,COUNT(internal_orders.id) as pi,customers.customer,customers.clave from customers inner join internal_orders
+                     on internal_orders.customer_id = customers.id
+                     where internal_orders.date > '2024-01-01' 
+                     group by customers.customer,customers.clave order by total """,cnx)
 
 #traer datos de los pedidos
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
@@ -38,32 +43,16 @@ from ((
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id) 
      """,cnx)
-cobros=pd.read_sql("""select cobro_orders.*
-                     from (((
-                         cobro_orders 
-    inner join cobros on cobros.id=cobro_orders.cobro_id)
-    inner join internal_orders on internal_orders.id = cobros.order_id )
-    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-facturas=pd.read_sql("""select * 
-                     from ((
-                         factures
-    inner join internal_orders on internal_orders.id = factures.order_id )
-    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-creditos=pd.read_sql("""select * 
-                     from ((
-                         credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
-    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
-vendedores=pd.read_sql("""select * 
-                     from sellers""",cnx)
+
 objetivo=pd.read_sql("""select * 
                      from settings""",cnx)['objetivo_anual'].values[0]
 
-print(cobros)
+
 nordenes=len(pedidos)
 df=pedidos[['date']]
 
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
-writer = pd.ExcelWriter('storage/report/objetivos_por_pedido1.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/rango_ventas1.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -115,7 +104,8 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
-    'border': 1})
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00'})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
@@ -179,7 +169,7 @@ blue_content_bold = workbook.add_format({
     'font_color': 'black',
     'font_size':11,
     'border_color':a_color,
-    # 'num_format': '[$$-409]#,##0.00'
+    'num_format': '[$$-409]#,##0.00'
     })
 
 blue_content_bold_dll = workbook.add_format({
@@ -241,6 +231,21 @@ import datetime
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 year = date.strftime("%Y")
+rangos=[
+        [0,50],
+        [51,100],
+        [101,200],
+        [301,400],
+        [401,500],
+        [500,600],
+        [601,700],
+        [701,800],
+        [801,900],
+        [901,1000],
+        [1000,2000],
+        [2001,3000],
+        [3001,99000]
+        ]
 dias_transcurridos=date-datetime.date(int(year), 1, 1)
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
@@ -255,141 +260,93 @@ worksheet.write('H2', 'AÑO', negro_b)
 worksheet.write('I2', year, negro_b)
 worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
-worksheet.merge_range('L2:L3', date, negro_b)
+worksheet.merge_range('J4:K4', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+#Cual es el rango con mas filas?
+max_rows=0
+n=0
+for i in rangos:
+    li=i[0]*1000
+    ls=i[1]*1000
+    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
+    if(len(target_clientes)>max_rows):
+         max_rows=len(target_clientes)
 
-worksheet.write('B6', 'VENDEDOR', blue_header_format)
-worksheet.write('C6', 'ENERO', blue_header_format)
-worksheet.write('D6', 'FEBRERO', blue_header_format)
-worksheet.write('E6', 'MARZO', blue_header_format)
-worksheet.write('F6', 'ABRIL', blue_header_format)
-worksheet.write('G6', 'MAYO', blue_header_format)
-worksheet.write('H6', 'JUNIO', blue_header_format)
-worksheet.write('I6', 'JULIO', blue_header_format)
-worksheet.write('J6', 'AGOSTO', blue_header_format)
-worksheet.write('K6', 'SEPTIEMBRE', blue_header_format)
-worksheet.write('L6', 'OCTUBRE', blue_header_format)
-worksheet.write('M6', 'NOVIEMBRE', blue_header_format)
-worksheet.write('N6', 'DICIEMBRE', blue_header_format)
+for i in rangos:
+    worksheet.merge_range(6,n*4+1,6,n*4+4,'DE '+str(i[0])+' A '+str(i[1]), blue_header_format)
+    print('de',i[0],'a',i[1])
+    li=i[0]*1000
+    ls=i[1]*1000
+    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
+    if(len(target_clientes)>0):
+        
+        worksheet.write(7,n*4+1,'NO.', blue_header_format)
+        worksheet.write(7,n*4+2,'CLIENTE', blue_header_format)
+        worksheet.write(7,n*4+3,'PI', blue_header_format)
+        worksheet.write(7,n*4+4,'TOTAL', blue_header_format)
+        for j in range(len(target_clientes)):
+            print(target_clientes['total'].values[j],target_clientes['customer'].values[j])
+            worksheet.write(8+j,n*4+1,target_clientes['clave'].values[j].replace(' ',''), blue_content)
+            worksheet.write(8+j,n*4+2,target_clientes['customer'].values[j], blue_content)
+            worksheet.write(8+j,n*4+3,target_clientes['pi'].values[j], blue_content_unit)
+            worksheet.write(8+j,n*4+4,target_clientes['total'].values[j], blue_content)
+        for j in np.arange(len(target_clientes),max_rows,1):
+            worksheet.write(8+j,n*4+1,' ', blue_content)
+            worksheet.write(8+j,n*4+2,' ', blue_content)
+            worksheet.write(8+j,n*4+3,' ', blue_content)
+            worksheet.write(8+j,n*4+4,' ', blue_content)
 
-worksheet.write('O6', 'TOTAL', blue_header_format)
+        worksheet.merge_range(8+max_rows,n*4+1,8+max_rows,n*4+3,'TOTAL', blue_header_format)
+        worksheet.write(8+max_rows,n*4+4,target_clientes['total'].sum(), blue_header_format)
 
-worksheet.write('P6', 'PORCENTAJE', blue_header_format)
+        n=n+1
 
-for i in range(len(vendedores)):
-    seller_id=vendedores['id'].values[i]
-    pxv=pedidos.loc[pedidos['seller_id']==seller_id] 
-    worksheet.write('B'+str(7+i), vendedores['seller_name'].values[i], blue_content)
-    for mes in range(12):
-        li=year+'-'+str(mes+1)+'-01'
-        ls=year+'-'+str(mes+2)+'-01'
-        if(mes+1==12):
-            ls=str(int(year)+1)+'-01-01'
-        worksheet.write(6+i,mes+2, len(pxv.loc[(pxv['date']<ls)&(pxv['date']>=li)]), blue_content_unit)
-    worksheet.write('O'+str(7+i), len(pxv), blue_content_unit)
-    worksheet.write('P'+str(7+i), str(round((len(pxv)*100)/len(pedidos),2))+'%', blue_content)
-     
-worksheet.write('B'+str(len(vendedores)+8), 'Total Mensual', blue_header_format)
-for i in ['C','D','E','F','G','H','I','J','K','L','M','N','O']:
+ 
+# Tablas inferiores
+worksheet.write(11+max_rows,1,'CANATIDAD', blue_header_format)
+worksheet.write(11+max_rows,2,'RANGO', blue_header_format)
+worksheet.write(11+max_rows,3,'$', blue_header_format)
+worksheet.write(11+max_rows,4,'% EN PI', blue_header_format)
+worksheet.write(11+max_rows,5,'% EN $', blue_header_format)
 
-    worksheet.write_formula(i+str(len(vendedores)+8),  '{=SUM('+i+'7:'+i+str(len(vendedores)+6)+')}',blue_content_bold)
-worksheet.write('P'+str(len(vendedores)+8),  '100%',blue_content_bold)
+n=0
+for i in rangos:
+    li=i[0]*1000
+    ls=i[1]*1000
+    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
+    if(len(target_clientes)>0):
+        worksheet.write(12+max_rows+n,1,target_clientes['pi'].sum(),blue_content_unit)
+        worksheet.write(12+max_rows+n,2,'DE '+str(i[0])+' A '+str(i[1]),blue_content)
+        worksheet.write(12+max_rows+n,3,target_clientes['total'].sum(),blue_content)
+        worksheet.write(12+max_rows+n,4,str(round(target_clientes['pi'].sum()*100/clientes['pi'].sum(),2))+'%',blue_content_unit)
+        worksheet.write(12+max_rows+n,5,str(round(target_clientes['total'].sum()*100/clientes['total'].sum(),2))+'%',blue_content_unit)
+        n=n+1
 
 
 
-
-worksheet.write('B'+str(len(vendedores)+10), 'Objetivo Anual', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+10), str(objetivo), blue_content_bold)
-
-worksheet.write('B'+str(len(vendedores)+11), 'Dias transcurridos', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_content_bold)
-
-worksheet.write('B'+str(len(vendedores)+12), 'Objetivo a la fecha', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+12), str(len(pedidos)), blue_content_bold)
-
-worksheet.write('B'+str(len(vendedores)+13), 'Porcentaje completado', blue_header_format)
-worksheet.write('C'+str(len(vendedores)+13), str(round(len(pedidos)*100/objetivo,2))+'%', blue_content_bold)
-#Grafica
-# chart = workbook.add_chart({'type': 'column'})
-
-# # Configure the chart. In simplest case we add one or more data series.
-# chart.add_series({ 'name':'Enero','categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$C$7:$C$'+str(6+len(vendedores))})
-# chart.add_series({'name':'Febrero', 'categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$D$7:$D$'+str(6+len(vendedores))})
-# chart.add_series({ 'name':'Marzo','categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$E$7:$E$'+str(6+len(vendedores))})
-# #insertar grafica
-# worksheet.insert_chart('P7', chart,{'x_scale': 2, 'y_scale': 0.75})
+worksheet.merge_range(11+max_rows,7,11+max_rows,8,'SUMA DE PEDIDOS AL AÑO', blue_header_format)
+worksheet.write(11+max_rows,9,str(clientes['pi'].sum()),blue_content_bold)
+worksheet.merge_range(12+max_rows,7,12+max_rows,8,'VENTAS EN MONEDA NACIONAL', blue_header_format)
+worksheet.write(12+max_rows,9,clientes['total'].sum(),blue_content_bold)
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
-worksheet.set_column('B:B',35)
-worksheet.set_column('E:O',18)
-worksheet.set_column('P:T',15)
+worksheet.set_column('C:C',33)
+worksheet.set_column('F:F',20)
+
+worksheet.set_column('G:G',33)
+
+worksheet.set_column('J:J',20)
+worksheet.set_column('K:K',33)
+
+worksheet.set_column('N:N',20)
+worksheet.set_column('O:O',33)
+
+worksheet.set_column('R:R',20)
+worksheet.set_column('S:S',33)
 
 #worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
 worksheet.set_landscape() 
-
-worksheet_charts = workbook.add_worksheet("Gráficas")
-worksheet_charts.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 1/8', negro_b)
-worksheet_charts.merge_range('B3:F3', 'OBJETIVOS Y RESULTADOS POR PEDIDO', negro_s)
-
-worksheet_charts.write('H2', 'AÑO', negro_b)
-worksheet_charts.write('I2', year, negro_b)
-worksheet_charts.merge_range('J2:K3', """FECHA DEL REPORTE
-DD/MM/AAAA""", negro_b)
-worksheet_charts.merge_range('L2:L3', date, negro_b)
-worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-
-# Create a new chart object.
-chart = workbook.add_chart({'type': 'pie'})
-
-# Add a series to the chart.
-chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(7+ len(vendedores)),
-                  'categories': '=Sheet1!$B$7:$B$'+str(7+ len(vendedores))})
-
-# Add a series to the chart.
-chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(7+ len(vendedores)),
-                  'categories': '=Sheet1!$B$7:$B$'+str(7+ len(vendedores)),
-                  'percentage': True,
-                    'leader_lines': True,
-                    'position': 'best_fit',
-                    'data_labels': {
-                    'value': True,
-                    'font': {'color': 'gray','size': 10}
-                }
-                  })
-
-# Insert the chart into the worksheet.
-worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
-
-
-# Create a new chart object.
-chart = workbook.add_chart({'type': 'line'})
-
-for i in range(len(vendedores)):
-    seller_id=vendedores['id'].values[i]
-    pxv=pedidos.loc[pedidos['seller_id']==seller_id] 
-# Add a series to the chart.
-    if(len(pxv)>len(pedidos)*0.05):
-        
-        chart.add_series({'values': '=Sheet1!$C$'+str(7+i)+':$N$'+str(7+i),
-                  'categories': '=Sheet1!$C$6:$N$6',
-                  'name':'=Sheet1!$B'+str(7+i)})
-
-
-chart.add_series({'values': '=Sheet1!$C$'+str(8+len(vendedores))+':$N$'+str(8+len(vendedores)),
-                  'categories': '=Sheet1!$C$6:$N$6',
-                  'name':'TOTAL',
-                  })
-
-# Insert the chart into the worksheet.
-worksheet_charts.insert_chart('B25', chart,{'x_scale': 2.15, 'y_scale': 1.35})
-
-worksheet_charts.set_column('B:C',20)
-worksheet_charts.set_column('L:L',20)
-
-#worksheet.set_landscape()
-worksheet_charts.set_paper(9)
-worksheet_charts.fit_to_pages(1, 1)  
-
 workbook.close()
+                

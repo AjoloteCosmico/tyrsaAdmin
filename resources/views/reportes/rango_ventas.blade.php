@@ -54,19 +54,19 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">OBJETIVOS Y RESULTADOS POR {{$Monto}} </h5>
+            <h5 class="text-lg text-center text-bold">RANGO DE VENTAS POR CLIENTE </h5>
             <br>
             <div >
                 <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'objetivos_por_'.strtolower($Monto),0])}}">
+                            <a href="{{route('reports.generate',[1,'rango_ventas',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'objetivos_por_'.strtolower($Monto),1])}}">
+                            <a href="{{route('reports.generate',[1,'rango_ventas',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
@@ -79,98 +79,59 @@
 </div>
                 <div class="table-responsive contenedor" id="tabla" style="display: block;">
              
-                        <!-- 14 columas, para poder copiar del excel -->
-               <table class="table text-xs font-medium table-striped "  id="example" >
+                @foreach($Rangos as $rango)
+                @php 
+                  $TargetClientes=$Clientes->where('total','>=',$rango[0]*1000)->where('total','<=',$rango[1]*1000);
+                  @endphp
+                  @if($TargetClientes->count()>0)      
+               <table class="table text-xs font-medium table-striped " >
                <thead> 
-                <!-- 15 columnas -->
+                <!-- 4 columnas -->
                <tr class="text-center">
-                    <th width="18%">Vendedor</th>
-                    <th>Enero</th>
-                    <th>Febrero</th>
-                    <th>Marzo</th>
-                    <th>Mayo </th>
-                    <th>Abril</th>
-                    <th>Junio</th>
-                    <th>Julio</th>
-                    <th>Agosto</th>
-                    <th>Septiembre</th>
-                    <th>Octubre</th>
-                    <th>Noviembre</th>
-                    <th>Diciembre</th>
-                    <th>Total</th>
-                    <th width="8%"> &nbsp;% &nbsp; &nbsp;</th>
-                </tr>
+                <th  colspan="4">
+                DE {{$rango[0]}} A {{$rango[1]}}</th>
+               </tr>
+               <tr>
+                <th>No.</th>
+                <th>Cliente</th>
+                <th>PI</th>                
+                <th>Total</th>
+               </tr>
                 </thead>
-                @foreach($Sellers as $seller)
+                <tbody>
+                @foreach($TargetClientes as $cliente)
+                  
                 <tr>
-                    <td>{{$seller->seller_name}}</td>
-                    @for($i=1;$i<=12;$i++)
-                      @if($Monto=='MONTO')                    
-                        <td class="text-nowrap" > $ {{number_format($InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),2)}}  </td>
-                        @else
-                        <td>{{$InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </td>
-                        
-                        @endif
-                    @endfor
-                    @if($Monto=='MONTO')  
-                      <td class="text-nowrap" > $ {{number_format($InternalOrders->where('seller_id',$seller->id)->sum('total'),2)}}</td>
-                      <td class="text-nowrap" >{{number_format(100*$InternalOrders->where('seller_id',$seller->id)->sum('total')/$InternalOrders->sum('total'),1)}} %</td>
-                    @else
-                    
-                    <td class="text-nowrap" >{{$InternalOrders->where('seller_id',$seller->id)->count()}}</td>
-                      <td class="text-nowrap" > {{number_format(100*$InternalOrders->where('seller_id',$seller->id)->count()/$InternalOrders->count(),1)}} %</td>
-                    @endif
+                  <td>{{$cliente->clave}}</td>
+                  <td>{{$cliente->customer}} </td>
+                  <td>{{$cliente->pi}} </td>
+                  <td> $ {{number_format($cliente->total,2)}} </td>
                 </tr>
-                @endforeach
-                <tfoot>
+                  @endforeach
+                </tbody>
 
-                <tr>
-                    <th>TOTAL MENSUAL</th>
-                    @for($i=1;$i<=12;$i++)
-                                  
-                      @if($Monto=='MONTO')  
-                        <th> $ {{number_format($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),2)}}  </th>
-                    
-                      @else
-                        <th>{{$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </th>
-                    
-                      @endif
-                    @endfor
-                      @if($Monto=='MONTO')  
-                      <th> $ {{number_format($InternalOrders->sum('total'),2)}} </th>
-                      @else
-                      <th>{{$InternalOrders->count()}} </th>
-                      @endif
-                    
-                    <th>100% </th>
-                </tr>
-                <tr>
-                    <td></td>
-                    @for($i=1;$i<=12;$i++)
-                      @if($Monto=='MONTO')  
-                      <td>{{number_format(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total')/$InternalOrders->sum('total'),1)}} %</td>
-               
-                      @else
-                      <td>{{number_format(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()/$InternalOrders->count(),1)}} %</td>
-               
-                      @endif
-                    
-                    @endfor
-                    <td></td>
-                    <td></td>
-                </tr>
+                <tfoot>
+                  <tr>
+                    <th colspan="3">
+                      Total
+                    </th>
+                    <th> $ {{number_format($TargetClientes->sum('total'),2 )}}</th>
+                  </tr>
                 </tfoot>
+               
                </table>
+               @endif
+               @endforeach
                      </div>
           <div class="contenedor" id="graficos">
           <div class="container px-4 mx-auto">
 
             <div class="p-6 m-20 bg-white rounded shadow">
-                {!! $SellerChart->container() !!}
+
             </div>
             
             <div class="p-6 m-20 bg-white rounded shadow">
-                {!! $MesesChart->container() !!}
+                
             </div>
 
             </div>
@@ -271,11 +232,4 @@ new DataTable('#example');
   }
 </script>
 
-<script src="{{ $SellerChart->cdn() }}"></script>
-
-{{ $SellerChart->script() }}
-
-<script src="{{ $MesesChart->cdn() }}"></script>
-
-{{ $MesesChart->script() }}
 @endpush

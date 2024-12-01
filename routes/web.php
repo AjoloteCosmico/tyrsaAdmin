@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
    //Reportes nuevos 
     Route::get('reportes/objetivo/{monto}', [ReportsController::class, 'objetivos'])->name('reportes.objetivos');
-    Route::get('reportes/rango_ventas', [ReportsController::class, 'rango_ventas'])->name('reportes.rango_ventas');
+    Route::get('reportes/rango_ventas', [ReportsController::class, 'RangoVentas'])->name('reportes.rango_ventas');
    
    
     //  generar reporte
