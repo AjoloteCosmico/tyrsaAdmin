@@ -510,7 +510,7 @@ public function RangoVentasPi(){
     ->setLabels($etiquetas);
 
     return view('reportes.rango_ventas_pi',compact(
-        'Clientes','Rangos','Year',
+        'Pedidos','Rangos','Year',
                    'CompanyProfiles',
                    'comp', 'RangosChart','RangosPie','RangosPieMonto'
     ));
