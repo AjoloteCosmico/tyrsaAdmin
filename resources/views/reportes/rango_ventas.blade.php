@@ -122,10 +122,63 @@
                </table>
                @endif
                @endforeach
+
+               <br>
+               <table>
+                <tr>
+                  <td>
+                  <table>
+                <thead>
+                  <tr>
+                    <th>Cantidad</th>
+                    <th>Rango</th>
+                    <th>$</th>
+                    <th>%En PI</th>
+                    <th>% en $</th>
+
+                  </tr>
+                </thead>
+               <tbody>
+               @foreach($Rangos as $rango)
+                @php 
+                  $TargetClientes=$Clientes->where('total','>=',$rango[0]*1000)->where('total','<=',$rango[1]*1000);
+                @endphp
+                @if($TargetClientes->count()>0)    
+                <tr>  
+                  <td>{{$TargetClientes->sum('pi')}}</td>
+                  <td>DE {{$rango[0]}} A {{$rango[1]}}</td>
+                  <td>$ {{number_format($TargetClientes->sum('total'),2 )}}</td>
+                  <td>{{number_format($TargetClientes->count()*100/$Clientes->sum('pi'),2)}} %</td>
+                  <td>{{number_format($TargetClientes->sum('total')*100/$Clientes->sum('total'),2)}} %</td>
+                  </tr>
+                  @endif
+               @endforeach
+               </tbody>
+               </table>
+                  </td>
+                  <td>
+                    <table>
+                      <tr>
+                        <th>Suma de Pedidos al año</th>
+                        <td> {{$Clientes->sum('pi')}}</td>
+                      </tr>
+                      
+                      <tr>
+                        <th>Ventas en moneda nacional</th>
+                        <td>$ {{number_format($Clientes->sum('total'),2) }}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+               </table>
+              
                      </div>
           <div class="contenedor" id="graficos">
           <div class="container px-4 mx-auto">
-
+          <div class="p-6 m-20 bg-white rounded shadow">
+                {!! $RangosChart->container() !!}
+            </div>
+            
             <div class="p-6 m-20 bg-white rounded shadow">
 
             </div>
@@ -231,5 +284,10 @@ new DataTable('#example');
     boton.classList.add('activo');
   }
 </script>
+
+
+<script src="{{ $RangosChart->cdn() }}"></script>
+
+{{ $RangosChart->script() }}
 
 @endpush

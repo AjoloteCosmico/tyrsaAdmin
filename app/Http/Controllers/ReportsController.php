@@ -391,10 +391,42 @@ public function RangoVentas(){
         Array(2001,3000),
         Array(3001,99000)
     );
+    $etiquetas = [];
+    $numPedidos = [];
+    $totalDinero = [];
+    
+    // Inicializa los arrays de salida
+    foreach ($Rangos as $rango) {
+        $etiquetas[] = 'De ' . $rango[0] . ' a ' . $rango[1];
+        $numPedidos[] = 0;
+        $totalDinero[] = 0;
+    }
+    
+    // Clasifica los clientes según el rango
+    foreach ($Clientes as $cliente) {
+        $totalCliente = $cliente->total;
+    
+        foreach ($Rangos as $index => $rango) {
+    
+            if ($totalCliente >= $rango[0]*1000 && $totalCliente <= $rango[1]*1000) {
+                $numPedidos[$index] += $cliente->pi;
+                $totalDinero[$index] += $totalCliente;
+                break;
+            }
+        }
+    }
+    
+    $RangosChart=LarapexChart::barChart()
+    ->setTitle('Rango de ventas')
+    ->setSubtitle('Anual')
+    ->addData('total pedidos',$numPedidos)
+    ->addData('Monto',$totalDinero)
+    ->setLabels($etiquetas);
+
     return view('reportes.rango_ventas',compact(
         'Clientes','Rangos','Year',
                    'CompanyProfiles',
-                   'comp',
+                   'comp', 'RangosChart'
     ));
 
 }
