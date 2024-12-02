@@ -422,12 +422,99 @@ public function RangoVentas(){
     ->addData('total pedidos',$numPedidos)
     ->addData('Monto',$totalDinero)
     ->setLabels($etiquetas);
+    $RangosPie=LarapexChart::pieChart()
+    ->setTitle('Rango de ventas no. Pi')
+    ->setSubtitle('Anual')
+    ->addData($numPedidos)
+    ->setLabels($etiquetas);
+    $RangosPieMonto=LarapexChart::pieChart()
+    ->setTitle('Rango de ventas Suma moneda nacional')
+    ->setSubtitle('Anual')
+    ->addData($totalDinero)
+    ->setLabels($etiquetas);
 
     return view('reportes.rango_ventas',compact(
         'Clientes','Rangos','Year',
                    'CompanyProfiles',
-                   'comp', 'RangosChart'
+                   'comp', 'RangosChart','RangosPie','RangosPieMonto'
     ));
 
 }
+public function RangoVentasPi(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Pedidos=DB::table('internal_orders')
+    ->selectRaw('
+        internal_orders.*,
+        customers.customer,
+        customers.clave
+    ')
+    ->join('customers', 'internal_orders.customer_id', '=', 'customers.id')
+    ->where('internal_orders.date', '>', $Year.'-01-01')
+    ->orderBy('internal_orders.total')
+    ->get();
+    $Rangos=Array(
+        Array(0,50),
+        Array(51,100),
+        Array(101,200),
+        Array(301,400),
+        Array(401,500),
+        Array(500,600),
+        Array(601,700),
+        Array(701,800),
+        Array(801,900),
+        Array(901,1000),
+        Array(1000,2000),
+        Array(2001,3000),
+        Array(3001,99000)
+    );
+    $etiquetas = [];
+    $numPedidos = [];
+    $totalDinero = [];
+    
+    // Inicializa los arrays de salida
+    foreach ($Rangos as $rango) {
+        $etiquetas[] = 'De ' . $rango[0] . ' a ' . $rango[1];
+        $numPedidos[] = 0;
+        $totalDinero[] = 0;
+    }
+    
+    // Clasifica los clientes según el rango
+    foreach ($Pedidos as $pedido) {
+        foreach ($Rangos as $index => $rango) {
+    
+            if ($pedido->total >= $rango[0]*1000 && $pedido->total <= $rango[1]*1000) {
+                $numPedidos[$index] += 1;
+                $totalDinero[$index] += $pedido->total;
+                break;
+            }
+        }
+    }
+    
+    $RangosChart=LarapexChart::barChart()
+    ->setTitle('Rango de ventas')
+    ->setSubtitle('Anual')
+    ->addData('total pedidos',$numPedidos)
+    ->addData('Monto',$totalDinero)
+    ->setLabels($etiquetas);
+    $RangosPie=LarapexChart::pieChart()
+    ->setTitle('Rango de ventas no. Pi')
+    ->setSubtitle('Anual')
+    ->addData($numPedidos)
+    ->setLabels($etiquetas);
+    $RangosPieMonto=LarapexChart::pieChart()
+    ->setTitle('Rango de ventas Suma moneda nacional')
+    ->setSubtitle('Anual')
+    ->addData($totalDinero)
+    ->setLabels($etiquetas);
+
+    return view('reportes.rango_ventas_pi',compact(
+        'Clientes','Rangos','Year',
+                   'CompanyProfiles',
+                   'comp', 'RangosChart','RangosPie','RangosPieMonto'
+    ));
+
+}
+
 }

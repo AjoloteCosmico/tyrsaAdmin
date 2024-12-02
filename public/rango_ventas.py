@@ -273,13 +273,13 @@ for i in rangos:
          max_rows=len(target_clientes)
 #Tablas de cada rango en fila
 for i in rangos:
-    worksheet.merge_range(6,n*4+1,6,n*4+4,'DE '+str(i[0])+' A '+str(i[1]), blue_header_format)
+    
     print('de',i[0],'a',i[1])
     li=i[0]*1000
     ls=i[1]*1000
     target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
     if(len(target_clientes)>0):
-        
+        worksheet.merge_range(6,n*4+1,6,n*4+4,'DE '+str(i[0])+' A '+str(i[1]), blue_header_format)
         worksheet.write(7,n*4+1,'NO.', blue_header_format)
         worksheet.write(7,n*4+2,'CLIENTE', blue_header_format)
         worksheet.write(7,n*4+3,'PI', blue_header_format)
@@ -349,5 +349,60 @@ worksheet.set_column('S:S',33)
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
 worksheet.set_landscape() 
+#Hoja de graficas
+
+worksheet_charts = workbook.add_worksheet("Gráficas")
+worksheet_charts.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 3/8', negro_b)
+worksheet_charts.merge_range('B3:F3', 'RANGO DE VENTAS POR CLIENTE', negro_s)
+
+worksheet_charts.write('H2', 'AÑO', negro_b)
+worksheet_charts.write('I2', year, negro_b)
+worksheet_charts.merge_range('J2:K3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+worksheet_charts.merge_range('L2:L3', date, negro_b)
+worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+
+# Create a new chart object.
+chart = workbook.add_chart({'type': 'pie','subtype': 'Monto por rango'})
+
+# Add a series to the chart.
+chart.add_series({'values': '=Sheet1!$D$'+str(12+max_rows)+':$D$'+str(12+max_rows+ len(rangos)),
+                  'categories': '=Sheet1!$C$'+str(12+max_rows)+':$C$'+str(12+max_rows+ len(rangos)),
+                  'percentage': True,
+                    'leader_lines': True,
+                    'position': 'best_fit',
+                    'data_labels': {
+                    'value': True,
+                    'font': {'color': 'gray','size': 10}
+                }})
+
+
+# Insert the chart into the worksheet.
+worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
+
+
+# Create a new chart object.
+chart = workbook.add_chart({'type': 'pie','subtype': 'No. PI por rango'})
+chart.set_title({
+    'name': 'Np. PI por rango'})
+# Add a series to the chart.
+chart.add_series({'values': '=Sheet1!$B$'+str(12+max_rows)+':$B$'+str(12+max_rows+ len(rangos)),
+                  'categories': '=Sheet1!$C$'+str(12+max_rows)+':$C$'+str(12+max_rows+ len(rangos)),
+                   'categories': '=Sheet1!$C$'+str(12+max_rows)+':$C$'+str(12+max_rows+ len(rangos)),
+                  'percentage': True,
+                    'leader_lines': True,
+                    'position': 'best_fit',
+                    'data_labels': {
+                    'value': True,
+                    'font': {'color': 'gray','size': 10}}
+                  })
+
+
+# Insert the chart into the worksheet.
+worksheet_charts.insert_chart('B25', chart,{'x_scale': 2.15, 'y_scale': 1.35})
+
+
+
+
 workbook.close()
                 

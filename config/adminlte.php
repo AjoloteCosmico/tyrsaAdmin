@@ -473,10 +473,16 @@ return [
                     'can'  => 'DESCARGAR OBJETIVOS MONTO',
                 ],
                 [
-                    'text' => ' RANGO DE VENTAS ',
+                    'text' => ' RANGO DE VENTAS POR CLIENTE',
                     'icon' => 'fas fa-file fa-fw',
                     'route'  => 'reportes.rango_ventas',
-                    'can'  => 'DESCARGAR OBJETIVOS MONTO',
+                    'can'  => 'DESCARGAR RANGO VENTAS',
+                ],
+                [
+                    'text' => ' RANGO DE VENTAS POR PI',
+                    'icon' => 'fas fa-file fa-fw',
+                    'route'  => 'reportes.rango_ventas_pi',
+                    'can'  => 'DESCARGAR RANGO VENTAS',
                 ],
                 
         ],

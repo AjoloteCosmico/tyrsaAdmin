@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'PEDIDOS INTERNOS')
+@section('title', 'REPORTE RANGO DE VENTAS POR CLIENTE')
 
 @section('content_header')
     <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; REPORTE DE RANGO DE VENTAS POR CLIENTES</h1>
@@ -148,7 +148,7 @@
                   <td>{{$TargetClientes->sum('pi')}}</td>
                   <td>DE {{$rango[0]}} A {{$rango[1]}}</td>
                   <td>$ {{number_format($TargetClientes->sum('total'),2 )}}</td>
-                  <td>{{number_format($TargetClientes->count()*100/$Clientes->sum('pi'),2)}} %</td>
+                  <td>{{number_format($TargetClientes->sum('pi')*100/$Clientes->sum('pi'),2)}} %</td>
                   <td>{{number_format($TargetClientes->sum('total')*100/$Clientes->sum('total'),2)}} %</td>
                   </tr>
                   @endif
@@ -180,8 +180,13 @@
             </div>
             
             <div class="p-6 m-20 bg-white rounded shadow">
-
+              
+            {!! $RangosPie->container() !!}
             </div>
+            <div class="p-6 m-20 bg-white rounded shadow">
+              
+              {!! $RangosPieMonto->container() !!}
+              </div>
             
             <div class="p-6 m-20 bg-white rounded shadow">
                 
@@ -289,5 +294,12 @@ new DataTable('#example');
 <script src="{{ $RangosChart->cdn() }}"></script>
 
 {{ $RangosChart->script() }}
+
+<script src="{{ $RangosPieMonto->cdn() }}"></script>
+
+{{ $RangosPie->script() }}
+<script src="{{ $RangosPieMonto->cdn() }}"></script>
+
+{{ $RangosPieMonto->script() }}
 
 @endpush
