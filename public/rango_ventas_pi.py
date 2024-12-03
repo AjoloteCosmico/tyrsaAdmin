@@ -40,6 +40,7 @@ pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.custo
 from (
     internal_orders
     inner join customers on customers.id = internal_orders.customer_id )
+                    order by internal_orders.total
      
      """,cnx)
 
@@ -253,7 +254,7 @@ df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=Fals
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE 3/8', negro_b)
-worksheet.merge_range('B3:F3', 'RANGO DE VENTAS POR PEDIDO INTERNO', negro_s)
+worksheet.merge_range('B3:F3', 'RANGO DE VENTAS POR CLIENTE', negro_s)
 
 worksheet.write('H2', 'AÑO', negro_b)
 worksheet.write('I2', year, negro_b)
@@ -267,36 +268,36 @@ n=0
 for i in rangos:
     li=i[0]*1000
     ls=i[1]*1000
-    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
-    if(len(target_clientes)>max_rows):
-         max_rows=len(target_clientes)
+    target_pedidos=pedidos.loc[(pedidos['total']>=li)&(pedidos['total']<=ls)]
+    if(len(target_pedidos)>max_rows):
+         max_rows=len(target_pedidos)
 #Tablas de cada rango en fila
 for i in rangos:
     
     print('de',i[0],'a',i[1])
     li=i[0]*1000
     ls=i[1]*1000
-    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
-    if(len(target_clientes)>0):
+    target_pedidos=pedidos.loc[(pedidos['total']>=li)&(pedidos['total']<=ls)]
+    if(len(target_pedidos)>0):
         worksheet.merge_range(6,n*4+1,6,n*4+4,'DE '+str(i[0])+' A '+str(i[1]), blue_header_format)
         worksheet.write(7,n*4+1,'NO.', blue_header_format)
         worksheet.write(7,n*4+2,'CLIENTE', blue_header_format)
         worksheet.write(7,n*4+3,'PI', blue_header_format)
         worksheet.write(7,n*4+4,'TOTAL', blue_header_format)
-        for j in range(len(target_clientes)):
-            print(target_clientes['total'].values[j],target_clientes['customer'].values[j])
-            worksheet.write(8+j,n*4+1,target_clientes['clave'].values[j].replace(' ',''), blue_content)
-            worksheet.write(8+j,n*4+2,target_clientes['customer'].values[j], blue_content)
-            worksheet.write(8+j,n*4+3,target_clientes['pi'].values[j], blue_content_unit)
-            worksheet.write(8+j,n*4+4,target_clientes['total'].values[j], blue_content)
-        for j in np.arange(len(target_clientes),max_rows,1):
+        for j in range(len(target_pedidos)):
+            print(target_pedidos['total'].values[j],target_pedidos['customer'].values[j])
+            worksheet.write(8+j,n*4+1,target_pedidos['clave'].values[j].replace(' ',''), blue_content)
+            worksheet.write(8+j,n*4+2,target_pedidos['customer'].values[j], blue_content)
+            worksheet.write(8+j,n*4+3,target_pedidos['invoice'].values[j], blue_content_unit)
+            worksheet.write(8+j,n*4+4,target_pedidos['total'].values[j], blue_content)
+        for j in np.arange(len(target_pedidos),max_rows,1):
             worksheet.write(8+j,n*4+1,' ', blue_content)
             worksheet.write(8+j,n*4+2,' ', blue_content)
             worksheet.write(8+j,n*4+3,' ', blue_content)
             worksheet.write(8+j,n*4+4,' ', blue_content)
 
         worksheet.merge_range(8+max_rows,n*4+1,8+max_rows,n*4+3,'TOTAL', blue_header_format)
-        worksheet.write(8+max_rows,n*4+4,target_clientes['total'].sum(), blue_header_format)
+        worksheet.write(8+max_rows,n*4+4,target_pedidos['total'].sum(), blue_header_format)
 
         n=n+1
 
@@ -313,28 +314,31 @@ n=0
 for i in rangos:
     li=i[0]*1000
     ls=i[1]*1000
-    target_clientes=clientes.loc[(clientes['total']>=li)&(clientes['total']<=ls)]
-    if(len(target_clientes)>0):
-        worksheet.write(12+max_rows+n,1,target_clientes['pi'].sum(),blue_content_unit)
+    target_pedidos=pedidos.loc[(pedidos['total']>=li)&(pedidos['total']<=ls)]
+    
+    if(len(target_pedidos)>0):
+        worksheet.write(12+max_rows+n,1,len(target_pedidos),blue_content_unit)
         worksheet.write(12+max_rows+n,2,'DE '+str(i[0])+' A '+str(i[1]),blue_content)
-        worksheet.write(12+max_rows+n,3,target_clientes['total'].sum(),blue_content)
-        worksheet.write(12+max_rows+n,4,str(round(target_clientes['pi'].sum()*100/clientes['pi'].sum(),2))+'%',blue_content_unit)
-        worksheet.write(12+max_rows+n,5,str(round(target_clientes['total'].sum()*100/clientes['total'].sum(),2))+'%',blue_content_unit)
+        worksheet.write(12+max_rows+n,3,target_pedidos['total'].sum(),blue_content)
+        worksheet.write(12+max_rows+n,4,str(round(len(target_pedidos)*100/len(pedidos),2))+'%',blue_content_unit)
+        worksheet.write(12+max_rows+n,5,str(round(target_pedidos['total'].sum()*100/pedidos['total'].sum(),2))+'%',blue_content_unit)
         n=n+1
 
 
 
 worksheet.merge_range(11+max_rows,7,11+max_rows,8,'SUMA DE PEDIDOS AL AÑO', blue_header_format)
-worksheet.write(11+max_rows,9,str(clientes['pi'].sum()),blue_content_bold)
+worksheet.write(11+max_rows,9,str(len(pedidos)),blue_content_bold)
 worksheet.merge_range(12+max_rows,7,12+max_rows,8,'VENTAS EN MONEDA NACIONAL', blue_header_format)
-worksheet.write(12+max_rows,9,clientes['total'].sum(),blue_content_bold)
+worksheet.write(12+max_rows,9,pedidos['total'].sum(),blue_content_bold)
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('C:C',33)
+worksheet.set_column('E:E',23)
 worksheet.set_column('F:F',20)
 
 worksheet.set_column('G:G',33)
 
+worksheet.set_column('I:I',23)
 worksheet.set_column('J:J',20)
 worksheet.set_column('K:K',33)
 
@@ -362,7 +366,7 @@ worksheet_charts.merge_range('L2:L3', date, negro_b)
 worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 
 # Create a new chart object.
-chart = workbook.add_chart({'type': 'pie','subtype': 'Monto por rango'})
+chart = workbook.add_chart({'type': 'pie'})
 
 # Add a series to the chart.
 chart.add_series({'values': '=Sheet1!$D$'+str(12+max_rows)+':$D$'+str(12+max_rows+ len(rangos)),
@@ -375,15 +379,16 @@ chart.add_series({'values': '=Sheet1!$D$'+str(12+max_rows)+':$D$'+str(12+max_row
                     'font': {'color': 'gray','size': 10}
                 }})
 
-
+chart.set_title({
+    'name': 'Suma en moneda nacional por rango'})
 # Insert the chart into the worksheet.
 worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 
 
 # Create a new chart object.
-chart = workbook.add_chart({'type': 'pie','subtype': 'No. PI por rango'})
+chart = workbook.add_chart({'type': 'pie'})
 chart.set_title({
-    'name': 'Np. PI por rango'})
+    'name': '# de PI por rango'})
 # Add a series to the chart.
 chart.add_series({'values': '=Sheet1!$B$'+str(12+max_rows)+':$B$'+str(12+max_rows+ len(rangos)),
                   'categories': '=Sheet1!$C$'+str(12+max_rows)+':$C$'+str(12+max_rows+ len(rangos)),
