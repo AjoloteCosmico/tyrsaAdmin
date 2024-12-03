@@ -301,7 +301,6 @@ for i in rangos:
 
         n=n+1
 
- 
 # Tablas inferiores
 worksheet.write(11+max_rows,1,'CANATIDAD', blue_header_format)
 worksheet.write(11+max_rows,2,'RANGO', blue_header_format)
