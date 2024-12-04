@@ -68,6 +68,8 @@ class InternalOrderController extends Controller
 
     public function create()
     {
+        
+        $NextInvoice = InternalOrder::orderBy('id', 'DESC')->first()->invoice+1;
         if(Auth::user()->can('ASIGNAR CLIENTES')){
             
         $Customers = Customer::all()->sortBy('clave');
@@ -82,7 +84,9 @@ class InternalOrderController extends Controller
         $contactos=CustomerContact::all();
         return view('internal_orders.create', compact(
             'Customers',
-            'contactos'
+            'contactos',
+            'NextInvoice',
+
         ));
     }
 
@@ -93,6 +97,7 @@ class InternalOrderController extends Controller
             'invoice' => 'unique:internal_orders,invoice',
              'noha'=>  'unique:internal_orders,noha'];
 
+        $NextInvoice = InternalOrder::orderBy('id', 'DESC')->first()->invoice+1;
         $Fecha = date('Y-m-d');
         $TempInternalOrders = TempInternalOrder::where('customer_id', $request->customer_id)->where('date', $Fecha)->get();
         if(count($TempInternalOrders)>0)
@@ -132,6 +137,7 @@ class InternalOrderController extends Controller
             'Coins',
             'Sellers',
             'hoy',
+            'NextInvoice',
         ));
     }
    
@@ -463,7 +469,7 @@ public function recalcular_total($id){
             $Signature->order_id = $InternalOrders->id;
             $Signature->auth_id = 2;
             $Signature->save();
-            if($InternalOrders->subtotal >= 500000){
+            if($InternalOrders->subtotal >= 700000){
                     $Signature=new signatures();
                     //$Signature->order_id = $InternalOrders->id;
                     //$Signature->auth_id = 5;

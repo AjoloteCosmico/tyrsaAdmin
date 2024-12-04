@@ -478,12 +478,12 @@ return [
                 //     'route'  => 'reportes.rango_ventas',
                 //     'can'  => 'DESCARGAR RANGO VENTAS',
                 // ],
-                [
-                    'text' => ' RANGO DE VENTAS POR PI',
-                    'icon' => 'fas fa-file fa-fw',
-                    'route'  => 'reportes.rango_ventas_pi',
-                    'can'  => 'DESCARGAR RANGO VENTAS',
-                ],
+                // [
+                //     'text' => ' RANGO DE VENTAS POR PI',
+                //     'icon' => 'fas fa-file fa-fw',
+                //     'route'  => 'reportes.rango_ventas_pi',
+                //     'can'  => 'DESCARGAR RANGO VENTAS',
+                // ],
                 
         ],
     ],],

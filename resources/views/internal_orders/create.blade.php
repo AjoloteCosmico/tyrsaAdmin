@@ -31,6 +31,8 @@
                                     
         
 <div class="row"></div>
+
+<h1 class="font-bold " > PEDIDO: {{$NextInvoice}}</h1>
 @can('FOLIO MANUAL')
 
 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -42,6 +44,7 @@
 <br> <br>
 @else
 <h1 class="font-bold " >EL FOLIO SE AGREGARA DE MANERA AUTOMATICA</h1>
+
 @endcan
 
 
