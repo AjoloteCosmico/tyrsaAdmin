@@ -89,7 +89,7 @@
                 <!-- 4 columnas -->
                <tr class="text-center">
                 <th  colspan="4">
-                DE {{$rango[0]}} A {{$rango[1]}}</th>
+                DE {{$rango[0]}} MIL A {{$rango[1]}} MIL</th>
                </tr>
                <tr>
                 <th>No.</th>
@@ -145,7 +145,7 @@
                 @endphp
                 @if($TargetPedidos->count()>0)    
                 <tr>  
-                  <td>{{$TargetPedidos->sum('pi')}}</td>
+                  <td>{{$TargetPedidos->count()}}</td>
                   <td>DE {{$rango[0]}} A {{$rango[1]}}</td>
                   <td>$ {{number_format($TargetPedidos->sum('total'),2 )}}</td>
                   <td>{{number_format($TargetPedidos->count()*100/$Pedidos->count(),2)}} %</td>

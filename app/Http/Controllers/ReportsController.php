@@ -486,25 +486,26 @@ public function RangoVentasPi(){
     
             if ($pedido->total >= $rango[0]*1000 && $pedido->total <= $rango[1]*1000) {
                 $numPedidos[$index] += 1;
-                $totalDinero[$index] += $pedido->total;
+                $totalDinero[$index] += ((int)($pedido->total/1000));
                 break;
             }
         }
     }
-    
+    // dd($numPedidos);
     $RangosChart=LarapexChart::barChart()
     ->setTitle('Rango de ventas')
     ->setSubtitle('Anual')
     ->addData('total pedidos',$numPedidos)
     ->addData('Monto',$totalDinero)
-    ->setLabels($etiquetas);
+    ->setLabels($etiquetas)
+    ->setGrid();
     $RangosPie=LarapexChart::pieChart()
     ->setTitle('Rango de ventas no. Pi')
     ->setSubtitle('Anual')
     ->addData($numPedidos)
     ->setLabels($etiquetas);
     $RangosPieMonto=LarapexChart::pieChart()
-    ->setTitle('Rango de ventas Suma moneda nacional')
+    ->setTitle('Rango de ventas suma en miles de pesos')
     ->setSubtitle('Anual')
     ->addData($totalDinero)
     ->setLabels($etiquetas);

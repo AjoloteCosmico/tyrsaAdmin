@@ -69,7 +69,7 @@ class InternalOrderController extends Controller
     public function create()
     {
         
-        $NextInvoice = InternalOrder::orderBy('id', 'DESC')->first()->invoice+1;
+        $NextInvoice = InternalOrder::orderBy('invoice', 'DESC')->first()->invoice+1;
         if(Auth::user()->can('ASIGNAR CLIENTES')){
             
         $Customers = Customer::all()->sortBy('clave');
@@ -97,7 +97,7 @@ class InternalOrderController extends Controller
             'invoice' => 'unique:internal_orders,invoice',
              'noha'=>  'unique:internal_orders,noha'];
 
-        $NextInvoice = InternalOrder::orderBy('id', 'DESC')->first()->invoice+1;
+        $NextInvoice = InternalOrder::orderBy('invoice', 'DESC')->first()->invoice+1;
         $Fecha = date('Y-m-d');
         $TempInternalOrders = TempInternalOrder::where('customer_id', $request->customer_id)->where('date', $Fecha)->get();
         if(count($TempInternalOrders)>0)
@@ -199,15 +199,15 @@ class InternalOrderController extends Controller
      #Asignar automaticamente DGI
      $Socios=Seller::where('dgi','>',0)->get();
     //  dd($Socios);
-     foreach($Socios as $socio){
+    //  foreach($Socios as $socio){
         
-     $comision = new temp_comissions();
-     $comision->seller_id=$socio->id;
-     $comision->percentage=$socio->dgi*0.01;
-     $comision->temp_order_id=$TempInternalOrders->id;
-     $comision->description='DGI';
-     $comision->save();
-     }
+    //  $comision = new temp_comissions();
+    //  $comision->seller_id=$socio->id;
+    //  $comision->percentage=$socio->dgi*0.01;
+    //  $comision->temp_order_id=$TempInternalOrders->id;
+    //  $comision->description='DGI';
+    //  $comision->save();
+    //  }
     return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 
@@ -412,7 +412,7 @@ public function recalcular_total($id){
         $TempInternalOrders->save();
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
-        $InternalOrders = InternalOrder::orderBy('id', 'DESC')->first();
+        $InternalOrders = InternalOrder::orderBy('invoice', 'DESC')->first();
         $Invoice = '100';
         if($InternalOrders){
             $Invoice = $InternalOrders->invoice + 1;
