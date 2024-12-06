@@ -9,6 +9,21 @@
 @section('content')
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
+        <table>
+                    <tr>
+                    <td>
+                            <a href="{{route('reports.generate',[1,'dgi',0])}}">
+                                  <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                               
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'dgi',1])}}">
+                                  <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                            </td>
+                    </tr>
+                </table>
             <div class="col-sm-12 text-right">
                 @can('VER DGI')
                 <a href="{{ route('sellers.create')}}" class="btn btn-green">

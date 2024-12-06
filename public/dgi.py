@@ -55,13 +55,13 @@ creditos=pd.read_sql("""select *
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 vendedores=pd.read_sql("""select * 
                      from sellers""",cnx)
-
-print(cobros)
+socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
+vendedores=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
 nordenes=len(pedidos)
 df=pedidos[['date']]
 
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
-writer = pd.ExcelWriter('storage/report/dgi.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/dgi1.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -273,13 +273,13 @@ vendedores=vendedores.sort_values(by='status')
 for i in range(len(vendedores)):
     if(vendedores['status'].values[i]=='ACTIVO'):
         worksheet.write('B'+str(7+i), str(i+1), blue_content)
-        worksheet.write('C'+str(7+i), vendedores['folio'].values[i], blue_content)
+        worksheet.write('C'+str(7+i), vendedores['folio'].values[i], blue_content_unit)
         worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content)
         worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content)
         worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content)
     else:
         worksheet.write('B'+str(7+i), str(i+1), blue_content_red)
-        worksheet.write('C'+str(7+i), vendedores['folio'].values[i], blue_content_red)
+        worksheet.write('C'+str(7+i), str(vendedores['folio'].values[i]), blue_content_red)
         worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content_red)
         worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content_red)
         worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content_red)
@@ -310,8 +310,8 @@ worksheet.set_column('P:T',15)
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
 
-#HOJA DE RESUMEN
-worksheet = workbook.add_worksheet('Resumen')
+#HOJA DE Comprobante
+worksheet= workbook.add_worksheet("C.Ingresos")
 #Encabezado del documento--------------
 worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE DGI', negro_b)
 worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
@@ -332,4 +332,20 @@ worksheet.write('D6', """CLIENTE
 worksheet.write('E6', 'NOMBRE CORTO', blue_header_format)
 worksheet.write('F6', 'ESTATUS', blue_header_format)
 
+
+
+worksheet= workbook.add_worksheet("Resumen")
+#Encabezado del documento--------------
+worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE DGI', negro_b)
+worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
+                      DGI PARA NIVELES DIRECTIVOS""", negro_s)
+
+worksheet.write('G2', 'AÑO', negro_b)
+
+worksheet.write('H2', year, negro_b)
+worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+
+worksheet.merge_range('I2:I3', date, negro_b)
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 workbook.close()
