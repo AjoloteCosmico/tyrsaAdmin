@@ -556,10 +556,26 @@ public function ventasFabricacion(){
     ->setSubtitle('Anual vendedores activos')
     ->addData($fam_data)
     ->setLabels($fams->pluck('family')->toArray());
+
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $Mes_data=array();
+       for($i=1;$i<=12;$i++){
+           array_push($Mes_data,
+           $Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+           ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+           ->count());
+       }
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle('Ventas de porductos por mes')
+    ->setSubtitle('Anual')
+    ->addData('total ventas',$Mes_data)
+    ->setLabels($Meses);
+
     return view('reportes.ventas_fabricacion',compact(
-        'Year',
+                   'Year',
                    'CompanyProfiles',
-                   'comp', 'Items','Productos','FabChart'
+                   'comp', 'Items','Productos','FabChart','MesesChart'
     ));
 }
 

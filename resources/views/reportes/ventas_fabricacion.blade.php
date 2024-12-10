@@ -150,7 +150,7 @@
             </div>
             
             <div class="p-6 m-20 bg-white rounded shadow">
-
+            {!! $MesesChart->container() !!}
             </div>
 
             </div>
@@ -254,5 +254,8 @@ new DataTable('#example');
 <script src="{{ $FabChart->cdn() }}"></script>
 
 {{ $FabChart->script() }}
+<script src="{{ $MesesChart->cdn() }}"></script>
+
+{{ $MesesChart->script() }}
 
 @endpush

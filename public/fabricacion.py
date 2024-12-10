@@ -264,7 +264,7 @@ worksheet.write('O6', 'TOTAL', blue_header_format)
 worksheet.write('P6', 'PORCENTAJE', blue_header_format)
 write_row=7
 
-for i in items.family.unique():
+for i in items.groupby(['family'])['family'].count().sort_values( ascending=[False]).index:
     worksheet.write('B'+str(write_row), i, blue_content)
     this_items=items.loc[items['family']==i] 
     for mes in range(12):
@@ -331,18 +331,16 @@ worksheet_charts.insert_chart('B5', chart,{'x_scale': 2.15, 'y_scale': 1.35})
 # Create a new chart object.
 chart = workbook.add_chart({'type': 'line'})
 
-for i in items.family.unique():
-    
-    this_items=items.loc[items['family']==i] 
+for i in range(len(items.family.unique())): 
 # Add a series to the chart.
     # if(len(pxv)>len(pedidos)*0.05):
         
-    chart.add_series({'values': '=Sheet1!$C$'+str(write_row-1)+':$N$'+str(write_row-1),
+    chart.add_series({'values': '=Sheet1!$C$'+str(7+i)+':$N$'+str(7+i),
                   'categories': '=Sheet1!$C$6:$N$6',
-                  'name':'=Sheet1!$B'+str(write_row-1)})
+                  'name':'=Sheet1!$B'+str(7+i)})
 
 
-chart.add_series({'values': '=Sheet1!$C$'+str(write_row)+':$N$'+str(write_row),
+chart.add_series({'values': '=Sheet1!$C$'+str(7+i)+':$N$'+str(7+i),
                   'categories': '=Sheet1!$C$6:$N$6',
                   'name':'TOTAL',
                   })
