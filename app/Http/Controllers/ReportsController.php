@@ -17,6 +17,7 @@ use App\Models\Cobro;
 use App\Models\CreditNote;
 use App\Models\note_facture;
 
+use App\Models\Item;
 use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
 use SplFileInfo;
@@ -516,6 +517,33 @@ public function RangoVentasPi(){
                    'comp', 'RangosChart','RangosPie','RangosPieMonto'
     ));
 
+}
+
+public function ventasFabricacion(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Items=DB::table('items')
+    ->selectRaw('
+        items.*,
+        internal_orders.date
+    ')
+    ->join('internal_orders', 'internal_orders.id', '=', 'items.internal_order_id')
+    ->where('internal_orders.date', '>', $Year.'-01-01')
+    ->orderBy('items.family')
+    ->get();
+    $Productos=DB::table('items')
+    ->select('items.family')
+    ->join('internal_orders', 'internal_orders.id', '=', 'items.internal_order_id')
+    ->where('internal_orders.date', '>', $Year.'-01-01')
+    ->distinct('items.family')
+    ->get();
+    // dd($Productos);
+    return view('reportes.ventas_fabricacion',compact(
+        'Year',
+                   'CompanyProfiles',
+                   'comp', 'Items','Productos'
+    ));
 }
 
 }

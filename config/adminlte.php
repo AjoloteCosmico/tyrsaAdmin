@@ -328,12 +328,12 @@ return [
                     'route'  => 'sellers.index',
                     'can'  => 'VER VENDEDORES',
                 ],
-                // [
-                //     'text' => ' DGI',
-                //     'icon' => 'fas fa-user-tag fa-fw',
-                //     'route'  => 'dgi_com.index',
-                //     'can'  => 'VER DGI',
-                // ],
+                [
+                    'text' => ' DGI',
+                    'icon' => 'fas fa-user-tag fa-fw',
+                    'route'  => 'dgi_com.index',
+                    'can'  => 'VER DGI',
+                ],
             ],
             'can' => 'CATALOGOS',
         ],
@@ -478,12 +478,18 @@ return [
                 //     'route'  => 'reportes.rango_ventas',
                 //     'can'  => 'DESCARGAR RANGO VENTAS',
                 // ],
-                // [
-                //     'text' => ' RANGO DE VENTAS POR PI',
-                //     'icon' => 'fas fa-file fa-fw',
-                //     'route'  => 'reportes.rango_ventas_pi',
-                //     'can'  => 'DESCARGAR RANGO VENTAS',
-                // ],
+                [
+                    'text' => ' RANGO DE VENTAS POR PI',
+                    'icon' => 'fas fa-file fa-fw',
+                    'route'  => 'reportes.rango_ventas_pi',
+                    'can'  => 'DESCARGAR RANGO VENTAS',
+                ],
+                [
+                    'text' => 'VENTAS POR FABRICACION',
+                    'icon' => 'fas fa-file fa-fw',
+                    'url'  => '/reportes/ventas_fabricacion',
+                    'can'  => 'DESCARGAR OBJETIVOS PI',
+                ],
                 
         ],
     ],],

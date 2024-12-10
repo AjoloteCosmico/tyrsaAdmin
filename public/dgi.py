@@ -38,7 +38,7 @@ from ((
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
      """,cnx)
-cobros=pd.read_sql("""select cobro_orders.*
+cobros=pd.read_sql("""select cobro_orders.*,
                      from (((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
