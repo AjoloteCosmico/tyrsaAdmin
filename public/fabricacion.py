@@ -313,8 +313,8 @@ chart = workbook.add_chart({'type': 'pie'})
 #                   'categories': '=Sheet1!$B$7:$B$'+str(write_row)})
 
 # Add a series to the chart.
-chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(write_row),
-                  'categories': '=Sheet1!$B$7:$B$'+str(write_row),
+chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(write_row-1),
+                  'categories': '=Sheet1!$B$7:$B$'+str(write_row-1),
                   'percentage': True,
                     'leader_lines': True,
                     'position': 'best_fit',
