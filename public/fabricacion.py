@@ -296,7 +296,7 @@ worksheet.set_landscape()
 
 
 worksheet_charts = workbook.add_worksheet("Gráficas")
-worksheet.merge_range('B2:G4', """RESULTADO MENSUAL DE VENTAS POR 
+worksheet_charts.merge_range('B2:G4', """RESULTADO MENSUAL DE VENTAS POR 
 FABRICACION O INTEGRACION""", negro_b)
 worksheet_charts.write('H2', 'AÑO', negro_b)
 worksheet_charts.write('I2', year, negro_b)
