@@ -308,9 +308,9 @@ worksheet_charts.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scal
 # Create a new chart object.
 chart = workbook.add_chart({'type': 'pie'})
 
-# Add a series to the chart.
-chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(write_row),
-                  'categories': '=Sheet1!$B$7:$B$'+str(write_row)})
+# # Add a series to the chart.
+# chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(write_row),
+#                   'categories': '=Sheet1!$B$7:$B$'+str(write_row)})
 
 # Add a series to the chart.
 chart.add_series({'values': '=Sheet1!$O$7:$O$'+str(write_row),
