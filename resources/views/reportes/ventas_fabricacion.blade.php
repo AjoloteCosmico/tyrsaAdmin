@@ -146,7 +146,7 @@
           <div class="container px-4 mx-auto">
 
             <div class="p-6 m-20 bg-white rounded shadow">
-                
+            {!! $FabChart->container() !!}
             </div>
             
             <div class="p-6 m-20 bg-white rounded shadow">
@@ -250,5 +250,9 @@ new DataTable('#example');
     boton.classList.add('activo');
   }
 </script>
+
+<script src="{{ $FabChart->cdn() }}"></script>
+
+{{ $FabChart->script() }}
 
 @endpush

@@ -539,10 +539,27 @@ public function ventasFabricacion(){
     ->distinct('items.family')
     ->get();
     // dd($Productos);
+    $fams = DB::table('items')
+    ->selectRaw('
+        items.family,COUNT(items.family) as total
+    ')
+    ->join('internal_orders', 'internal_orders.id', '=', 'items.internal_order_id')
+    ->where('internal_orders.date', '>', $Year.'-01-01')
+    ->groupBy('items.family')
+    ->orderBy('total','desc')
+    ->get();
+    
+        $fam_data=$fams->pluck('total')->toArray();
+
+    $FabChart=LarapexChart::pieChart()
+    ->setTitle('Ventas por fabricacion')
+    ->setSubtitle('Anual vendedores activos')
+    ->addData($fam_data)
+    ->setLabels($fams->pluck('family')->toArray());
     return view('reportes.ventas_fabricacion',compact(
         'Year',
                    'CompanyProfiles',
-                   'comp', 'Items','Productos'
+                   'comp', 'Items','Productos','FabChart'
     ));
 }
 
