@@ -415,7 +415,7 @@ return [
             //'can' => 'Reportes',
         ],
         [
-            'text' => 'REPORTES',
+            'text' => 'REPORTES CXC',
             'icon' => 'fas fa-list fa-fw',
             'submenu' => [
                 [
@@ -460,39 +460,55 @@ return [
                     'route'  => 'reportes.consecutivo_comprobante',
                     'can'  => 'DESCARGAR CONSECUTIVO COMPROBANTE',
                 ],
-                [
-                    'text' => ' OBJETIVOS Y RESULTADOS GENERALES',
-                    'icon' => 'fas fa-file fa-fw',
-                    'url'  => '/reportes/objetivo/PEDIDO',
-                    'can'  => 'DESCARGAR OBJETIVOS PI',
-                ],
-                [
-                    'text' => ' OBJETIVOS Y RESULTADOS POR MONTO ',
-                    'icon' => 'fas fa-file fa-fw',
-                    'url'  => 'reportes/objetivo/MONTO',
-                    'can'  => 'DESCARGAR OBJETIVOS MONTO',
-                ],
-                // [
-                //     'text' => ' RANGO DE VENTAS POR CLIENTE',
-                //     'icon' => 'fas fa-file fa-fw',
-                //     'route'  => 'reportes.rango_ventas',
-                //     'can'  => 'DESCARGAR RANGO VENTAS',
-                // ],
-                [
-                    'text' => ' RANGO DE VENTAS POR PI',
-                    'icon' => 'fas fa-file fa-fw',
-                    'route'  => 'reportes.rango_ventas_pi',
-                    'can'  => 'DESCARGAR RANGO VENTAS',
-                ],
-                [
-                    'text' => 'VENTAS POR FABRICACION',
-                    'icon' => 'fas fa-file fa-fw',
-                    'url'  => '/reportes/ventas_fabricacion',
-                    'can'  => 'DESCARGAR OBJETIVOS PI',
-                ],
                 
         ],
-    ],],
+    ],
+    [
+        'text' => 'REPORTES ADMINISTRATIVOS',
+        'icon' => 'fas fa-list fa-fw',
+        'submenu' => [
+            
+            [
+                'text' => ' OBJETIVOS Y RESULTADOS GENERALES',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => '/reportes/objetivo/PEDIDO',
+                'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            [
+                'text' => ' OBJETIVOS Y RESULTADOS POR MONTO ',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => 'reportes/objetivo/MONTO',
+                'can'  => 'DESCARGAR OBJETIVOS MONTO',
+            ],
+            // [
+            //     'text' => ' RANGO DE VENTAS POR CLIENTE',
+            //     'icon' => 'fas fa-file fa-fw',
+            //     'route'  => 'reportes.rango_ventas',
+            //     'can'  => 'DESCARGAR RANGO VENTAS',
+            // ],
+            [
+                'text' => ' RANGO DE VENTAS POR PI',
+                'icon' => 'fas fa-file fa-fw',
+                'route'  => 'reportes.rango_ventas_pi',
+                'can'  => 'DESCARGAR RANGO VENTAS',
+            ],
+            [
+                'text' => 'VENTAS POR FABRICACION',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => '/reportes/ventas_fabricacion',
+                'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            [
+                'text' => 'KILOS VENDIDOS',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => '/reportes/ventas_fabricacion',
+                'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            
+    ],
+],
+
+],
 
     /*
     |--------------------------------------------------------------------------
