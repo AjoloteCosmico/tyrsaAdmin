@@ -613,9 +613,38 @@
   #printPageButton {
     display: none;
   }
+
+  td, th {
+    border: 1px solid black !important; /* Fuerza los bordes */
+    padding: 0.2vw;
+  }
+
+  th {
+    color: white !important; /* Asegura que el texto de las cabeceras se mantenga blanco */
+    background-color: black !important; /* O agrega un fondo oscuro si lo necesitas */
+  }
+
+  tr:first-child th {
+    border-top: none !important;
+  }
+
+  tr:last-child th {
+    border-bottom: none !important;
+  }
+
+  tr th:first-child {
+    border-left: none !important;
+  }
+
+  tr th:last-child {
+    border-right: none !important;
+  }
+
+  .com-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
 }
-</style>
-<style>
     td{
         border: 1px solid black;
         padding: 0.2vw;
