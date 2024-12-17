@@ -49,7 +49,7 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">RESULTADO MENSUAL DE VENTAS POR FABRICACION O INTEGRACION </h5>
+            <h5 class="text-lg text-center text-bold">REPORTES DE DGI</h5>
             <br>
             <div >
                 
