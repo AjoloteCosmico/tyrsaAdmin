@@ -59,7 +59,7 @@
   
   <button id="btn-tabla" class="boton activo" onclick="mostrar('comp_ing', this)">COMP. INGRESOS</button>
   <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen', this)">RESUMEN</button>
-  <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">Gráficos</button>
+  <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">GRAFICOS</button>
 </div>
                 <div class="table-responsive contenedor" id="vendedores" style="display: block;">
                 <table>
@@ -109,7 +109,7 @@
           <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'dgi_comop',0])}}">
+                            <a href="{{route('reports.generate',[1,'dgi_comp',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
@@ -202,7 +202,22 @@
                   
           <div class="contenedor" id="resumen">
              <div class="container px-4 mx-auto">
-
+             <table>
+                    <tr>
+                    <td>
+                            <a href="{{route('reports.generate',[1,'dgi_resumen',0])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                               
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'dgi_resumen',1])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                            </td>
+                    </tr>
+                </table>
+          
             </div>
           </div>   
                                     
