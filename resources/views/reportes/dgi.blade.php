@@ -106,6 +106,22 @@
                </table>
                      </div>
           <div class="contenedor" id="comp_ing">
+          <table>
+                    <tr>
+                    <td>
+                            <a href="{{route('reports.generate',[1,'dgi_comop',0])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                               
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[1,'dgi_comp',1])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                            </td>
+                    </tr>
+                </table>
+                
             @foreach($Facturas as $comp)
              <div class="col">
                 <div class="row mydiv">

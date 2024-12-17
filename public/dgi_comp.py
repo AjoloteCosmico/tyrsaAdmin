@@ -280,66 +280,7 @@ date = currentDateTime.date()
 year = date.strftime("%Y")
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
-#HOJA DE VENDEDORES
-worksheet =  workbook.add_worksheet('Vendedores')
-
-#Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE DGI', negro_b)
-worksheet.merge_range('B3:F4', 'TABLA DE VENDEDORES PARA PAGO DE COMISIONES  DGI PARA NIVELES DIRECTIVOS', negro_s)
-
-worksheet.write('G2', 'AÑO', negro_b)
-
-worksheet.write('G2', year, negro_b)
-worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
-DD/MM/AAAA""", negro_b)
-
-worksheet.merge_range('I2:I3', date, negro_b)
-worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-worksheet.write('B6', 'IDENTIFICADORr', blue_header_format)
-worksheet.write('C6', 'No VENDEDOR', blue_header_format)
-worksheet.write('D6', 'INICALES', blue_header_format)
-worksheet.write('E6', 'NOMBRE CORTO', blue_header_format)
-worksheet.write('F6', 'ESTATUS', blue_header_format)
-vendedores=vendedores.sort_values(by='status')
-for i in range(len(vendedores)):
-    if(vendedores['status'].values[i]=='ACTIVO'):
-        worksheet.write('B'+str(7+i), str(i+1), blue_content)
-        worksheet.write('C'+str(7+i), vendedores['folio'].values[i], blue_content_unit)
-        worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content)
-        worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content)
-        worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content)
-    else:
-        worksheet.write('B'+str(7+i), str(i+1), blue_content_red)
-        worksheet.write('C'+str(7+i), str(vendedores['folio'].values[i]), blue_content_red)
-        worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content_red)
-        worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content_red)
-        worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content_red)
-           
-
-
-#Grafica
-# chart = workbook.add_chart({'type': 'column'})
-
-# # Configure the chart. In simplest case we add one or more data series.
-# chart.add_series({ 'name':'Enero','categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$C$7:$C$'+str(6+len(vendedores))})
-# chart.add_series({'name':'Febrero', 'categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$D$7:$D$'+str(6+len(vendedores))})
-# chart.add_series({ 'name':'Marzo','categories': '=Sheet1!$B$7:$B$'+str(6+len(vendedores)),'values': '=Sheet1!$E$7:$E$'+str(6+len(vendedores))})
-# #insertar grafica
-# worksheet.insert_chart('P7', chart,{'x_scale': 2, 'y_scale': 0.75})
-# #AGRANDAR CPLUMNAS
-
-worksheet.set_column('A:A',15)
-worksheet.set_column('B:B',15)
-worksheet.set_column('E:E',35)
-worksheet.set_column('L:L',15)
-worksheet.set_column('G:G',15)
-worksheet.set_column('H:H',15)
-worksheet.set_column('I:N',16)
-worksheet.set_column('P:T',15)
-
-#worksheet.set_landscape()
-worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+  
 
 #------HOJA DE Comprobante
 worksheet= workbook.add_worksheet("C.Ingresos")
