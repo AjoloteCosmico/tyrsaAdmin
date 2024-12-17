@@ -6,7 +6,9 @@
     <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; PEDIDO INTERNO</h1>
 @stop
 
-@section('content')     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
+@section('content')     
+
+<div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg" id='content'>
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-sm" >
@@ -598,7 +600,8 @@
                   
                    
                                     
-
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+                    <button id="downloadPdf">Exportar a PDF</button>
                                     
                     
   
@@ -678,6 +681,19 @@ tr th:last-child {
 @stop
 
 @section('js')
+
+<script>
+  document.getElementById("downloadPdf").addEventListener("click", () => {
+    const element = document.getElementById("content");
+    const opt = {
+      margin: 1,
+      filename: 'documento.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  });
+</script>
 <script>
     $('#badge').css('height', $('#badge').parent('td').height());
 </script>

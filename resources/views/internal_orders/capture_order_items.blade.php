@@ -125,7 +125,11 @@
                                        
                                 </select><x-jet-input-error for='description' />
                             </div>
-                    
+                            <div class="form-group">
+                                        <x-jet-label value="TOTAL DE KILOS" />
+                                        <x-jet-input type="number" step="0.1" name="kilos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" />
+                                        <x-jet-input-error for='kilos' />
+                                    </div>
                             <div class="row">
                                 <div class="col-sm-8 col-xs-12">
                                     <div class="form-group">

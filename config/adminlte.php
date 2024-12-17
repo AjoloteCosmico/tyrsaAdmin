@@ -415,7 +415,7 @@ return [
             //'can' => 'Reportes',
         ],
         [
-            'text' => 'REPORTES CXC',
+            'text' => 'REPORTES VENTAS',
             'icon' => 'fas fa-list fa-fw',
             'submenu' => [
                 [
@@ -501,13 +501,25 @@ return [
             [
                 'text' => 'KILOS VENDIDOS',
                 'icon' => 'fas fa-file fa-fw',
-                'url'  => '/reportes/ventas_fabricacion',
+                'url'  => '/reportes/kilos',
                 'can'  => 'DESCARGAR OBJETIVOS PI',
             ],
             
     ],
 ],
+[
+    'text' => 'REPORTES DGI',
+    'icon' => 'fas fa-list fa-fw',
+    'submenu' => [
+        [
+            'text' => ' DGI',
+            'icon' => 'fas fa-file fa-fw',
+            'route'  => 'reportes.dgi',
+            'can'  => 'VER DGI',
+        ],
 
+    ],
+]
 ],
 
     /*

@@ -33,6 +33,7 @@ class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf,$tipo=0)
        {
+           ini_set('max_execution_time', '300');  
            $caminoalpoder=public_path();
            $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            $process->run();
@@ -579,4 +580,82 @@ public function ventasFabricacion(){
     ));
 }
 
+
+public function kilos(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Sellers=Seller::all();
+    $InternalOrders=DB::table('internal_orders')
+    ->join('sellers','sellers.id','internal_orders.seller_id')
+    ->select('internal_orders.*','sellers.seller_name')
+    ->where('date','>=',$Year.'-01-01')
+    ->get();
+    $vendedores = DB::table('sellers')
+        ->where('sellers.status','ACTIVO')
+        ->join('internal_orders','internal_orders.seller_id','=','sellers.id')
+        ->select('sellers.seller_name')
+        ->selectRaw("SUM(internal_orders.kilos) as kilos")
+        ->groupBy('internal_orders.seller_id','sellers.seller_name')
+        ->orderBy('kilos','desc')
+        ->get();
+
+        $ven_data=$vendedores->pluck('kilos')->toArray();
+        foreach($ven_data as &$hits) {
+        $hits = round(($hits * 100)/ $vendedores->sum('kilos'),2);
+         }
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('kilos'));
+        }
+        
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle('Grafica de kilos por vendedor')
+    ->setSubtitle('Anual total de kilos por vendedor activo')
+    ->addData($ven_data)
+    ->setLabels($vendedores->pluck('seller_name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle('Total de kilos vendidos por mes en '.$Year)
+    ->setSubtitle('Anual')
+    ->addData('total pedidos',$Mes_data)
+    ->setLabels($Meses);
+
+    return view('reportes.kilos',compact(
+                   'Year',
+                   'CompanyProfiles',
+                   'comp', 'InternalOrders','vendedores',
+                   'Sellers','SellerChart','MesesChart'
+    ));
+}
+
+
+public function dgi(){
+    
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Sellers=Seller::all()->sortBy('status',);
+    $Facturas=DB::table('cobro_orders')
+    ->selectRaw('internal_orders.noha,
+                cobros.comp,cobro_orders.amount,
+                cobros.date,customers.alias')
+    ->join('cobros','cobros.id','cobro_orders.cobro_id')
+    ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
+    ->join('customers','customers.id','internal_orders.customer_id')
+    ->get();
+    return view('reportes.dgi',compact(
+        'Year',
+        'CompanyProfiles',
+        'comp',
+        'Sellers',
+        'Facturas',
+    ));
+}
 }

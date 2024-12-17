@@ -70,6 +70,11 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('reportes/rango_ventas', [ReportsController::class, 'RangoVentas'])->name('reportes.rango_ventas');
     Route::get('reportes/rango_ventas_pi', [ReportsController::class, 'RangoVentasPi'])->name('reportes.rango_ventas_pi');
     Route::get('reportes/ventas_fabricacion', [ReportsController::class, 'ventasFabricacion'])->name('reportes.ventas_fabricacion');
+    Route::get('reportes/kilos', [ReportsController::class, 'kilos'])->name('reportes.kilos');
+   
+
+    //REPORTES DGI 
+    Route::get('reportes/dgi', [ReportsController::class, 'dgi'])->name('reportes.dgi');
    
     //  generar reporte
     Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');
