@@ -293,6 +293,12 @@ return [
                     'can'  => 'VER MONEDAS',
                 ],
                 [
+                    'text' => 'MARCAS',
+                    'icon' => 'fas fa-list-alt fa-fw',
+                    'route'  => 'marcas.index',
+                    'can'  => 'VER MONEDAS',
+                ],
+                [
                     'text' => 'CLIENTES',
                     'icon' => 'fas fa-users-cog fa-fw',
                     'route'  => 'customers.index',
@@ -415,7 +421,7 @@ return [
             //'can' => 'Reportes',
         ],
         [
-            'text' => 'REPORTES VENTAS',
+            'text' => 'REPORTES ADMINISTRATIVOS',
             'icon' => 'fas fa-list fa-fw',
             'submenu' => [
                 [
@@ -464,7 +470,7 @@ return [
         ],
     ],
     [
-        'text' => 'REPORTES ADMINISTRATIVOS',
+        'text' => 'REPORTES DE VENTAS',
         'icon' => 'fas fa-list fa-fw',
         'submenu' => [
             
@@ -492,17 +498,24 @@ return [
                 'route'  => 'reportes.rango_ventas_pi',
                 'can'  => 'DESCARGAR RANGO VENTAS',
             ],
-            [
-                'text' => 'VENTAS POR FABRICACION',
-                'icon' => 'fas fa-file fa-fw',
-                'url'  => '/reportes/ventas_fabricacion',
-                'can'  => 'DESCARGAR OBJETIVOS PI',
-            ],
+            
             [
                 'text' => 'KILOS VENDIDOS',
                 'icon' => 'fas fa-file fa-fw',
                 'url'  => '/reportes/kilos',
                 'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            [
+                'text' => ' VENTAS POR FABRICACION POR MARCA',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => '/reportes/fabricacion/PEDIDO',
+                'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            [
+                'text' => ' PRESUPUESTO DE FABRICACION PRO MARCA',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => 'reportes/fabricacion/MONTO',
+                'can'  => 'DESCARGAR OBJETIVOS MONTO',
             ],
             
     ],

@@ -447,8 +447,8 @@
                    <form action="{{ route('internal_orders.firmar') }}" method="POST" enctype="multipart/form-data">
                    @csrf
                    <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
-                   <div class="col">
-                       <span class="text-xs uppercase">Firma: {{$firma->job}}</span><br>
+                   <div class="col" >
+                       <span class="text-xs uppercase" >Firma: {{$firma->job}} --</span><br>
                    </div>
 
                    <div class="col">
@@ -486,8 +486,7 @@
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
                               <br> <br>
                               
-                            <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
-                               
+                             
                               <p style="color:red"> Autorizacion {{$i}} </p><br>
                                    Iniciales
                             </td>
@@ -497,7 +496,25 @@
                 </tr>
                </table>
                
-
+<br>
+<hr>
+<br>
+<h4 style="size:2.1vw">OTROS FORMULARIOS: </h4>
+<br>
+<form action="{{ route('internal_orders.asignar_marca') }}" method="POST" enctype="multipart/form-data">
+                   @csrf
+                   <input type="hidden" name="order_id" value="{{$InternalOrders->id}}">
+MARCA:
+<select name="marca" value="{{$InternalOrders->marca}}">
+    <option value="">Ninguna marca asignada</option>
+    @foreach($Marcas as $row)
+    <option value="{{$row->id}}" @if($InternalOrders->marca==$row->id) selected @endif>{{$row->name}} </option>
+    @endforeach
+</select>
+<button class="btn btn-blue mb-2" type="submit"> Asignar marca</button> 
+              
+</form>
+<hr>
                 @can('VER DGI')
                     <br> <br>
                     <center> <h1> CONFIDENCIAL</h1> </center>
@@ -680,15 +697,15 @@ tr th:last-child {
 </style>
 @stop
 
-@section('js')
+@push('js')
 
 <script>
   document.getElementById("downloadPdf").addEventListener("click", () => {
     const element = document.getElementById("content");
     const opt = {
-      margin: 1,
+      margin: 0,
       filename: 'documento.pdf',
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 1 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(element).save();
@@ -743,4 +760,18 @@ tr th:last-child {
             });
 </script>
 @endif
-@stop
+
+@if (session('markasigned') == 'ok')
+<script>
+      Swal.fire({
+            icon: 'success',
+            title: "<i>El Se asigno con exito una marca al pedido</i>", 
+            html: "El pedido ha sido registrado como fabricado o integrado por {{ $Marcas->where('id',$InternalOrders->marca)->first()->name}}" ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+            });
+</script>
+@endif
+
+@endpush

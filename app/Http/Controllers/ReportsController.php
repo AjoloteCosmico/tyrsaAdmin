@@ -13,6 +13,8 @@ use App\Models\historical_payments;
 use App\Models\Factures;
 use App\Models\Seller;
 use App\Models\bank;
+
+use App\Models\Marca;
 use App\Models\Cobro;
 use App\Models\CreditNote;
 use App\Models\note_facture;
@@ -300,13 +302,14 @@ public function note_pdf($id){
         $hits = round(($hits * 100)/ $vendedores->sum('total'),2);
          }
          $subtitle='Porcentaje del monto total de P.I';
-         $meses_title='Suma total del monto de PI';
+         $meses_title='Suma total del monto de PI en miles de pesos';
+         $Mes_axis='Monto total en miles';
         $Mes_data=array();
         for($i=1;$i<=12;$i++){
             array_push($Mes_data,
-            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            (int)($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
             ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
-            ->sum('total'));
+            ->sum('total')/1000));
         }
     }
 
@@ -324,6 +327,7 @@ public function note_pdf($id){
          
         $subtitle='Porcentaje total de P.I';
         $meses_title='Suma total  de PI';
+        $Mes_axis='Total de pedidos en el mes';
         $Mes_data=array();
         for($i=1;$i<=12;$i++){
             array_push($Mes_data,
@@ -347,11 +351,109 @@ public function note_pdf($id){
     $MesesChart=LarapexChart::lineChart()
     ->setTitle($meses_title)
     ->setSubtitle('Anual')
-    ->addData('total pedidos',$Mes_data)
+    ->addData($Mes_axis,$Mes_data)
     ->setLabels($Meses);
     
     return view('reportes.objetivos',compact(
                    'Sellers',
+                   'InternalOrders',
+                   'Year',
+                   'CompanyProfiles',
+                   'comp',
+                   'SellerChart',
+                    'MesesChart',
+                    'Monto',
+    ));
+  }
+
+  public function fabricacion($Monto){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Marcas=Marca::all();
+    $InternalOrders=DB::table('internal_orders')
+    ->join('marcas','marcas.id','internal_orders.marca')
+    ->select('internal_orders.*','marcas.name')
+    ->where('date','>=',$Year.'-01-01')
+    ->get();
+    // dd($InternalOrders);
+
+    #Grafica vendedores
+    if($Monto=='MONTO'){
+
+    #por montn total de pedidos
+        $marcas = DB::table('marcas')
+        ->join('internal_orders','internal_orders.marca','=','marcas.id')
+        ->select('marcas.name')
+        ->where('date','>=',$Year.'-'.str_pad(1, 2, '0', STR_PAD_LEFT).'-01')    
+        ->selectRaw("SUM(internal_orders.total) as total")
+        ->groupBy('internal_orders.marca','marcas.name')
+        ->orderBy('total','desc')
+        ->get();
+        // dd($vendedores);
+        $marcas_data=$marcas->pluck('total')->toArray();
+        foreach($marcas_data as &$hits) {
+        $hits = round(($hits * 100)/ $marcas->sum('total'),2);
+         }
+         $subtitle='Porcentaje del monto total de P.I';
+         $meses_title='Suma total del monto de PI en miles de pesos';
+         $Mes_axis='Monto total en miles';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            (int)($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('total')/1000));
+        }
+    }
+
+    else{
+
+    #por total de pedidos
+        $marcas = DB::table('marcas')
+        ->join('internal_orders','internal_orders.marca','marcas.id')
+
+        ->groupBy('marcas.name')
+        
+        ->selectRaw('COUNT(*) as internal_orders_count ,marcas.name')
+        ->orderBy('internal_orders_count','desc')
+        ->get();
+        $marcas_data=$marcas->pluck('internal_orders_count')->toArray();
+        foreach($marcas_data as &$hits) {
+            $hits = round(($hits * 100)/ $marcas->sum('internal_orders_count'),2);
+         }
+         
+        $subtitle='Porcentaje total de P.I';
+        $meses_title='Suma total  de PI';
+        $Mes_axis='Total de pedidos en el mes';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->count());
+        }
+    }
+    // dd($vendedores);
+    
+    // dd($ven_data);
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle($subtitle)
+    ->setSubtitle('Anual vendedores activos')
+    ->addData($marcas_data)
+    ->setLabels($marcas->pluck('name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle($meses_title)
+    ->setSubtitle('Anual')
+    ->addData($Mes_axis,$Mes_data)
+    ->setLabels($Meses);
+    
+    return view('reportes.fabricacion',compact(
+                   'Marcas',
                    'InternalOrders',
                    'Year',
                    'CompanyProfiles',

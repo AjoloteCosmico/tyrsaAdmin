@@ -86,6 +86,7 @@ th     { background:#eee; }" >
                                         @endforeach
                                             </tbody>
                                         </table>
+                                        <!-- <div class="row" style="padding:3.4vw">  No se ha facturado   <input class="form-check-input" type="checkbox"  id="flexCheckDefault" ></div> -->
                                    <br><br>
                                         <div class="form-group">
                                         <x-jet-label value="* BANCO" />

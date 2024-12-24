@@ -14,6 +14,8 @@ use App\Models\Customer;
 use App\Models\CustomerShippingAddress;
 use App\Models\CustomerContact;
 use App\Models\Item;
+use App\Models\Marca;
+
 use App\Models\Seller;
 use App\Models\TempInternalOrder;
 use App\Models\TempItem;
@@ -625,6 +627,7 @@ public function recalcular_total($id){
      ->where('order_id',$InternalOrders->id)
      ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
+       $Marcas = Marca::all();
      
         return view('internal_orders.show', compact(
             'CompanyProfiles',
@@ -641,7 +644,7 @@ public function recalcular_total($id){
             'payments',
             'ASellers',
             'Comisiones',
-            
+            'Marcas',
         ));
     }
     public function dgi(Request $request){
@@ -1216,6 +1219,12 @@ public function recalcular_total($id){
         }else{
         return redirect()->route('internal_orders.show',$id)->with('unautorized','fail');
     }
+}
+public function asignar_marca(Request $request){
+    $InternalOrder=InternalOrder::find($request->order_id);
+    $InternalOrder->marca=$request->marca;
+    $InternalOrder->save();
+    return redirect()->route('internal_orders.show',$request->order_id)->with('markasigned','ok');
 }
 }
 

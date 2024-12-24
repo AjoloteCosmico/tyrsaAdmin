@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('consecutivo_pedido', [PaymentsController::class, 'consecutivo_pedido'])->name('payments.consecutivo_pedido');
    //Reportes nuevos 
     Route::get('reportes/objetivo/{monto}', [ReportsController::class, 'objetivos'])->name('reportes.objetivos');
+    Route::get('reportes/fabricacion/{monto}', [ReportsController::class, 'fabricacion'])->name('reportes.fabricacion');
     Route::get('reportes/rango_ventas', [ReportsController::class, 'RangoVentas'])->name('reportes.rango_ventas');
     Route::get('reportes/rango_ventas_pi', [ReportsController::class, 'RangoVentasPi'])->name('reportes.rango_ventas_pi');
     Route::get('reportes/ventas_fabricacion', [ReportsController::class, 'ventasFabricacion'])->name('reportes.ventas_fabricacion');
@@ -102,6 +103,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/shipments', [InternalOrderController::class, 'shipment'])->name('internal_orders.shipment');
     Route::post('internal_orders/pay_conditions', [InternalOrderController::class, 'pay_conditions'])->name('internal_orders.pay_conditions');
     Route::post('internal_orders/pay_redefine', [InternalOrderController::class, 'pay_redefine'])->name('internal_orders.pay_redefine');
+    Route::post('internal_orders/asignar_marca', [InternalOrderController::class, 'asignar_marca'])->name('internal_orders.asignar_marca');
+   
     Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
    
    //rutas par desautorizar un pedido
