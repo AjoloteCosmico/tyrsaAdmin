@@ -31,16 +31,17 @@ query = ('SELECT * from customers where id = 1')
 
 
 #traer datos de los pedidos
-
+programados=pd.read_sql('select * from payments',cnx)
 clientes=pd.read_sql("""select  * from customers """,cnx)
 bancos=pd.read_sql("""select  * from banks """,cnx)
 
 pedidos=pd.read_sql("""Select internal_orders.* ,customers.clave,customers.alias,
-coins.exchange_sell, coins.coin, coins.symbol, coins.code
-from ((
+coins.exchange_sell, coins.coin, coins.symbol, coins.code,sellers.seller_name
+from (((
     internal_orders
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
+    inner join  sellers on sellers.id=internal_orders.seller_id)
      """,cnx)
 
 cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_id,
@@ -280,6 +281,7 @@ date = currentDateTime.date()
 year = date.strftime("%Y")
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
+
 # -------------HOJA DE RESUMEN
 worksheet= workbook.add_worksheet("Resumen")
 #Encabezado del documento--------------
@@ -316,5 +318,43 @@ worksheet.merge_range('O6:O7', '% DE LA COMISION NEGOCIADA', blue_header_format)
 worksheet.merge_range('P6:P7', 'COMISION POR PAGAR SIN IVA', blue_header_format)
 worksheet.merge_range('Q6:Q7', 'STATUS', blue_header_format)
 
-#----------------HOJA DE GRAFICAS
+
+for i in range(len(cobros)):
+    print(i)
+    pedido=pedidos.loc[pedidos['id']==cobros['order_id'].values[i]]
+    allcobros=cobros.loc[cobros['order_id']==cobros['order_id'].values[i]]
+    allcobros['ordinal']=range(1,len(allcobros)+1)
+    no_pago=allcobros.loc[allcobros['id']==cobros['id'].values[i],'ordinal'].values[0]
+    allpagos=programados.loc[programados['order_id']==cobros['order_id'].values[i]]
+    try:
+        concepto=allpagos['comcept'].values[no_pago]
+    except:
+        concepto=''
+    worksheet.write('B'+str(i+8),str(i+1),blue_content)
+    worksheet.write('C'+str(i+8),cobros['date'].values[i],blue_content_date)
+    worksheet.write('D'+str(i+8),pedido['alias'].values[0],blue_content)
+    worksheet.write('E'+str(i+8),str(cobros['comp'].values[i]),blue_content)
+    worksheet.write('F'+str(i+8),cobros['total'].values[i],blue_content)
+    worksheet.write('G'+str(i+8),pedido['seller_name'].values[0],blue_content)
+    worksheet.write('H'+str(i+8),str(pedido['invoice'].values[0]),blue_content)
+    #TODO habilitar dolares
+    worksheet.write('I'+str(i+8),0,blue_content_dll)
+    worksheet.write('J'+str(i+8),1,blue_content)
+    worksheet.write('K'+str(i+8),(pedido['total'].values[0])/1.16,blue_content)
+    #total pagado por el cliente a la fecha
+    worksheet.write('L'+str(i+8),(allcobros['total'].sum()*100)/pedido['total'].values[0],blue_content)
+    worksheet.write('M'+str(i+8),(allcobros['total'].sum())/1.16,blue_content)
+
+    worksheet.write('N'+str(i+8),(cobros['total'].values[i]*100)/pedido['total'].values[0],blue_content)
+    worksheet.write('O'+str(i+8),((cobros['total'].values[i]*100)/pedido['total'].values[0])*pedido['comision'].values[0]*pedido['total'].values[0],blue_content)
+    worksheet.write('P'+str(i+8),str(pedido['comision'].values[0]*100)+'%',blue_content)
+    worksheet.write('Q'+str(i+8),concepto,blue_content)
+    
+#AGRANDAR CPLUMNAS
+worksheet.set_column('A:A',15)
+worksheet.set_column('F:F',25)
+worksheet.set_column('G:G',35)
+worksheet.set_column('E:O',18)
+worksheet.set_column('P:T',15)
+
 workbook.close()
