@@ -292,9 +292,29 @@ worksheet.write('G2', 'AÑO', negro_b)
 worksheet.write('H2', year, negro_b)
 worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
-
 worksheet.merge_range('I2:I3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
+
+worksheet.merge_range('B6:B7', 'PDA', blue_header_format)
+worksheet.merge_range('C6:C7', 'FECHA', blue_header_format)
+worksheet.merge_range('D6:D7', 'CLIENTE', blue_header_format)
+worksheet.merge_range('E6:E7', 'COMPROBANTE NO.', blue_header_format)
+worksheet.merge_range('F6:F7', 'IMPROTE', blue_header_format)
+worksheet.merge_range('G6:G7', 'VENDEDOR', blue_header_format)
+worksheet.merge_range('H6:H7', 'PEDIDO INTERNO', blue_header_format)
+
+worksheet.merge_range('I6:K6', 'IMPORTE TOTAL DEL PEDIDO SIN IVA', blue_header_format)
+worksheet.write('I7','USD',blue_header_format)
+worksheet.write('J7','TIPO DE CAMBIO',blue_header_format)
+worksheet.write('K7','M.N.',blue_header_format)
+
+worksheet.merge_range('L6:M6', 'IMPORTE TOTAL PAGADO A LA FECHA', blue_header_format)
+worksheet.write('L7','%',blue_header_format)
+worksheet.write('M7','M.N.',blue_header_format)
+worksheet.merge_range('N6:N7', '% DE LA COMISION QUE SE DEBE', blue_header_format)
+worksheet.merge_range('O6:O7', '% DE LA COMISION NEGOCIADA', blue_header_format)
+worksheet.merge_range('P6:P7', 'COMISION POR PAGAR SIN IVA', blue_header_format)
+worksheet.merge_range('Q6:Q7', 'STATUS', blue_header_format)
 
 #----------------HOJA DE GRAFICAS
 workbook.close()

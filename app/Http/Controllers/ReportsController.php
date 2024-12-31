@@ -15,6 +15,7 @@ use App\Models\Seller;
 use App\Models\bank;
 
 use App\Models\Marca;
+use App\Models\Medio;
 use App\Models\Cobro;
 use App\Models\CreditNote;
 use App\Models\note_facture;
@@ -365,6 +366,71 @@ public function note_pdf($id){
                     'Monto',
     ));
   }
+
+  public function medios(){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Medios=Medio::all();
+    $InternalOrders=DB::table('internal_orders')
+    ->join('marcas','marcas.id','internal_orders.marca')
+    ->select('internal_orders.*','marcas.name')
+    ->where('date','>=',$Year.'-01-01')
+    ->get();
+    // dd($InternalOrders);
+
+
+    #por total de pedidos
+    $medios  = DB::table('medios')
+            ->join('internal_orders','internal_orders.medio_id','medios.id')
+    
+            ->groupBy('medios.description')
+            
+            ->selectRaw('COUNT(*) as internal_orders_count ,medios.description')
+            ->orderBy('internal_orders_count','desc')
+            ->get();
+        $medios_data=$medios->pluck('internal_orders_count')->toArray();
+        // dd($vendedores);
+        foreach($medios_data as &$hits) {
+        $hits = round(($hits * 100)/ $medios->sum('internal_orders_count'),2);
+         }
+         $subtitle='Porcentaje del monto total de P.I';
+         $meses_title='total de pedidos por medio';
+         $Mes_axis='Total de pedidos por mes';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            (int)($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('total')/1000));
+        }
+    // dd($ven_data);
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle($subtitle)
+    ->setSubtitle('Anual vendedores activOs')
+    ->addData($medios_data)
+    ->setLabels($medios->pluck('name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle($meses_title)
+    ->setSubtitle('Anual')
+    ->addData($Mes_axis,$Mes_data)
+    ->setLabels($Meses);
+    
+    return view('reportes.medios',compact(
+                   'Medios',
+                   'InternalOrders',
+                   'Year',
+                   'CompanyProfiles',
+                   'comp',
+                   'SellerChart',
+                    'MesesChart',
+    ));
+    }
+
 
   public function fabricacion($Monto){
     $CompanyProfiles = CompanyProfile::first();
@@ -744,20 +810,31 @@ public function dgi(){
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
     $Sellers=Seller::all()->sortBy('status',);
-    $Facturas=DB::table('cobro_orders')
-    ->selectRaw('internal_orders.noha,
+    $Cobros=DB::table('cobro_orders')
+    ->selectRaw('cobro_orders.*,
+                internal_orders.noha,
                 cobros.comp,cobro_orders.amount,
                 cobros.date,customers.alias')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
     ->join('customers','customers.id','internal_orders.customer_id')
     ->get();
+    $Facturas=Factures::all();
+    $Pagos=payments::all();
+    $Orders=DB::table('internal_orders')
+    ->selectRaw('internal_orders.*,sellers.seller_name')
+    ->joins('sellers','sellers.id','internal_orders.seller_id')
+    ->selectRaw('internal_orders.*,sellers.seller_name')
+    ->get();
     return view('reportes.dgi',compact(
         'Year',
         'CompanyProfiles',
         'comp',
         'Sellers',
-        'Facturas',
+        'Cobros',
+        'Pagos',
+        'Orders',
+        'Facturas'
     ));
 }
 }

@@ -15,6 +15,7 @@ use App\Models\CustomerShippingAddress;
 use App\Models\CustomerContact;
 use App\Models\Item;
 use App\Models\Marca;
+use App\Models\Medio;
 
 use App\Models\Seller;
 use App\Models\TempInternalOrder;
@@ -70,7 +71,7 @@ class InternalOrderController extends Controller
 
     public function create()
     {
-        
+        $Medios=Medio::all();
         $NextInvoice = InternalOrder::orderBy('invoice', 'DESC')->first()->invoice+1;
         if(Auth::user()->can('ASIGNAR CLIENTES')){
             
@@ -86,6 +87,7 @@ class InternalOrderController extends Controller
         $contactos=CustomerContact::all();
         return view('internal_orders.create', compact(
             'Customers',
+            'Medios',
             'contactos',
             'NextInvoice',
 
@@ -97,7 +99,10 @@ class InternalOrderController extends Controller
         
         $rules = [
             'invoice' => 'unique:internal_orders,invoice',
-             'noha'=>  'unique:internal_orders,noha'];
+             'noha'=>  'unique:internal_orders,noha',
+             'medio'=>  'required'
+            ];
+        $request->validate($rules);
 
         $NextInvoice = InternalOrder::orderBy('invoice', 'DESC')->first()->invoice+1;
         $Fecha = date('Y-m-d');
@@ -113,7 +118,7 @@ class InternalOrderController extends Controller
             $TempInternalOrder->customer_id = $request->customer_id;
             $TempInternalOrder->invoice = $request->invoice;
             $TempInternalOrder->noha = $request->noha;
-            
+            $TempInternalOrder->medio_id = $request->medio;
             $TempInternalOrder->save();
             if($request->contacto){
                 //dd($request->contacto);
@@ -433,6 +438,8 @@ public function recalcular_total($id){
                 $InternalOrders->invoice=$Invoice;
             }
             $InternalOrders->date = $TempInternalOrders->date;
+            
+            $InternalOrders->marca=10;
             $InternalOrders->customer_id = $TempInternalOrders->customer_id;
             $InternalOrders->seller_id = $TempInternalOrders->seller_id;
             $InternalOrders->comision = $TempInternalOrders->comision;
@@ -458,6 +465,9 @@ public function recalcular_total($id){
             $InternalOrders->ncotizacion = $TempInternalOrders->ncotizacion;
             $InternalOrders->noha = $TempInternalOrders->noha;
             $InternalOrders->descuento = $TempInternalOrders->descuento;
+            $InternalOrders->medio_id = $TempInternalOrders->medio_id;
+            
+            $InternalOrders->kilos = $request->kilos;
             $InternalOrders->authorization_id = 1;
             $InternalOrders->category = $request->category;
             $InternalOrders->description = $request->description;

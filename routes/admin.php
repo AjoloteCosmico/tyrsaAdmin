@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AdministradorController;
 use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\MarcasController;
+use App\Http\Controllers\Admin\MediosController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\BankController;
 
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('families', FamilyController::class);
     
     Route::resource('marcas', MarcasController::class);
+    Route::resource('medios', MediosController::class);
     
     Route::get('families/subfamilies/{id}', [ FamilyController::class, 'subfam_show'])->name('subfam_show');
     Route::get('categories', [ FamilyController::class, 'categories'])->name('categories');

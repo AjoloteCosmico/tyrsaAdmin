@@ -122,7 +122,7 @@
                     </tr>
                 </table>
                 
-            @foreach($Facturas as $comp)
+            @foreach($Cobros as $comp)
              <div class="col">
                 <div class="row mydiv">
                    <div class="col mydiv">
@@ -200,7 +200,7 @@
                   
 
                   
-          <div class="contenedor" id="resumen">
+          <div class="table-responsive contenedor" id="resumen">
              <div class="container px-4 mx-auto">
              <table>
                     <tr>
@@ -216,6 +216,53 @@
                                   </a>  
                             </td>
                     </tr>
+                </table>
+                <table class="table text-xs font-medium table-striped text.center"  id="example" >
+                <thead>
+                  <tr>
+                    <th rowspan="2">PDA</th>
+                    <th rowspan="2">FECHA</th>
+                    <th rowspan="2">CLIENTE NOMBRE CORTO</th>
+                    <th rowspan="2"> COMPROBANTE DE INGRESOS no.</th>
+                    <th rowspan="2">IMPORTE TOTAL COBRADO</th>
+                    <th rowspan="2">VENDEDOR </th>
+                    <th rowspan="2">PEDIDO INTERNO</th>
+                    <th colspan="3">IMPORTE TOTAL DEL PEDIDO SIN IVA</th>
+                    <th colspan="2">IMPORTE TOTAL PAGADO POR EL CLIENTE A LA FECHA</th>
+                    <th rowspan="2">% DE LA COMISION QUE SE DEBE</th>
+                    <th rowspan="2">% DE LA COMISION NEGOCIADA</th>
+                    <th rowspan="2">% DE LA COMISION POR PAGAR SIN IVA</th>
+                    <th rowspan="2">ESTATUS</th>
+                  </tr>
+                  <tr>
+                    <th>USD</th>
+                    <th>TIPO DE CAMBIO</th>
+                    <th>M.N.</th>
+                    <th>%</th>
+                    <th>M.N.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($Cobros as $comp)
+                  <tr>
+                    @php
+                    $pedido=$Orders->where('id',$comp->order_id)->first();
+                    @endphp
+                    <td>{{$loop->index}} </td>
+                    <td>{{$comp->date}} </td>
+                    <td>{{$comp->alias}} </td>
+                    <td>{{$comp->comp}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  @endforeach
+                </tbody>
                 </table>
           
             </div>

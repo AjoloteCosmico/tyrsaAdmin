@@ -82,6 +82,15 @@
                                         </select>
                                         <x-jet-input-error for='customer_id' />
                                     </div>
+                                    <div class="form-group">
+                                        <x-jet-label value="* Medio" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="medio">
+                                            @foreach ($Medios as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('medio')) selected @endif > {{$row->description}} </option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='medio' />
+                                    </div>
                                 </div>
                             </div>
                             <h1 class="h2 text-center font-bold text-xs uppercase">Seleccione los contactos para este pedido</h1>

@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('reportes/rango_ventas_pi', [ReportsController::class, 'RangoVentasPi'])->name('reportes.rango_ventas_pi');
     Route::get('reportes/ventas_fabricacion', [ReportsController::class, 'ventasFabricacion'])->name('reportes.ventas_fabricacion');
     Route::get('reportes/kilos', [ReportsController::class, 'kilos'])->name('reportes.kilos');
+    Route::get('reportes/medios', [ReportsController::class, 'medios'])->name('reportes.medios');
    
 
     //REPORTES DGI 

@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Medios;
+use App\Models\Medio;
 use Illuminate\Http\Request;
 
-class MarcasController extends Controller
+class MediosController extends Controller
 {
     //
     public function index()
     {
-        $Marcas = Marca::all();
+        $Medios = Medio::all();
 
-        return view('admin.medios.index', compact('Marcas'));
+        return view('admin.medios.index', compact('Medios'));
     }
 
     public function create()
@@ -24,11 +24,11 @@ class MarcasController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required',
+            'description' => 'required',
         ];
 
         $messages = [
-            'name.required' => 'Capture el nombre de la Marca',
+            'description.required' => 'Capture el nombre de la Familia',
         ];
 
         $request->validate($rules, $messages);
@@ -37,7 +37,7 @@ class MarcasController extends Controller
         $Families->family = $request->family;
         $Families->save();
 
-        return redirect()->route('marcas.index')->with('create_reg', 'ok');
+        return redirect()->route('medioss.index')->with('create_reg', 'ok');
     }
 
     public function show($id)
@@ -49,17 +49,17 @@ class MarcasController extends Controller
     {
         $Families = Family::find($id);
 
-        return view('admin.families.show', compact('Families'));
+        return view('admin.description.show', compact('Families'));
     }
 
     public function update(Request $request, $id)
     {
         $rules = [
-            'family' => 'required',
+            'description' => 'required',
         ];
 
         $messages = [
-            'family.required' => 'Capture el nombre de la Familia',
+            'description.required' => 'Capture el nombre de la Familia',
         ];
 
         $request->validate($rules, $messages);

@@ -299,6 +299,12 @@ return [
                     'can'  => 'VER MONEDAS',
                 ],
                 [
+                    'text' => 'MEDIOS DE VENTA',
+                    'icon' => 'fas fa-list-alt fa-fw',
+                    'route'  => 'medios.index',
+                    'can'  => 'VER MONEDAS',
+                ],
+                [
                     'text' => 'CLIENTES',
                     'icon' => 'fas fa-users-cog fa-fw',
                     'route'  => 'customers.index',
@@ -515,6 +521,12 @@ return [
                 'text' => ' PRESUPUESTO DE FABRICACION PRO MARCA',
                 'icon' => 'fas fa-file fa-fw',
                 'url'  => 'reportes/fabricacion/MONTO',
+                'can'  => 'DESCARGAR OBJETIVOS MONTO',
+            ],
+            [
+                'text' => 'PROSPECTOS DE VENTAS POR MEDIO',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => 'reportes/medios',
                 'can'  => 'DESCARGAR OBJETIVOS MONTO',
             ],
             
