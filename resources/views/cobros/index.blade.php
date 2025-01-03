@@ -24,7 +24,7 @@
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-6 col-sm-12 table-responsive">
-                <table class="table tablefactures  text-xs text-center font-medium">
+                <table class="table tablefactures table-striped text-xs text-center font-medium">
                     <thead>
                         <tr class="text-center">
                             <th  >PDA</th>
@@ -39,7 +39,7 @@
                             <TH>DLL</TH>
                             <TH>M.N.</TH>
                             
-                            <TH>ESTATUS</TH>
+                           
                             <th  >CAPTURO </th>
                             <th  >REVISO</th>
                             <th  >AUTORIZO</th>
@@ -54,7 +54,7 @@
                         @endphp
 
                         @foreach($Cobros as $c)
-                        <tr style="color:red">
+                        <tr>
                         <td>{{$i}}</td>
                         <td>{{$c->date}}</td>
 
@@ -70,7 +70,7 @@
                         <td>{{$c->tc}}</td>
                         <td> {{$c->symbol}} {{number_format($c->amount  ,2)}} </td>
                         <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
-                       <td>NO FACTURADO</td>
+                       
                         <td> {{$c->capturista}}</td>
                         <td>@if($c->reviso) {{$c->revisor}}
                              @else  
