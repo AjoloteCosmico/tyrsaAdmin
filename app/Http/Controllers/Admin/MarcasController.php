@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Medios;
+use App\Models\Marca;
 use Illuminate\Http\Request;
 
 class MarcasController extends Controller
@@ -13,12 +13,12 @@ class MarcasController extends Controller
     {
         $Marcas = Marca::all();
 
-        return view('admin.medios.index', compact('Marcas'));
+        return view('admin.marcas.index', compact('Marcas'));
     }
 
     public function create()
     {
-        return view('admin.medios.create');
+        return view('admin.marcas.create');
     }
 
     public function store(Request $request)
@@ -33,9 +33,9 @@ class MarcasController extends Controller
 
         $request->validate($rules, $messages);
 
-        $Families = new Family();
-        $Families->family = $request->family;
-        $Families->save();
+        $Marca = new Marca();
+        $Marca->name = $request->name;
+        $Marca->save();
 
         return redirect()->route('marcas.index')->with('create_reg', 'ok');
     }
