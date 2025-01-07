@@ -247,7 +247,7 @@
                   <tr>
                     @php
                     $pedido=$Orders->where('id',$comp->order_id)->first();
-                    $total_cobrado=Cobros->where('order_id',$comp->order_id)->sum('amount');
+                    $total_cobrado=$Cobros->where('order_id',$comp->order_id)->sum('amount');
                   
                     @endphp
                     <td>{{$loop->index}} </td>
