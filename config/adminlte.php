@@ -340,12 +340,12 @@ return [
                     'route'  => 'sellers.index',
                     'can'  => 'VER VENDEDORES',
                 ],
-                [
-                    'text' => ' DGI',
-                    'icon' => 'fas fa-user-tag fa-fw',
-                    'route'  => 'dgi_com.index',
-                    'can'  => 'VER DGI',
-                ],
+                // [
+                //     'text' => ' DGI',
+                //     'icon' => 'fas fa-user-tag fa-fw',
+                //     'route'  => 'dgi_com.index',
+                //     'can'  => 'VER DGI',
+                // ],
             ],
             'can' => 'CATALOGOS',
         ],
@@ -532,19 +532,19 @@ return [
             
     ],
 ],
-[
-    'text' => 'REPORTES DGI',
-    'icon' => 'fas fa-list fa-fw',
-    'submenu' => [
-        [
-            'text' => ' DGI',
-            'icon' => 'fas fa-file fa-fw',
-            'route'  => 'reportes.dgi',
-            'can'  => 'VER DGI',
-        ],
+// [
+//     'text' => 'REPORTES DGI',
+//     'icon' => 'fas fa-list fa-fw',
+//     'submenu' => [
+//         [
+//             'text' => ' DGI',
+//             'icon' => 'fas fa-file fa-fw',
+//             'route'  => 'reportes.dgi',
+//             'can'  => 'VER DGI',
+//         ],
 
-    ],
-]
+//     ],
+// ]
 ],
 
     /*
