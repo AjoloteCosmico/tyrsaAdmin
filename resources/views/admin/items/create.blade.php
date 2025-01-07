@@ -87,7 +87,6 @@
                                 <x-jet-label value="* Productos" />
                                 {{--  <x-jet-input type="text" name="subfamily" class="w-full text-xs" value="{{old('family')}}"/>  --}}
                                 <select class="form-capture  w-full text-xs uppercase" name="products" id='prod'>
-                                    
                                 </select>
                                 
                             </div> -->
@@ -96,6 +95,16 @@
                                 <x-jet-input type="text" name="code" class="w-full text-xs" value="{{old('code')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='code' />
                             </div> -->
+                            <div class="form-group">
+                                <x-jet-label value="* Fabricacion" />
+                                {{--  <x-jet-input type="text" name="unit" class="w-full text-xs" value="{{old('unit')}}"/>  --}}
+                                <select class="form-capture  w-full text-xs uppercase" name="fabricacion">
+                                    @foreach ($Fabricaciones as $row)
+                                        <option value="{{$row->description}}" @if ($row->id == old('fabricacion')) selected @endif >{{$row->description}}</option>
+                                    @endforeach
+                                </select>
+                                <x-jet-input-error for='unit' />
+                            </div>
                             <div class="form-group">
                                 <x-jet-label value="* Descripcion" />
                                 <x-jet-input type="text" name="description" class="w-full text-xs" value="{{old('fab')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>

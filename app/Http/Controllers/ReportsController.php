@@ -813,7 +813,7 @@ public function dgi(){
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,
-                cobros.comp,cobro_orders.amount,
+                cobros.comp,
                 cobros.date,customers.alias')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
@@ -823,7 +823,7 @@ public function dgi(){
     $Pagos=payments::all();
     $Orders=DB::table('internal_orders')
     ->selectRaw('internal_orders.*,sellers.seller_name')
-    ->joins('sellers','sellers.id','internal_orders.seller_id')
+    ->join('sellers','sellers.id','internal_orders.seller_id')
     ->selectRaw('internal_orders.*,sellers.seller_name')
     ->get();
     return view('reportes.dgi',compact(

@@ -114,15 +114,12 @@
                 </tr>
                 @endforeach
                 <tfoot>
-
                 <tr>
                     <th>TOTAL MENSUAL</th>
-                    @for($i=1;$i<=12;$i++)
-                                  
+                    @for($i=1;$i<=12;$i++)       
                       
                         <th>{{$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </th>
                     
-                      
                     @endfor
                       <th>{{$Items->count()}} </th>
                     
@@ -156,15 +153,6 @@
             </div>
           </div>          
 
-                  
-
-                  
-                   
-                                    
-
-                                    
-                    
-  
         </div>
     </div>
     </div>

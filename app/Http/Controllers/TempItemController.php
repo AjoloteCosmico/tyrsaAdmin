@@ -5,6 +5,8 @@ use Session;
 use App\Models\TempItem;
 use App\Models\Customer;
 use App\Models\Family;
+
+use App\Models\fabrication;
 use App\Models\TempInternalOrder;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -54,12 +56,14 @@ class TempItemController extends Controller
 
         $Units = Unit::all();
         $Families = Family::all();
-
+        $Fabricaciones=fabrication::all();
+        // dd($Fabricaciones);
         return view('admin.items.create', compact(
             'TempInternalOrders',
             'Item',
             'Units',
             'Families',
+            'Fabricaciones'
         ));
     }
 

@@ -217,14 +217,14 @@
                             </td>
                     </tr>
                 </table>
-                <table class="table text-xs font-medium table-striped text.center"  id="example" >
+                <table class="table text-xs font-medium table-striped text-center"  id="example2" >
                 <thead>
                   <tr>
                     <th rowspan="2">PDA</th>
                     <th rowspan="2">FECHA</th>
                     <th rowspan="2">CLIENTE NOMBRE CORTO</th>
                     <th rowspan="2"> COMPROBANTE DE INGRESOS no.</th>
-                    <th rowspan="2">IMPORTE TOTAL COBRADO</th>
+                    <th rowspan="2">IMPORTE  COBRADO <br> sin iva</th>
                     <th rowspan="2">VENDEDOR </th>
                     <th rowspan="2">PEDIDO INTERNO</th>
                     <th colspan="3">IMPORTE TOTAL DEL PEDIDO SIN IVA</th>
@@ -247,15 +247,21 @@
                   <tr>
                     @php
                     $pedido=$Orders->where('id',$comp->order_id)->first();
+                    $total_cobrado=Cobros->where('order_id',$comp->order_id)->sum('amount');
+                  
                     @endphp
                     <td>{{$loop->index}} </td>
                     <td>{{$comp->date}} </td>
                     <td>{{$comp->alias}} </td>
                     <td>{{$comp->comp}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>$ {{number_format($comp->amount /1.16,2)}}</td>
+                    <td>{{$pedido->seller_name}} </td>
+                    <td>{{$pedido->invoice}} </td>
+                    <td>$ 0 </td>
+                    <td>$ 1 </td>
+                    <td>$ {{number_format($pedido->total/1.16,2)}} </td>
+                    <td>{{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
+                    <td>{{number_format($total_cobrado/1.16,2)}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -268,14 +274,12 @@
             </div>
           </div>   
                                     
-
-                                    
+                   
           <div class="contenedor" id="graficos">
              <div class="container px-4 mx-auto">
 
             </div>
           </div>    
-  
         </div>
     </div>
     </div>
@@ -345,7 +349,10 @@
 
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
 <script>
-new DataTable('#example');
+  new DataTable('#example');
+</script>
+<script>
+  new DataTable('#example2');
 </script>
 <script>
   function mostrar(id, boton) {
