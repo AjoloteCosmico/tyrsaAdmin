@@ -510,7 +510,6 @@ public function recalcular_total($id){
                 $Items->amount = $row->amount;
                 $Items->unit = $row->unit;
                 $Items->family = $row->family;
-                
                 $Items->subfamilia = $row->subfamilia;
                 $Items->categoria = $row->categoria;
                 $Items->products = $row->products;

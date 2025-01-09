@@ -813,7 +813,7 @@ public function dgi(){
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,
-                cobros.comp,cobros.bank_id,cobros.coin_id,
+                cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc,
                 cobros.facture_id,cobros.date,customers.alias')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')

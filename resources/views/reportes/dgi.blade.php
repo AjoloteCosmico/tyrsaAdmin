@@ -111,7 +111,7 @@
                     <td>
                             <a href="{{route('reports.generate',[1,'dgi_comp',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
-                                  </a>  
+                            </a>  
                                
                             </td>
                             <td>
@@ -121,12 +121,23 @@
                             </td>
                     </tr>
                 </table>
+            @php
+            $last_id=0;
+            $ordinal=1;
+            @endphp
                 
             @foreach($Cobros as $comp)
             @php
+                    if($last_id!=$comp->order_id){
+                      $last_id=$comp->order_id;
+                      $ordinal=1;
+                    }else{
+                      $ordinal=$ordinal+1;
+                    }
                     $pedido=$Orders->where('id',$comp->order_id)->first();
                     $factura=$Facturas->where('id',$comp->facture_id)->first();
                     $total_cobrado=$Cobros->where('order_id',$comp->order_id)->sum('amount');
+                    $pagos=$Pagos->where('order_id',$comp->order_id);
                     $banco=$Bancos->where('id',$comp->bank_id)->first();
                     $moneda=$Monedas->where('id',$comp->coin_id)->first();
                     @endphp
@@ -155,11 +166,15 @@
                             <tr>
                                 <th>CLIENTE</th>
                                 <td>{{$comp->alias}} </td>
+                                <th>Tipo de cambio</th>
+                                <td>{{$comp->tc}}</td>
                             </tr>
                             
                             <tr>
                                 <th>BANCO</th>
                                 <td>{{$banco->bank_description}} </td>
+                                <th>FACTOR IVA</th>
+                                <td>1.16</td>
                             </tr>
                             
                             <tr>
@@ -185,7 +200,7 @@
                             <th colspan="2"> &nbsp; &nbsp; IMPORTE TOTAL<br> DEL PEDIDO &nbsp;</th>
                             <th colspan="2">IMPORTE PAGADO <br>POR EL CLIENTE A LA FECHA</th>
                             <th rowspan="2">% DE LA COMISION <br>QUE SE DEBE SOBRE<br> AVANCE</th>
-                            <th rowspan="2">COMISION A PAGAR</th>
+                            <th rowspan="2">COMISION A <br> PAGAR M.N.</th>
                             <th rowspan="2">VALIDAR <br> DEBE SER 0</th>
                             <th rowspan="2">ESTATUS</th>
                           </tr>
@@ -218,17 +233,53 @@
                             <td> ${{number_format($pedido->total,2)}} </td>
                             <td> {{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
                             <td> ${{number_format($total_cobrado,2)}}</td>
+                            <td> {{number_format($comp->amount*100/$pedido->total,2)}} %</td>
+                            <td> ${{number_format(($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total,2)}} </td>
+                            <td>0</td>
+                            <td>@if($pagos->count() >= $ordinal)
+                              {{$pagos->skip($ordinal-1)->first()->concept}}@endif </td>
                         </tr>
                         
                       </table>
                     </div>
                 </div>
                 
-                <div class="row">
-                  
-                </div>
+                  <div class="row">
+                    <div class="col"><br> <hr> <br> CAPTURÓ </div>
+                    <div class="col"><br> <hr> <br> REVISÓ</div>
+                    <div class="col"><br> <hr> <br> AUTORIZÓ</div>
+                    <div class="col">
+                  <table> 
+                    <tr><th>Observaciones</th></tr>
+                    <tr><td> &nbsp; ------------------- <br> ----------------------</td></tr>
+                  </table></div>
+                  </div>
+
+                  <div class="row"> 
+                    <div class="col table-responsive"> <table>
+                      <tr>
+                        <th >Sin Iva</th>
+                           <td>&nbsp;&nbsp; </td>
+                            <td>&nbsp;&nbsp; </td>
+                            <td style="color:#36B500">$0 </td>
+                            <th>$ {{number_format($comp->amount/1.16,2)}}</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;</td>
+                            <th> ${{number_format(($pedido->comision*$pedido->total)/1.16,2)}} </th>
+                            
+                            <td style="color:#36B500" > $0</td>
+                            <th> ${{number_format($pedido->total/1.16,2)}} </th>
+                            <td>  &nbsp;&nbsp;</td>
+                            <th> ${{number_format($total_cobrado/1.16,2)}}</th>
+                            <td> &nbsp;&nbsp;</td>
+                            <th> ${{number_format((($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total)/1.16,2)}} </td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;</td>
+                      </tr>
+                    </table></div>
+                  </div>
              </div>
-                    
+                    <br><br> <br><br>
 @endforeach  
           </div>
                   
@@ -380,7 +431,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
 <script>
   new DataTable('#example');
