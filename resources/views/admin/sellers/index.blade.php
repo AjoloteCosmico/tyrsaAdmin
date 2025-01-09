@@ -62,7 +62,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR VENDEDORES')
                                         <a href="{{ route('sellers.edit', $row->id)}}">
-                                        <button  class="btn btn-blue ">
+                                            <button  class="btn btn-blue ">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
                                             </button>
                                         </a>

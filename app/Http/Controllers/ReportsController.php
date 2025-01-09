@@ -813,12 +813,14 @@ public function dgi(){
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,
-                cobros.comp,
-                cobros.date,customers.alias')
+                cobros.comp,cobros.bank_id,cobros.coin_id,
+                cobros.facture_id,cobros.date,customers.alias')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
     ->join('customers','customers.id','internal_orders.customer_id')
     ->get();
+    $Bancos=Bank::all();
+    $Monedas=Coin::all();
     $Facturas=Factures::all();
     $Pagos=payments::all();
     $Orders=DB::table('internal_orders')
@@ -834,7 +836,9 @@ public function dgi(){
         'Cobros',
         'Pagos',
         'Orders',
-        'Facturas'
+        'Facturas',
+        'Bancos',
+        'Monedas'
     ));
 }
 }

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'MONEDAS')
+@section('title', 'PRODUCTOS')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-money-bill-1"></i>&nbsp; MONEDAS</h1>
+    <h1 class="font-bold"><i class="fas fa-money-bill-1"></i>&nbsp; PRODUCTOS</h1>
 @stop
 
 @section('content')
@@ -22,26 +22,16 @@
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>
-                            <th>Moneda</th>
-                            <th>Símbolo</th>
-                            <th>Código</th>
-                            <th>Tipo de cambio <br> Compra</th>
-                            <th>Tipo de cambio <br> Venta</th>
-                            <th>Día de aplicación</th>
+                            <th>producto</th>
+                            <th>descripcion</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($Coins as $row)
+                        @foreach ($Products as $row)
                         <tr class="text-center">
                             <td>{{$row->id}}</td>
-                            <td>{{$row->coin}}</td>
-                            <td>{{$row->symbol}}</td>
-                            <td>{{$row->code}}</td>
-                            <td>{{$row->exchange_sell}}</td>
-                            <td>{{$row->exchange_buy}}</td>
-                            <td>{{ date('d/m/Y', strtotime($row->date_application)) }}</td>
-                            <td class="w-15">
+                            <td>{{$row->name}}</td><td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         @can('EDITAR MONEDAS')
@@ -78,24 +68,24 @@
     
 @stop
 
-@section('js')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogocoins.js') }}"></script>
+    @section('js')
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogocoins.js') }}"></script>
 
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 
-@if (session('create_reg') == 'ok')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_create_reg.js') }}"></script>
-@endif
+    @if (session('create_reg') == 'ok')
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_create_reg.js') }}"></script>
+    @endif
 
-@if (session('eliminar') == 'ok')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_delete_reg.js') }}"></script>
-@endif
+    @if (session('eliminar') == 'ok')
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_delete_reg.js') }}"></script>
+    @endif
 
-@if (session('error_delete') == 'ok')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/error_delete_reg.js') }}"></script>
-@endif
+    @if (session('error_delete') == 'ok')
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/error_delete_reg.js') }}"></script>
+    @endif
 
-@if (session('update_reg') == 'ok')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/update_reg.js') }}"></script>
-@endif
+    @if (session('update_reg') == 'ok')
+        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/update_reg.js') }}"></script>
+    @endif
 @stop

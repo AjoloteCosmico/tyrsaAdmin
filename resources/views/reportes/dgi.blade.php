@@ -123,6 +123,13 @@
                 </table>
                 
             @foreach($Cobros as $comp)
+            @php
+                    $pedido=$Orders->where('id',$comp->order_id)->first();
+                    $factura=$Facturas->where('id',$comp->facture_id)->first();
+                    $total_cobrado=$Cobros->where('order_id',$comp->order_id)->sum('amount');
+                    $banco=$Bancos->where('id',$comp->bank_id)->first();
+                    $moneda=$Monedas->where('id',$comp->coin_id)->first();
+                    @endphp
              <div class="col">
                 <div class="row mydiv">
                    <div class="col mydiv">
@@ -152,12 +159,12 @@
                             
                             <tr>
                                 <th>BANCO</th>
-                                <td></td>
+                                <td>{{$banco->bank_description}} </td>
                             </tr>
                             
                             <tr>
                                 <th>MONEDA</th>
-                                <td></td>
+                                <td>{{$moneda->coin}}</td>
                             </tr>
                         </table>
                    </div>
@@ -165,28 +172,55 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col">
+                    <div class="col table-responsive">
                     <table class="table-bordered">
                         <thead>
                           <tr>
-                            <th>PDA</th>
-                            <th>P.I NO.</th>
-                            <th>FACTURA NO.</th>
-                            <th>IMPORTE TOTAL DEL COBRO</th>
-                            <th>VENDEDOR</th>
-                            
-                            <th>COMISION</th>
+                            <th rowspan="2">PDA</th>
+                            <th rowspan="2">P.I NO.</th>
+                            <th rowspan="2">FACTURA NO. &nbsp; &nbsp;</th>
+                            <th colspan="2"> &nbsp; &nbsp;IMPORTE TOTAL <br> DEL COBRO &nbsp;</th>
+                            <th rowspan="2">VENDEDOR</th>
+                            <th colspan="2">COMISION</th>
+                            <th colspan="2"> &nbsp; &nbsp; IMPORTE TOTAL<br> DEL PEDIDO &nbsp;</th>
+                            <th colspan="2">IMPORTE PAGADO <br>POR EL CLIENTE A LA FECHA</th>
+                            <th rowspan="2">% DE LA COMISION <br>QUE SE DEBE SOBRE<br> AVANCE</th>
+                            <th rowspan="2">COMISION A PAGAR</th>
+                            <th rowspan="2">VALIDAR <br> DEBE SER 0</th>
+                            <th rowspan="2">ESTATUS</th>
+                          </tr>
+                          <tr>
+                            <th style="color:#36B500" > DLLS </th>
+                            <th>M.N.</th>
+                           
+                            <th>% NEGOCIADA</th>
+                            <th>PAGAR M.N.</th>
+                           
+                            <th style="color:#36B500" > DLLS </th>
+                            <th>M.N.</th>
+                           
+                            <th>%</th>
+                            <th>M.N.</th>
+                           
                           </tr>
                         </thead>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$loop->index}}</td>
+                            <td>{{$pedido->invoice}}</td>
+                            <td> @if($factura){{$factura->facture}} @else sin factura @endif</td>
+                            <td style="color:#36B500">$0 </td>
+                            <td>$ {{number_format($comp->amount,2)}}</td>
+                            <td>{{$pedido->seller_name}}</td>
+                            <td>{{number_format($pedido->comision*100,2)}} %</td>
+                            <td> ${{number_format($pedido->comision*$pedido->total,2)}} </td>
+                            
+                            <td style="color:#36B500" > $0</td>
+                            <td> ${{number_format($pedido->total,2)}} </td>
+                            <td> {{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
+                            <td> ${{number_format($total_cobrado,2)}}</td>
                         </tr>
                         
-                    </table>
+                      </table>
                     </div>
                 </div>
                 
