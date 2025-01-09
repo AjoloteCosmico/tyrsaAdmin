@@ -123,6 +123,7 @@ class TempItemController extends Controller
             $TempItems->temp_internal_order_id = $request->temp_internal_order_id;
             $TempItems->item = $request->item;
             $TempItems->amount = $request->amount;
+            $TempItems->fab = $request->fabricacion;
             $TempItems->unit = $request->unit;
             if($request->family=='OTRO'){
                 $TempItems->family = $request->otro;
