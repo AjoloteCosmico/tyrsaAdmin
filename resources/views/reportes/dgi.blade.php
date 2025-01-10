@@ -112,7 +112,6 @@
                             <a href="{{route('reports.generate',[1,'dgi_comp',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                             </a>  
-                               
                             </td>
                             <td>
                             <a href="{{route('reports.generate',[1,'dgi_comp',1])}}">
@@ -140,6 +139,7 @@
                     $pagos=$Pagos->where('order_id',$comp->order_id);
                     $banco=$Bancos->where('id',$comp->bank_id)->first();
                     $moneda=$Monedas->where('id',$comp->coin_id)->first();
+                    $comision=$Comisiones->where('order_id',$comp->order_id);
                     @endphp
              <div class="col">
                 <div class="row mydiv">
@@ -254,7 +254,7 @@
                     <tr><td> &nbsp; ------------------- <br> ----------------------</td></tr>
                   </table></div>
                   </div>
-
+                 
                   <div class="row"> 
                     <div class="col table-responsive"> <table>
                       <tr>
@@ -277,6 +277,31 @@
                             <td>&nbsp;&nbsp;</td>
                       </tr>
                     </table></div>
+                  </div>
+                  <!-- ultimas tablas inferiores (comisiones socios y vendedores) -->
+                  <div class='row'>
+                    <!-- tabla de vendedores -->
+                    <div class="col">
+                      <div class="row"> <h2>VENDEDORES ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$5434,35</p> </div>
+                       <div class="row">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th rowspan="2">Vendedor</th>
+                                
+                                <th colspan="2">Comision</th>
+                              </tr>
+                              <tr>
+                                <th> % </th>
+                                <th> M.N. sin iva</th>
+                              </tr>
+                            </thead>
+                          </table>
+                       </div>
+                    </div>
+
+                    <div class="col"></div>
+
                   </div>
              </div>
                     <br><br> <br><br>
