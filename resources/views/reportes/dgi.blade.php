@@ -139,7 +139,7 @@
                     $pagos=$Pagos->where('order_id',$comp->order_id);
                     $banco=$Bancos->where('id',$comp->bank_id)->first();
                     $moneda=$Monedas->where('id',$comp->coin_id)->first();
-                    $comision=$Comisiones->where('order_id',$comp->order_id);
+                    $comisiones=$Comisiones->where('order_id',$comp->order_id);
                     @endphp
              <div class="col">
                 <div class="row mydiv">
@@ -279,11 +279,11 @@
                     </table></div>
                   </div>
                   <!-- ultimas tablas inferiores (comisiones socios y vendedores) -->
-                  <div class='row'>
+                  <div class='row mydiv'>
                     <!-- tabla de vendedores -->
-                    <div class="col">
-                      <div class="row"> <h2>VENDEDORES ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$5434,35</p> </div>
-                       <div class="row">
+                    <div class="col mydiv">
+                      <div class="row"> <h2>VENDEDORES ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$ {{number_format(($comisiones->where('seller_dgi',0)->sum('percentage')*$comp->amount)/1.16,2)}}</p> </div>
+                       <div class="row mydiv">
                           <table>
                             <thead>
                               <tr>
@@ -292,15 +292,53 @@
                                 <th colspan="2">Comision</th>
                               </tr>
                               <tr>
-                                <th> % </th>
+                                <th> porcentaje </th>
                                 <th> M.N. sin iva</th>
                               </tr>
+                              @foreach($comisiones as $comision)
+                              
+                              @if($comision->seller_dgi==0)
+                              <tr>
+                                <td>{{$comision->seller_name}} </td>
+                                <td>{{number_format($comision->percentage*100,2)}} %</td>
+                                <td>${{number_format(($comision->percentage*$comp->amount)/1.16,2)}}</td>
+                              </tr>
+                              @endif
+                              @endforeach
+                            </thead>
+                          </table>
+                       </div>
+                    </div>
+                    <!-- tabla de Socios -->
+                    <div class="col mydiv">
+                      <div class="row"> <h2>EJECUTIVOS ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$ {{number_format(($comisiones->where('seller_dgi','>',0)->sum('percentage')*$comp->amount)/1.16,2)}}</p> </div>
+                       <div class="row mydiv">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th rowspan="2">Ejecutivo</th>
+                                
+                                <th colspan="2">Comision</th>
+                              </tr>
+                              <tr>
+                                <th> porcentaje  </th>
+                                <th> M.N. sin iva</th>
+                              </tr>
+                              @foreach($comisiones as $comision)
+                              
+                              @if($comision->seller_dgi>0)
+                              <tr>
+                                <td>{{$comision->seller_name}} </td>
+                                <td>{{number_format($comision->percentage*100,2)}} %</td>
+                                <td>${{number_format(($comision->percentage*$comp->amount)/1.16,2)}}</td>
+                              </tr>
+                              @endif
+                              @endforeach
                             </thead>
                           </table>
                        </div>
                     </div>
 
-                    <div class="col"></div>
 
                   </div>
              </div>

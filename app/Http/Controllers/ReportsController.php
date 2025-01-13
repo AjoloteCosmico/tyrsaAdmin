@@ -829,9 +829,8 @@ public function dgi(){
     ->selectRaw('internal_orders.*,sellers.seller_name')
     ->get();
     $Comisiones=DB::table('comissions')
-    ->selectRaw('comissions.*,sellers.seller_name')
+    ->selectRaw('comissions.*,sellers.seller_name,sellers.dgi as seller_dgi')
     ->join('sellers','sellers.id','comissions.seller_id')
-    ->selectRaw('internal_orders.*,sellers.seller_name')
     ->get();
     return view('reportes.dgi',compact(
         'Year',
@@ -843,7 +842,8 @@ public function dgi(){
         'Orders',
         'Facturas',
         'Bancos',
-        'Monedas'
+        'Monedas',
+        'Comisiones'
     ));
 }
 }
