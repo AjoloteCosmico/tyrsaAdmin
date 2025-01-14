@@ -289,7 +289,7 @@ return [
                 [
                     'text' => 'PRODUCTOS',
                     'icon' => 'fas fa-list-alt fa-fw',
-                    'route'  => 'products',
+                    'route'  => 'report_product.index',
                     'can'  => 'VER MONEDAS',
                 ],
                 [

@@ -202,7 +202,6 @@ class InternalOrderController extends Controller
      ->get();
      session(['p_comission' => '']);
      session(['p_seller_id' => ' ']);
-     
      #Asignar automaticamente DGI
      $Socios=Seller::where('dgi','>',0)->get();
     //  dd($Socios);

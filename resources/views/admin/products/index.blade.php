@@ -23,7 +23,7 @@
                         <tr class="text-center">
                             <th>ID</th>
                             <th>producto</th>
-                            <th>descripcion</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -31,7 +31,8 @@
                         @foreach ($Products as $row)
                         <tr class="text-center">
                             <td>{{$row->id}}</td>
-                            <td>{{$row->name}}</td><td class="w-15">
+                            <td>{{$row->name}}</td>
+                            <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         @can('EDITAR MONEDAS')
@@ -55,6 +56,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <td></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -68,8 +70,8 @@
     
 @stop
 
-    @section('js')
-        <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogocoins.js') }}"></script>
+ @section('js')
+        <!-- <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogocoins.js') }}"></script> -->
 
         <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 

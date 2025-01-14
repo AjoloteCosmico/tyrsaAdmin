@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\MarcasController;
 use App\Http\Controllers\Admin\MediosController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::group(['middleware' => ['auth']], function()
 {
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('banks', BankController::class);
     Route::resource('units', UnitController::class);
     Route::resource('families', FamilyController::class);
+    
+    Route::resource('report_product', ProductController::class);
     
     Route::resource('marcas', MarcasController::class);
     Route::resource('medios', MediosController::class);

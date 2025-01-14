@@ -177,6 +177,9 @@ class CobrosController extends Controller
                 ->select('factures.order_id','internal_orders.total','internal_orders.invoice')
                 ->groupBy('factures.order_id','internal_orders.total','internal_orders.invoice')
                 ->get();
+
+        //TODO: VALIDAR LA SUMA DE LAS CANTIDADES
+        
         for($i=1;$i<=$Pedidos->count();$i++){
             
             $registro= new cobro_order();
