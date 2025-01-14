@@ -19,8 +19,9 @@ use App\Models\Medio;
 use App\Models\Cobro;
 use App\Models\CreditNote;
 use App\Models\note_facture;
-
 use App\Models\Item;
+use App\Models\report_product;
+
 use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
 use SplFileInfo;
@@ -273,13 +274,113 @@ public function note_pdf($id){
     
   }
  
+  public function productos($Monto){
+    $CompanyProfiles = CompanyProfile::first();
+    $comp=$CompanyProfiles->id;
+    $Year=now()->year;
+    $Products=report_product::all();
+    $Items=DB::table('items')
+    ->join('report_products','report_products.id','items.products')
+    ->join('internal_orders','items.internal_order_id','internal_orders.id')
+    ->select('internal_orders.date','report_products.name','items.*')
+    ->where('date','>=',$Year.'-01-01')
+    ->get();
+    // dd($InternalOrders);
+
+    #Grafica vendedores
+    if($Monto=='MONTO'){
+
+    #por montn total de pedidos
+        $productos = DB::table('report_products')
+        
+        ->join('items','report_products.id','items.products')
+        ->select('report_products.name')
+        ->selectRaw("SUM(items.import) as total")
+        ->groupBy('items.products','report_products.name')
+        ->orderBy('total','desc')
+        ->get();
+        // dd($vendedores);
+        $prod_data=$productos->pluck('total')->toArray();
+        foreach($prod_data as &$hits) {
+        $hits = round(($hits * 100)/ $productos->sum('total'),2);
+         }
+         $subtitle='Porcentaje del monto total de P.I';
+         $meses_title='Suma total del monto de PI en miles de pesos';
+         $Mes_axis='Monto total en miles';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            (int)($Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->sum('total')/1000));
+        }
+    }
+
+    else{
+
+    #por total de pedidos
+        $productos = DB::table('report_products')
+        ->join('items','items.products','=','report_products.id')
+        ->select('report_products.name')
+        ->selectRaw("COUNT(items.products) as internal_orders_count")
+        ->groupBy('items.products','report_products.name')
+        ->orderBy('internal_orders_count','desc')
+        ->get();
+        $prod_data=$productos->pluck('internal_orders_count')->toArray();
+        foreach($prod_data as &$hits) {
+            $hits = round(($hits * 100)/ $vendedores->sum('internal_orders_count'),2);
+         }
+         
+        $subtitle='Porcentaje total de P.I';
+        $meses_title='Suma total  de PI';
+        $Mes_axis='Total de pedidos en el mes';
+        $Mes_data=array();
+        for($i=1;$i<=12;$i++){
+            array_push($Mes_data,
+            $Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
+            ->count());
+        }
+    }
+    // dd($vendedores);
+    
+    // dd($ven_data);
+    $SellerChart=LarapexChart::pieChart()
+    ->setTitle($subtitle)
+    ->setSubtitle('Anual productos')
+    ->addData($prod_data)
+    ->setLabels($productos->pluck('name')->toArray());
+    #Grafica por meses
+    $Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
+    $MesesChart=LarapexChart::lineChart()
+    ->setTitle($meses_title)
+    ->setSubtitle('Anual')
+    ->addData($Mes_axis,$Mes_data)
+    ->setLabels($Meses);
+    
+    return view('reportes.productos',compact(
+                   'Products',
+                   'Items',
+                   'Year',
+                   'CompanyProfiles',
+                   'comp',
+                   'SellerChart',
+                    'MesesChart',
+                    'Monto',
+    ));
+  }
+
+  //reporte por producto
+  
   public function objetivos($Monto){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
     $Sellers=Seller::all();
     $InternalOrders=DB::table('internal_orders')
-    ->join('sellers','sellers.id','internal_orders.seller_id')
+    ->join('report_products','sellers.id','internal_orders.seller_id')
     ->select('internal_orders.*','sellers.seller_name')
     ->where('date','>=',$Year.'-01-01')
     ->get();

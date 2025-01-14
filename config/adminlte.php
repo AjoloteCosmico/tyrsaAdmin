@@ -529,6 +529,18 @@ return [
                 'url'  => 'reportes/medios',
                 'can'  => 'DESCARGAR OBJETIVOS MONTO',
             ],
+            [
+                'text' => ' PRODUCTOS POR PI',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => '/reportes/productos/PEDIDO',
+                'can'  => 'DESCARGAR OBJETIVOS PI',
+            ],
+            [
+                'text' => ' PRODUCTOS POR MONTO ',
+                'icon' => 'fas fa-file fa-fw',
+                'url'  => 'reportes/productos/MONTO',
+                'can'  => 'DESCARGAR OBJETIVOS MONTO',
+            ],
             
     ],
 ],
