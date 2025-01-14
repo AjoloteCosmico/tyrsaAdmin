@@ -82,14 +82,16 @@
                                     
                                 </select>
                                 <x-jet-input-error for='family' /> 
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                 <x-jet-label value="* Productos" />
-                                {{--  <x-jet-input type="text" name="subfamily" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="products" id='prod'>
+                               <select class="form-capture  w-full text-xs uppercase" name="products" id='prod'>
+                                    @foreach($Products as $row)
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
                                 </select>
                                 
-                            </div> -->
+                            </div> 
                             <!-- <div class="form-group">
                                 <x-jet-label value="* Clave" />
                                 <x-jet-input type="text" name="code" class="w-full text-xs" value="{{old('code')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>

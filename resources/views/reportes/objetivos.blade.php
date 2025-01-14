@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'PEDIDOS INTERNOS')
+@section('title', 'REPORTE DE OBJETIVOS')
 
 @section('content_header')
     <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; REPORTE DE OBJETIVOS</h1>
@@ -78,7 +78,16 @@
   <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">Gráficos</button>
 </div>
                 <div class="table-responsive contenedor" id="tabla" style="display: block;">
-             
+                @php
+                {{function divide($p,$q){
+                  if($q==0){
+                    return 0;
+                  }
+                  else{
+                    return ($p/$q);
+                  }
+                } }}
+                @endphp
                         <!-- 14 columas, para poder copiar del excel -->
                <table class="table text-xs font-medium table-striped "  id="example" >
                <thead> 
@@ -114,11 +123,11 @@
                     @endfor
                     @if($Monto=='MONTO')  
                       <td class="text-nowrap" > $ {{number_format($InternalOrders->where('seller_id',$seller->id)->sum('total'),2)}}</td>
-                      <td class="text-nowrap" >{{number_format(100*$InternalOrders->where('seller_id',$seller->id)->sum('total')/$InternalOrders->sum('total'),1)}} %</td>
+                      <td class="text-nowrap" >{{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->sum('total'),$InternalOrders->sum('total')),1)}} %</td>
                     @else
                     
                     <td class="text-nowrap" >{{$InternalOrders->where('seller_id',$seller->id)->count()}}</td>
-                      <td class="text-nowrap" > {{number_format(100*$InternalOrders->where('seller_id',$seller->id)->count()/$InternalOrders->count(),1)}} %</td>
+                      <td class="text-nowrap" > {{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->count(),$InternalOrders->count()),1)}} %</td>
                     @endif
                 </tr>
                 @endforeach
@@ -148,10 +157,10 @@
                     <td></td>
                     @for($i=1;$i<=12;$i++)
                       @if($Monto=='MONTO')  
-                      <td>{{number_format(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total')/$InternalOrders->sum('total'),1)}} %</td>
+                      <td>{{number_format(divide(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),$InternalOrders->sum('total')),1)}} %</td>
                
                       @else
-                      <td>{{number_format(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()/$InternalOrders->count(),1)}} %</td>
+                      <td>{{number_format(divide(100*$InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count(),$InternalOrders->count()),1)}} %</td>
                
                       @endif
                     

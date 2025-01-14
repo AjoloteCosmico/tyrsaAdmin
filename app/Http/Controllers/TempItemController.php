@@ -8,8 +8,10 @@ use App\Models\Family;
 
 use App\Models\fabrication;
 use App\Models\TempInternalOrder;
+use App\Models\report_product;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+
 
 class TempItemController extends Controller
 {
@@ -57,13 +59,16 @@ class TempItemController extends Controller
         $Units = Unit::all();
         $Families = Family::all();
         $Fabricaciones=fabrication::all();
+        
+        $Products=report_product::all();
         // dd($Fabricaciones);
         return view('admin.items.create', compact(
             'TempInternalOrders',
             'Item',
             'Units',
             'Families',
-            'Fabricaciones'
+            'Fabricaciones',
+            'Products'
         ));
     }
 
@@ -125,6 +130,7 @@ class TempItemController extends Controller
             $TempItems->amount = $request->amount;
             $TempItems->fab = $request->fabricacion;
             $TempItems->unit = $request->unit;
+            $TempItems->products = $request->products;
             if($request->family=='OTRO'){
                 $TempItems->family = $request->otro;
             }

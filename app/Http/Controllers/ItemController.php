@@ -9,6 +9,8 @@ use App\Models\Family;
 use App\Models\InternalOrder;
 use App\Models\Unit;
 
+use App\Models\report_product;
+
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -31,12 +33,13 @@ class ItemController extends Controller
 
         $Units = Unit::all();
         $Families = Family::all();
-
+        $Products=report_product::all();
         return view('admin.items.add_item', compact(
             'InternalOrders',
             'Item',
             'Units',
             'Families',
+            'Products'
         ));
     }
 
