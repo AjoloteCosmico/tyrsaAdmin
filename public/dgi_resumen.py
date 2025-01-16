@@ -350,11 +350,11 @@ for i in range(len(cobros)):
     worksheet.write('P'+str(i+8),str(pedido['comision'].values[0]*100)+'%',blue_content)
     worksheet.write('Q'+str(i+8),concepto,blue_content)
     
+
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)
 worksheet.set_column('E:O',18)
 worksheet.set_column('P:T',15)
-
 workbook.close()
