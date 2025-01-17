@@ -910,10 +910,18 @@ public function dgi(){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
-    $Sellers=Seller::all()->sortBy('status',);
+    $Sellers=Seller::all()->sortBy('status');
+    $socios_ids = DB::table('comissions')
+    ->select('seller_id')
+    ->where('description', 'like', '%DGI%')
+    ->distinct()
+    ->get();
+
+    $socios = Seller::where('status','ACTIVO')->whereIn('id', $socios_ids->pluck('seller_id'))->get();
+    $no_socios = Seller::where('status','ACTIVO')->whereNotIn('id', $socios_ids->pluck('seller_id'))->get();
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
-                internal_orders.noha,
+                internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
                 cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc,
                 cobros.facture_id,cobros.date,customers.alias')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
@@ -944,7 +952,9 @@ public function dgi(){
         'Facturas',
         'Bancos',
         'Monedas',
-        'Comisiones'
+        'Comisiones',
+        'socios',
+        'no_socios'
     ));
 }
 }

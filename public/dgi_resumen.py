@@ -68,7 +68,7 @@ creditos=pd.read_sql("""select *
 vendedores=pd.read_sql("""select * 
                      from sellers""",cnx)
 
-socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
+socios_ids=pd.read_sql("select distinct seller_id from comissions where description like '%DGI%'",cnx)
 socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
 no_socios=vendedores.loc[~vendedores['id'].isin(socios_ids['seller_id'].unique())]
 comisiones=pd.read_sql("""select * 
@@ -273,9 +273,7 @@ total_cereza_format = workbook.add_format({
     'fg_color':'#F4B084',
     'border': 1})
 
-
 import datetime
-
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 year = date.strftime("%Y")

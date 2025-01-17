@@ -58,7 +58,11 @@
   <button id="btn-tabla" class="boton activo" onclick="mostrar('vendedores', this)">VENDEDORES</button>
   
   <button id="btn-tabla" class="boton activo" onclick="mostrar('comp_ing', this)">COMP. INGRESOS</button>
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen', this)">RESUMEN</button>
+  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen', this)">RESUMEN (todos los comp.)</button>
+  
+  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen_ventas', this)">RESUMEN (ventas directas) </button>
+  
+  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen_ejecutivos', this)">RESUMEN(comisiones ejecutivos)</button>
   <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">GRAFICOS</button>
 </div>
                 <div class="table-responsive contenedor" id="vendedores" style="display: block;">
@@ -207,7 +211,6 @@
                           <tr>
                             <th style="color:#36B500" > DLLS </th>
                             <th>M.N.</th>
-                           
                             <th>% NEGOCIADA</th>
                             <th>PAGAR M.N.</th>
                            
@@ -421,8 +424,16 @@
           
             </div>
           </div>   
-                                    
-                   
+          <div class="table-responsive contenedor" id="resumen_ventas" style="display: block;">
+          
+            @include('reportes.dgi_resumen_ventas')
+          </div>                       
+                
+          <div class="table-responsive contenedor" id="resumen_ejecutivos" style="display: block;">
+          
+            @include('reportes.dgi_resumen_ejecutivos')
+          </div>
+
           <div class="contenedor" id="graficos">
              <div class="container px-4 mx-auto">
 
@@ -500,6 +511,9 @@
 </script>
 <script>
   new DataTable('#example2');
+</script>
+<script>
+  new DataTable('#example4');
 </script>
 <script>
   function mostrar(id, boton) {

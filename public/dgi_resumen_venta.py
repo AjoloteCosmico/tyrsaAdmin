@@ -313,7 +313,7 @@ worksheet.write(7,22,'Nombre corto',blue_header_format)
 worksheet.write(8,22,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
-    worksheet.write(9+i,20,cobros['amount'].values[i],blue_content)
+    worksheet.write(9+i,20,cobros['amount'].values[i]/1.16,blue_content)
     worksheet.write(9+i,21,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,22,cobros['comp'].values[i],blue_content)
 for i in range(len(no_socios)):
@@ -331,7 +331,7 @@ for i in range(len(no_socios)):
         
         if(len(comision_secundaria)>0):
            amount=(cobros['amount'].values[j])*comision_secundaria['percentage'].values[0]
-        worksheet.write(9+j,23+i,amount,blue_content)
+        worksheet.write(9+j,23+i,amount/1.16,blue_content)
 
 for i in range(len(no_socios)):
         # Definir el rango para la fórmula
