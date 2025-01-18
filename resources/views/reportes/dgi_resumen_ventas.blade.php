@@ -3,13 +3,13 @@
              <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_ejecutivos',0])}}">
+                            <a href="{{route('reports.generate',[1,'dgi_resumen_veneta',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_ejecutivos',1])}}">
+                            <a href="{{route('reports.generate',[1,'dgi_resumen_venta',1])}}">
                                   <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
@@ -46,6 +46,9 @@
                             @endforeach
                         </tr>
                     </thead>
+                    @php
+                    $total_sum=0;
+                    @endphp
                     @foreach($Cobros as $cobro)
                        @php
                        $this_comissions=$Comisiones->where('order_id',$cobro->order_id);
@@ -58,8 +61,15 @@
                         @foreach($no_socios as $row)
                            
                             @if($row->id==$cobro->seller_id)
+                            @php
+                            $total_sum=$total_sum+($cobro->amount*$cobro->comision)/1.16;
+                            @endphp
+
                                 <td>${{number_format(($cobro->amount*$cobro->comision)/1.16,2)}}  </td> <!-- //caso en que es el vendedor princi´pal   -->
                             @elseif($this_comissions->where('seller_id',$row->id)->count()>0)
+                            @php
+                            $total_sum=$total_sum+($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
+                            @endphp
                                 <td>${{number_format(($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16,2)}}  </td> <!-- //caso en que el vendedor tiene una comision   -->
                             @else 
                                 <td> $0 </td>
@@ -67,9 +77,30 @@
                         @endforeach
                     </tr>
                     @endforeach
+                    <tfoot>
+                    <tr>
+                       <th> ${{number_format($total_sum,2)}}</th>
+                       <th></th>
+                       <th></th>
+                       @foreach($no_socios as $row)
+                           <th>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </th>
+                        @endforeach
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        
+                       @foreach($no_socios as $row)
+                       <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                            
+                        @endforeach
+                    </tr>
+                    </tfoot>
                 </table>
 
-                <table>
-                    <th><b> {{$Cobros->sum('amount')/1.16}}</b> </th>
-                </table>
+                <!-- tabla de totales  -->
+                 <table>
+                   
+                 </table>
 </div>
