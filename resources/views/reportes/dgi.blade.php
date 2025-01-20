@@ -513,6 +513,9 @@
   new DataTable('#example2');
 </script>
 <script>
+  new DataTable('#example3');
+</script>
+<script>
   new DataTable('#example4');
 </script>
 <script>
@@ -531,6 +534,7 @@
     });
     boton.classList.add('activo');
   }
+  mostrar('vendedores', 'btn-table');
 </script>
 
 @endpush
