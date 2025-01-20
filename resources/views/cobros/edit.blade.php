@@ -53,16 +53,39 @@
                                         <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$Cobro->comp}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                         <x-jet-input-error for='comp' />
                                     </div>
-                                    <div class="form-group">
-                                        <x-jet-label value="* Factura" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="facture_id" >
-                                        <option  > </option>    
-                                        @foreach ($Factures as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == $Cobro->facture_id) selected @endif >  {{$row->facture}}</option>
-                                            @endforeach
-                                        </select>
-                                        <x-jet-input-error for='facture_id' />
-                                    </div>
+                                       
+                                    SELECCIONA LAS FACTURAS A CUBRIR CON EL COMPROBANTE
+                                    <table class="table tableshippingaddress table-striped text-xs font-medium tableFixHead " style=".tableFixHead          { overflow: auto; height: 10px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+ border-collapse: collapse; width: 90%;
+th, td { padding: 8px 16px; }
+th     { background:#eee; }" >
+                                    <thead>
+                                                <tr class="text-center">
+                                                    <th>FACTURA</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PEDIDO</th>
+                                                    <th>SELECCIONAR</th>
+                                                    
+                                                </tr>
+                                            </thead> 
+                                           <tbody id='ctable'>
+                                                @foreach($Factures as $f)
+                                                <tr class='{{$f->customer_id}} '>
+                                                    <td class="text-center">{{$f->facture}}</td>
+                                                    <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
+                                                    <td class="text-center">{{$f->invoice}}</td>
+                                                    <td class="text-center"><div class="row">
+                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]" onclick="si_factura();" ></div>
+                                                    </div> 
+                                                        &nbsp;&nbsp;&nbsp;  </td>
+                                                  </tr>
+                                        @endforeach
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="padding:3.4vw">  No se ha facturado   <input class="form-check-input nofactura" type="checkbox"  id="no_facturado"  onclick="no_factura();" ></div>
+                                   <br><br>
                                     <div class="form-group">
                                         <x-jet-label value="* Banco" />
                                         <select class="form-capture  w-full text-xs uppercase" name="bank_id" id='moneda'>
@@ -137,7 +160,6 @@
 @section('js')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-
 <script>
 $(document).on("keypress", ".just-number", function (e) {
   let charCode = (e.which) ? e.which : e.keyCode;
@@ -186,28 +208,9 @@ $(document).on('keyup', '.price-format-input', function (e) {
      $(document).ready(function () {     
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
-console.log('entrando a la funcion');
+console.log('entrando a la funcion cambio cliente');
 console.log(seleccionado);
-removeOptions(document.getElementById('order_id'));
 console.log('hecho¿?');
-var desc = document.getElementById("order_id");
-@foreach($Customers as $cliente)
-if(seleccionado=='{{$cliente->id}}'){
-    var example_array = {
-        @foreach($InternalOrders as $order)
-        @if($order->customer_id==$cliente->id)
-    {{$order->id}} : '{{$order->invoice}}',
-         @endif
-    @endforeach
-};}
-   
-  
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 
 var npagos={
@@ -215,71 +218,33 @@ var npagos={
     {{$i->id}}:{{$i->payment_conditions}},
     @endforeach};
 
-var seleccionado = document.getElementById('order_id').value;
-console.log('entrando a la funcion de num pagos');
 console.log(seleccionado);
-console.log(npagos[seleccionado]);
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
+console.log('entrando a la funcion cjaas');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("customer-facture");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
     }
-}
-document.getElementById('tpagos').value=npagos[seleccionado];
-   
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
 
 
 })
      });
-</script>
-
-<script>
-
-$(document).ready(function () {     
-$('#order_id').change(function(){
-    var npagos={
-    @foreach($InternalOrders as $i)
-    {{$i->id}}:{{$i->payment_conditions}},
-    @endforeach};
-
-var seleccionado = $(this).val();
-console.log('entrando a la funcion de num pagos');
-console.log(seleccionado);
-console.log(npagos[seleccionado]);
-removeOptions(document.getElementById('ordinal'));
-var desc = document.getElementById("ordinal");
-@foreach($InternalOrders as $order)
-if(seleccionado=='{{$order->id}}'){
-    var example_array = {1:1};
-    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
-        example_array[i]=i;
-    }
-}
-    
-document.getElementById('tpagos').value=npagos[seleccionado];
- 
-   
-  
-@endforeach
-
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
-
-})
-     });
-
-
 </script>
 
 
@@ -317,5 +282,71 @@ document.getElementById('tc').value={{$coin->exchange_sell}};
 })
      });
   
+</script>
+
+
+<script>
+var mytable = document.getElementById("ctable");
+for (var i = 0, row; row = mytable.rows[i]; i++) {
+     
+       mytable.style.display='';
+        
+        
+            row.style.display='none';
+            
+        
+    }
+    $(document).ready(function () {     
+$('#customer_id').change(function(){
+var seleccionado = $(this).val();
+console.log('entrando a la funcion cjaas');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("customer-facture");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
+    }
+
+})
+});
+
+function no_factura(){
+    if(document.getElementById('no_facturado').checked){
+
+    
+    var boxes = document.getElementsByClassName("customer-facture");
+    for (var i = 0; i < boxes.length; i++) {
+        console.log(boxes.item(i).checked);
+       boxes.item(i).checked=false;
+    }
+}
+
+}
+function si_factura(){
+   
+    
+    var boxes = document.getElementsByClassName("nofactura");
+    for (var i = 0; i < boxes.length; i++) {
+        console.log(boxes.item(i).checked);
+       boxes.item(i).checked=false;
+    }
+}
+
+
 </script>
 @stop

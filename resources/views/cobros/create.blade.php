@@ -79,14 +79,14 @@ th     { background:#eee; }" >
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
                                                     <td class="text-center">{{$f->invoice}}</td>
                                                     <td class="text-center"><div class="row">
-                                                        <div class='col'><input class="form-check-input" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]"></div>
+                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]" onclick="si_factura();" ></div>
                                                     </div> 
                                                         &nbsp;&nbsp;&nbsp;  </td>
                                                   </tr>
                                         @endforeach
                                             </tbody>
                                         </table>
-                                        <!-- <div class="row" style="padding:3.4vw">  No se ha facturado   <input class="form-check-input" type="checkbox"  id="flexCheckDefault" ></div> -->
+                                        <div class="row" style="padding:3.4vw">  No se ha facturado   <input class="form-check-input nofactura" type="checkbox"  id="no_facturado"  onclick="no_factura();" ></div>
                                    <br><br>
                                         <div class="form-group">
                                         <x-jet-label value="* BANCO" />
@@ -233,7 +233,7 @@ var npagos={
 console.log(seleccionado);
 console.log('entrando a la funcion cjaas');
 console.log(seleccionado)
-var boxes = document.getElementsByClassName("form-check-input");
+var boxes = document.getElementsByClassName("customer-facture");
 for (var i = 0; i < boxes.length; i++) {
     console.log(boxes.item(i).checked);
    boxes.item(i).checked=false;
@@ -313,7 +313,7 @@ $('#customer_id').change(function(){
 var seleccionado = $(this).val();
 console.log('entrando a la funcion cjaas');
 console.log(seleccionado)
-var boxes = document.getElementsByClassName("form-check-input");
+var boxes = document.getElementsByClassName("customer-facture");
 for (var i = 0; i < boxes.length; i++) {
     console.log(boxes.item(i).checked);
    boxes.item(i).checked=false;
@@ -336,5 +336,29 @@ for (var i = 0, row; row = table.rows[i]; i++) {
 
 })
 });
+
+function no_factura(){
+    if(document.getElementById('no_facturado').checked){
+
+    
+    var boxes = document.getElementsByClassName("customer-facture");
+    for (var i = 0; i < boxes.length; i++) {
+        console.log(boxes.item(i).checked);
+       boxes.item(i).checked=false;
+    }
+}
+
+}
+function si_factura(){
+   
+    
+    var boxes = document.getElementsByClassName("nofactura");
+    for (var i = 0; i < boxes.length; i++) {
+        console.log(boxes.item(i).checked);
+       boxes.item(i).checked=false;
+    }
+}
+
+
 </script>
 @stop

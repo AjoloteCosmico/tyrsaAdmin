@@ -244,13 +244,26 @@ class CobrosController extends Controller
         $Cobro->order_id=$request->order_id;
         $Cobro->amount=$request->amount;
         $Cobro->comp=$request->comp;
-        $Cobro->facture_id=$request->facture_id;
+        // $Cobro->facture_id=$request->facture_id;
+
         $Cobro->bank_id=$request->bank_id;
         $Cobro->coin_id=$request->coin_id;
         $Cobro->tc=$request->tc;
         $Cobro->date=$request->date;
         $Cobro->reviso=Auth::user()->id;
         $Cobro->save();
+        //Borar facturas anteriores asociadas
+        cobro_facture::where('cobro_id',$Cobro->id)->delete();
+        //Facturas asociadas al cobro via checkboxes
+        
+               if($request->facture){
+        //dd($request->contacto);
+            for($i=0; $i < count($request->facture); $i++){
+                $registro=new cobro_facture();
+                $registro->cobro_id=$Cobro->id;
+                $registro->facture_id=$request->facture[$i];
+                $registro->save();
+                  }}
         //$comp=$request->comp_file;
         //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
         

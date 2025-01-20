@@ -26,7 +26,7 @@
             <div class="col-6 col-sm-12 table-responsive">
                 <table class="table tablefactures table-striped text-xs text-center font-medium">
                     <thead>
-                        <tr class="text-center">
+                        <tr   class="text-center">
                             <th  >PDA</th>
                             <th  >FECHA EMISION</th>
                             <th  >FACTURA</th>
@@ -54,8 +54,8 @@
                         @endphp
 
                         @foreach($Cobros as $c)
-                        <tr>
-                        <td>{{$i}}</td>
+                        <tr @if($FacturasCobradas->where('cobro_id',$c->id)->count()==0) style="color:red; --bs-table-striped-color: red;" @endif>
+                        <td >{{$i}} </td>
                         <td>{{$c->date}}</td>
 
                         @if($FacturasCobradas->where('cobro_id',$c->id)->count()==1)
