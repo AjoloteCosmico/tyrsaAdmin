@@ -3,7 +3,7 @@
              <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_veneta',0])}}">
+                            <a href="{{route('reports.generate',[1,'dgi_resumen_venta',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
