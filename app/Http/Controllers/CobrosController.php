@@ -33,7 +33,7 @@ class CobrosController extends Controller
 {
     public function index(){
         $Cobros=DB::table('cobros')
-        ->leftjoin('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
+        ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
@@ -111,7 +111,7 @@ class CobrosController extends Controller
                 
                 $request->validate($rules, $messages);
                 $Cobro=new Cobro();
-                //$Cobro->order_id=$request->order_id;
+                $Cobro->order_id=InternalOrders::where('customer_id',$request->customer_id)->first()->id;
                 $Cobro->amount=$request->amount;
                 $Cobro->comp=$request->comp;
                 //$Cobro->facture_id=$request->facture_id;
