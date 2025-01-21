@@ -86,7 +86,7 @@ class CobrosController extends Controller
                 
 
                 $rules = [
-                        'facture' => 'required',
+                        
                         'date' => 'required',
                         'comp'=> 'required',
                         'bank_id'=> 'required',
@@ -99,7 +99,6 @@ class CobrosController extends Controller
                     ];
                 
                     $messages = [
-                        'facture.required' => 'Seleccione almenos una factura',
                         'date.required' => 'La fecha  es necesaria',
                         'coin_id.required' => 'El tipo de Moneda es necesario',
                         'bank_id.required' => 'Seleccione una factura valida',

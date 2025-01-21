@@ -286,9 +286,6 @@ pedidos['date']=pd.to_datetime(pedidos['date'])
 # -------------HOJA DE RESUMEN
 worksheet= workbook.add_worksheet("Resumen")
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS COBRADAS DE PEDIDOS', negro_b)
-worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
-                      DGI PARA NIVELES DIRECTIVOS""", negro_s)
 
 worksheet.write('G2', 'AÑO', negro_b)
 

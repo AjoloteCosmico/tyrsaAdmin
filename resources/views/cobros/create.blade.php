@@ -86,7 +86,7 @@ th     { background:#eee; }" >
                                         @endforeach
                                             </tbody>
                                         </table>
-                                        <div class="row" style="padding:3.4vw">  No se ha facturado   <input class="form-check-input nofactura" type="checkbox"  id="no_facturado"  onclick="no_factura();" ></div>
+                                        <div class="row" style="padding:3.4vw">  Factura Pendiente  <input class="form-check-input nofactura" type="checkbox"  id="no_facturado"  onclick="no_factura();" ></div>
                                    <br><br>
                                         <div class="form-group">
                                         <x-jet-label value="* BANCO" />

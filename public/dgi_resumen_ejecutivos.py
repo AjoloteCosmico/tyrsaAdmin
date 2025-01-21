@@ -286,9 +286,6 @@ pedidos['date']=pd.to_datetime(pedidos['date'])
 # -------------HOJA DE RESUMEN
 worksheet= workbook.add_worksheet("Resumen")
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS COBRADAS DE PEDIDOS', negro_b)
-worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
-                      DGI PARA NIVELES DIRECTIVOS""", negro_s)
 
 worksheet.write('G2', 'AÑO', negro_b)
 
@@ -316,24 +313,24 @@ for i in range(len(cobros)):
     worksheet.write(9+i,20,cobros['amount'].values[i],blue_content)
     worksheet.write(9+i,21,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,22,cobros['comp'].values[i],blue_content)
-for i in range(len(no_socios)):
-    this_comisions=comisiones.loc[comisiones['seller_id']==no_socios['id'].values[i]]
+for i in range(len(socios)):
+    this_comisions=comisiones.loc[comisiones['seller_id']==socios['id'].values[i]]
     worksheet.write(5,23+i,str(i+1),blue_header_format)
-    worksheet.write(6,23+i,no_socios['iniciales'].values[i],blue_header_format)
-    worksheet.write(7,23+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_header_format)
+    worksheet.write(6,23+i,socios['iniciales'].values[i],blue_header_format)
+    worksheet.write(7,23+i,str(socios['seller_name'].values[i]).split()[-1],blue_header_format)
     worksheet.write(8,23+i,'comision $',blue_header_format)
-    worksheet.write(len(cobros)+10, 23+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_content_footer)
+    worksheet.write(len(cobros)+10, 23+i,str(socios['seller_name'].values[i]).split()[-1],blue_content_footer)
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[this_comisions['order_id']==cobros['order_id'].values[j]]
         amount=0
-        if(cobros['seller_id'].values[j]==no_socios['id'].values[i]):
+        if(cobros['seller_id'].values[j]==socios['id'].values[i]):
            amount=(cobros['amount'].values[j])*cobros['comision'].values[j]
         
         if(len(comision_secundaria)>0):
            amount=(cobros['amount'].values[j])*comision_secundaria['percentage'].values[0]
         worksheet.write(9+j,23+i,amount,blue_content)
 
-for i in range(len(no_socios)):
+for i in range(len(socios)):
         # Definir el rango para la fórmula
     start_cell = xl_rowcol_to_cell(9, 23+i)  # Primera celda (0, 0 -> A1)
     end_cell = xl_rowcol_to_cell(len(cobros) - 1, 23+i) 
