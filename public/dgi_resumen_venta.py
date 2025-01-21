@@ -300,26 +300,26 @@ worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES
 
 ##SEGUNDA TABLA DE RESUMEN VENTAS DIRECTAS
 #Cabeceras
-worksheet.merge_range(5,20,8,20,"""SIN IVA
+worksheet.merge_range(5,3,8,3,"""SIN IVA
 comision generada por el monto""",blue_header_format)
-worksheet.merge_range(5,21,8,21,"""
+worksheet.merge_range(5,4,8,4,"""
 PEDIDO INTERNO""",blue_header_format)
-worksheet.write(5,22,'No. vendedor',blue_header_format)
-worksheet.write(6,22,'Iniciales',blue_header_format)
-worksheet.write(7,22,'Nombre corto',blue_header_format)
-worksheet.write(8,22,'comp.Ingesos',blue_header_format)
+worksheet.write(5,5,'No. vendedor',blue_header_format)
+worksheet.write(6,5,'Iniciales',blue_header_format)
+worksheet.write(7,5,'Nombre corto',blue_header_format)
+worksheet.write(8,5,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
-    worksheet.write(9+i,20,cobros['amount'].values[i]/1.16,blue_content)
-    worksheet.write(9+i,21,cobros['invoice'].values[i],blue_content)
-    worksheet.write(9+i,22,cobros['comp'].values[i],blue_content)
+    worksheet.write(9+i,3,cobros['amount'].values[i]/1.16,blue_content)
+    worksheet.write(9+i,4,cobros['invoice'].values[i],blue_content)
+    worksheet.write(9+i,5,cobros['comp'].values[i],blue_content)
 for i in range(len(no_socios)):
     this_comisions=comisiones.loc[comisiones['seller_id']==no_socios['id'].values[i]]
-    worksheet.write(5,23+i,str(i+1),blue_header_format)
-    worksheet.write(6,23+i,no_socios['iniciales'].values[i],blue_header_format)
-    worksheet.write(7,23+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_header_format)
-    worksheet.write(8,23+i,'comision $',blue_header_format)
-    worksheet.write(len(cobros)+10, 23+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_content_footer)
+    worksheet.write(5,6+i,str(i+1),blue_header_format)
+    worksheet.write(6,6+i,no_socios['iniciales'].values[i],blue_header_format)
+    worksheet.write(7,6+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_header_format)
+    worksheet.write(8,6+i,'comision $',blue_header_format)
+    worksheet.write(len(cobros)+10, 6+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_content_footer)
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[this_comisions['order_id']==cobros['order_id'].values[j]]
         amount=0
@@ -328,22 +328,24 @@ for i in range(len(no_socios)):
         
         if(len(comision_secundaria)>0):
            amount=(cobros['amount'].values[j])*comision_secundaria['percentage'].values[0]
-        worksheet.write(9+j,23+i,amount/1.16,blue_content)
+        worksheet.write(9+j,6+i,amount/1.16,blue_content)
 
 for i in range(len(no_socios)):
         # Definir el rango para la fórmula
-    start_cell = xl_rowcol_to_cell(9, 23+i)  # Primera celda (0, 0 -> A1)
-    end_cell = xl_rowcol_to_cell(len(cobros) - 1, 23+i) 
+    start_cell = xl_rowcol_to_cell(9, 6+i)  # Primera celda (0, 0 -> A1)
+    end_cell = xl_rowcol_to_cell(len(cobros) - 1, 6+i) 
     # Crear la fórmula SUM para sumar la columna
     formula = f"=SUM({start_cell}:{end_cell})"
 
     # Escribir la fórmula en una celda (por ejemplo, en la fila 6, columna 1 -> A6)
-    worksheet.write_formula(len(cobros)+9, 23+i, formula,blue_footer_format_bold)
+    worksheet.write_formula(len(cobros)+9, 6+i, formula,blue_footer_format_bold)
 
-worksheet.write_formula(len(cobros)+9, 20, f"=SUM(U10:U"+str(len(cobros)+10)+")",blue_footer_format_bold)
+worksheet.write_formula(len(cobros)+9, 3, f"=SUM(D10:D"+str(len(cobros)+9)+")",blue_footer_format_bold)
 
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
+
+worksheet.set_column('D:D',21)
 worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)
 worksheet.set_column('E:O',18)
