@@ -61,7 +61,11 @@
                         @if($FacturasCobradas->where('cobro_id',$c->id)->count()==1)
                         <td>{{$FacturasCobradas->where('cobro_id',$c->id)->first()->facture}}</td>
                         @else
-                        <td>{{$FacturasCobradas->where('cobro_id',$c->id)->count()}} Facturas asociadas</td>
+                            @if($FacturasCobradas->where('cobro_id',$c->id)->count()==0) 
+                                <td> <p style="font-weight: bold;">   <i class='fas fa-exclamation-triangle'></i> PENDIENTE POR FACTURAR</p> </td>
+                            @else
+                                <td>{{$FacturasCobradas->where('cobro_id',$c->id)->count()}} Facturas asociadas</td>
+                            @endif
                         @endif
                         <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
                         <td>{{$c->invoice}}</td>

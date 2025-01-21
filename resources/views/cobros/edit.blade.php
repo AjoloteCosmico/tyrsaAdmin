@@ -370,8 +370,9 @@ for (var i = 0, row; row = table.rows[i]; i++) {
             
         }
     }
+    
 @foreach($SelectedFactures as $row)
-document.getElementById('flexCheckDefault{{$row->facture_id}}').checked=true;
+    document.getElementById('flexCheckDefault{{$row->facture_id}}').checked=true;
 @endforeach
 </script>
 @stop
