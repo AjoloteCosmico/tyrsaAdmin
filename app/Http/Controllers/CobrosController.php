@@ -147,7 +147,12 @@ class CobrosController extends Controller
                     return $this->desglosar_cobro($Cobro->id);
                 }else{
                     $registro= new cobro_order();
-                    $registro->order_id=$Facturas->first()->order_id;
+                    if($Facturas->count()==0){
+                        $registro->order_id=0;
+                    }else{
+                        $registro->order_id=$Facturas->first()->order_id;
+                    }
+                    
                     $registro->cobro_id=$Cobro->id;
                     $registro->amount=$Cobro->amount;
                     $registro->save();
@@ -285,12 +290,20 @@ class CobrosController extends Controller
         if($Facturas->count()>1){
             return $this->desglosar_cobro($Cobro->id);
         }else{
+            if($Facturas->count()==0){
+                cobro_order::where('cobro_id',$Cobro->id)->delete();
+                $registro= new cobro_order();
+                $registro->order_id=0;
+                $registro->cobro_id=$Cobro->id;
+                $registro->amount=$Cobro->amount;
+                $registro->save();
+            }else{
             cobro_order::where('cobro_id',$Cobro->id)->delete();
             $registro= new cobro_order();
             $registro->order_id=$Facturas->first()->order_id;
             $registro->cobro_id=$Cobro->id;
             $registro->amount=$Cobro->amount;
-            $registro->save();
+            $registro->save();}
             return redirect('cobros')->with('update_reg', 'ok');
         }
         }
