@@ -33,7 +33,7 @@ class CobrosController extends Controller
 {
     public function index(){
         $Cobros=DB::table('cobros')
-        ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
+        ->leftjoin('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')
         ->join('coins', 'internal_orders.coin_id','=','coins.id')
         ->leftjoin('factures', 'cobros.facture_id','=','factures.id')
