@@ -181,7 +181,6 @@ class CobrosController extends Controller
         //TODO: VALIDAR LA SUMA DE LAS CANTIDADES
         
         for($i=1;$i<=$Pedidos->count();$i++){
-            
             $registro= new cobro_order();
             $registro->cobro_id=$id;
             $registro->order_id=$request->order_id[$i];
@@ -200,7 +199,15 @@ class CobrosController extends Controller
             $Ordenes=InternalOrder::where('customer_id',$Cobro->customer_id)->get();
             $Bancos=bank::all();
             $Coins=Coin::all();
-            $Factures=Factures::all();
+            $Customers=Customer::orderby('clave')->get();
+            $InternalOrders=InternalOrder::all();
+            
+            $Factures=DB::table('factures')
+                ->join('internal_orders','internal_orders.id','=','factures.order_id')
+                ->select('factures.*','internal_orders.customer_id','internal_orders.invoice')
+                ->get();
+            $SelectedFactures=cobro_facture::where('cobro_id',$Cobro->id)->get();
+            // dd($SelectedFactures->where('facture_id',9)->count());
             $Customers=Customer::orderby('clave')->get();
             $InternalOrders=InternalOrder::all();
             
@@ -211,6 +218,7 @@ class CobrosController extends Controller
                                     'Customers',
                                     'InternalOrders',
                                     'Factures',
+                                    'SelectedFactures',
                                 'Ordenes'));
 
         }
@@ -266,10 +274,23 @@ class CobrosController extends Controller
                   }}
         //$comp=$request->comp_file;
         //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
-        
-
-
-        return redirect('cobros');
+        $Facturas=DB::table('cobro_factures')
+        ->join('factures','factures.id','=','cobro_factures.facture_id')
+        ->where('cobro_factures.cobro_id','=',$Cobro->id)
+        ->select('factures.order_id')
+        ->groupBy('factures.order_id')
+        ->get();
+        if($Facturas->count()>1){
+            return $this->desglosar_cobro($Cobro->id);
+        }else{
+            cobro_order::where('cobro_id',$Cobro->id)->delete();
+            $registro= new cobro_order();
+            $registro->order_id=$Facturas->first()->order_id;
+            $registro->cobro_id=$Cobro->id;
+            $registro->amount=$Cobro->amount;
+            $registro->save();
+            return redirect('cobros')->with('update_reg', 'ok');
+        }
         }
 
 

@@ -75,11 +75,11 @@ th     { background:#eee; }" >
                                            <tbody id='ctable'>
                                                 @foreach($Factures as $f)
                                                 <tr class='{{$f->customer_id}} '>
-                                                    <td class="text-center">{{$f->facture}}</td>
+                                                    <td class="text-center">{{$f->facture}} </td>
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
                                                     <td class="text-center">{{$f->invoice}}</td>
                                                     <td class="text-center"><div class="row">
-                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]" onclick="si_factura();" ></div>
+                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}"  id="flexCheckDefault" name="facture[]" onclick="si_factura();" ></div>
                                                     </div> 
                                                         &nbsp;&nbsp;&nbsp;  </td>
                                                   </tr>
@@ -308,6 +308,7 @@ for (var i = 0, row; row = mytable.rows[i]; i++) {
             
         
     }
+
     $(document).ready(function () {     
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
@@ -358,6 +359,7 @@ function si_factura(){
        boxes.item(i).checked=false;
     }
 }
+
 
 
 </script>

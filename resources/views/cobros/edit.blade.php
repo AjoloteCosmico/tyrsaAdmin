@@ -73,11 +73,11 @@ th     { background:#eee; }" >
                                            <tbody id='ctable'>
                                                 @foreach($Factures as $f)
                                                 <tr class='{{$f->customer_id}} '>
-                                                    <td class="text-center">{{$f->facture}}</td>
+                                                    <td class="text-center">{{$f->facture}} </td>
                                                     <td class="text-center"> $ {{number_format($f->amount,2)}}</td>
                                                     <td class="text-center">{{$f->invoice}}</td>
                                                     <td class="text-center"><div class="row">
-                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}" id="flexCheckDefault" name="facture[]" onclick="si_factura();" ></div>
+                                                        <div class='col'><input class="form-check-input customer-facture" type="checkbox" value="{{$f->id}}" id="flexCheckDefault{{$f->id}}" name="facture[]" onclick="si_factura();" ></div>
                                                     </div> 
                                                         &nbsp;&nbsp;&nbsp;  </td>
                                                   </tr>
@@ -128,11 +128,10 @@ th     { background:#eee; }" >
                                     </div>
 
                                     <br>
+                                     <p><a href="{{ route('cobros.show', $Cobro->id)}}">Comprobante <i class='far fa-file'></i></a> </p>
 
-
-                                    Ingresa su comprobante
                                     <br>
-                                    <input type="file" name="comp_file" id="comp_file">
+                                    <!-- <input type="file" name="comp_file" id="comp_file"> -->
                                     <br><br>
 
                         </div>
@@ -295,7 +294,7 @@ for (var i = 0, row; row = mytable.rows[i]; i++) {
             row.style.display='none';
             
         
-    }
+}
     $(document).ready(function () {     
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
@@ -348,5 +347,31 @@ function si_factura(){
 }
 
 
+var seleccionado = document.getElementById('customer_id').value;
+console.log('PRELLENANDO¿?');
+console.log(seleccionado)
+var boxes = document.getElementsByClassName("customer-facture");
+for (var i = 0; i < boxes.length; i++) {
+    console.log(boxes.item(i).checked);
+   boxes.item(i).checked=false;
+}
+var table = document.getElementById("ctable");
+for (var i = 0, row; row = table.rows[i]; i++) {
+     
+       table.style.display='';
+
+       console.log('calss name :'+ row.className);
+       console.log('selected:'+seleccionado);
+        if (parseInt(row.className)==parseInt(seleccionado)) {
+            console.log('matched');
+            row.style.display='';
+        }else{
+            row.style.display='none';
+            
+        }
+    }
+@foreach($SelectedFactures as $row)
+document.getElementById('flexCheckDefault{{$row->facture_id}}').checked=true;
+@endforeach
 </script>
 @stop
