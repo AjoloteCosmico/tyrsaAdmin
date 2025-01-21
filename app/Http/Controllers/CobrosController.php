@@ -130,9 +130,10 @@ class CobrosController extends Controller
                           $registro->cobro_id=$Cobro->id;
                           $registro->facture_id=$request->facture[$i];
                           $registro->save();
-                      }}
+                      }
+                    
                 $Cobro->order_id=Factures::find($request->facture[0])->order_id;
-                $Cobro->save();
+                $Cobro->save();}
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
                 
@@ -248,7 +249,7 @@ class CobrosController extends Controller
             ];
         //$request->validate($rules, $messages);
         $Cobro= Cobro::find($id);
-        $Cobro->order_id=$request->order_id;
+        
         $Cobro->amount=$request->amount;
         $Cobro->comp=$request->comp;
         // $Cobro->facture_id=$request->facture_id;
@@ -270,7 +271,9 @@ class CobrosController extends Controller
                 $registro->cobro_id=$Cobro->id;
                 $registro->facture_id=$request->facture[$i];
                 $registro->save();
-                  }}
+                  }
+                  $Cobro->order_id=Factures::find($request->facture[0])->order_id;
+                  $Cobro->save();}
         //$comp=$request->comp_file;
         //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
         $Facturas=DB::table('cobro_factures')
