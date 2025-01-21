@@ -111,7 +111,7 @@ class CobrosController extends Controller
                 
                 $request->validate($rules, $messages);
                 $Cobro=new Cobro();
-                $Cobro->order_id=InternalOrders::where('customer_id',$request->customer_id)->first()->id;
+                $Cobro->order_id=InternalOrder::where('customer_id',$request->customer_id)->first()->id;
                 $Cobro->amount=$request->amount;
                 $Cobro->comp=$request->comp;
                 //$Cobro->facture_id=$request->facture_id;
