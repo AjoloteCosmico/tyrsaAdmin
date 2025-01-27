@@ -547,6 +547,7 @@ return [
 [
     'text' => 'REPORTES DGI',
     'icon' => 'fas fa-list fa-fw',
+    'can' => 'VER DGI',
     'submenu' => [
         [
             'text' => ' DGI',
