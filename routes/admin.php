@@ -67,6 +67,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('sellers/update_customers/{id}', [ SellerController::class, 'update_customers'])->name('sellers.update_customers');
 
     Route::get('dgi_com', [ SellerController::class, 'dgi_index'])->name('dgi_com.index');
+    Route::get('dgi_com/edit/{id}', [ SellerController::class, 'dgi_edit'])->name('dgi_com.edit');
+    Route::post('dgi_com/update/{id}', [ SellerController::class, 'dgi_update'])->name('dgi_com.update');
+
     Route::get('administrador', [AdministradorController::class, 'index'])->name('admin.index');
 });
 

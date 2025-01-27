@@ -1,22 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'EDITAR VENDEDOR')
+@section('title', 'EDITAR SOCIO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; Vendedor</h1>
+    <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; SOCIOS</h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-edit"></i>&nbsp; Editar Datos del Vendedor:
+                <i class="fas fa-edit"></i>&nbsp; Editar la comision DGI del socio:
             </h5>
         </div>
-        <form action="{{ route('sellers.update', $Sellers->id)}}" method="POST" enctype="multipart/form-data">
-        @method('PUT')
-        @csrf
-        <input type="hidden" name="id" value="{{$Sellers->id}}"/>
+        
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-6 col-xs-12 shadow rounded-xl p4">
@@ -47,6 +44,10 @@
                 </div>
                
                     @can('ASIGNAR DGI')
+                    <form action="{{ route('dgi_com.update', $Sellers->id)}}" method="POST" enctype="multipart/form-data">
+                        @method('POST')
+                        @csrf
+                        <input type="hidden" name="id" value="{{$Sellers->id}}"/>
                     <div class="card">
                         <div class="card-header">
                             <h1 class="h5 text-center fw">DGI</h1>

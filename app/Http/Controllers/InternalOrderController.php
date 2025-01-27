@@ -205,15 +205,15 @@ class InternalOrderController extends Controller
      #Asignar automaticamente DGI
      $Socios=Seller::where('dgi','>',0)->get();
     //  dd($Socios);
-    //  foreach($Socios as $socio){
+     foreach($Socios as $socio){
         
-    //  $comision = new temp_comissions();
-    //  $comision->seller_id=$socio->id;
-    //  $comision->percentage=$socio->dgi*0.01;
-    //  $comision->temp_order_id=$TempInternalOrders->id;
-    //  $comision->description='DGI';
-    //  $comision->save();
-    //  }
+     $comision = new temp_comissions();
+     $comision->seller_id=$socio->id;
+     $comision->percentage=$socio->dgi*0.01;
+     $comision->temp_order_id=$TempInternalOrders->id;
+     $comision->description='DGI';
+     $comision->save();
+     }
     return $this->capture_comissions($TempInternalOrders->id,' ');
     }
 

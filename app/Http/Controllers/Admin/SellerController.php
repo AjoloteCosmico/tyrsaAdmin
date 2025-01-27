@@ -215,5 +215,15 @@ class SellerController extends Controller
         $Socios=Seller::where('dgi','>',0)->get();
         return view('admin.sellers.dgi',compact('Socios'));
     }
+    public function dgi_edit($id){  
+        $Sellers=Seller::find($id);
+        return view('admin.sellers.edit_dgi',compact('Sellers'));
+    }
+    public function dgi_update(Request $request,$id){  
+        $Socio=Seller::find($id);
+        $Socio->dgi=$request->dgi;
+        $Socio->save();
+        return redirect()->route('dgi_com.index')->with('update_reg','ok');
+    }
 }
 

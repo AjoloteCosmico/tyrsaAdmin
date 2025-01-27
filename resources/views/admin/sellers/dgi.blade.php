@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'VENDEDORES')
+@section('title', 'SOCIOS')
 
 @section('content_header')
     <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; SOCIOS</h1>
@@ -59,7 +59,7 @@
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR VENDEDORES')
-                                        <a href="{{ route('sellers.edit', $row->id)}}">
+                                        <a href="{{ route('dgi_com.edit', $row->id)}}">
                                         <button  class="btn btn-blue ">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
                                             </button>
