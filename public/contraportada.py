@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+# id=133
+# id=147
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -56,6 +58,8 @@ df=hpagos[['date','percentage']]
 query = ('SELECT * from factures where order_id = '+str(order_id))
 facturas=pd.read_sql(query,cnx)
 
+query = ('SELECT * from cobro_factures')
+cobros_facturas=pd.read_sql(query,cnx)
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
 writer = pd.ExcelWriter('storage/report/contraportada'+str(order_id)+'.xlsx', engine='xlsxwriter')
@@ -463,14 +467,14 @@ worksheet.merge_range('H13:H14', 'NUMERO',red_header_format)
 worksheet.merge_range('I13:I14', 'FECHA \n DD-MM-AAA',red_header_format)
 worksheet.merge_range('J13:J14', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 #rellenando la tabla
-for i in range(0,len(facturas)):
-    worksheet.write('H'+str(15+i), str(facturas['facture'].values[i]), red_content)
-    worksheet.write('I'+str(15+i), facturas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i), facturas['amount'].values[i], red_content)
-for i in range(0,len(notas)):
-    worksheet.write('H'+str(15+len(facturas)+i), str(notas['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+len(facturas)+i), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+len(facturas)+i), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
+# for i in range(0,len(facturas)):
+#     worksheet.write('H'+str(15+i), str(facturas['facture'].values[i]), red_content)
+#     worksheet.write('I'+str(15+i), facturas['date'].values[i], red_content_date)
+#     worksheet.write('J'+str(15+i), facturas['amount'].values[i], red_content)
+# for i in range(0,len(notas)):
+#     worksheet.write('H'+str(15+len(facturas)+i), str(notas['credit_note'].values[i])+' (credito)', red_content)
+#     worksheet.write('I'+str(15+len(facturas)+i), notas['date'].values[i], red_content_date)
+#     worksheet.write('J'+str(15+len(facturas)+i), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K12:O12', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
@@ -506,6 +510,23 @@ for i in range(0,len(cobros)):
     worksheet.write('S'+str(15+i), str(cobros['capturista'].values[i]), red_content)
     worksheet.write('T'+str(15+i), str(cobros['revisor'].values[i]), red_content)
     worksheet.write('U'+str(15+i), str(cobros['autorizador'].values[i]), red_content)
+    facturas_asociadas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id']==cobros['cobro_id'].values[i]].facture_id.values)]
+    print('cobro',cobros['id'].values[i],len(facturas_asociadas),cobros_facturas.loc[cobros_facturas['cobro_id']==cobros['id'].values[i]])
+    #rellenar facturas asociada
+    for j in range(0,len(facturas_asociadas)):
+        worksheet.write('H'+str(15+i), str(facturas['facture'].values[i]), red_content)
+        worksheet.write('I'+str(15+i), facturas['date'].values[i], red_content_date)
+        worksheet.write('J'+str(15+i), facturas['amount'].values[i], red_content)
+    if(len(facturas_asociadas)==0):
+        worksheet.write('I'+str(15+i), facturas['date'].values[i], red_content_date)
+       
+       #imprimir factura pendienteee  con un merge   
+
+# notas
+for i in range(0,len(notas)):
+    worksheet.write('H'+str(15+len(facturas)+i), str(notas['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(15+len(facturas)+i), notas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+len(facturas)+i), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 
 table_len=max(len(hpagos),len(facturas)+len(notas))

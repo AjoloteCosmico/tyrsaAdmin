@@ -87,6 +87,17 @@ th     { background:#eee; }" >
                                             </tbody>
                                         </table>
                                         <div class="row" style="padding:3.4vw">  Factura Pendiente  <input class="form-check-input nofactura" type="checkbox"  id="no_facturado"  onclick="no_factura();" ></div>
+                                        
+                                        <div class="form-group" style="display:none" id='order_selector'>
+                                        <x-jet-label value="* Indique el Pedido Interno al que se emitira la factura" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
+                                          @foreach($InternalOrders as $o)
+                                                <option value="{{$o->id}}" >{{$o->invoice}} </option>
+                                          @endforeach
+                                          
+                                        </select>
+                                        <t-error for='order_id' />
+                                    </div>
                                    <br><br>
                                         <div class="form-group">
                                         <x-jet-label value="* BANCO" />
@@ -224,11 +235,33 @@ console.log('entrando a la funcion cambio cliente');
 console.log(seleccionado);
 console.log('hecho¿?');
 
+removeOptions(document.getElementById('order_id'));
+console.log('hecho¿?');
+var desc = document.getElementById("order_id");
+@foreach($Customers as $cliente)
+if(seleccionado=='{{$cliente->id}}'){
+    var example_array = {
+        @foreach($InternalOrders as $order)
+        @if($order->customer_id==$cliente->id)
+    {{$order->id}} : '{{$order->invoice}}',
+         @endif
+    @endforeach
+};}
+   
+  
+@endforeach
+
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+}
 
 var npagos={
     @foreach($InternalOrders as $i)
     {{$i->id}}:{{$i->payment_conditions}},
     @endforeach};
+
+
 
 console.log(seleccionado);
 console.log('entrando a la funcion cjaas');
@@ -347,6 +380,7 @@ function no_factura(){
         console.log(boxes.item(i).checked);
        boxes.item(i).checked=false;
     }
+    document.getElementById('order_selector').style.display="block";
 }
 
 }
@@ -358,6 +392,8 @@ function si_factura(){
         console.log(boxes.item(i).checked);
        boxes.item(i).checked=false;
     }
+    
+    document.getElementById('order_selector').style.display="none";
 }
 
 
