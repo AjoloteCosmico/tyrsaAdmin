@@ -146,6 +146,7 @@ class SellerController extends Controller
         $Sellers->seller_city = $request->seller_city;
         $Sellers->seller_state = $request->seller_state;
         $Sellers->seller_zip_code = $request->seller_zip_code;
+        $Sellers->status= $request->seller_status;
         $Sellers->firma= $request->seller_sign;
         $Sellers->save();
 
