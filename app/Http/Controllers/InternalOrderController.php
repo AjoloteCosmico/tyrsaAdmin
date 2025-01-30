@@ -296,11 +296,17 @@ public function store_comissions(Request $request)
         $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
         $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->get();
+        //Si el vendedor principal es un socio, eliminar la comision y continuar normal
+        $Seller=Seller::find($request->seller_id);
+        if($Seller->dgi > 0){
+            temp_comissions::where('seller_id',$request->seller_id)
+            ->where('temp_order_id',$TempInternalOrders->id)
+            ->delete();
+        }
         //verificar que el vendedor principal no tenga comisiones
         $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
-
         if($allComissions->count() > 0){
-            
+            //no se puede seleccionar como vendedor principal a quien tiene ya una comision (si es un socio hay que quitarle el dgi)
             return $this->capture_comissions($TempInternalOrders->id,'error_principal');
         }else{
         $TempInternalOrders->seller_id = $request->seller_id;
