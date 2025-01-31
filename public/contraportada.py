@@ -515,6 +515,7 @@ for i in range(0,len(cobros)):
    
     
     #rellenar facturas asociada
+    j=0
     for j in range(0,len(facturas_asociadas)):
         worksheet.write('H'+str(15+j+i+desface), str(facturas['facture'].values[j]), red_content)
         worksheet.write('I'+str(15+j+i+desface), facturas['date'].values[j], red_content_date)
