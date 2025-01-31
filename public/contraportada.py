@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-#id=291
+#id=620
 #id=147
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -57,9 +57,9 @@ df=hpagos[['date','percentage']]
 #Traer facturas
 query = ('SELECT * from factures where order_id = '+str(order_id))
 facturas=pd.read_sql(query,cnx)
-
 query = ('SELECT * from cobro_factures')
 cobros_facturas=pd.read_sql(query,cnx)
+facturas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
 writer = pd.ExcelWriter('storage/report/contraportada'+str(order_id)+'.xlsx', engine='xlsxwriter')
@@ -499,6 +499,7 @@ porcentaje_acumulado=0
 desface=0
 for i in range(0,len(cobros)):
     facturas_asociadas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id']==cobros['cobro_id'].values[i]].facture_id.values)]
+    
     porcentaje_acumulado=porcentaje_acumulado+cobros['amount'].values[i]*100/orden['total'].values[0]
     importe_acumulado=importe_acumulado+cobros['amount'].values[i]*cobros['tc'].values[i]
     worksheet.write('K'+str(15+i+desface), str(cobros['comp'].values[i]), blue_content)
@@ -517,12 +518,13 @@ for i in range(0,len(cobros)):
     #rellenar facturas asociada
     j=0
     for j in range(0,len(facturas_asociadas)):
-        worksheet.write('H'+str(15+j+i+desface), str(facturas['facture'].values[j]), red_content)
-        worksheet.write('I'+str(15+j+i+desface), facturas['date'].values[j], red_content_date)
-        worksheet.write('J'+str(15+j+i+desface), facturas['amount'].values[j], red_content)
+        worksheet.write('H'+str(15+j+i+desface), str(facturas_asociadas['facture'].values[j]), red_content)
+        worksheet.write('I'+str(15+j+i+desface), facturas_asociadas['date'].values[j], red_content_date)
+        worksheet.write('J'+str(15+j+i+desface), facturas_asociadas['amount'].values[j], red_content)
     if(len(facturas_asociadas)==0):
         worksheet.merge_range('H'+str(15+j+i+desface)+':J'+str(15+i+desface), 'PENDIENTE POR FACTURAR', red_content_date)
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
+    print(facturas_asociadas['facture'])
     desface=desface+max(len(facturas_asociadas) -1,0)
 # notas
 for i in range(0,len(notas)):
