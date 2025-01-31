@@ -65,7 +65,7 @@ creditos=pd.read_sql("""select *
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 
 vendedores=pd.read_sql("""select * 
-                     from sellers""",cnx)
+                     from sellers where status='ACTIVO'""",cnx)
 
 socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
 socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
