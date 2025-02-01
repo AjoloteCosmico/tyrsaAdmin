@@ -379,7 +379,7 @@ public function note_pdf($id){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
-    $Sellers=Seller::all();
+    $Sellers=Seller::where('status','ACTIVO')->get();
     $InternalOrders=DB::table('internal_orders')
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->select('internal_orders.*','sellers.seller_name')
