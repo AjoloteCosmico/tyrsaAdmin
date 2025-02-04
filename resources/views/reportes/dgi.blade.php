@@ -415,64 +415,64 @@
                     
                     <td>{{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
                     <td>$ {{number_format($total_cobrado/1.16,2)}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                    <td></td>
+                    <td>{{number_format(($pedido->total-$total_cobrado)*100/$pedido->total,2)}} %</td>
+                    <td>{{number_format($pedido->comision*100,2)}} %</td>
+                    <td>$ {{number_format(($pedido->total*$pedido->comision)/1.16,2)}}</td>
+                     @php
+                     $no_cobro=array_search($comp->comp,$Cobros->where('order_id',$comp->order_id)->pluck('comp')->toArray());
+                     $concepto=" ";
+                     try {
+                        $concepto=$Pagos->where('order_id',$comp->order_id)->pluck('concept')->toArray()[$no_cobro];
+                      } catch (Exception $e) {
+                        $concepto='Cobro no'.($no_cobro+1);
+                      } 
+                     @endphp
+                    <td>{{$concepto}} </td>
                   </tr>
+
                   @endforeach
                 </tbody>
-                <tfoot>
+                <tfoot >
               
-                  <tr>
+                  <tr style="border: 2px solid white;">
                     <th colspan="4" rowspan="3">  </th>
-                    <th>  $8,000</th>
-                    <th></th>
+                    <th rowspan="3">  {{number_format($Cobros->sum('amount')/1.16,2)}}</th>
+                    <th rowspan="3"></th>
                     <th>Totales</th>
-                    <th></th>
+                    <th>$0</th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>NA</th>
+                    <th>{{number_format($Orders->sum('total')/1.16,2)}}</th>
+                    <th>NA</th>
+                    <th>${{number_format(($Cobros->sum('amount'))/1.16,2)}}</th>
+                    <th colspan="2">Total por pagar</th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>${{number_format(($Orders->sum('total')-$Cobros->sum('amount'))/1.16,2)}}</th>
+                    <th>NA</th>
+                    
                   </tr>
+                  <!-- segundafila -->
                   <tr>
-                    <th>  </th>
-                    <th></th>
-                    <th> </th>
-                    <th></th>
+                    <th rowspan="2"> </th>  <!--debjao de totales -->
+                    <th>USD</th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>Tipo de cambio</th>
+                    <th>M.N.</th>
+                    <th>%</th>
+                    <th>M.N.</th>
+                    <th rowspan="2">% de la comisión que <br> se debe sobre avance</th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th rowspan="2"> % de la comision <br> negociada</th>
+                    <th rowspan="2">Comision por pagar sin IVA</th>
+                    <th rowspan="2"> ESTATUS</th>
                   </tr>
+                  <!-- tercera fila -->
                   <tr>
-                    <th>  </th>
-                    <th></th>
-                    <th> </th>
-                    <th></th>
+                    <th colspan="3"></th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th colspan="2"></th>
                     
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    
                   </tr>
 
                 </tfoot>
@@ -480,6 +480,24 @@
           
             </div>
           </div>   
+          <br>
+          <div style="display:flex; justifi-content:flex-end"> 
+            <table>
+              <tr>
+                <th>Pagado ya</th>
+                <td>${{number_format($Cobros->sum('amount')/1.16,2)}}</td>
+                <th rowspan="3">          </th>
+              </tr>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>Resta por pagar</th>
+                <td>${{number_format(($Orders->sum('total')-$Cobros->sum('amount'))/1.16,2)}}</td>
+              </tr>
+            </table>
+          </div>
           <div class="table-responsive contenedor" id="resumen_ventas" style="display: block;">
           
             @include('reportes.dgi_resumen_ventas')
