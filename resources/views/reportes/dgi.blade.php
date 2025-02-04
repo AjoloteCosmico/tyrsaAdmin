@@ -406,20 +406,76 @@
                     <td>{{$comp->alias}} </td>
                     <td>{{$comp->comp}}</td>
                     <td>$ {{number_format($comp->amount /1.16,2)}}</td>
+                    
                     <td>{{$pedido->seller_name}} </td>
                     <td>{{$pedido->invoice}} </td>
                     <td>$ 0 </td>
                     <td>$ 1 </td>
                     <td>$ {{number_format($pedido->total/1.16,2)}} </td>
+                    
                     <td>{{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
-                    <td>{{number_format($total_cobrado/1.16,2)}}</td>
+                    <td>$ {{number_format($total_cobrado/1.16,2)}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
+
                     <td></td>
                   </tr>
                   @endforeach
                 </tbody>
+                <tfoot>
+              
+                  <tr>
+                    <th colspan="4" rowspan="3">  </th>
+                    <th>  $8,000</th>
+                    <th></th>
+                    <th>Totales</th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th>  </th>
+                    <th></th>
+                    <th> </th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th>  </th>
+                    <th></th>
+                    <th> </th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+
+                </tfoot>
                 </table>
           
             </div>
