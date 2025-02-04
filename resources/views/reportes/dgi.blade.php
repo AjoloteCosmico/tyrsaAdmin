@@ -479,14 +479,12 @@
                 </table>
           
             </div>
-          </div>   
-          <br>
-          <div style="display:flex; justifi-content:flex-end"> 
-            <table>
+            <div style="display:flex; justify-content:flex-end"> 
+            <table style="width: 20vw">
               <tr>
                 <th>Pagado ya</th>
                 <td>${{number_format($Cobros->sum('amount')/1.16,2)}}</td>
-                <th rowspan="3">          </th>
+                <th rowspan="3">      &nbsp;&nbsp; &nbsp;<br> NO INCLUYE IVA <br>&nbsp;&nbsp;   </th>
               </tr>
               <tr>
                 <th></th>
@@ -498,6 +496,9 @@
               </tr>
             </table>
           </div>
+          </div>   
+          <br>
+         
           <div class="table-responsive contenedor" id="resumen_ventas" style="display: block;">
           
             @include('reportes.dgi_resumen_ventas')
