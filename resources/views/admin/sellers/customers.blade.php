@@ -40,6 +40,7 @@
                             <th>RFC</th>
                             <th>Num Pedidos</th>
                             <th>Monto total en Pedidos</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,13 @@
                             <td>{{$row->customer_rfc}}</td>
                             <td>{{$row->npedidos}}</td>
                             <td>$ {{number_format($row->total,2)}} </td>
+                            <td> 
+                                <a href="{{route('sellers.reasign_customer',$row->id)}}">
+                                        <button class="btn btn-blue ">
+                                                <i class=" fas fa-exchange-alt"> </i>
+                                               Asignar a otro vendedor
+                                            </button></a>
+                                </div></td>
                         </tr>
                         @endforeach
                     </tbody>
