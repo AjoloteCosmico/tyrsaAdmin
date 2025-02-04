@@ -53,12 +53,14 @@
                             <td>{{$row->npedidos}}</td>
                             <td>$ {{number_format($row->total,2)}} </td>
                             <td> 
+                                @can('REASIGNAR CLIENTE')
                                 <a href="{{route('sellers.reasign_customer',$row->id)}}">
                                         <button class="btn btn-blue ">
                                                 <i class=" fas fa-exchange-alt"> </i>
                                                Asignar a otro vendedor
                                             </button></a>
-                                </div></td>
+                                @endcan
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

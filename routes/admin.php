@@ -65,8 +65,8 @@ Route::group(['middleware' => ['auth']], function()
 
 
     
-    Route::get('sellers_reasiganar', [ SellerController::class, 'reasign_customer'])->name('sellers.reasign_customer');
-    Route::get('confirm_reasign', [ SellerController::class, 'confirm_reasign'])->name('sellers.asign_customers');
+    Route::get('sellers_reasiganar/{id}', [ SellerController::class, 'reasign_customer'])->name('sellers.reasign_customer');
+    Route::post('confirm_reasign', [ SellerController::class, 'confirm_reasign'])->name('sellers.confirm_reasign');
 
     Route::get('sellers/select_customers/{id}', [ SellerController::class, 'select_customers'])->name('sellers.select_customers');
     Route::post('sellers/update_customers/{id}', [ SellerController::class, 'update_customers'])->name('sellers.update_customers');

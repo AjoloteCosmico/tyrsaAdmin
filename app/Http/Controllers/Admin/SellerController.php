@@ -164,8 +164,8 @@ class SellerController extends Controller
         $Seller=Seller::find($id);
         $Customers=DB::table('customers')->where('customers.seller_id',$id)
         ->leftJoin('internal_orders','internal_orders.customer_id','customers.id')
-        ->select('customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id', DB::raw('count(*) as npedidos'), DB::raw('sum(internal_orders.total) as total'))
-        ->groupBy('customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id',)
+        ->select('customers.id','customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id', DB::raw('count(*) as npedidos'), DB::raw('sum(internal_orders.total) as total'))
+        ->groupBy('customers.id','customers.customer','customers.alias','customers.clave','customers.customer_rfc','customers.seller_id',)
         
         ->get();
     //    dd($Customers);
@@ -212,6 +212,23 @@ class SellerController extends Controller
     }
         return redirect()->route('sellers.customers',$Seller->id);
     }
+    
+    public function reasign_customer($id){
+        $Customer=Customer::find($id);
+        $Seller=Seller::find($Customer->seller_id);
+        $Sellers=Seller::all();
+        return view('admin.sellers.reasign',compact('Customer','Sellers','Seller'));
+    }
+    
+    public function confirm_reasign(Request $request){
+        $Customer=Customer::find($request->customer_id);
+        $Customer->seller_id=$request->seller_id;
+        $Customer->save();
+        
+        return redirect()->route('sellers.customers',$Customer->seller_id);
+    }
+
+
     public function dgi_index(){  
         $Socios=Seller::where('dgi','>',0)->get();
         return view('admin.sellers.dgi',compact('Socios'));
