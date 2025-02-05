@@ -28,6 +28,7 @@
                     <thead>
                         <tr   class="text-center">
                             <th  >PDA</th>
+                            <th  >NO. COMP</th>
                             <th  >FECHA EMISION</th>
                             <th  >FACTURA</th>
                             <th  >BANCO</th>
@@ -56,6 +57,7 @@
                         @foreach($Cobros as $c)
                         <tr @if($FacturasCobradas->where('cobro_id',$c->id)->count()==0) style="color:red; --bs-table-striped-color: red;" @endif>
                         <td >{{$i}} </td>
+                        <td>{{$c->comp}} </td>
                         <td>{{$c->date}}</td>
 
                         @if($FacturasCobradas->where('cobro_id',$c->id)->count()==1)
