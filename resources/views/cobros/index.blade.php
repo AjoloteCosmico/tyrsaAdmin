@@ -31,9 +31,10 @@
                             <th  >NO. COMP</th>
                             <th  >FECHA EMISION</th>
                             <th  >FACTURA</th>
-                            <th  >BANCO</th>
-                            <th  >P.I.</th>
+                            
                             <th  >CLIENTE </th>
+                            <th  >P.I.</th>
+                            <th  >BANCO</th>
                             <th  >MONEDA</th>
                             <th  >TC</th>
                             
@@ -69,9 +70,10 @@
                                 <td>{{$FacturasCobradas->where('cobro_id',$c->id)->count()}} Facturas asociadas</td>
                             @endif
                         @endif
-                        <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
-                        <td>{{$c->invoice}}</td>
                         <td>{{$c->customer}}</td>
+                        <td>{{$c->invoice}}</td>
+                        <td>{{$c->bank_description}} {{$c->bank_clue}} </td>
+                        
                         <td>{{$c->coin}}</td>
                         <td>{{$c->tc}}</td>
                         <td> {{$c->symbol}} {{number_format($c->amount  ,2)}} </td>
