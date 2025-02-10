@@ -7,12 +7,7 @@ if ( $.fn.dataTable.isDataTable( '.tablefactures' ) ) {
         responsive: true,
 
         "columnDefs": [
-            {
-                "targets": [6],
-                "searchable": false,
-                "sortable": false,
-                "visible": false,
-            },
+       
             {
                 "targets": [6],
                 "searchable": false,
