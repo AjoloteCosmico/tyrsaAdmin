@@ -56,7 +56,7 @@
 
                         @foreach($Cobros as $c)
                         <tr @if($FacturasCobradas->where('cobro_id',$c->id)->count()==0) style="color:red; --bs-table-striped-color: red;" @endif>
-                        <td >{{$i}} </td>
+                        <td >{{$c->id}} </td>
                         <td>{{$c->comp}} </td>
                         <td>{{$c->date}}</td>
 
