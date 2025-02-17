@@ -90,11 +90,28 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        
-                       @foreach($socios as $row)
-                       <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
-                            
-                        @endforeach
+                    @foreach($socios as $row)
+                         <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                    @endforeach
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>DGI</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Comisiones</th>
+                    </tr> 
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th rowspan="2">Totales</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </tfoot>
                 </table>

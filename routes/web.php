@@ -6,6 +6,7 @@ use App\Http\Controllers\TempItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\DgiReportsController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\CobrosController;
 use App\Http\Controllers\UlamaController;
@@ -77,8 +78,8 @@ Route::group(['middleware' => ['auth']], function()
    
 
     //REPORTES DGI 
-    Route::get('reportes/dgi_select_type', [ReportsController::class, 'dgi_select'])->name('reportes.dgi_select');
-    Route::post('reportes/dgi/', [ReportsController::class, 'dgi'])->name('reportes.dgi');
+    Route::get('reportes/dgi_select_type', [DgiReportsController::class, 'dgi_select'])->name('reportes.dgi_select');
+    Route::post('reportes/dgi/', [DgiReportsController::class, 'dgi'])->name('reportes.dgi');
    
     //  generar reporte
     Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');

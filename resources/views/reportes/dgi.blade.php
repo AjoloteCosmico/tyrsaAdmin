@@ -52,19 +52,8 @@
             <h5 class="text-lg text-center text-bold">REPORTES DE DGI</h5>
             <br>
             <div >
-                
-                <!-- botones para switchear entre pestañas -->
-                <div>
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('vendedores', this)">VENDEDORES</button>
-  
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('comp_ing', this)">COMP. INGRESOS</button>
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen', this)">RESUMEN (todos los comp.)</button>
-  
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen_ventas', this)">RESUMEN (ventas directas) </button>
-  
-  <button id="btn-tabla" class="boton activo" onclick="mostrar('resumen_ejecutivos', this)">RESUMEN(comisiones ejecutivos)</button>
-  <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">GRAFICOS</button>
-</div>
+                @if($Type=='vendedores')
+            
                 <div class="table-responsive contenedor" id="vendedores" style="display: block;">
                 <table>
                     <tr>
@@ -109,6 +98,8 @@
                 </tbody>
                </table>
                      </div>
+@endif 
+@if($Type=='comp')
           <div class="contenedor" id="comp_ing">
           <table>
                     <tr>
@@ -349,7 +340,9 @@
 @endforeach  
           </div>
                   
+@endif
 
+@if($Type=='resumen')
                   
           <div class="table-responsive contenedor" id="resumen">
              <div class="container px-4 mx-auto">
@@ -496,19 +489,22 @@
               </tr>
             </table>
           </div>
-          </div>   
+          </div> 
+  @endif
+  @if($Type=='resumen_ventas')  
           <br>
          
           <div class="table-responsive contenedor" id="resumen_ventas" style="display: block;">
           
             @include('reportes.dgi_resumen_ventas')
           </div>                       
-                
+@endif
+@if($Type=='resumen_ejecutivos')       
           <div class="table-responsive contenedor" id="resumen_ejecutivos" style="display: block;">
           
             @include('reportes.dgi_resumen_ejecutivos')
           </div>
-
+@endif
           <div class="contenedor" id="graficos">
              <div class="container px-4 mx-auto">
 
@@ -558,7 +554,7 @@
 
   /* Contenedores */
   .contenedor {
-    display: none; /* Ocultar inicialmente */
+   
     border: 1px solid #ccc;
     padding: 20px;
     margin-top: -1px; /* Para unir con el botón */
@@ -592,24 +588,6 @@
 </script>
 <script>
   new DataTable('#example4');
-</script>
-<script>
-  function mostrar(id, boton) {
-    // Ocultar todos los contenedores
-    document.querySelectorAll('.contenedor').forEach(div => {
-      div.style.display = 'none';
-    });
-
-    // Mostrar el contenedor seleccionado
-    document.getElementById(id).style.display = 'block';
-
-    // Cambiar estado de los botones
-    document.querySelectorAll('.boton').forEach(btn => {
-      btn.classList.remove('activo');
-    });
-    boton.classList.add('activo');
-  }
-  mostrar('vendedores', 'btn-table');
 </script>
 
 @endpush
