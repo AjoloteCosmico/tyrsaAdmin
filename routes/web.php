@@ -77,7 +77,8 @@ Route::group(['middleware' => ['auth']], function()
    
 
     //REPORTES DGI 
-    Route::get('reportes/dgi', [ReportsController::class, 'dgi'])->name('reportes.dgi');
+    Route::get('reportes/dgi_select_type', [ReportsController::class, 'dgi_select'])->name('reportes.dgi_select');
+    Route::post('reportes/dgi/', [ReportsController::class, 'dgi'])->name('reportes.dgi');
    
     //  generar reporte
     Route::get('reporte/{id}/{report}/{pdf}/{tipo?}', [ReportsController::class, 'generate'])->name('reports.generate');

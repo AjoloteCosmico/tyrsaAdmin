@@ -905,6 +905,25 @@ public function kilos(){
     ));
 }
 
+public function dgi_select(){
+    
+    $year=now()->format('Y');
+    $quincenas = [];
+    for ($i = 1; $i <= 24; $i++) {
+        $month = ceil($i / 2);
+        $isFirstHalf = $i % 2 !== 0;
+        $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-15";
+        $endDate = $isFirstHalf ? "$year-$month-14" : date("Y-m-t", strtotime($startDate));
+        
+        $quincenas[] = [
+            'id' => $i,
+            'inicio' => date("d/m/Y", strtotime($startDate)),
+            'fin' => date("d/m/Y", strtotime($endDate))
+        ];
+    }
+    return view('reportes.dgi_select',compact('quincenas'));
+
+}
 
 public function dgi(){
     

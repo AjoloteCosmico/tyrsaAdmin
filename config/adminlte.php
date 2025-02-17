@@ -552,7 +552,7 @@ return [
         [
             'text' => ' DGI',
             'icon' => 'fas fa-file fa-fw',
-            'route'  => 'reportes.dgi',
+            'route'  => 'reportes.dgi_select',
             'can'  => 'VER DGI',
         ],
 
