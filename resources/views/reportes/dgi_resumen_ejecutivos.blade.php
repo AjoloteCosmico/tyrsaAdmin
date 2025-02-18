@@ -49,6 +49,10 @@
                     </thead>
                     @php
                     $total_sum=0;
+                    $totales=[];
+                        foreach($socios as $row){
+                        $totales+=[$row->iniciales => 0];
+                        }
                     @endphp
                     @foreach($Cobros as $cobro)
                        @php
@@ -64,15 +68,19 @@
                             @if($row->id==$cobro->seller_id)
                             @php
                             $total_sum=$total_sum+($cobro->amount*$cobro->comision)/1.16;
+                            $totales[$row->iniciales]+=($cobro->amount*$cobro->comision)/1.16;
                             @endphp
 
                                 <td>${{number_format(($cobro->amount*$cobro->comision)/1.16,2)}}  </td> <!-- //caso en que es el vendedor princi´pal   -->
+                           
                             @elseif($this_comissions->where('seller_id',$row->id)->count()>0)
                             @php
                             $total_sum=$total_sum+($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
+                            $totales[$row->iniciales]+=($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
+                           
                             @endphp
                                 <td>${{number_format(($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16,2)}}  </td> <!-- //caso en que el vendedor tiene una comision   -->
-                            @else 
+                                @else 
                                 <td> $0 </td>
                             @endif
                         @endforeach
@@ -101,7 +109,7 @@
                         <th></th>
                         <th>DGI</th>
                         @foreach($socios as $row)
-                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
+                           <td>${{number_format($totales[$row->iniciales],2)}} </td>
                         @endforeach
                         <th></th>
                     </tr>
@@ -127,7 +135,6 @@
                         <th></th>
                         <th></th>
                         <th colspan="{{$socios->count()}}">$ {{number_format($Cobros->sum('amount')/1.16,2)}} </th>
-
                         <th>NA</th>
                     </tr>
                     </tfoot>
