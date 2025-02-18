@@ -75,13 +75,9 @@ public function dgi(Request $request){
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
     $Sellers=Seller::all()->sortBy('status');
-    $socios_ids = DB::table('comissions')
-    ->select('seller_id')
-    ->where('description', 'like', '%DGI%')
-    ->distinct()
-    ->get();
+    
 
-    $socios = Seller::where('status','ACTIVO')->whereIn('id', $socios_ids->pluck('seller_id'))->get();
+    $socios = Seller::where('status','ACTIVO')->where('dgi','>','0')->get();
     $no_socios = Seller::where('status','ACTIVO')->whereNotIn('id', $socios_ids->pluck('seller_id'))->get();
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
