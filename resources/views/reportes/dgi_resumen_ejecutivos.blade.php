@@ -93,28 +93,41 @@
                     @foreach($socios as $row)
                          <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
                     @endforeach
+                    <th>Totales</th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
                         <th>DGI</th>
                         @foreach($socios as $row)
-                           <th>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </th>
+                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
                         @endforeach
+                        <th></th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
                         <th>Comisiones</th>
+                        @foreach($socios as $row)
+                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
+                        @endforeach
+                        <th></th>
                     </tr> 
                     <tr>
                         <th></th>
                         <th></th>
                         <th rowspan="2">Totales</th>
+                        @foreach($socios as $row)
+                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
+                        @endforeach
+                        <th></th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
+                        <th colspan="{{$socios->count()}}">$ {{number_format($Cobros->sum('amount')/1.16,2)}} </th>
+
+                        <th>NA</th>
                     </tr>
                     </tfoot>
                 </table>
