@@ -55,7 +55,7 @@
 
                        @endphp
                     <tr>
-                        <td>${{number_format($cobro->amount/1.16,2)}}</td>
+                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}}</td>
                         <td>{{$cobro->invoice}} </td>
                         <td>{{$cobro->comp}} </td>
                         @foreach($socios as $row)
@@ -83,7 +83,7 @@
                        <th></th>
                        <th></th>
                        @foreach($socios as $row)
-                           <th>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </th>
+                           <th>${{number_format(($Comisiones->where('seller_id',$row->id)->sum('percentage')/1.16)*$Cobros->sum('amount'),2)}} </th>
                         @endforeach
                     </tr>
                     <tr>
@@ -98,6 +98,9 @@
                         <th></th>
                         <th></th>
                         <th>DGI</th>
+                        @foreach($socios as $row)
+                           <th>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </th>
+                        @endforeach
                     </tr>
                     <tr>
                         <th></th>
