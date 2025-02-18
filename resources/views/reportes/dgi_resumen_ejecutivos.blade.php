@@ -1,15 +1,16 @@
 <h2>SOLO EJECUTIVOS ACTIVOS / SOLO DGI DIRECTO DE VENTAS</h2>
-<h2>SOLO VENDEDORES ACTIVOS / SOLO COMISION DIRECTA DE VENTA</h2>
+<h2>SE REPORTAN COMPROBANTES CON FECHA DEL {{$StartDate}} AL {{$EndDate}} </h2>
+
 <div class="container px-4 mx-auto">
              <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_ejecutivos',0])}}">
+                            <a href="{{route('reports.generate',[$Quincena,'dgi_resumen_ejecutivos',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_ejecutivos',1])}}">
+                            <a href="{{route('reports.generate',[$Quincena,'dgi_resumen_ejecutivos',1])}}">
                                   <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>

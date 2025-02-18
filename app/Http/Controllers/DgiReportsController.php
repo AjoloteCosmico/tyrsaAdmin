@@ -108,6 +108,10 @@ public function dgi(Request $request){
     ->join('sellers','sellers.id','comissions.seller_id')
     ->get();
     $Type=$request->type;
+    
+    $Quincena=$request->interval;
+    $StartDate=$quincenas[$request->interval]['inicio'];
+    $EndDate=$quincenas[$request->interval]['fin'];
     // dd($quincenas[$request->interval]['inicio'],$quincenas[$request->interval]['fin'],$Cobros);
     return view('reportes.dgi',compact(
         'Year',
@@ -124,6 +128,7 @@ public function dgi(Request $request){
         'socios',
         'no_socios',
         'Type',
+        'Quincena', 'StartDate','EndDate'
     ));
 
 }

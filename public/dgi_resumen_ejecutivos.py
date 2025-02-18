@@ -6,10 +6,20 @@ import pandas as pd
 import sys
 import mysql.connector
 import os
+import datetime
+from dateutil.relativedelta import relativedelta
+import numpy as np
+
+year = datetime.date.today().year
+quincena=int(sys.argv[1])+1
+# quincena=2
+month = np.ceil(quincena/ 2)
+isFirstHalf = quincena % 2 != 0
+startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-15"
+endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-14" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
+
 from dotenv import load_dotenv
 load_dotenv()
-#ESTE ARGUMENTO NO SE USA EN ESTE REPORTE, SERÁ 0 SIEMPRE UWU
-id=str(sys.argv[1])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -29,6 +39,7 @@ query = ('SELECT * from customers where id = 1')
 
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
+#Calcular el intervalo segun num de quincena
 
 
 #traer datos de los pedidos
@@ -52,7 +63,8 @@ cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
-    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+    inner join coins on internal_orders.coin_id = coins.id)
+                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
 
 facturas=pd.read_sql("""select factures.*,cobro_factures.cobro_id
                      from (((
@@ -79,7 +91,7 @@ nordenes=len(pedidos)
 df=pedidos[['date']]
 
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
-writer = pd.ExcelWriter('storage/report/dgi_resumen_ejecutivos1.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/dgi_resumen_ejecutivos'+str(quincena-1)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -296,7 +308,8 @@ worksheet.merge_range('I2:I3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 
 worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
-                      DGI PARA NIVELES DIRECTIVOS""", negro_s)
+                      DGI PARA NIVELES DIRECTIVOS""", negro_b)
+worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
 
 ##SEGUNDA TABLA DE RESUMEN VENTAS DIRECTAS
 #Cabeceras
@@ -342,6 +355,9 @@ for i in range(len(socios)):
 
 worksheet.write_formula(len(cobros)+9, 1, f"=SUM(B10:B"+str(len(cobros)+9)+")",blue_footer_format_bold)
 
+
+worksheet.set_row(5,27)
+
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 
@@ -351,4 +367,7 @@ worksheet.set_column('G:G',35)
 worksheet.set_column('E:O',18)
 worksheet.set_column('P:T',15)
 worksheet.set_column('U:AX',19)
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
