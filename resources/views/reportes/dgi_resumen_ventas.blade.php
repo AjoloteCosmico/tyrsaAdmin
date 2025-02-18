@@ -3,13 +3,13 @@
              <table>
                     <tr>
                     <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_venta',0])}}">
+                            <a href="{{route('reports.generate',[$Quincena,'dgi_resumen_venta',0])}}">
                                   <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
                             </td>
                             <td>
-                            <a href="{{route('reports.generate',[1,'dgi_resumen_venta',1])}}">
+                            <a href="{{route('reports.generate',[$Quincena,'dgi_resumen_venta',1])}}">
                                   <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                             </td>
