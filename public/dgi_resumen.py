@@ -6,6 +6,18 @@ import sys
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import datetime
+from dateutil.relativedelta import relativedelta
+import numpy as np
+
+year = datetime.date.today().year
+quincena=int(sys.argv[1])+1
+# quincena=2
+month = np.ceil(quincena/ 2)
+isFirstHalf = quincena % 2 != 0
+startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-15"
+endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-14" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
+
 load_dotenv()
 #ESTE ARGUMENTO NO SE USA EN ESTE REPORTE, SERÁ 0 SIEMPRE UWU
 id=str(sys.argv[1])
@@ -51,7 +63,9 @@ cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
-    inner join coins on internal_orders.coin_id = coins.id) """,cnx)
+    inner join coins on internal_orders.coin_id = coins.id)
+                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
+
 
 facturas=pd.read_sql("""select factures.*,cobro_factures.cobro_id
                      from (((
@@ -287,6 +301,7 @@ worksheet.merge_range('B2:F2', 'CUENTAS COBRADAS DE PEDIDOS', negro_b)
 worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
                       DGI PARA NIVELES DIRECTIVOS""", negro_s)
 
+worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
 worksheet.write('G2', 'AÑO', negro_b)
 
 worksheet.write('H2', year, negro_b)
@@ -355,4 +370,7 @@ worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)
 worksheet.set_column('E:O',18)
 worksheet.set_column('P:T',15)
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
