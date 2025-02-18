@@ -78,7 +78,7 @@ public function dgi(Request $request){
     
 
     $socios = Seller::where('status','ACTIVO')->where('dgi','>','0')->get();
-    $no_socios = Seller::where('status','ACTIVO')->whereNotIn('id', $socios_ids->pluck('seller_id'))->get();
+    $no_socios =  Seller::where('status','ACTIVO')->where('dgi','<=','0')->get();
     $Cobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
