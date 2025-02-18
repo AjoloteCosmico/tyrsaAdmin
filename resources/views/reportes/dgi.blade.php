@@ -221,14 +221,14 @@
                             <td>$ {{number_format($comp->amount,2)}}</td>
                             <td>{{$pedido->seller_name}}</td>
                             <td>{{number_format($pedido->comision*100,2)}} %</td>
-                            <td> ${{number_format($pedido->comision*$pedido->total,2)}} </td>
+                            <td> ${{number_format(($pedido->comision*$pedido->total)/1.16,2)}} </td>
                             
                             <td style="color:#36B500" > $0</td>
-                            <td> ${{number_format($pedido->total,2)}} </td>
-                            <td> {{number_format($total_cobrado*100/$pedido->total,2)}} %</td>
-                            <td> ${{number_format($total_cobrado,2)}}</td>
-                            <td> {{number_format($comp->amount*100/$pedido->total,2)}} %</td>
-                            <td> ${{number_format(($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total,2)}} </td>
+                            <td> ${{number_format(($pedido->total)/1.16,2)}} </td>
+                            <td> {{number_format(($total_cobrado*100/$pedido->total)1.16,2)}} %</td>
+                            <td> ${{number_format($total_cobrado/1.16,2)}}</td>
+                            <td> {{number_format(($comp->amount*100/$pedido->total)/1.16,2)}} %</td>
+                            <td> ${{number_format((($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total)/1.16,2)}} </td>
                             <td>0</td>
                             <td>@if($pagos->count() >= $ordinal)
                               {{$pagos->skip($ordinal-1)->first()->concept}}@endif </td>
