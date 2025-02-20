@@ -303,8 +303,14 @@ public function store_comissions(Request $request)
         //     ->where('temp_order_id',$TempInternalOrders->id)
         //     ->delete();
         // }
+        //SI el vendedor principal es socio, quitar la comsion dgi
+        $PrincipalSeller=Seller::find($request->seller_id);
+        if($PrincipalSeller->dgi>0){
+            temp_comissions::where('seller_id',$request->seller_id)->delete();
+        }
         //verificar que el vendedor principal no tenga comisiones
         $allComissions=temp_comissions::where('seller_id',$request->seller_id)->get();
+
         if($allComissions->count() > 0){
             //no se puede seleccionar como vendedor principal a quien tiene ya una comision (si es un socio hay que quitarle el dgi)
             return $this->capture_comissions($TempInternalOrders->id,'error_principal');
@@ -978,8 +984,6 @@ public function recalcular_total($id){
      }
      $orden=InternalOrder::find($id);
      $orden->delete();
-
-     
 
      return $this->index();
     }

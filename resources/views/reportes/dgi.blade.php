@@ -204,13 +204,10 @@
                             <th>M.N.</th>
                             <th>% NEGOCIADA</th>
                             <th>PAGAR M.N.</th>
-                           
                             <th style="color:#36B500" > DLLS </th>
                             <th>M.N.</th>
-                           
                             <th>%</th>
                             <th>M.N.</th>
-                           
                           </tr>
                         </thead>
                         <tr>
