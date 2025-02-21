@@ -115,14 +115,14 @@
                     <td>{{$product->name}}</td>
                     @for($i=1;$i<=12;$i++)
                       @if($Monto=='MONTO')                    
-                        <td class="text-nowrap" > $ {{number_format($Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),2)}}  </td>
+                        <td class="text-nowrap" > $ {{number_format(($Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'))/1.16,2)}}  </td>
                         @else
                         <td>{{$Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </td>
                         
                         @endif
                     @endfor
                     @if($Monto=='MONTO')  
-                      <td class="text-nowrap" > $ {{number_format($Items->where('products',$product->id)->sum('total'),2)}}</td>
+                      <td class="text-nowrap" > $ {{number_format($Items->where('products',$product->id)->sum('total')/1.16,2)}}</td>
                       <td class="text-nowrap" >{{number_format(divide(100*$Items->where('products',$product->id)->sum('total'),$Items->sum('total')),1)}} %</td>
                     @else
                     
@@ -138,7 +138,7 @@
                     @for($i=1;$i<=12;$i++)
                                   
                       @if($Monto=='MONTO')  
-                        <th> $ {{number_format($Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total'),2)}}  </th>
+                        <th> $ {{number_format($Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('total')/1.16,2)}}  </th>
                     
                       @else
                         <th>{{$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </th>
@@ -146,7 +146,7 @@
                       @endif
                     @endfor
                       @if($Monto=='MONTO')  
-                      <th> $ {{number_format($Items->sum('total'),2)}} </th>
+                      <th> $ {{number_format($Items->sum('total')/1.16,2)}} </th>
                       @else
                       <th>{{$Items->count()}} </th>
                       @endif

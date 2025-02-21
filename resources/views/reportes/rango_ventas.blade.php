@@ -105,7 +105,7 @@
                   <td>{{$cliente->clave}}</td>
                   <td>{{$cliente->customer}} </td>
                   <td>{{$cliente->pi}} </td>
-                  <td> $ {{number_format($cliente->total,2)}} </td>
+                  <td> $ {{number_format($cliente->total/1.16,2)}} </td>
                 </tr>
                   @endforeach
                 </tbody>
@@ -115,7 +115,7 @@
                     <th colspan="3">
                       Total
                     </th>
-                    <th> $ {{number_format($TargetClientes->sum('total'),2 )}}</th>
+                    <th> $ {{number_format($TargetClientes->sum('total')/1.16,2 )}}</th>
                   </tr>
                 </tfoot>
                
@@ -147,7 +147,7 @@
                 <tr>  
                   <td>{{$TargetClientes->sum('pi')}}</td>
                   <td>DE {{$rango[0]}} A {{$rango[1]}}</td>
-                  <td>$ {{number_format($TargetClientes->sum('total'),2 )}}</td>
+                  <td>$ {{number_format($TargetClientes->sum('total')/1.16,2 )}}</td>
                   <td>{{number_format($TargetClientes->sum('pi')*100/$Clientes->sum('pi'),2)}} %</td>
                   <td>{{number_format($TargetClientes->sum('total')*100/$Clientes->sum('total'),2)}} %</td>
                   </tr>
@@ -165,7 +165,7 @@
                       
                       <tr>
                         <th>Ventas en moneda nacional</th>
-                        <td>$ {{number_format($Clientes->sum('total'),2) }}</td>
+                        <td>$ {{number_format($Clientes->sum('total')/1.16,2) }}</td>
                       </tr>
                     </table>
                   </td>
