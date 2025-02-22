@@ -283,8 +283,8 @@ for i in range(len(marcas)):
         ls=year+'-'+str(mes+2)+'-01'
         if(mes+1==12):
             ls=str(int(year)+1)+'-01-01'
-        worksheet.write(6+i,mes+2, pxv.loc[(pxv['date']<ls)&(pxv['date']>=li),'total'].sum(), blue_content)
-    worksheet.write('O'+str(7+i), pxv['total'].sum(), blue_content)
+        worksheet.write(6+i,mes+2, pxv.loc[(pxv['date']<ls)&(pxv['date']>=li),'total'].sum()/1.16, blue_content)
+    worksheet.write('O'+str(7+i), pxv['total'].sum()/1.16, blue_content)
     worksheet.write('P'+str(7+i), str(round((pxv['total'].sum()*100)/pedidos['total'].sum(),2))+'%', blue_content)
      
 worksheet.write('B'+str(len(marcas)+8), 'Total Mensual', blue_header_format)

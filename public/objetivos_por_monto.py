@@ -284,8 +284,8 @@ for i in range(len(vendedores)):
         ls=year+'-'+str(mes+2)+'-01'
         if(mes+1==12):
             ls=str(int(year)+1)+'-01-01'
-        worksheet.write(6+i,mes+2, pxv.loc[(pxv['date']<ls)&(pxv['date']>=li),'total'].sum(), blue_content)
-    worksheet.write('O'+str(7+i), pxv['total'].sum(), blue_content)
+        worksheet.write(6+i,mes+2, pxv.loc[(pxv['date']<ls)&(pxv['date']>=li),'total'].sum()/1.16, blue_content)
+    worksheet.write('O'+str(7+i), pxv['total'].sum()/1.16, blue_content)
     worksheet.write('P'+str(7+i), str(round((pxv['total'].sum()*100)/pedidos['total'].sum(),2))+'%', blue_content)
      
 worksheet.write('B'+str(len(vendedores)+8), 'Total Mensual', blue_header_format)
@@ -298,7 +298,7 @@ worksheet.write('P'+str(len(vendedores)+8),  '100%',blue_content_bold)
 
 
 worksheet.write('B'+str(len(vendedores)+10), 'Objetivo Anual (MONTO)', blue_header_format)
-worksheet.merge_range('C'+str(len(vendedores)+10)+':D'+str(len(vendedores)+10), objetivo, blue_content_bold)
+worksheet.merge_range('C'+str(len(vendedores)+10)+':D'+str(len(vendedores)+10), objetivo/1.16, blue_content_bold)
 
 worksheet.write('B'+str(len(vendedores)+11), 'Dias transcurridos', blue_header_format)
 worksheet.merge_range('C'+str(len(vendedores)+11)+':D'+str(len(vendedores)+11), str(dias_transcurridos.days), blue_content_bold)
