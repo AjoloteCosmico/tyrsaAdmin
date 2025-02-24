@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-#id=620
+# id=620
 #id=147
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -59,9 +59,10 @@ query = ('SELECT * from factures where order_id = '+str(order_id))
 facturas=pd.read_sql(query,cnx)
 query = ('SELECT * from cobro_factures')
 cobros_facturas=pd.read_sql(query,cnx)
-facturas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
 #Facturas sin cobros,hallar facturas sin cobros
 facturas_no_asociadas=facturas.loc[~facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
+
+facturas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
 
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
@@ -539,9 +540,9 @@ desface=desface+len(facturas_no_asociadas)
 
 # notas
 for i in range(0,len(notas)):
-    worksheet.write('H'+str(15+i+desface+len(facturas)+1), str(notas['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface+len(facturas)+1), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface+len(facturas)+1), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
+    worksheet.write('H'+str(15+i+desface+1), str(notas['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(15+i+desface+1), notas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+i+desface+1), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 
 table_len=max(len(hpagos),(len(cobros)+desface)+len(notas))
@@ -605,7 +606,6 @@ if(orden["observations"].values[0]!=None):
    worksheet.merge_range(trow+5,1,trow+8,18, str(orden["observations"].values[0]), observaciones_format)
 else:    
    worksheet.merge_range(trow+5,1,trow+8,18,'SIN OBSERVACIONES', observaciones_format)
-
 
 
 worksheet.set_column('F:F',15)
