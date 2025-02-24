@@ -60,6 +60,9 @@ facturas=pd.read_sql(query,cnx)
 query = ('SELECT * from cobro_factures')
 cobros_facturas=pd.read_sql(query,cnx)
 facturas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
+#Facturas sin cobros,hallar facturas sin cobros
+facturas_no_asociadas=facturas.loc[~facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id'].isin(cobros['cobro_id'].values)].facture_id.values)]
+
 pac=0#porcentaje acumulado
 mac=0#monto acumulado
 writer = pd.ExcelWriter('storage/report/contraportada'+str(order_id)+'.xlsx', engine='xlsxwriter')
@@ -526,6 +529,14 @@ for i in range(0,len(cobros)):
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
     print(facturas_asociadas['facture'])
     desface=desface+max(len(facturas_asociadas) -1,0)
+
+#Facturas no asociadas
+for i in range(0,len(facturas_no_asociadas)):
+    worksheet.write('H'+str(15+i+desface), str(facturas_no_asociadas['facture'].values[i]), red_content)
+    worksheet.write('I'+str(15+i+desface), facturas_no_asociadas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+i+desface), facturas_no_asociadas['amount'].values[i], red_content)
+desface=desface+len(facturas_no_asociadas)
+
 # notas
 for i in range(0,len(notas)):
     worksheet.write('H'+str(15+i+desface+len(facturas)+1), str(notas['credit_note'].values[i])+' (credito)', red_content)

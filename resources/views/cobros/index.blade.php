@@ -76,9 +76,13 @@
                         
                         <td>{{$c->coin}}</td>
                         <td>{{$c->tc}}</td>
+                        @if($c->coin=='NACIONAL')
+                        <td> NA </td>
                         <td> {{$c->symbol}} {{number_format($c->amount  ,2)}} </td>
-                        <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}} </td>
-                       
+                       @else
+                        <td> {{$c->symbol}} {{number_format($c->amount ,2)}} </td>
+                        <td> {{$c->symbol}} {{number_format($c->amount * $c->tc ,2)}}</td>
+                       @endif
                         <td> {{$c->capturista}}</td>
                         <td>@if($c->reviso) {{$c->revisor}}
                              @else  
