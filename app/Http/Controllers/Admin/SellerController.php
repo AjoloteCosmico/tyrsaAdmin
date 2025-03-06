@@ -148,6 +148,7 @@ class SellerController extends Controller
         $Sellers->seller_zip_code = $request->seller_zip_code;
         $Sellers->status= $request->seller_status;
         $Sellers->firma= $request->seller_sign;
+        $Sellers->iniciales=$request->seller_initials;
         $Sellers->save();
 
         return redirect()->route('sellers.index')->with('update_reg', 'ok');
