@@ -36,7 +36,7 @@
                                     
                                     <div class="form-group">
                                         <x-jet-label value="FECHA DEL COBRO" />
-                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{old('date}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
 

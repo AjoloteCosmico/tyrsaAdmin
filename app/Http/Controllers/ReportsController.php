@@ -26,6 +26,7 @@ use App\Http\Requests\StorepaymentsRequest;
 use App\Http\Requests\UpdatepaymentsRequest;
 use SplFileInfo;
 use Illuminate\Support\Facades\Storage;
+
 use DB;
 use PDF;
 use Symfony\Component\Process\Process; 
@@ -36,8 +37,7 @@ use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 class ReportsController extends Controller
 {
        public function generate($id,$report,$pdf,$tipo=0)
-       {
-          
+       {  
            $caminoalpoder=public_path();
            $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            ini_set('max_execution_time', '300');  
@@ -45,6 +45,7 @@ class ReportsController extends Controller
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
            }
+           
            $data = $process->getOutput();
            if($pdf==0){
                return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
@@ -62,7 +63,6 @@ class ReportsController extends Controller
              $data = $process2->getOutput();
              
             return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
-        
         
        }}
     

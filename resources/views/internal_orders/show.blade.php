@@ -376,11 +376,8 @@
                     <tr>
                         <td> <div class="com-text"> {{$InternalOrders->observations}}</div></div></td>
                     </tr>
-                
                </table>
                
-               
-
 
            
             

@@ -88,7 +88,7 @@ class CobrosController extends Controller
                 $rules = [
                         
                         'date' => 'required',
-                        'comp'=> 'required',
+                        'comp'=> 'required|unique:cobros,comp',
                         'bank_id'=> 'required',
                         'coin_id'=> 'required',
                         'tc' => 'required',
@@ -100,6 +100,8 @@ class CobrosController extends Controller
                 
                     $messages = [
                         'date.required' => 'La fecha  es necesaria',
+                        'comp.required' => 'El comprobante de ingresos es necesario',
+                        'comp.unique' => 'Ya existe un registro con este comprobante de ingresos',
                         'coin_id.required' => 'El tipo de Moneda es necesario',
                         'bank_id.required' => 'Seleccione una factura valida',
                         'tc.required' => 'Indique el tipo de cambio',
