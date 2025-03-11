@@ -73,7 +73,8 @@ class CobrosController extends Controller
                 'Factures'
                 ));
             }
-            public function show($id){
+
+    public function show($id){
                 $file_path = public_path('storage/comp'.$id.'.pdf');
                 return response()->file($file_path);
                 //return Storage::download('app/comp'.$id.'.pdf');
@@ -81,7 +82,7 @@ class CobrosController extends Controller
            }
 
 
-            public function store(Request $request){
+    public function store(Request $request){
                
                 
 
@@ -162,7 +163,7 @@ class CobrosController extends Controller
                 }
                 }
 
-        public function desglosar_cobro($id){
+    public function desglosar_cobro($id){
             $Cobro=Cobro::find($id);
             $Pedidos=DB::table('cobro_factures')
                 ->join('factures','factures.id','=','cobro_factures.facture_id')
@@ -175,7 +176,7 @@ class CobrosController extends Controller
             
         }
 
-        public function store_desglose($id,Request $request){
+    public function store_desglose($id,Request $request){
             $Cobro=Cobro::find($id);
             $Pedidos=DB::table('cobro_factures')
                 ->join('factures','factures.id','=','cobro_factures.facture_id')
@@ -186,7 +187,7 @@ class CobrosController extends Controller
                 ->get();
 
         //TODO: VALIDAR LA SUMA DE LAS CANTIDADES
-        
+        cobro_order::where('cobro_id',$id)->delete();
         for($i=1;$i<=$Pedidos->count();$i++){
             $registro= new cobro_order();
             $registro->cobro_id=$id;
@@ -197,7 +198,7 @@ class CobrosController extends Controller
         return redirect('cobros');
 
         }
-        public function edit($id){
+    public function edit($id){
             $Cobro=DB::table('cobros')
             ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')
             ->where('cobros.id','=',$id)
@@ -208,7 +209,7 @@ class CobrosController extends Controller
             $Coins=Coin::all();
             $Customers=Customer::orderby('clave')->get();
             $InternalOrders=InternalOrder::all();
-            
+
             $Factures=DB::table('factures')
                 ->join('internal_orders','internal_orders.id','=','factures.order_id')
                 ->select('factures.*','internal_orders.customer_id','internal_orders.invoice')
@@ -217,7 +218,6 @@ class CobrosController extends Controller
             // dd($SelectedFactures->where('facture_id',9)->count());
             $Customers=Customer::orderby('clave')->get();
             $InternalOrders=InternalOrder::all();
-            
             return view('cobros.edit',
                             compact('Cobro',
                                     'Coins',
@@ -229,10 +229,11 @@ class CobrosController extends Controller
                                 'Ordenes'));
 
         }
-        public function update($id,Request $request){
-                
+
+    public function update($id,Request $request){
             $rules = [
                 'order_id' => 'required',
+                'comp'=> 'required|unique:cobros,comp',
                 'date' => 'required',
                 'facture_id'=> 'required',
                 'bank_id'=> 'required',

@@ -371,10 +371,21 @@
                <br>&nbsp;
                <table style="text-align: center;" id="tabla-obsevaciones">
                 <tr>
-                    <th>Observaciones: </div></td>
+                    <th>Observaciones: </th>
                 </tr>
                     <tr>
-                        <td> <div class="com-text"> {{$InternalOrders->observations}}</div></div></td>
+                        <td> <div class="com-text"> {{$InternalOrders->observations}}</div></td>
+                        
+                    </tr>
+               </table>
+               <br>
+               <table style="text-align: center;" id="tabla-obsevaciones">
+                <tr>
+                    <th>Kilos totales: </th>
+                </tr>
+                    <tr>
+                        <td> <div class="com-text"> {{$InternalOrders->kilos}} KG</div></td>
+                        
                     </tr>
                </table>
                

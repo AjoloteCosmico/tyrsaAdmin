@@ -76,6 +76,8 @@
       <th scope="col">cantidad</th>
       <th scope="col">Fecha MM/DD/AAAA</th>
       <th scope="col">Concepto</th>
+      
+      <th scope="col">Forma de pago</th>
     </tr>
   </thead>
   <tbody>
@@ -103,6 +105,7 @@
     <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}"  value="{{$entrega->format('Y-m-d');}}"></td>
          @endif
         <td> <input type='text' style='width: 50%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 50%;'  name="{{'forma['.$aux_count.']'}}" id="{{'F'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
         
      </tr>
       
