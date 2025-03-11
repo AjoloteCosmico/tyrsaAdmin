@@ -21,8 +21,6 @@
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-body">
-                            
-                            
                                     <div class="form-group">
                                         <x-jet-label value="* CLIENTE" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer_id'>
