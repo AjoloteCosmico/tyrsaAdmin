@@ -254,7 +254,7 @@
                 
                 <tr>
                     <th>Forma de pago:</th>
-                    <td> Transferencia Electronica</td>
+                    <td>  @foreach($payments as $pay) {{$pay->pay_method}} @if(!$loop->last), @endif @endforeach</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
                     <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
@@ -264,7 +264,7 @@
                 
                 <tr>
                     <th rowspan="3">Observaciones: <br> <br> <br> </th>
-                    <td rowspan="3"> <br> -<br> </td>
+                    <td rowspan="3"> {{$InternalOrders->payment_observations}} </td>
                     <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET IVA:</td>
                         <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>
@@ -317,7 +317,6 @@
 
                <table >
                <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion) </div></th></tr>
-               
                 <tr>
                     <th rowspan="2">   <br> COBRO No. <br><br> &nbsp;</th>
                     <th rowspan="2">   <br> Fecha <br><br> Planeada </th>

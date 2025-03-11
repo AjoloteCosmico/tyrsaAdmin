@@ -817,6 +817,7 @@ public function recalcular_total($id){
             $this_payment->order_id = $request->order_id;
             $this_payment->concept = $request->get('concepto')[$i];
             $this_payment->percentage = $request->get('porcentaje')[$i];
+            $this_payment->pay_method = $request->get('forma')[$i];
             $this_payment->amount = $InternalOrders->total*$this_payment->percentage*0.01;
             $this_payment->date = $request->get('date')[$i];
             //$this_payment->nota = $request->get('nota')[$i];
@@ -825,6 +826,7 @@ public function recalcular_total($id){
             $hpayment->order_id = $request->order_id;
             $hpayment->concept = $request->get('concepto')[$i];
             $hpayment->percentage = $request->get('porcentaje')[$i];
+            $hpayment->pay_method = $request->get('forma')[$i];
             $hpayment->amount = (float)$InternalOrders->total*(float)$this_payment->percentage*0.01;
             $hpayment->date = $request->get('date')[$i];
             //$hpayment->nota = $request->get('nota')[$i];

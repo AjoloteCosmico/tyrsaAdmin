@@ -104,8 +104,8 @@
     @else
     <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}"  value="{{$entrega->format('Y-m-d');}}"></td>
          @endif
-        <td> <input type='text' style='width: 50%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
-        <td> <input type='text' style='width: 50%;'  name="{{'forma['.$aux_count.']'}}" id="{{'F'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 50%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 50%;'  name="{{'forma['.$aux_count.']'}}" id="{{'F'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
         
      </tr>
       
@@ -134,7 +134,14 @@
       <i class="fa fa-plus" ></i>
       &nbsp; &nbsp;
       <p>Agregar Concepto</p></button></td>-->
-      
+      <br>
+      <div class="col-sm-8 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="Observaciones"  />
+                                        <textarea  name="payment_observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{old('payment_observations')}}</textarea>
+                                        <x-jet-input-error for='payment_observations' />
+                                    </div>
+                                </div>
   
     <br>
     <button   type="button" class="btn btn-blue mb-2"  onclick="redondear()">
