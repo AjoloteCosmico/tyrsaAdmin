@@ -254,7 +254,7 @@
                 
                 <tr>
                     <th>Forma de pago:</th>
-                    <td>  @foreach($payments as $pay) {{$pay->pay_method}} @if(!$loop->last), @endif @endforeach</td>
+                    <td>  @foreach($payments->unique('payment_method')->pluck('payment_method') as $pay) {{$pay}} @if(!$loop->last), @endif @endforeach</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
                     <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
