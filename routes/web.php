@@ -98,6 +98,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('items/edit/{id}', [ItemController::class, 'edit_item'])->name('items.edit_item');
     
     Route::get('internal_orders/edit/{id}', [InternalOrderController::class, 'edit_order'])->name('internal_orders.edit_order');
+    Route::post('internal_orders/validated_store}', [InternalOrderController::class, 'store'])->name('internal_orders.validated_store');
+    
     Route::post('internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
     Route::post('internal_orders/firmar', [InternalOrderController::class, 'firmar'])->name('internal_orders.firmar');
     Route::post('internal_orders/dgi', [InternalOrderController::class, 'dgi'])->name('internal_orders.dgi');

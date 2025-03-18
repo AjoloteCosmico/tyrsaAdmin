@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Pedido Interno:
             </h5>
         </div>
-        <form action="{{route('tempitems.create_item', $TempInternalOrders->id) }}" method="POST" id ="form-id" enctype="multipart/form-data">
+       <form action="{{route('tempitems.create_item', $TempInternalOrders->id) }}" method="POST" id ="form-id" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
         <x-jet-input type="hidden" name="session_desc" id="session_desc" value="."/>
@@ -24,7 +24,6 @@
             <div class="row p-4">
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
-                    
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -34,8 +33,12 @@
                                         <button type="button" id="your-id" class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                          </button>
-                                    </div></form>
-                                    <form action="{{ route('internal_orders.store')}}" method="POST"  enctype="multipart/form-data" >
+                                    </div>
+                                
+                                </form>
+                                
+                               
+                                <form action="{{ route('internal_orders.validated_store')}}" method="POST" id="body_form" enctype="multipart/form-data" >
                                         @csrf
                                     <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
                                         
@@ -102,7 +105,7 @@
                                 <x-jet-label value="* Categoria" />
                                 <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
                                         
-                                        <option value=" " > </option>
+                                        <option value="" > </option>
                                         
                                         <option value="Productos" @if($cat=="Productos") selected @endif>Productos</option>
                                         <option value="Servicios" @if($cat=="Servicios") selected @endif>Servicios</option>
@@ -114,6 +117,7 @@
                             <div class="form-group">
                                 <x-jet-label value="* Descripción del Proyecto" />
                                 <select class="form-capture  w-full text-xs uppercase" name="description" id='desc'>
+                                        <option value="" > </option>
                                         <option value="Producto Fabricacion" @if($desc=="Producto Fabricacion") selected @endif>Producto fabricacion PF</option>
                                         <option value="Producto Comercializacion"  @if($desc=="Producto Comercializacion") selected @endif>Producto Comercializacion  PC</option>
                                         <option value="Servicio directo SD"  @if($desc=="Servicio directo SD") selected @endif>Servicio directo SD</option>
@@ -126,8 +130,8 @@
                                 </select><x-jet-input-error for='description' />
                             </div>
                             <div class="form-group">
-                                        <x-jet-label value="TOTAL DE KILOS" />
-                                        <x-jet-input type="number" step="0.1" name="kilos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="0" />
+                                        <x-jet-label value="* TOTAL DE KILOS " />
+                                        <x-jet-input type="number" step="0.1" name="kilos" class="form-control just-number price-format-input w-full text-xs"  />
                                         <x-jet-input-error for='kilos' />
                                     </div>
                             <div class="row">
@@ -142,17 +146,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></form>
             <div class="col-12 text-right p-2 gap-2">
                 {{--  <a href="{{ route('internal_orders.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
-                <button type="submit" class="btn btn-green mb-2">
+                <button type="button" onclick="send_data()" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>
         </div>
-        </form>
+        
     </div>
 @stop
 
@@ -168,6 +172,17 @@ var form = document.getElementById("form-id");
 document.getElementById("your-id").addEventListener("click", function () {
   form.submit();
 });
+
+function send_data(){
+    var a = document.forms["body_form"]["category"].value;
+    var b = document.forms["body_form"]["description"].value;
+    var c = document.forms["body_form"]["kilos"].value;
+    if ((a == null || a == "") || (b == null || b == "") || (c == null || c == "")) {
+      alert("Por favor llene los campos obligatorios marcados con *");
+      return false;
+    }else{
+    document.getElementById("body_form").submit();}
+}
 </script>
 
 <script>

@@ -235,7 +235,6 @@ total_cereza_format = workbook.add_format({
     'fg_color':'#F4B084',
     'border': 1})
 
-
 import datetime
 
 currentDateTime = datetime.datetime.now()

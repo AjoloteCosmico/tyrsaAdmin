@@ -24,7 +24,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               port=DB_PORT,
                               database=DB_DATABASE,
                               use_pure=False)
-query = ('SELECT i.reg_date,i.invoice, i.status,i.total, i.subtotal, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id;')
+query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
 orders=pd.read_sql(query,cnx)
 writer = pd.ExcelWriter('storage/report/consecutivo_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
@@ -351,7 +351,16 @@ blue_content = workbook.add_format({
     'font_color': 'black',
     'font_size':12,
     'border_color':a_color,
-    'num_format': '"R" #,##0.00'})
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_unit = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    
+    'border_color':a_color,
+    'font_size':10,
+    })
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -362,7 +371,7 @@ blue_content_bold = workbook.add_format({
     'font_size':12,
     'border_color':a_color,
     'font_size':13,
-    'num_format': '"R" #,###'})
+    'num_format': '[$$-409]#,##0.00'})
 yellow_content = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -399,6 +408,7 @@ red_content_bold = workbook.add_format({
 #dataframes
 
 orders['reg_date'].to_excel(writer, sheet_name='Sheet1', startrow=14,startcol=3, header=False, index=False)
+orders['clave'] = orders['clave'].replace({' ':''}, regex=True)
 worksheet = writer.sheets['Sheet1']
 #worksheet.set_column(2,19,15)
 # Encabezado.
@@ -407,20 +417,26 @@ worksheet.merge_range('G3:N3', 'Soluciones en logistica interior', negro_s)
 worksheet.merge_range('G4:N4', 'CONSECUTIVO DE PEDIDOS INTERNOS' ,negro_b)
 worksheet.merge_range('G5:N5', 'Control de Cobros por P.I.', rojo_b)
 worksheet.write('O4', "AÑO", negro_b)
-worksheet.write('P4', "2022", negro_b)
+import datetime
+
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+worksheet.write('P4', date.strftime("%Y"), negro_b)
 worksheet.write('O6', "ACUMULADO", blue_header_format)
-worksheet.write('O7', "$"+str(orders["total"].sum()), blue_content)
+worksheet.write('O7', orders["total"].sum()/1.16, blue_content)
 worksheet.write('O8', "HASTA EL ULTIMO PEDIDO", blue_content)
 
 worksheet.set_column(14, 14, 20)
 worksheet.write('L10', "$0.0", blue_header_format)
 worksheet.write('M10', "$0.0", blue_header_format)
 worksheet.write('N10', "NA", blue_header_format)
-worksheet.write('O10', "$"+str(orders["total"].sum()), blue_content_bold)
+worksheet.write('O10', orders["total"].sum()/1.16, blue_content_bold)
 
 #Headers del dataframe
 worksheet.set_column(3, 3, 20)
-worksheet.merge_range('C12:C14', 'PDA \n NHO \n 2022', blue_header_format)
+
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 1, "y_scale": 1})
+worksheet.merge_range('C12:C14', 'PDA \n NOHA \n 2022', blue_header_format)
 worksheet.merge_range('D12:D14', 'FECHA DE EMISION  \n DD-MM-AA', blue_header_format)
 worksheet.merge_range('E12:E14', 'PEDIDO INTERNO NO.', blue_header_format)
 
@@ -443,26 +459,41 @@ worksheet.merge_range('O13:O14', 'M.N. (EQUIVALENTE)', blue_header_format)
 worksheet.merge_range('P12:P14', 'ACUMULADO EN MONEDA NACIONAL (EQUIVALENTE) I/I', blue_header_format)
 worksheet.merge_range('Q12:Q14', 'STATUS', blue_header_format)
 acumulado=0
+for col in ["category","description","customer_suburb","status"]:
+     orders[col]=orders[col].str.upper()
+orders["category"]=orders["category"].fillna('PRODUCTOS')
 #Llenar la tabla
 for i in range(0,len(orders)):
-     acumulado=acumulado+orders["total"].values[i]*orders["exchange_sell"].values[i]
-     worksheet.write(14+i, 2, i+1,blue_content)
+     acumulado=acumulado+((orders["total"].values[i])/1.16*orders["exchange_sell"].values[i])
+     worksheet.write(14+i, 2, str(int(orders["noha"].values[i])),blue_content_unit)
      worksheet.write(14+i, 3, str(orders["reg_date"].values[i]),blue_content)
-     worksheet.write(14+i, 4, str(orders["invoice"].values[i]),blue_content)
+     worksheet.write(14+i, 4, str(int(orders["invoice"].values[i])),blue_content_unit)
      worksheet.write(14+i, 5, str(orders["clave"].values[i]),blue_content)
-     worksheet.write(14+i, 6, str(orders["alias"].values[i]),blue_content)
+     worksheet.write(14+i, 6, str(orders["alias"].values[i])[:15],blue_content)
      worksheet.write(14+i, 7, str(orders["category"].values[i]),blue_content)
      worksheet.write(14+i, 8, str(orders["description"].values[i]),blue_content)
      worksheet.write(14+i, 9, str(orders["customer_suburb"].values[i]),blue_content)
-     worksheet.write(14+i, 10, str(orders["coin"].values[i]),blue_content)
-     worksheet.write(14+i, 11, str(orders["coin"].values[i]),blue_content)
-     worksheet.write(14+i, 12, str(orders["subtotal"].values[i]),blue_content)
-     worksheet.write(14+i, 13, str(orders["exchange_sell"].values[i]),blue_content)
-     worksheet.write(14+i, 14, str(orders["subtotal"].values[i]*orders["exchange_sell"].values[i]),blue_content)
+     worksheet.write(14+i, 10, str(orders["code"].values[i]),blue_content)
+     worksheet.write(14+i, 11, str(orders["code"].values[i]),blue_content)
+     if(orders["coin"].values[i]=='NACIONAL'):
+         
+        worksheet.write(14+i, 12, '0',blue_content)
+     else:
+        worksheet.write(14+i, 12, orders["total"].values[i]/1.16,blue_content)
+     worksheet.write(14+i, 13, orders["exchange_sell"].values[i],blue_content)
+     worksheet.write(14+i, 14, (orders["total"].values[i]*orders["exchange_sell"].values[i])/1.16,blue_content)
     
-     worksheet.write(14+i, 15, str(orders["total"].values[i]),blue_content)
+     worksheet.write(14+i, 15, acumulado,blue_content)
      worksheet.write(14+i, 16, orders["status"].values[i],tabla_normal)
-     
 
+worksheet.set_column('H:J',23)
+worksheet.set_column('M:M',20)
+
+worksheet.set_column('P:P',20)
+worksheet.set_column('G:G',15)
+
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
 
