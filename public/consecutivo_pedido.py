@@ -472,7 +472,7 @@ for i in range(0,len(orders)):
      worksheet.write(14+i, 6, str(orders["alias"].values[i])[:15],blue_content)
      worksheet.write(14+i, 7, str(orders["category"].values[i]),blue_content)
      worksheet.write(14+i, 8, str(orders["description"].values[i]),blue_content)
-     worksheet.write(14+i, 9, str(orders["customer_suburb"].values[i]),blue_content)
+     worksheet.write(14+i, 9, str(orders["customer_suburb"].values[i])[:15],blue_content)
      worksheet.write(14+i, 10, str(orders["code"].values[i]),blue_content)
      worksheet.write(14+i, 11, str(orders["code"].values[i]),blue_content)
      if(orders["coin"].values[i]=='NACIONAL'):
@@ -489,8 +489,12 @@ for i in range(0,len(orders)):
 worksheet.set_column('H:J',23)
 worksheet.set_column('M:M',20)
 
+worksheet.set_column('I:I',24)
+
 worksheet.set_column('P:P',20)
 worksheet.set_column('G:G',15)
+
+worksheet.set_column('Q:Q',15)
 
 worksheet.set_landscape()
 worksheet.set_paper(9)
