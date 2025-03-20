@@ -224,7 +224,11 @@
                                <x-jet-input-error for='descuento' />
                            </div>
                        </div>
-                  
+                       <div class="form-group">
+                               <x-jet-label value="Kilos totales del pedido" />
+                               <input type="number" name="kilos" style='width: 10%;' min=0 step=0.01  value="{{$InternalOrders->kilos}}"> 
+                               <x-jet-input-error for='descuento' />
+                           </div>
                
                             <button type="submit" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
@@ -300,11 +304,7 @@
                                             </tbody>
                                         </table>
                                         <br><br>
-                                        <div class="form-group">
-                               <x-jet-label value="Kilos totales del pedido" />
-                               <input type="number" name="kilos" style='width: 10%;' min=0 step=0.01  value="{{$InternalOrders->kilos}}"> 
-                               <x-jet-input-error for='descuento' />
-                           </div>
+                                        
                        </div>
                                         {{--  <x-jet-input type="hidden" name="item" class="w-flex text-xs" value="{{ $ITEM }}"/>
                                         <x-jet-input-error for='item' />  --}}

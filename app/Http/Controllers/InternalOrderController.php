@@ -995,7 +995,13 @@ public function recalcular_total($id){
     {
         $id=$request->internal_order_id;
         $InternalOrders = InternalOrder::find($id);
-        $pagos=payments::where('order_id',$id)->delete();
+        if($InternalOrders->payment_conditions==$request->payment_conditions){
+            $PagosWasChanged=FALSE;
+        }else{
+            $PagosWasChanged=TRUE;
+            $pagos=payments::where('order_id',$id)->delete();
+        }
+        
         $signatures=signatures::where('order_id',$id)->delete();
         //reasignarle Todo
         $InternalOrders->customer_id=$request->customer_id;
@@ -1061,8 +1067,12 @@ public function recalcular_total($id){
                  }
              
         
-        $this->recalcular_total($id);         
-        return $this->payment($id);
+        $this->recalcular_total($id);
+        if($PagosWasChanged){
+            return $this->payment($id);
+        }else{
+            return redirect()->route('internal_orders.show',$id);
+        }         
     }
 
     public function edit_temp_comissions($id){
