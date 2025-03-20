@@ -5,7 +5,7 @@
 @section('content_header')
     <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; PEDIDO INTERNO</h1>
     <script src="/Scripts/jquery.dataTables.js"></script>
-<script src="/Scripts/dataTables.bootstrap.js"></script>
+    <script src="/Scripts/dataTables.bootstrap.js"></script>
     
 @stop
 

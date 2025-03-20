@@ -1009,6 +1009,7 @@ public function recalcular_total($id){
         $InternalOrders->dgi=$request->dgi* 0.01;
         $InternalOrders->comision=$request->comision* 0.01;
         $InternalOrders->otra=$request->otra* 0.01;
+        $InternalOrders->kilos=$request->kilos;
         
         $InternalOrders->description=$request->description;
         $InternalOrders->observations=$request->observations;

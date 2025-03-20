@@ -476,7 +476,6 @@ for i in range(0,len(orders)):
      worksheet.write(14+i, 10, str(orders["code"].values[i]),blue_content)
      worksheet.write(14+i, 11, str(orders["code"].values[i]),blue_content)
      if(orders["coin"].values[i]=='NACIONAL'):
-         
         worksheet.write(14+i, 12, '0',blue_content)
      else:
         worksheet.write(14+i, 12, orders["total"].values[i]/1.16,blue_content)
