@@ -70,7 +70,7 @@
                                             </button>
                                         </form>
                                         @endcan
-                                        @can('CANCELAR PEDIDO')
+                                        {{--@can('CANCELAR PEDIDO')
                                         <form class="CancelReg" action="{{route('internal_orders.cancel', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -78,7 +78,7 @@
                                                 <i class="fa-solid fa-xmark items-center"></i>
                                             </button>
                                         </form>
-                                        @endcan
+                                        @endcan--}}
                                         
                                     </div>@endif
                                     @if($row->status == 'autorizado')
