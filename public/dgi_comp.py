@@ -366,7 +366,11 @@ for i in range(len(cobros)):
         worksheet.write(write_row+8,4,'na',blue_content)
     worksheet.write(write_row+8,5,0,blue_content_dll)
     worksheet.write(write_row+8,6,cobros['amount'].values[i],blue_content)
-    worksheet.write(write_row+8,7,vendedor['seller_name'].values[0],blue_content)
+    if(len(vendedor)>0):
+        worksheet.write(write_row+8,7,vendedor['seller_name'].values[0],blue_content)
+    else:
+        
+        worksheet.write(write_row+8,7,'vendedor eliminado',blue_content)
     worksheet.write(write_row+8,8,str(cobros['comision'].values[i])+'%',blue_content)
     worksheet.write(write_row+8,9,cobros['amount'].values[i]*cobros['comision'].values[i],blue_content)
     worksheet.write(write_row+8,10,0,blue_content_dll)
