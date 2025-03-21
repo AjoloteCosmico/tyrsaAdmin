@@ -91,7 +91,7 @@ nordenes=len(pedidos)
 df=pedidos[['date']]
 
 tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
-writer = pd.ExcelWriter('storage/report/dgi_vendedores'+str(quincena)+'.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/dgi_vendedores'+str(quincena-1)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
