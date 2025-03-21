@@ -98,7 +98,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('items/edit/{id}', [ItemController::class, 'edit_item'])->name('items.edit_item');
     
     Route::get('internal_orders/edit/{id}', [InternalOrderController::class, 'edit_order'])->name('internal_orders.edit_order');
+    
     Route::post('internal_orders/validated_store}', [InternalOrderController::class, 'store'])->name('internal_orders.validated_store');
+    Route::post('internal_orders/cancel/{id}}', [InternalOrderController::class, 'cancel'])->name('internal_orders.cancel');
     
     Route::post('internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
     Route::post('internal_orders/firmar', [InternalOrderController::class, 'firmar'])->name('internal_orders.firmar');
@@ -108,12 +110,12 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/pay_conditions', [InternalOrderController::class, 'pay_conditions'])->name('internal_orders.pay_conditions');
     Route::post('internal_orders/pay_redefine', [InternalOrderController::class, 'pay_redefine'])->name('internal_orders.pay_redefine');
     Route::post('internal_orders/asignar_marca', [InternalOrderController::class, 'asignar_marca'])->name('internal_orders.asignar_marca');
-   
+    
     Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
    
    //rutas par desautorizar un pedido
-   Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
-   Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
+    Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
+    Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
   
    
     //rutas para agregar comisione

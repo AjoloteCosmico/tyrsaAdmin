@@ -70,6 +70,15 @@
                                             </button>
                                         </form>
                                         @endcan
+                                        @can('CANCELAR PEDIDO')
+                                        <form class="CancelReg" action="{{route('internal_orders.cancel', $row->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-red ">
+                                                <i class="fa-solid fa-xmark items-center"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
                                         
                                     </div>@endif
                                     @if($row->status == 'autorizado')
@@ -113,6 +122,8 @@
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogointernal_orders.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_cancel_reg.js') }}"></script>
 
 @if (session('create_reg') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_create_reg.js') }}"></script>
