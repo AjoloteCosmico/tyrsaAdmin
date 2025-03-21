@@ -367,8 +367,10 @@ for i in range(len(cobros)):
     worksheet.write(write_row+8,5,0,blue_content_dll)
     worksheet.write(write_row+8,6,cobros['amount'].values[i],blue_content)
     if(len(vendedor)>0):
+        vendedor_id=vendedor['id'].values[0]
         worksheet.write(write_row+8,7,vendedor['seller_name'].values[0],blue_content)
     else:
+        vendedor_id=0
         
         worksheet.write(write_row+8,7,'vendedor eliminado',blue_content)
     worksheet.write(write_row+8,8,str(cobros['comision'].values[i])+'%',blue_content)
@@ -423,7 +425,7 @@ for i in range(len(cobros)):
     for j in range(len(no_socios)):
         worksheet.write(write_row+20+j,2,no_socios['seller_name'].values[j],blue_content)
         # if(len(comisiones.loc[(comisiones['order_id']==cobros['order_id'].values[i])&(comisiones['seller_id']==no_socios['id'].values[j])])>0):
-        if(vendedor['id'].values[0]==no_socios['id'].values[j]):
+        if(vendedor_id==no_socios['id'].values[j]):
             worksheet.write(write_row+20+j,3,'100%',blue_content)
             worksheet.write(write_row+20+j,4,(cobros['amount'].values[i]*cobros['comision'].values[i])/1.16,blue_content)
         else:
