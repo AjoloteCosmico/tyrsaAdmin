@@ -41,8 +41,8 @@ public function dgi_select(){
     for ($i = 1; $i <= 24; $i++) {
         $month = ceil($i/ 2);
         $isFirstHalf = $i % 2 !== 0;
-        $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-15";
-        $endDate = $isFirstHalf ? "$year-$month-14" : date("Y-m-t", strtotime($startDate));
+        $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
+        $endDate = $isFirstHalf ? "$year-$month-15" : date("Y-m-t", strtotime($startDate));
         
         $quincenas[] = [
             'id' => ($i-1),
@@ -61,8 +61,8 @@ public function dgi(Request $request){
     for ($i = 1; $i <= 24; $i++) {
         $month = ceil($i/ 2);
         $isFirstHalf = $i % 2 !== 0;
-        $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-15";
-        $endDate = $isFirstHalf ? "$year-$month-14" : date("Y-m-t", strtotime($startDate));
+        $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
+        $endDate = $isFirstHalf ? "$year-$month-15" : date("Y-m-t", strtotime($startDate));
         
         $quincenas[] = [
             'id' => ($i-1),

@@ -24,7 +24,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               port=DB_PORT,
                               database=DB_DATABASE,
                               use_pure=False)
-query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
+query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal,i.date, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
 orders=pd.read_sql(query,cnx)
 writer = pd.ExcelWriter('storage/report/consecutivo_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
 workbook = writer.book
@@ -423,7 +423,7 @@ currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 worksheet.write('P4', date.strftime("%Y"), negro_b)
 worksheet.write('O6', "ACUMULADO", blue_header_format)
-worksheet.write('O7', orders["total"].sum()/1.16, blue_content)
+worksheet.write('O7', orders.loc[orders['date'].astype(str)>date.strftime("%Y")+'-01-01',"total"].sum()/1.16, blue_content)
 worksheet.write('O8', "HASTA EL ULTIMO PEDIDO", blue_content)
 
 worksheet.set_column(14, 14, 20)
@@ -436,7 +436,7 @@ worksheet.write('O10', orders["total"].sum()/1.16, blue_content_bold)
 worksheet.set_column(3, 3, 20)
 
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 1, "y_scale": 1})
-worksheet.merge_range('C12:C14', 'PDA \n NOHA \n 2022', blue_header_format)
+worksheet.merge_range('C12:C14', 'PDA \n NOHA \n '+str(date.strftime("%Y")), blue_header_format)
 worksheet.merge_range('D12:D14', 'FECHA DE EMISION  \n DD-MM-AA', blue_header_format)
 worksheet.merge_range('E12:E14', 'PEDIDO INTERNO NO.', blue_header_format)
 

@@ -11,12 +11,13 @@ from dateutil.relativedelta import relativedelta
 import numpy as np
 
 year = datetime.date.today().year
+
 quincena=int(sys.argv[1])+1
 # quincena=2
 month = np.ceil(quincena/ 2)
 isFirstHalf = quincena % 2 != 0
-startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-15"
-endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-14" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
+startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
+endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-15" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
 
 from dotenv import load_dotenv
 load_dotenv()

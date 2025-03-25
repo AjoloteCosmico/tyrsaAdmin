@@ -27,7 +27,7 @@
                                 <x-jet-label value="* Intervalo Quincenal" />
                                 <select class="form-capture  w-full text-xs uppercase"  name="interval">
                                 @foreach($quincenas as $quincena)
-                                <option value="{{$quincena['id'] }}" > del {{$quincena['inicio']}} al {{$quincena['fin']}} </option>
+                                <option value="{{$quincena['id'] }}" >Quincena {{$quincena['id']+1}}: del {{$quincena['inicio']}} al {{$quincena['fin']}} </option>
                                 @endforeach
                                 
                             </select>
