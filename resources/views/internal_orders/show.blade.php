@@ -407,7 +407,7 @@
                <br>
                  
                     <tr>
-                        <td> {{$Sellers->id}}</td>
+                        <td> {{$Sellers->folio}}</td>
                         <td> {{$Sellers->iniciales}}</td>
                         <td>  Comision Principal</td>
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
