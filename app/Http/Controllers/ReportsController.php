@@ -856,7 +856,7 @@ public function kilos(){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
-    $Sellers=Seller::where('status','ACTIVO');
+    $Sellers=Seller::where('status','ACTIVO')->get();
     $InternalOrders=DB::table('internal_orders')
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->select('internal_orders.*','sellers.seller_name')
