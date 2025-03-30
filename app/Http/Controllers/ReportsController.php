@@ -861,6 +861,7 @@ public function kilos(){
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->select('internal_orders.*','sellers.seller_name')
     ->where('date','>=',$Year.'-01-01')
+    ->where('sellers.status','ACTIVO')
     ->get();
     $vendedores = DB::table('sellers')
         ->where('sellers.status','ACTIVO')
