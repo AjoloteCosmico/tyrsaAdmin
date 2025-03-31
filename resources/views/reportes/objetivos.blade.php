@@ -146,7 +146,7 @@
                       @endif
                     @endfor
                       @if($Monto=='MONTO')  
-                      <th> $ {{number_format($InternalOrders->sum('total'),2)}} </th>
+                      <th> $ {{number_format($InternalOrders->sum('total')/1.16,2)}} </th>
                       @else
                       <th>{{$InternalOrders->count()}} </th>
                       @endif
