@@ -91,7 +91,7 @@
                        <th></th>
                        <th></th>
                        @foreach($socios as $row)
-                           <th>${{number_format(($Comisiones->where('seller_id',$row->id)->sum('percentage')/1.16)*$Cobros->sum('amount'),2)}} </th>
+                           <td>${{number_format($totales[$row->iniciales],2)}} </td>
                         @endforeach
                     </tr>
                     <tr>
