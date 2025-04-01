@@ -1263,7 +1263,7 @@ public function cancel($id){
 
     $InternalOrder = InternalOrder::find($id);
     $InternalOrder->status='CANCELADO';
-    $internal_order->save();
+    $InternalOrder->save();
 
 }
 }
