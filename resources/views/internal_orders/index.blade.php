@@ -73,7 +73,7 @@
                                         @can('CANCELAR PEDIDO')
                                         <form class="CancelReg" action="{{route('internal_orders.cancel', $row->id) }}" method="POST">
                                             @csrf
-                                            @method('DELETE')
+                                            @method('POST')
                                             <button type="submit" class="btn btn-red ">
                                                 <i class="fa-solid fa-xmark items-center"></i>
                                             </button>

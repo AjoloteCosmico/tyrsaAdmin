@@ -265,8 +265,7 @@
                     <td rowspan="3"> {{$InternalOrders->payment_observations}} </td>
                     <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET IVA:</td>
-                        <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>
-                        
+                        <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>     
                 </tr>
                 <tr>
                         <th>IVA:</td>
