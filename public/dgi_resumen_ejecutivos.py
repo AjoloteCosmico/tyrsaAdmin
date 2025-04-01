@@ -321,7 +321,7 @@ worksheet.write(7,3,'Nombre corto',blue_header_format)
 worksheet.write(8,3,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
-    this_comisions=comisiones.loc[comisiones['cobro_id']==cobros['id'].values[i]]
+    this_comisions=comisiones.loc[comisiones['order_id']==cobros['order_id'].values[i]]
     worksheet.write(9+i,1,(cobros['amount'].values[i]/1.16)*comisiones['percentage'].sum(),blue_content)
     worksheet.write(9+i,2,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,3,cobros['comp'].values[i],blue_content)
