@@ -81,9 +81,14 @@ creditos=pd.read_sql("""select *
 vendedores=pd.read_sql("""select * 
                      from sellers where status='ACTIVO'""",cnx)
 
-socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
-socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
-no_socios=vendedores.loc[~vendedores['id'].isin(socios_ids['seller_id'].unique())]
+# socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
+# socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
+# no_socios=vendedores.loc[~vendedores['id'].isin(socios_ids['seller_id'].unique())]
+
+socios=pd.read("select * from sellers where  dgi > 0")
+
+no_socios=pd.read("select * from sellers where status='ACTIVO' and dgi <= 0")
+
 comisiones=pd.read_sql("""select * 
                      from comissions""",cnx)
 

@@ -258,8 +258,6 @@
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
                     <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
-                           
-                    
                 </tr>
                 
                 <tr>

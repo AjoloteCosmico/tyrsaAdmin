@@ -82,9 +82,9 @@ creditos=pd.read_sql("""select *
 vendedores=pd.read_sql("""select * 
                      from sellers where status='ACTIVO'""",cnx)
 
-socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
-socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
-no_socios=vendedores.loc[~vendedores['id'].isin(socios_ids['seller_id'].unique())]
+socios=pd.read("select * from sellers where  dgi > 0")
+
+no_socios=pd.read("select * from sellers where status='ACTIVO' and dgi <= 0")
 comisiones=pd.read_sql("""select * 
                      from comissions""",cnx)
 
@@ -299,15 +299,12 @@ pedidos['date']=pd.to_datetime(pedidos['date'])
 # -------------HOJA DE RESUMEN
 worksheet= workbook.add_worksheet("Resumen")
 #Encabezado del documento--------------
-
 worksheet.write('G2', 'AÑO', negro_b)
-
 worksheet.write('H2', year, negro_b)
 worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 worksheet.merge_range('I2:I3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-
 worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
                       DGI PARA NIVELES DIRECTIVOS""", negro_b)
 worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
@@ -324,7 +321,8 @@ worksheet.write(7,3,'Nombre corto',blue_header_format)
 worksheet.write(8,3,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
-    worksheet.write(9+i,1,cobros['amount'].values[i],blue_content)
+    this_comisions=comisiones.loc[comisiones['cobro_id']==cobros['id'].values[i]]
+    worksheet.write(9+i,1,(cobros['amount'].values[i]/1.16)*comisiones['percentage'].sum(),blue_content)
     worksheet.write(9+i,2,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,3,cobros['comp'].values[i],blue_content)
 for i in range(len(socios)):
@@ -347,7 +345,7 @@ for i in range(len(socios)):
 for i in range(len(socios)):
         # Definir el rango para la fórmula
     start_cell = xl_rowcol_to_cell(9, 4+i)  # Primera celda (0, 0 -> A1)
-    end_cell = xl_rowcol_to_cell(len(cobros) - 1, 4+i) 
+    end_cell = xl_rowcol_to_cell(len(cobros) +8, 4+i) 
     # Crear la fórmula SUM para sumar la columna
     formula = f"=SUM({start_cell}:{end_cell})"
 
@@ -355,13 +353,10 @@ for i in range(len(socios)):
     worksheet.write_formula(len(cobros)+9, 4+i, formula,blue_footer_format_bold)
 
 worksheet.write_formula(len(cobros)+9, 1, f"=SUM(B10:B"+str(len(cobros)+9)+")",blue_footer_format_bold)
-
-
 worksheet.set_row(5,27)
 
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
-
 worksheet.set_column('B:B',20)
 worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)

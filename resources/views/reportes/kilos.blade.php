@@ -100,7 +100,7 @@
                     <th>Total</th>
                     <th width="8%"> &nbsp;% &nbsp; &nbsp;</th>
                 </tr>
-                </thead>
+                </thead>,
                 @foreach($Sellers as $seller)
                 <tr>
                     <td>{{$seller->seller_name}}</td>
