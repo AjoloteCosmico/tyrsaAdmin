@@ -57,17 +57,17 @@
                     @foreach($Cobros as $cobro)
                        @php
                        $this_comissions=$Comisiones->where('order_id',$cobro->order_id);
-
+                       $total_sum=$total_sum+($cobro->amount/1.16)*$this_comissions->sum('percentage')
                        @endphp
                     <tr>
-                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}}  {{$this_comissions->sum('percentage')}}</td>
+                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}} </td>
                         <td>{{$cobro->invoice}} </td>
                         <td>{{$cobro->comp}} </td>
                         @foreach($socios as $row)
                            
                             @if($row->id==$cobro->seller_id)
                                 @php
-                                $total_sum=$total_sum+($cobro->amount*$cobro->comision)/1.16;
+                                
                                 $totales[$row->iniciales]+=($cobro->amount*$cobro->comision)/1.16;
                                 @endphp
 
@@ -75,7 +75,6 @@
                            
                             @elseif($this_comissions->where('seller_id',$row->id)->count()>0)
                                 @php
-                                $total_sum=$total_sum+($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
                                 $totales[$row->iniciales]+=($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
                            
                                  @endphp
