@@ -85,9 +85,9 @@ vendedores=pd.read_sql("""select *
 # socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
 # no_socios=vendedores.loc[~vendedores['id'].isin(socios_ids['seller_id'].unique())]
 
-socios=pd.read_sql("select * from sellers where  dgi > 0")
+socios=pd.read_sql("select * from sellers where  dgi > 0",cnx)
 
-no_socios=pd.read_sql("select * from sellers where status='ACTIVO' and dgi <= 0")
+no_socios=pd.read_sql("select * from sellers where status='ACTIVO' and dgi <= 0",cnx)
 
 comisiones=pd.read_sql("""select * 
                      from comissions""",cnx)

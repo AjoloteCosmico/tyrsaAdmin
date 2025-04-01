@@ -82,9 +82,9 @@ creditos=pd.read_sql("""select *
 vendedores=pd.read_sql("""select * 
                      from sellers where status='ACTIVO'""",cnx)
 
-socios=pd.read_sql("select * from sellers where  dgi > 0")
+socios=pd.read_sql("select * from sellers where  dgi > 0",cnx)
 
-no_socios=pd.read_sql("select * from sellers where status='ACTIVO' and dgi <= 0")
+no_socios=pd.read_sql("select * from sellers where status='ACTIVO' and dgi <= 0",cnx)
 comisiones=pd.read_sql("""select * 
                      from comissions""",cnx)
 
