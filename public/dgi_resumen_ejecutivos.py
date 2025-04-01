@@ -322,7 +322,7 @@ worksheet.write(8,3,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
     this_comisions=comisiones.loc[comisiones['order_id']==cobros['order_id'].values[i]]
-    worksheet.write(9+i,1,(cobros['amount'].values[i]/1.16)*comisiones['percentage'].sum(),blue_content)
+    worksheet.write(9+i,1,(cobros['amount'].values[i]/1.16)*this_comisions['percentage'].sum(),blue_content)
     worksheet.write(9+i,2,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,3,cobros['comp'].values[i],blue_content)
 for i in range(len(socios)):
@@ -336,10 +336,10 @@ for i in range(len(socios)):
         comision_secundaria=this_comisions.loc[this_comisions['order_id']==cobros['order_id'].values[j]]
         amount=0
         if(cobros['seller_id'].values[j]==socios['id'].values[i]):
-           amount=(cobros['amount'].values[j])*cobros['comision'].values[j]
+           amount=(cobros['amount'].values[j]/1.16)*cobros['comision'].values[j]
         
         if(len(comision_secundaria)>0):
-           amount=(cobros['amount'].values[j])*comision_secundaria['percentage'].values[0]
+           amount=(cobros['amount'].values[j]/1.16)*comision_secundaria['percentage'].values[0]
         worksheet.write(9+j,4+i,amount,blue_content)
 
 for i in range(len(socios)):

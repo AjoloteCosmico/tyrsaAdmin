@@ -60,27 +60,27 @@
 
                        @endphp
                     <tr>
-                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}}</td>
+                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}}  {{$this_comissions->sum('percentage')}}</td>
                         <td>{{$cobro->invoice}} </td>
                         <td>{{$cobro->comp}} </td>
                         @foreach($socios as $row)
                            
                             @if($row->id==$cobro->seller_id)
-                            @php
-                            $total_sum=$total_sum+($cobro->amount*$cobro->comision)/1.16;
-                            $totales[$row->iniciales]+=($cobro->amount*$cobro->comision)/1.16;
-                            @endphp
+                                @php
+                                $total_sum=$total_sum+($cobro->amount*$cobro->comision)/1.16;
+                                $totales[$row->iniciales]+=($cobro->amount*$cobro->comision)/1.16;
+                                @endphp
 
                                 <td>${{number_format(($cobro->amount*$cobro->comision)/1.16,2)}}  </td> <!-- //caso en que es el vendedor princi´pal   -->
                            
                             @elseif($this_comissions->where('seller_id',$row->id)->count()>0)
-                            @php
-                            $total_sum=$total_sum+($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
-                            $totales[$row->iniciales]+=($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
+                                @php
+                                $total_sum=$total_sum+($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
+                                $totales[$row->iniciales]+=($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
                            
-                            @endphp
+                                 @endphp
                                 <td>${{number_format(($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16,2)}}  </td> <!-- //caso en que el vendedor tiene una comision   -->
-                                @else 
+                            @else 
                                 <td> $0 </td>
                             @endif
                         @endforeach

@@ -104,7 +104,6 @@ public function dgi(Request $request){
     ->join('sellers','sellers.id','comissions.seller_id')
     ->get();
     $Type=$request->type;
-    
     $Quincena=$request->interval;
     $StartDate=$quincenas[$request->interval]['inicio'];
     $EndDate=$quincenas[$request->interval]['fin'];
