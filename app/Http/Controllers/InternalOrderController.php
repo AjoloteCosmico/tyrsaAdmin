@@ -1263,8 +1263,8 @@ public function cancel($id){
     $InternalOrder = InternalOrder::find($id);
     $InternalOrder->status='CANCELADO';
     $InternalOrder->save();
-    
-    return rediret()->route('internal_orders.index')->with('cancel','ok');
+
+    return redirect()->route('internal_orders.index')->with('cancel','ok');
 }
 }
 
