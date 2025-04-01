@@ -1260,11 +1260,11 @@ public function asignar_marca(Request $request){
     return redirect()->route('internal_orders.show',$request->order_id)->with('markasigned','ok');
 }
 public function cancel($id){
-
     $InternalOrder = InternalOrder::find($id);
     $InternalOrder->status='CANCELADO';
     $InternalOrder->save();
-
+    
+    return rediret()->route('internal_orders.index')->with('cancel','ok');
 }
 }
 
