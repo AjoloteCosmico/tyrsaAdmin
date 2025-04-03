@@ -41,7 +41,6 @@ query = ('SELECT * from customers where id = 1')
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
 
-
 #traer datos de los pedidos
 programados=pd.read_sql('select * from payments',cnx)
 clientes=pd.read_sql("""select  * from customers """,cnx)
@@ -347,7 +346,7 @@ for i in range(len(cobros)):
     worksheet.write('C'+str(i+8),cobros['date'].values[i],blue_content_date)
     worksheet.write('D'+str(i+8),pedido['alias'].values[0],blue_content)
     worksheet.write('E'+str(i+8),str(cobros['comp'].values[i]),blue_content)
-    worksheet.write('F'+str(i+8),cobros['total'].values[i],blue_content)
+    worksheet.write('F'+str(i+8),cobros['amount'].values[i],blue_content)
     worksheet.write('G'+str(i+8),pedido['seller_name'].values[0],blue_content)
     worksheet.write('H'+str(i+8),str(pedido['invoice'].values[0]),blue_content)
     #TODO habilitar dolares
@@ -355,12 +354,12 @@ for i in range(len(cobros)):
     worksheet.write('J'+str(i+8),1,blue_content)
     worksheet.write('K'+str(i+8),(pedido['total'].values[0])/1.16,blue_content)
     #total pagado por el cliente a la fecha
-    worksheet.write('L'+str(i+8),(allcobros['total'].sum()*100)/pedido['total'].values[0],blue_content)
+    worksheet.write('L'+str(i+8),str(round((allcobros['amount'].sum()*100)/pedido['total'].values[0],2))+'%',blue_content)
     worksheet.write('M'+str(i+8),(allcobros['total'].sum())/1.16,blue_content)
 
-    worksheet.write('N'+str(i+8),(cobros['total'].values[i]*100)/pedido['total'].values[0],blue_content)
-    worksheet.write('O'+str(i+8),((cobros['total'].values[i]*100)/pedido['total'].values[0])*pedido['comision'].values[0]*pedido['total'].values[0],blue_content)
-    worksheet.write('P'+str(i+8),str(pedido['comision'].values[0]*100)+'%',blue_content)
+    worksheet.write('N'+str(i+8),str(round((cobros['amount'].values[i]*100)/pedido['total'].values[0],2))+'%',blue_content)
+    worksheet.write('O'+str(i+8),str(pedido['comision'].values[0]*100)+'%',blue_content)
+    worksheet.write('P'+str(i+8),((cobros['amount'].values[i]*100)/pedido['total'].values[0])*pedido['comision'].values[0]*pedido['total'].values[0],blue_content)
     worksheet.write('Q'+str(i+8),concepto,blue_content)
     
 
