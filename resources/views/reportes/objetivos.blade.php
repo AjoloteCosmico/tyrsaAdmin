@@ -122,12 +122,12 @@
                         @endif
                     @endfor
                     @if($Monto=='MONTO')  
-                      <td class="text-nowrap" > $ {{number_format($InternalOrders->where('seller_id',$seller->id)->sum('total')/1.16,2)}}</td>
-                      <td class="text-nowrap" >{{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->sum('total'),$InternalOrders->sum('total')),1)}} %</td>
+                      <td class="text-nowrap" > $ {{number_format($InternalOrders->where('seller_id',$seller->id)->where('date','>=',$Year.'-01-01')->sum('total')/1.16,2)}}</td>
+                      <td class="text-nowrap" >{{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->sum('total'),$InternalOrders->sum('total')),2)}} %</td>
                     @else
                     
                     <td class="text-nowrap" >{{$InternalOrders->where('seller_id',$seller->id)->count()}}</td>
-                      <td class="text-nowrap" > {{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->count(),$InternalOrders->count()),1)}} %</td>
+                      <td class="text-nowrap" > {{number_format(divide(100*$InternalOrders->where('seller_id',$seller->id)->count(),$InternalOrders->count()),2)}} %</td>
                     @endif
                 </tr>
                 @endforeach

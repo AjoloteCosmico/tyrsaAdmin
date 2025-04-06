@@ -395,6 +395,7 @@ public function note_pdf($id){
         $vendedores = DB::table('sellers')
         ->where('sellers.status','ACTIVO')
         ->join('internal_orders','internal_orders.seller_id','=','sellers.id')
+        ->where('internal_orders.date','>=',$Year.'-01-01')
         ->select('sellers.seller_name')
         ->selectRaw("SUM(internal_orders.total) as total")
         ->groupBy('internal_orders.seller_id','sellers.seller_name')
