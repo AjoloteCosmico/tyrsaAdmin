@@ -414,7 +414,7 @@ public function note_pdf($id){
             array_push($Mes_data,
             (int)($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
             ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
-            ->sum('total')/1000));
+            ->sum('total')/1.16)/1000);
         }
     }
 
@@ -555,7 +555,7 @@ public function note_pdf($id){
         $marcas = DB::table('marcas')
         ->join('internal_orders','internal_orders.marca','=','marcas.id')
         ->select('marcas.name')
-        ->where('date','>=',$Year.'-'.str_pad(1, 2, '0', STR_PAD_LEFT).'-01')    
+        ->where('internal_orders.date','>=',$Year.'-01-01')   
         ->selectRaw("SUM(internal_orders.total) as total")
         ->groupBy('internal_orders.marca','marcas.name')
         ->orderBy('total','desc')
