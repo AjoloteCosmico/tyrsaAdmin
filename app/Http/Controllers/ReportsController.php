@@ -412,9 +412,9 @@ public function note_pdf($id){
         $Mes_data=array();
         for($i=1;$i<=12;$i++){
             array_push($Mes_data,
-            (int)($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
+            (int)(($InternalOrders->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')
             ->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')
-            ->sum('total')/1.16)/1000);
+            ->sum('total')/1.16)/1000));
         }
     }
 
