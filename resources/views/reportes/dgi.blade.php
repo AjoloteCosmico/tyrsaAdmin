@@ -285,6 +285,7 @@
                                 <th> porcentaje </th>
                                 <th> M.N. sin iva</th>
                               </tr>
+                           
                               @foreach($comisiones as $comision)
                               
                               @if($comision->seller_dgi==0)
@@ -296,6 +297,11 @@
                               @endif
                               @endforeach
                             </thead>
+                            <tfoot>
+                              <th>Totales</th>
+                              <th>100%</th>
+                              <th> ${{number_format(($comisiones->where('seller_dgi',0)->sum('percentage')*$pedido->total)/1.16,2)}}</th>
+                            </tfoot>
                           </table>
                        </div>
                     </div>
@@ -314,6 +320,7 @@
                                 <th> porcentaje  </th>
                                 <th> M.N. sin iva</th>
                               </tr>
+                              </thead>
                               @foreach($comisiones as $comision)
                               
                                 @if($comision->seller_dgi>0)
@@ -324,7 +331,12 @@
                                 </tr>
                                 @endif
                               @endforeach
-                            </thead>
+                            
+                            <tfoot>
+                              <th>Totales</th>
+                              <th>{{number_format($comisiones->where('seller_dgi','>',0)->sum('percentage')*100,2)}}%</th>
+                              <th> ${{number_format(($comisiones->where('seller_dgi','>',0)->sum('percentage')*$pedido->total)/1.16,2)}}</th>
+                            </tfoot>
                           </table>
                        </div>
                     </div>
