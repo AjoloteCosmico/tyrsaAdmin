@@ -130,7 +130,7 @@
                     }
                     $pedido=$Orders->where('id',$comp->order_id)->first();
                     $factura=$Facturas->where('id',$comp->facture_id)->first();
-                    $total_cobrado=$Cobros->where('order_id',$comp->order_id)->sum('amount');
+                    $total_cobrado=$TodosLosCobros->where('order_id',$comp->order_id)->sum('amount');
                     $pagos=$Pagos->where('order_id',$comp->order_id);
                     $banco=$Bancos->where('id',$comp->bank_id)->first();
                     $moneda=$Monedas->where('id',$comp->coin_id)->first();
@@ -211,55 +211,54 @@
                           </tr>
                         </thead>
                         <tr>
-                            <td>{{$loop->index}}</td>
-                            <td>{{$pedido->invoice}}</td>
+                            <td> {{$loop->index +1}}</td>
+                            <td> {{$pedido->invoice}}</td>
                             <td> @if($factura){{$factura->facture}} @else sin factura @endif</td>
-                            <td style="color:#36B500">$0 </td>
-                            <td>$ {{number_format($comp->amount,2)}}</td>
-                            <td>{{$pedido->seller_name}}</td>
-                            <td>{{number_format($pedido->comision*100,2)}} %</td>
-                            <td> ${{number_format(($pedido->comision*$pedido->total)/1.16,2)}} </td>
+                            <td style="color:#227200"> @if($moneda->coin=='NACIONAL') $0 @else $ {{number_format($comp->amount/1.16,2)}} @endif</td>
+                            <td> @if($moneda->coin=='NACIONAL') $ {{number_format($comp->amount/1.16,2)}} @else $0 @endif</td>
+                            <td> {{$pedido->seller_name}}</td>
+                            <td> {{number_format($pedido->comision*100,2)}} %</td>
+                            <td> ${{number_format((($pedido->comision*$comp->amount)/1.16)*$comp->tc,2)}} </td>
                             
-                            <td style="color:#36B500" > $0</td>
-                            <td> ${{number_format(($pedido->total)/1.16,2)}} </td>
-                            <td> {{number_format(($total_cobrado*100/$pedido->total)/1.16,2)}} %</td>
+                            <td style="color:#227200" > @if($moneda->coin=='NACIONAL') $0 @else $ {{number_format(($pedido->total)/1.16,2)}} @endif </td>
+                            <td> @if($moneda->coin=='NACIONAL') ${{number_format(($pedido->total)/1.16,2)}} @else $0 @endif </td>
+                            <td> {{number_format(($total_cobrado*100/$pedido->total),2)}} %</td>
                             <td> ${{number_format($total_cobrado/1.16,2)}}</td>
                             <td> {{number_format(($comp->amount*100/$pedido->total)/1.16,2)}} %</td>
-                            <td> ${{number_format((($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total)/1.16,2)}} </td>
-                            <td>0</td>
-                            <td>@if($pagos->count() >= $ordinal)
+                            <td> ${{number_format(((($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total)/1.16)*$comp->tc,2)}} </td>
+                            <td> 0</td>
+                            <td> @if($pagos->count() >= $ordinal)
                               {{$pagos->skip($ordinal-1)->first()->concept}}@endif </td>
-                        </tr>
-                        
+                        </tr>  
                       </table>
                     </div>
                 </div>
                 
                   <div class="row">
-                    <div class="col"><br> <hr> <br> CAPTURÓ </div>
-                    <div class="col"><br> <hr> <br> REVISÓ</div>
-                    <div class="col"><br> <hr> <br> AUTORIZÓ</div>
+                    <div class="col"><br>@if($comp->capturo) {{$Usuarios->where('id',$comp->capturo)->first()->name}} @endif <hr>  CAPTURÓ </div>
+                    <div class="col"><br>@if($comp->reviso) {{$Usuarios->where('id',$comp->reviso)->first()->name}} @endif <hr> REVISÓ</div>
+                    <div class="col"><br>@if($comp->autorizo) {{$Usuarios->where('id',$comp->autorizo)->first()->name}} @endif <hr>  AUTORIZÓ</div>
                     <div class="col">
                   <table> 
                     <tr><th>Observaciones</th></tr>
                     <tr><td> &nbsp; ------------------- <br> ----------------------</td></tr>
                   </table></div>
                   </div>
-                 
+                 <br>
                   <div class="row"> 
                     <div class="col table-responsive"> <table>
                       <tr>
                         <th >Sin Iva</th>
                            <td>&nbsp;&nbsp; </td>
                             <td>&nbsp;&nbsp; </td>
-                            <td style="color:#36B500">$0 </td>
-                            <th>$ {{number_format($comp->amount/1.16,2)}}</th>
+                            <td style="color:#227200"> @if($moneda->coin=='NACIONAL') $0 @else $ {{number_format($comp->amount/1.16,2)}} @endif </td>
+                            <th>  @if($moneda->coin=='NACIONAL') $ {{number_format($comp->amount/1.16,2)}} @else $0 @endif</th>
                             <td>&nbsp;&nbsp;</td>
                             <td>&nbsp;&nbsp;</td>
-                            <th> ${{number_format(($pedido->comision*$pedido->total)/1.16,2)}} </th>
+                            <th>  @if($moneda->coin=='NACIONAL') ${{number_format(($pedido->comision*$pedido->total)/1.16,2)}} @else $0 @endif</th>
                             
-                            <td style="color:#36B500" > $0</td>
-                            <th> ${{number_format($pedido->total/1.16,2)}} </th>
+                            <td style="color:#227200" > @if($moneda->coin=='NACIONAL')  $0 @else  ${{number_format($pedido->total/1.16,2)}} @endif</td>
+                            <th> @if($moneda->coin=='NACIONAL')  ${{number_format($pedido->total/1.16,2)}} @else $0 @endif</th>
                             <td>  &nbsp;&nbsp;</td>
                             <th> ${{number_format($total_cobrado/1.16,2)}}</th>
                             <td> &nbsp;&nbsp;</td>
@@ -275,7 +274,7 @@
                     <div class="col mydiv">
                       <div class="row"> <h2>VENDEDORES ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$ {{number_format(($comisiones->where('seller_dgi',0)->sum('percentage')*$comp->amount)/1.16,2)}}</p> </div>
                        <div class="row mydiv">
-                          <table>
+                          <table class="table-bordered">
                             <thead>
                               <tr>
                                 <th rowspan="2">Vendedor</th>
@@ -304,7 +303,7 @@
                     <div class="col mydiv">
                       <div class="row"> <h2>EJECUTIVOS ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$ {{number_format(($comisiones->where('seller_dgi','>',0)->sum('percentage')*$comp->amount)/1.16,2)}}</p> </div>
                        <div class="row mydiv">
-                          <table>
+                          <table class="table-bordered">
                             <thead>
                               <tr>
                                 <th rowspan="2">Ejecutivo</th>
@@ -317,13 +316,13 @@
                               </tr>
                               @foreach($comisiones as $comision)
                               
-                              @if($comision->seller_dgi>0)
-                              <tr>
-                                <td>{{$comision->seller_name}} </td>
-                                <td>{{number_format($comision->percentage*100,2)}} %</td>
-                                <td>${{number_format(($comision->percentage*$comp->amount)/1.16,2)}}</td>
-                              </tr>
-                              @endif
+                                @if($comision->seller_dgi>0)
+                                <tr>
+                                  <td>{{$comision->seller_name}} </td>
+                                  <td>{{number_format($comision->percentage*100,2)}} %</td>
+                                  <td>${{number_format(($comision->percentage*$comp->amount)/1.16,2)}}</td>
+                                </tr>
+                                @endif
                               @endforeach
                             </thead>
                           </table>

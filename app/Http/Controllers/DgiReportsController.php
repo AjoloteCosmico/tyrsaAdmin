@@ -11,6 +11,8 @@ use App\Models\Coin;
 use App\Models\historical_payments;
 use App\Models\Factures;
 use App\Models\Seller;
+
+use App\Models\User;
 use App\Models\bank;
 
 use App\Models\Marca;
@@ -75,11 +77,23 @@ public function dgi(Request $request){
     $comp=$CompanyProfiles->id;
     $Year=now()->year;
     $Sellers=Seller::all()->sortBy('status');
-    
+    $Usuarios=User::all();
 
     $socios = Seller::where('status','ACTIVO')->where('dgi','>','0')->get();
     $no_socios =  Seller::where('status','ACTIVO')->where('dgi','<=','0')->get();
     $Cobros=DB::table('cobro_orders')
+    ->selectRaw('cobro_orders.*,
+                internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
+                cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc, cobros.capturo,cobros.reviso,cobros.autorizo,
+                cobros.facture_id,cobros.date,customers.alias')
+    ->join('cobros','cobros.id','cobro_orders.cobro_id')
+    ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
+    ->join('customers','customers.id','internal_orders.customer_id')
+    ->where('cobros.date','>=',$quincenas[$request->interval]['inicio'])
+    ->where('cobros.date','<=',$quincenas[$request->interval]['fin'])
+    ->orderBy('cobros.date')
+    ->get();
+    $TodosLosCobros=DB::table('cobro_orders')
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
                 cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc,
@@ -87,8 +101,7 @@ public function dgi(Request $request){
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
     ->join('customers','customers.id','internal_orders.customer_id')
-    ->where('cobros.date','>=',$quincenas[$request->interval]['inicio'])
-    ->where('cobros.date','<=',$quincenas[$request->interval]['fin'])
+    ->orderBy('cobros.date')
     ->get();
     $Bancos=Bank::all();
     $Monedas=Coin::all();
@@ -114,6 +127,7 @@ public function dgi(Request $request){
         'comp',
         'Sellers',
         'Cobros',
+        'TodosLosCobros',
         'Pagos',
         'Orders',
         'Facturas',
@@ -123,6 +137,7 @@ public function dgi(Request $request){
         'socios',
         'no_socios',
         'Type',
+        'Usuarios',
         'Quincena', 'StartDate','EndDate'
     ));
 
