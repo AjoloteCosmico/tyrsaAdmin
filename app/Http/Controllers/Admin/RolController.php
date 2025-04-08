@@ -11,13 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class RolController extends Controller
 {
-    // function __construct()
-    // {
-    //     $this->middleware('permission:VER ROL|CREAR ROL|EDITAR ROL|BORRAR ROL',['only'=>['index']]);
-    //     $this->middleware('permission:CREAR ROL',['only'=>['create', 'store']]);
-    //     $this->middleware('permission:EDITAR ROL',['only'=>['edit', 'update']]);
-    //     $this->middleware('permission:BORRAR ROL',['only'=>['destroy']]);
-    // }
 
     public function index()
     {
