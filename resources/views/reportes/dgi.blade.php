@@ -281,6 +281,7 @@
                                 
                                 <th colspan="2">Comision</th>
                               </tr>
+                              
                               <tr>
                                 <th> porcentaje </th>
                                 <th> M.N. sin iva</th>
@@ -297,6 +298,7 @@
                               @endif
                               @endforeach
                             </thead>
+
                             <tfoot>
                               <th>Totales</th>
                               <th>100%</th>
