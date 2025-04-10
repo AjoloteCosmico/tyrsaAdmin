@@ -239,6 +239,8 @@ worksheet.merge_range('M6:M7', 'CAPTURO ', blue_header_format)
 worksheet.merge_range('N6:N7', 'REVISO ', blue_header_format)
 worksheet.merge_range('O6:O7', 'AUTORIZO', blue_header_format)
 
+worksheet.merge_range('P6:P7', 'COMP', blue_header_format)
+
 for i in range(0,len(cobros)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
@@ -255,6 +257,8 @@ for i in range(0,len(cobros)):
    worksheet.write('M'+row_index, str(cobros['capturista'].values[i]), blue_content)
    worksheet.write('N'+row_index, ' ', blue_content)
    worksheet.write('O'+row_index, ' ', blue_content)
+   
+   worksheet.write('P'+row_index, str(cobros['comp'].values[i]), blue_content)
  
 trow=8+len(cobros)
 
