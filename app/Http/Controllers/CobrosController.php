@@ -57,6 +57,11 @@ class CobrosController extends Controller
     }
     public function create(){
         //traer todas las facturas
+               $LastComp = Cobro::orderBy('invoice', 'DESC')->first();
+               $ncomp = '100';
+               if($LastComp){
+                    $ncop = $InternalOrders->comp + 1;
+                }
                 $Bancos=bank::all();
                 $Coins=Coin::all();
                 $Factures=DB::table('factures')
@@ -70,7 +75,8 @@ class CobrosController extends Controller
                 'Bancos',
                 'Customers',
                 'InternalOrders',
-                'Factures'
+                'Factures',
+                'ncomp'
                 ));
             }
 
@@ -111,12 +117,16 @@ class CobrosController extends Controller
                         // 'seller_id.required' => 'Elija un vendedor',
                         // 'comision.required' => 'Determine una comision para el vendedor',
                     ];
-                
+                    $LastComp = Cobro::orderBy('invoice', 'DESC')->first();
+                    $ncomp = '100';
+                    if($LastComp){
+                        $ncop = $InternalOrders->comp + 1;
+                    }
                 $request->validate($rules, $messages);
                 $Cobro=new Cobro();
                 $Cobro->order_id=$request->order_id;
                 $Cobro->amount=$request->amount;
-                $Cobro->comp=$request->comp;
+                $Cobro->comp=$ncomp;
                 //$Cobro->facture_id=$request->facture_id;
                 $Cobro->bank_id=$request->bank_id;
                 $Cobro->coin_id=$request->coin_id;

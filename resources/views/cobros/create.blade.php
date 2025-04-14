@@ -40,7 +40,7 @@
 
                                     <div class="form-group">
                                         <x-jet-label value="* COMPORBANTE DE INGRESO" />
-                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{old('comp')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp)}}" dishabled/>
                                         <x-jet-input-error for='comp' />
                                     </div>
                                     <!-- <div class="form-group">
