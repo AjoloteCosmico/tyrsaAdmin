@@ -107,7 +107,6 @@ class CobrosController extends Controller
                 
                     $messages = [
                         'date.required' => 'La fecha  es necesaria',
-                        'comp.required' => 'El comprobante de ingresos es necesario',
                         'comp.unique' => 'Ya existe un registro con este comprobante de ingresos',
                         'coin_id.required' => 'El tipo de Moneda es necesario',
                         'bank_id.required' => 'Seleccione una factura valida',
