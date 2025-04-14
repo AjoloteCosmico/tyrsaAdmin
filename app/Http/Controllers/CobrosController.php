@@ -57,7 +57,7 @@ class CobrosController extends Controller
     }
     public function create(){
         //traer todas las facturas
-               $LastComp = Cobro::orderBy('invoice', 'DESC')->first();
+               $LastComp = Cobro::orderBy('comp', 'DESC')->first();
                $ncomp = '100';
                if($LastComp){
                     $ncop = $InternalOrders->comp + 1;
@@ -117,7 +117,7 @@ class CobrosController extends Controller
                         // 'seller_id.required' => 'Elija un vendedor',
                         // 'comision.required' => 'Determine una comision para el vendedor',
                     ];
-                    $LastComp = Cobro::orderBy('invoice', 'DESC')->first();
+                    $LastComp = Cobro::orderBy('comp', 'DESC')->first();
                     $ncomp = '100';
                     if($LastComp){
                         $ncop = $InternalOrders->comp + 1;
