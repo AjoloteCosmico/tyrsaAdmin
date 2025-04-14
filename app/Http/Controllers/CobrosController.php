@@ -57,7 +57,7 @@ class CobrosController extends Controller
     }
     public function create(){
         //traer todas las facturas
-               $LastComp = Cobro::orderBy('comp', 'DESC')->first();
+               $LastComp = Cobro::where('comp', 'REGEXP', '^[0-9]+$')->orderBy('comp', 'DESC')->first();
                $ncomp = '100';
                if($LastComp){
                     $ncop = $LastComp->comp + 1;
