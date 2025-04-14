@@ -117,7 +117,7 @@ class CobrosController extends Controller
                         // 'seller_id.required' => 'Elija un vendedor',
                         // 'comision.required' => 'Determine una comision para el vendedor',
                     ];
-                    $LastComp = Cobro::orderBy('comp', 'DESC')->first();
+                    $LastComp = Cobro::where('comp', 'REGEXP', "^[0-9]+$")->orderBy('comp', 'DESC')->first();
                     $ncomp = '100';
                     if($LastComp){
                         $ncomp = $LastComp->comp + 1;
