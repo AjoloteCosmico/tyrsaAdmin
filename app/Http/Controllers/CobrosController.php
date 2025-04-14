@@ -95,7 +95,7 @@ class CobrosController extends Controller
                 $rules = [
                         
                         'date' => 'required',
-                        'comp'=> 'required|unique:cobros,comp',
+                        'comp'=> 'unique:cobros,comp',
                         'bank_id'=> 'required',
                         'coin_id'=> 'required',
                         'tc' => 'required',
