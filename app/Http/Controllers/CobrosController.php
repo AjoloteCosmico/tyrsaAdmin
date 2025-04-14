@@ -60,7 +60,7 @@ class CobrosController extends Controller
                $LastComp = Cobro::orderBy('comp', 'DESC')->first();
                $ncomp = '100';
                if($LastComp){
-                    $ncop = $InternalOrders->comp + 1;
+                    $ncop = $LastComp->comp + 1;
                 }
                 $Bancos=bank::all();
                 $Coins=Coin::all();
@@ -120,7 +120,7 @@ class CobrosController extends Controller
                     $LastComp = Cobro::orderBy('comp', 'DESC')->first();
                     $ncomp = '100';
                     if($LastComp){
-                        $ncop = $InternalOrders->comp + 1;
+                        $ncop = $LastComp->comp + 1;
                     }
                 $request->validate($rules, $messages);
                 $Cobro=new Cobro();
