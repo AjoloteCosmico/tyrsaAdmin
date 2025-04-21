@@ -222,7 +222,7 @@ worksheet = writer.sheets['Sheet1']
 
 worksheet.merge_range('B2:G2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('B3:F3', 'RESUMEN DE COMPROBANTE DE INGRESOS', negro_s)
-worksheet.merge_range('H4:R4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
+worksheet.merge_range('B4:F4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
 import datetime
 
 currentDateTime = datetime.datetime.now()
