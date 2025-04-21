@@ -215,31 +215,44 @@ total_cereza_format = workbook.add_format({
 
 df.to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
-#Encabezado del documento--------------
-worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('H2:R3', 'Resumen de Comprobantes de Ingreso', negro_b)
-worksheet.merge_range('H4:R4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
 
+
+
+#Encabezado del documento--------------
+
+worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
+worksheet.merge_range('B3:F3', 'RESUMEN DE COMPROBANTE DE INGRESOS', negro_s)
+worksheet.merge_range('H4:R4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
+import datetime
+
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
+worksheet.write('H2', 'AÑO', negro_b)
+worksheet.write('I2', year, negro_b)
+worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
+DD/MM/AAAA""", negro_b)
+worksheet.merge_range('J4:K4', date, negro_b)
+worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
-worksheet.merge_range('E6:E7', 'BANCO', blue_header_format)
-worksheet.merge_range('F6:F7', 'FACTURA', blue_header_format)
-worksheet.merge_range('G6:G7', 'PI', blue_header_format)
-worksheet.merge_range('H6:H7', 'CLIENTE', blue_header_format)
-worksheet.merge_range('I6:I7', 'MONEDA', blue_header_format)
-worksheet.merge_range('J6:J7', 'TC', blue_header_format)
+worksheet.merge_range('E6:E7', 'NUMERO DE COMPROBANTE', blue_header_format)
+worksheet.merge_range('F6:F7', 'BANCO', blue_header_format)
+worksheet.merge_range('G6:G7', 'FACTURA', blue_header_format)
+worksheet.merge_range('H6:H7', 'PI', blue_header_format)
+worksheet.merge_range('I6:I7', 'CLIENTE', blue_header_format)
+worksheet.merge_range('J6:J7', 'MONEDA', blue_header_format)
+worksheet.merge_range('K6:K7', 'TC', blue_header_format)
 
-worksheet.merge_range('K6:L6', 'IMPORTE TOTAL I/I', blue_header_format)
-worksheet.write('K7', 'DLLS', blue_header_format)
-worksheet.write('L7', 'MN', blue_header_format)
+worksheet.merge_range('L6:M6', 'IMPORTE TOTAL I/I', blue_header_format)
+worksheet.write('L7', 'DLLS', blue_header_format)
+worksheet.write('G7', 'MN', blue_header_format)
 
-worksheet.merge_range('M6:M7', 'CAPTURO ', blue_header_format)
-worksheet.merge_range('N6:N7', 'REVISO ', blue_header_format)
-worksheet.merge_range('O6:O7', 'AUTORIZO', blue_header_format)
+worksheet.merge_range('N6:N7', 'CAPTURO ', blue_header_format)
+worksheet.merge_range('O6:O7', 'REVISO ', blue_header_format)
+worksheet.merge_range('P6:P7', 'AUTORIZO', blue_header_format)
 
-worksheet.merge_range('P6:P7', 'COMP', blue_header_format)
 
 for i in range(0,len(cobros)):
    row_index=str(8+i)
