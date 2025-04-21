@@ -224,8 +224,8 @@
                             <td> @if($moneda->coin=='NACIONAL') ${{number_format(($pedido->total)/1.16,2)}} @else $0 @endif </td>
                             <td> {{number_format(($total_cobrado*100/$pedido->total),2)}} %</td>
                             <td> ${{number_format($total_cobrado/1.16,2)}}</td>
-                            <td> {{number_format(($comp->amount*100/$pedido->total)/1.16,2)}} %</td>
-                            <td> ${{number_format(((($comp->amount*100/$pedido->total)*$pedido->comision*$pedido->total)/1.16)*$comp->tc,2)}} </td>
+                            <td> {{number_format(($comp->amount*100/$pedido->total),2)}} %</td>
+                            <td> ${{number_format(((($comp->amount/$pedido->total)*$pedido->comision*$pedido->total)/1.16)*$comp->tc,2)}} </td>
                             <td> 0</td>
                             <td> @if($pagos->count() >= $ordinal)
                               {{$pagos->skip($ordinal-1)->first()->concept}}@endif </td>
@@ -377,7 +377,7 @@
                     <th rowspan="2">PDA</th>
                     <th rowspan="2">FECHA</th>
                     <th rowspan="2">CLIENTE NOMBRE CORTO</th>
-                    <th rowspan="2"> COMPROBANTE DE INGRESOS no.</th>
+                    <th rowspan="2"> COMPROBANTE DE <br> INGRESOS no.</th>
                     <th rowspan="2">IMPORTE  COBRADO <br> sin iva</th>
                     <th rowspan="2">VENDEDOR </th>
                     <th rowspan="2">PEDIDO INTERNO</th>
