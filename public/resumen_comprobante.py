@@ -72,7 +72,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -221,8 +224,8 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 
 worksheet.merge_range('B2:G2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B3:F3', 'RESUMEN DE COMPROBANTE DE INGRESOS', negro_s)
-worksheet.merge_range('B4:F4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
+worksheet.merge_range('B3:G3', 'RESUMEN DE COMPROBANTE DE INGRESOS', negro_s)
+worksheet.merge_range('B4:G4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
 import datetime
 
 currentDateTime = datetime.datetime.now()
@@ -247,7 +250,7 @@ worksheet.merge_range('K6:K7', 'TC', blue_header_format)
 
 worksheet.merge_range('L6:M6', 'IMPORTE TOTAL I/I', blue_header_format)
 worksheet.write('L7', 'DLLS', blue_header_format)
-worksheet.write('G7', 'MN', blue_header_format)
+worksheet.write('M7', 'MN', blue_header_format)
 
 worksheet.merge_range('N6:N7', 'CAPTURO ', blue_header_format)
 worksheet.merge_range('O6:O7', 'REVISO ', blue_header_format)
@@ -281,6 +284,7 @@ worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amo
    
 
 
+worksheet.set_column('A:A',19)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
