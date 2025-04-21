@@ -32,16 +32,24 @@ query = ('SELECT * from customers where id =1')
 
 
 #traer todas las cobros
-cobros=pd.read_sql("""Select cobros.* ,customers.customer,internal_orders.invoice,
-coins.exchange_sell, coins.coin, coins.symbol,users.name as capturista,
-banks.bank_description, factures.facture
-from (((((
+cobros=pd.read_sql("""Select cobros.* ,
+    customers.customer,customers.customer_suburb, customers.clave,
+    internal_orders.invoice, internal_orders.payment_conditions,
+    internal_orders.category,internal_orders.description,internal_orders.status,
+    coins.exchange_sell, coins.coin, coins.symbol,
+    banks.bank_description, factures.facture, factures.ordinal,
+    capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
+    from (((((((
     cobros inner join internal_orders on internal_orders.id = cobros.order_id) 
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
-    left join users on cobros.capturo=users.id)
+    left join users as capturistas on cobros.capturo=capturistas.id)
+    left join users as revisores on cobros.reviso=revisores.id)
+    left join users as autorizadores on cobros.autorizo=autorizadores.id)
     inner join factures on factures.id = cobros.facture_id)
     inner join banks on banks.id=cobros.bank_id """,cnx)
+
+
 print(cobros)
 nordenes=len(pd.read_sql(query,cnx))
 df=cobros[['date']]
@@ -261,20 +269,20 @@ for i in range(0,len(cobros)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
    worksheet.write('D'+row_index, str(cobros['date'].values[i]), blue_content)
-   worksheet.write('E'+row_index, str(cobros['bank_description'].values[i]), blue_content)
-   worksheet.write('F'+row_index, str(cobros['facture'].values[i]), blue_content)
-   worksheet.write('G'+row_index, str(cobros['invoice'].values[i]), blue_content)
-   worksheet.write('H'+row_index, str(cobros['customer'].values[i]), blue_content)
-   worksheet.write('I'+row_index, str(cobros['coin'].values[i]), blue_content)
-   worksheet.write('J'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
-   worksheet.write('K'+row_index, str(cobros['amount'].values[i]), blue_content)
-   worksheet.write('L'+row_index, str(cobros['exchange_sell'].values[i]*cobros['amount'].values[i]), blue_content)
+   worksheet.write('E'+row_index, str(cobros['comp'].values[i]), blue_content)
+   worksheet.write('F'+row_index, str(cobros['bank_description'].values[i]), blue_content)
+   worksheet.write('G'+row_index, str(cobros['facture'].values[i]), blue_content)
+   worksheet.write('H'+row_index, str(cobros['invoice'].values[i]), blue_content)
+   worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
+   worksheet.write('J'+row_index, str(cobros['coin'].values[i]), blue_content)
+   worksheet.write('K'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
+   worksheet.write('L'+row_index, str(cobros['amount'].values[i]), blue_content)
+   worksheet.write('M'+row_index, str(cobros['exchange_sell'].values[i]*cobros['amount'].values[i]), blue_content)
    
-   worksheet.write('M'+row_index, str(cobros['capturista'].values[i]), blue_content)
-   worksheet.write('N'+row_index, ' ', blue_content)
+   worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
    worksheet.write('O'+row_index, ' ', blue_content)
+   worksheet.write('P'+row_index, ' ', blue_content)
    
-   worksheet.write('P'+row_index, str(cobros['comp'].values[i]), blue_content)
  
 trow=8+len(cobros)
 
@@ -284,7 +292,9 @@ worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amo
    
 
 
-worksheet.set_column('A:A',19)
+worksheet.set_column('A:A',16)
+
+worksheet.set_column('I:J',17)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:P',15)
