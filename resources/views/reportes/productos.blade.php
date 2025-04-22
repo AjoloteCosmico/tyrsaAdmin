@@ -117,17 +117,17 @@
                       @if($Monto=='MONTO')                    
                         <td class="text-nowrap" > $ {{number_format(($Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('import'))/1.16,2)}}  </td>
                         @else
-                        <td>{{$Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </td>
+                                                               <td>{{$Items->where('products',$product->id)->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('amount')}}  </td>
                         
                         @endif
                     @endfor
                     @if($Monto=='MONTO')  
                       <td class="text-nowrap" > $ {{number_format($Items->where('products',$product->id)->sum('import')/1.16,2)}}</td>
-                      <td class="text-nowrap" >{{number_format(divide(100*$Items->where('products',$product->id)->sum('total'),$Items->sum('import')),1)}} %</td>
+                      <td class="text-nowrap" >{{number_format(divide(100*$Items->where('products',$product->id)->sum('import'),$Items->sum('import')),1)}} %</td>
                     @else
                     
-                    <td class="text-nowrap" >{{$Items->where('products',$product->id)->count()}}</td>
-                      <td class="text-nowrap" > {{number_format(divide(100*$Items->where('products',$product->id)->count(),$Items->count()),1)}} %</td>
+                    <td class="text-nowrap" >{{$Items->where('products',$product->id)->sum('amount')}}</td>
+                      <td class="text-nowrap" > {{number_format(divide(100*$Items->where('products',$product->id)->sum('amount'),$Items->sum('amount')),1)}} %</td>
                     @endif
                 </tr>
                 @endforeach
@@ -141,14 +141,14 @@
                         <th> $ {{number_format($Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('import')/1.16,2)}}  </th>
                     
                       @else
-                        <th>{{$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count()}}  </th>
+                        <th>{{$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('amount')}}  </th>
                     
                       @endif
                     @endfor
                       @if($Monto=='MONTO')  
                       <th> $ {{number_format($Items->sum('import')/1.16,2)}} </th>
                       @else
-                      <th>{{$Items->count()}} </th>
+                      <th>{{$Items->sum('amount')}} </th>
                       @endif
                     
                     <th>100% </th>
@@ -160,7 +160,7 @@
                       <td>{{number_format(divide(100*$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('import'),$Items->sum('import')),1)}} %</td>
                
                       @else
-                      <td>{{number_format(divide(100*$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->count(),$Items->count()),1)}} %</td>
+                      <td>{{number_format(divide(100*$Items->where('date','>=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-01')->where('date','<=',$Year.'-'.str_pad($i, 2, '0', STR_PAD_LEFT).'-31')->sum('amount'),$Items->sum('amount')),1)}} %</td>
                
                       @endif
                     
