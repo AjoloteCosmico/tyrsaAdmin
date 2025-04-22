@@ -264,6 +264,8 @@ worksheet.merge_range('N6:N7', 'CAPTURO ', blue_header_format)
 worksheet.merge_range('O6:O7', 'REVISO ', blue_header_format)
 worksheet.merge_range('P6:P7', 'AUTORIZO', blue_header_format)
 
+#ordenar por no. comprobante
+cobros=cobros.sort_values(by='comp')
 
 for i in range(0,len(cobros)):
    row_index=str(8+i)

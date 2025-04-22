@@ -248,7 +248,7 @@ worksheet.merge_range('G3:N3', 'CUENTAS COBRADAS DE PEDIDOS INTERNOS', azul_g)
 #Dataframe yellow headers bitch xd
 worksheet.merge_range('B6:B7', 'NOH', blue_header_format)
 
-worksheet.merge_range('C6:C7', 'COMP', blue_header_format)
+worksheet.merge_range('C6:C7', 'NO. COMPROBANTE', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA D-M-A', blue_header_format)
 worksheet.merge_range('E6:E7', 'P.I. NO.', blue_header_format)
 worksheet.merge_range('F6:F7', 'NUMERO DE COBROS', blue_header_format)
@@ -273,6 +273,9 @@ worksheet.merge_range('T6:T7', 'AUTORIZO', blue_header_format)
 worksheet.merge_range('U6:U7', 'STATUS', blue_header_format)
 
 ##columnas y tablas como tal pues
+#ordenar los cobros antes de iterar
+
+cobros=cobros.sort_values(by='comp')
 acum=0
 for i in range(0,len(cobros)):
      acum=acum+cobros['amount'].values[i]*cobros['tc'].values[i]
