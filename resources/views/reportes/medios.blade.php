@@ -87,8 +87,8 @@
                     <th>Enero</th>
                     <th>Febrero</th>
                     <th>Marzo</th>
-                    <th>Mayo </th>
                     <th>Abril</th>
+                    <th>Mayo </th>
                     <th>Junio</th>
                     <th>Julio</th>
                     <th>Agosto</th>
