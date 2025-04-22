@@ -82,7 +82,6 @@
   <button id="btn-graficos" class="boton" onclick="mostrar('graficos', this)">Gráficos</button>
 </div>
                 <div class="table-responsive contenedor" id="tabla" style="display: block;">
-             
                         <!-- 14 columas, para poder copiar del excel -->
                <table class="table text-xs font-medium table-striped "  id="example" >
                <thead> 
@@ -92,8 +91,8 @@
                     <th>Enero</th>
                     <th>Febrero</th>
                     <th>Marzo</th>
-                    <th>Mayo </th>
                     <th>Abril</th>
+                    <th>Mayo </th>
                     <th>Junio</th>
                     <th>Julio</th>
                     <th>Agosto</th>
