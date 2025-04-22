@@ -280,8 +280,8 @@ for i in range(0,len(cobros)):
    worksheet.write('M'+row_index, str(cobros['exchange_sell'].values[i]*cobros['amount'].values[i]), blue_content)
    
    worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
-   worksheet.write('O'+row_index, ' ', blue_content)
-   worksheet.write('P'+row_index, ' ', blue_content)
+   worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
+   worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)
    
  
 trow=8+len(cobros)
