@@ -115,9 +115,9 @@
 
                     <tr>
                         <th rowspan="3">  Embarque</th>
-                        <td rowspan="3"> Si</td>
+                        <td rowspan="3"> @if($InternalOrders->shipment=="No") NO @else SI @endif</td>
                         <th colspan="3"> Domicilio de Embarque </th>
-                        <td colspan="9">  {{$CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb}} <br> {{$CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor}}</td>
+                        <td colspan="9">  @if($InternalOrders->shipment=="No") @else  {{$CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb}} <br> {{$CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor}}  @endif</td>
                     </tr>
 
                     <tr>
