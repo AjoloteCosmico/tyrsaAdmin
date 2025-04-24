@@ -572,6 +572,8 @@ public function recalcular_total($id){
     }
 
     public function edit_order($id){
+        Session::put('eliminar', 'nook');
+        Session::put('error_delete','nook');
         $InternalOrders = InternalOrder::find($id);
         if($InternalOrders->status!='CAPTURADO'){
             return redirect()->back();
