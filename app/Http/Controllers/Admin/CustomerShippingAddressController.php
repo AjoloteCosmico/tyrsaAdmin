@@ -80,6 +80,10 @@ class CustomerShippingAddressController extends Controller
             $MNSJ="YASTABA REGISTRADO";
         }
 
+        if($request->order_id!=0){
+            return redirect()->route('internal_orders.edit_order',$request->order_id);
+        }else{
+
         $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
         $Customers = Customer::where('id', $request->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $request->customer_id)->get();
@@ -88,18 +92,25 @@ class CustomerShippingAddressController extends Controller
             'TempInternalOrders',
             'Customers',
             'CustomerShippingAddresses',
-        ));
+        ));}
     }
 
-    public function show($id)
+    public function show($id,$order_id=0)
     {
         $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
 
-        $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
-
+        
+        if($order_id!=0){
+            $InternalOrders = InternalOrder::where('id', $order_id)->first();
+            $Customers = Customer::where('id', $InternalOrders->customer_id)->first();
+        }else{
+            $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
+        }
+        $InternalOrderId=$order_id;
         return view('admin.customer_shipping_addresses.create', compact(
             'Customers',
             'TempInternalOrders',
+            'InternalOrderId',
         ));
     }
 
@@ -113,19 +124,25 @@ class CustomerShippingAddressController extends Controller
         //
     }
 
-    public function destroyb($id,$temp_id)
+    public function destroyb($id,$temp_id,$order_id=0)
     {
 
         $Ordenes=InternalOrder::where('customer_shipping_address_id',$id)->get();
         if($Ordenes->count()<=0){
             CustomerShippingAddress::destroy($id);
             Session::put('eliminar', 'ok');
+            Session::put('error_delete','nook');
         }
         else{
+            Session::put('eliminar', 'nook');
             Session::put('error_delete','ok');
         }
-       
-        $TempInternalOrders = TempInternalOrder::where('id', $temp_id)->first();
+  
+        if($order_id!=0){
+            return redirect()->route('internal_orders.edit_order',$order_id);
+
+        }else{
+            $TempInternalOrders = TempInternalOrder::where('id', $temp_id)->first();
         $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->get();
         
@@ -134,6 +151,6 @@ class CustomerShippingAddressController extends Controller
             'Customers',
             'CustomerShippingAddresses', 
         ));
-    
+    }
     }
 }

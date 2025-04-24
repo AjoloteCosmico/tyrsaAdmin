@@ -152,7 +152,7 @@
                                 <div class="col-sm-12 col-xs-12">
                                     <h1 class="h2 text-center font-bold text-xs uppercase">Direcciones de Embarque</h1>
                                     <div class="col-sm-12 col-xs-12 text-right p-3">
-                                        <a href="{{ route('customers_shipping_address.show', $InternalOrders->id) }}" class="btn btn-green">
+                                        <a href="{{ route('customers_shipping_address.show', [0,$InternalOrders->id]) }}" class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Domicilio
                                         </a>
                                     </div>
@@ -191,7 +191,7 @@
                                                             </div>
                                                             <div class="col-6 text-center w-10">
                                                                 {{-- @can('BORRAR DIRECCIONES') --}}
-                                                                 <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, $InternalOrders->id]) }}" method="POST">
+                                                                 <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, 0,$InternalOrders->id]) }}" method="POST">
                                                                   
                                                                     <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
                                                                         <i class="fas fa-trash items-center"></i>

@@ -52,7 +52,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('customers/update_seller/{id}', [ CustomerController::class, 'update_seller'])->name('customers.update_seller');
 
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
-    Route::get('customers_shipping_address/delete/{id}/{temp_id}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');
+    Route::get('customers_shipping_address/delete/{id}/{temp_id}/{order_id?}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');
+    Route::get('customers_shipping_address/show/{id}/{order_id?}', [CustomerShippingAddressController::class,'show'])->name('customers_shipping_address.show');
     
     
     Route::resource('customer_contacts', CustomerContactController::class);

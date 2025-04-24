@@ -15,8 +15,11 @@
         </div>
         <form action="{{ route('customers_shipping_address.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
+        @if($TempInternalOrders)
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
+        @endif
         <x-jet-input type="hidden" name="customer_id" value="{{ $Customers->id }}"/>
+        <x-jet-input type="hidden" name="order_id" value="{{ $InternalOrderId }}"/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
