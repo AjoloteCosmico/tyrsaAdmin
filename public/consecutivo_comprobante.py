@@ -262,7 +262,6 @@ worksheet.merge_range('M6:M7', 'UBI / SUC / TIENDA PROYECTO', blue_header_format
 worksheet.merge_range('N6:N7', 'TIPO DE MONEDA', blue_header_format)
 worksheet.merge_range('O6:O7', 'TIPO DE CAMBIO', blue_header_format)
 
-
 worksheet.merge_range('P6:Q6', 'IMPORTE TOTAL SIN IVA', blue_header_format)
 worksheet.write(6, 15, "DLLS", blue_header_format_bold)
 worksheet.write(6, 16, "M.N.(Equivalente)", blue_header_format)
