@@ -88,8 +88,8 @@
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value="* Se Embarca" />
-                                        <input type="radio" name="shipment" class="shipment_option" value="Sí" checked>&nbsp; Sí &nbsp; &nbsp;
-                                        <input type="radio" name="shipment" class="shipment_option" value="No">&nbsp; No
+                                        <input type="radio" name="shipment" class="shipment_option" value="Sí" >&nbsp; Sí &nbsp; &nbsp;
+                                        <input type="radio" name="shipment" class="shipment_option" value="No" checked>&nbsp; No
                                         <x-jet-input-error for='shipment' />
                                     </div>
                                 </div>

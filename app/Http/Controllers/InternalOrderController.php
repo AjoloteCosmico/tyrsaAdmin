@@ -604,10 +604,13 @@ public function recalcular_total($id){
         ->select('comissions.*','sellers.seller_name','sellers.iniciales')
         ->get();
         $hoy=now();
+        $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $InternalOrders->customer_id)->get();
+       
         return view('internal_orders.edit_order', compact(
                 'CompanyProfiles',
                 'InternalOrders',
                 'Customers',
+                'CustomerShippingAddresses',
                 'Sellers',
                 'CustomerShippingAddresses',
                 'Coins',
@@ -1026,6 +1029,16 @@ public function recalcular_total($id){
         $InternalOrders->oc=$request->oc;
         $InternalOrders->ncotizacion=$request->ncotizacion;
         $InternalOrders->ncontrato=$request->ncontrato;
+
+        //embarques
+        if($request->shipment == 'Sí'){
+            $CustomerShippingAddresses = CustomerShippingAddress::where('id', $request->shipping_address)->first();
+        }else{
+            $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $request->customer_id)->first();
+        }
+
+        $InternalOrders->shipment = $request->shipment;
+        $InternalOrders->customer_shipping_address_id = $CustomerShippingAddresses->id;
         
         $InternalOrders->tasa=$request->tasa* 0.01;
         $InternalOrders->status="CAPTURADO";

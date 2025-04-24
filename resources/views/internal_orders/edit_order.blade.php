@@ -148,7 +148,79 @@
        <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 10%;' id='oc'  value="{{$InternalOrders->oc}}">
        <x-jet-input-error for='seller_id' />
    </div>
-
+   <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <h1 class="h2 text-center font-bold text-xs uppercase">Direcciones de Embarque</h1>
+                                    <div class="col-sm-12 col-xs-12 text-right p-3">
+                                        <a href="{{ route('customers_shipping_address.show', $InternalOrders->id) }}" class="btn btn-green">
+                                            <i class="fas fa-plus-circle"></i>&nbsp; Agregar Domicilio
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 table-responsive">
+                                        <table class="table tableshippingaddress table-striped text-xs font-medium">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Domicilio</th>
+                                                    <th>Dirección</th>
+                                                    <th>Colonia</th>
+                                                    <th>C.P.</th>
+                                                    <th>Select</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($CustomerShippingAddresses as $row)
+                                                <tr class="text-center">
+                                                    <td>{{$row->customer_shipping_alias}}</td>
+                                                    <td>{{$row->customer_shipping_street.' '.$row->customer_shipping_outdoor}}</td>
+                                                    <td>{{$row->customer_shipping_city}}</td>
+                                                    <td>{{$row->customer_shipping_zip_code}}</td>
+                                                    <td><input type="radio" required name="shipping_address" value="{{$row->id}}" 
+                                                        @if ($InternalOrders->customer_shipping_address_id == $row->id)
+                                                            checked
+                                                        @endif>
+                                                    </td>
+                                                    <td class="w-5">
+                                                        <div class="row">
+                                                            <div class="col-6 text-center w-10">
+                                                                {{-- @can('EDITAR DIRECCIONES') --}}
+                                                                {{--  <a href="{{ route('customers_shipping_address.edit', $row->id)}}">
+                                                                    <i class="fas fa-edit btn btn-blue w-9 h-9"></i></span>
+                                                                </a>  --}}
+                                                                {{-- @endcan --}}
+                                                            </div>
+                                                            <div class="col-6 text-center w-10">
+                                                                {{-- @can('BORRAR DIRECCIONES') --}}
+                                                                 <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, $InternalOrders->id]) }}" method="POST">
+                                                                  
+                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
+                                                                        <i class="fas fa-trash items-center"></i>
+                                                                    </button>
+                                                                  </a>  
+                                                                {{-- @endcan --}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <x-jet-input-error for='shipping_address' />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="* Se Embarca" />
+                                        <input type="radio" name="shipment" class="shipment_option" value="Sí" @if($InternalOrders->shipment=="Sí") checked @endif >&nbsp; Sí &nbsp; &nbsp;
+                                        <input type="radio" name="shipment" class="shipment_option" value="No" @if($InternalOrders->shipment=="No") checked @endif >&nbsp; No
+                                        <x-jet-input-error for='shipment' />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100"><hr></div>
                    </div>
                    <div class="w-100">&nbsp;</div>
                    <div class="row">
@@ -236,6 +308,7 @@
                 <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-red mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  </form>
+           <h3 style="color:red"><b>Hasta aqui el formulario de datos generales de la orden, porfavor guarde los cambios aqui, si se han modificado</b></h3> 
 
                 <br><br>
 
