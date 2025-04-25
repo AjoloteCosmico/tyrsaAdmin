@@ -597,6 +597,12 @@ MARCA:
                 @endcan   
                 <br><br><br>
                     </div></div>
+                    @can('EDITAR PEDIDO AUTORIZADO')
+                    <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
+                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                    </a>
+                    
+                    @endcan
                 <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
                       

@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
     Route::get('customers_shipping_address/delete/{id}/{temp_id}/{order_id?}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');
     Route::get('customers_shipping_address/show/{id}/{order_id?}', [CustomerShippingAddressController::class,'show'])->name('customers_shipping_address.show');
+    Route::get('customers_shipping_address/edit/{id}/{temp_id}/{order_id?}', [CustomerShippingAddressController::class,'edit'])->name('customers_shipping_address.editb');
+    
     
     
     Route::resource('customer_contacts', CustomerContactController::class);

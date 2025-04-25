@@ -183,21 +183,21 @@
                                                     <td class="w-5">
                                                         <div class="row">
                                                             <div class="col-6 text-center w-10">
-                                                                {{-- @can('EDITAR DIRECCIONES') --}}
-                                                                {{--  <a href="{{ route('customers_shipping_address.edit', $row->id)}}">
-                                                                    <i class="fas fa-edit btn btn-blue w-9 h-9"></i></span>
-                                                                </a>  --}}
-                                                                {{-- @endcan --}}
+                                                                 @can('EDITAR DIRECCIONES') 
+                                                                 <button  class="btn btn-blue h-9 w-9" type="button"><a href="{{ route('customers_shipping_address.editb', [$row->id,0,$InternalOrders->id])}}">
+                                                                    <i class="fas fa-edit"></i></span>
+                                                                </a>  </button>
+                                                                 @endcan 
                                                             </div>
                                                             <div class="col-6 text-center w-10">
-                                                                {{-- @can('BORRAR DIRECCIONES') --}}
+                                                                 @can('BORRAR DIRECCIONES') 
                                                                  <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, 0,$InternalOrders->id]) }}" method="POST">
                                                                   
                                                                     <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
                                                                         <i class="fas fa-trash items-center"></i>
                                                                     </button>
                                                                   </a>  
-                                                                {{-- @endcan --}}
+                                                                 @endcan 
                                                             </div>
                                                         </div>
                                                     </td>
