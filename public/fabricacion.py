@@ -37,7 +37,7 @@ clientes=pd.read_sql("""select  SUM(internal_orders.total) as total,COUNT(intern
 
 #traer datos de los pedidos
 pedidos=pd.read_sql("""select * 
-                     from internal_orders where status!='CANCELADO'""",cnx)
+                     from internal_orders where status  != 'CANCELADO'""",cnx)
 
 objetivo=pd.read_sql("""select * 
                      from settings""",cnx)['objetivo_anual'].values[0]

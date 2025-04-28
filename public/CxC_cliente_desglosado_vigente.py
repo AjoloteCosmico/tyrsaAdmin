@@ -38,7 +38,7 @@ from ((
     internal_orders
     inner join customers on customers.id = internal_orders.customer_id )
     inner join coins on internal_orders.coin_id = coins.id)
-                    where status!='CANCELADO'
+                    where status  != 'CANCELADO'
      """,cnx)
 
 clientes=pd.read_sql("select * from customers",cnx)
