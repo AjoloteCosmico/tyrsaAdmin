@@ -60,7 +60,6 @@
                                     </div>
                                     @if($row->status == 'CAPTURADO')
                                     <div class="col-6 text-center w-10">
-                                        
                                         @can('BORRAR PEDIDOS')
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf

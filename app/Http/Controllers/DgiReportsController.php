@@ -101,6 +101,7 @@ public function dgi(Request $request){
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
     ->join('customers','customers.id','internal_orders.customer_id')
+    ->where('internal_orders.status','!=','CANCELADO')
     ->orderBy('cobros.date')
     ->get();
     $Bancos=Bank::all();
@@ -111,6 +112,7 @@ public function dgi(Request $request){
     ->selectRaw('internal_orders.*,sellers.seller_name')
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->selectRaw('internal_orders.*,sellers.seller_name')
+    ->where('status','!=','CANCELADO')
     ->get();
     $Comisiones=DB::table('comissions')
     ->selectRaw('comissions.*,sellers.seller_name,sellers.dgi as seller_dgi')
