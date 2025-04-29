@@ -45,12 +45,12 @@ public function dgi_select(){
         $isFirstHalf = $i % 2 !== 0;
         $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
         $endDate = $isFirstHalf ? "$year-$month-15" : date("Y-m-t", strtotime($startDate));
-        
+        if(now()->format('Y-m-d')>=date("Y-m-d", strtotime($endDate))){
         $quincenas[] = [
             'id' => ($i-1),
             'inicio' => date("Y-m-d", strtotime($startDate)),
             'fin' => date("Y-m-d", strtotime($endDate))
-        ];
+        ];}
     }
     return view('reportes.dgi_select',compact('quincenas'));
 
@@ -112,7 +112,7 @@ public function dgi(Request $request){
     ->selectRaw('internal_orders.*,sellers.seller_name')
     ->join('sellers','sellers.id','internal_orders.seller_id')
     ->selectRaw('internal_orders.*,sellers.seller_name')
-    ->where('status','!=','CANCELADO')
+    ->where('internal_orders.status','!=','CANCELADO')
     ->get();
     $Comisiones=DB::table('comissions')
     ->selectRaw('comissions.*,sellers.seller_name,sellers.dgi as seller_dgi')
