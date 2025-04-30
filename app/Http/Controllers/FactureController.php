@@ -53,7 +53,8 @@ class FactureController extends Controller
                 $Facture->tc=$request->tc;
                 $Facture->date=$request->date;
                 $Facture->save();
-                
+                dd($request->comp_file,$request->file('comp_file'),$request->hasFile('comp_file'),$request); // O dd($request->allFiles());
+
                 if ($request->hasFile('comp_file')) {
                     $comp = $request->file('comp_file'); // Obtiene el archivo subido
                     $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
