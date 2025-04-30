@@ -53,12 +53,15 @@ class FactureController extends Controller
                 $Facture->tc=$request->tc;
                 $Facture->date=$request->date;
                 $Facture->save();
-                // $Facture->customer_id=$request->customer_id;
                 
-                // $Facture->customer_id=$request->customer_id;
-                $comp=$request->comp_file;
-                \Storage::disk('comp')->put('fac'.$Facture->id.'.pdf',  \File::get($comp));
-               
+                if ($request->hasFile('comp_file')) {
+                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
+                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+                    \Storage::disk('comp')->put('fac'.$Facture->id.'.pdf', $contenidoPDF);
+                } else {
+                    throw new \Exception("Archivo no subido");
+                }
+                
                 return $this->index();
                 }
     public function show($id){
