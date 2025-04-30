@@ -7,7 +7,8 @@
 @stop
 
 @section('content')     
-
+<div class="page">
+    <div class="watermark">Cancelado</div>
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg" id='content'>
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
@@ -17,15 +18,15 @@
                             <td style="border: none; border-collapse: collapse;">
                                 <div class="contaier">
                         
-                                                <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"  style="align-self: left;"></td>
-                                                </div></td>
+                                                <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"  style="align-self: left;"> </div></td>
+                                        </td>
                                  
                             <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <br>
             Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
             C.P. 54,963, Tultepec, Edo. México,<b> R.F.C.</b>  <br> <br>
             TCO990507S91 Tels: (55) 26472033 / 26473330 <br>
- <div style="text-transform: lowercase;"> info@tyrsa.com.mx <b> <a href="https://www.tyrsa.com.mx"> www.tyrsa.com.mx</a> </b></div>     <br>
+ <div style="text-transform: lowercase;"> info@tyrsa.com.mx <b> <a href="https://www.tyrsa.com.mx"> www.tyrsa.com.mx</a> </b>    <br>
                         <!-- Domicilio Fiscal:
                                 {{$CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '}}
                                 {{$CompanyProfiles->intdoor.' '.$CompanyProfiles->suburb}}
@@ -61,13 +62,12 @@
 
                     </table>
 
-
+</div>
 
             
             <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
-            <div >
-                        <!-- 14 columas, para poder copiar del excel -->
+                  <!-- 14 columas, para poder copiar del excel -->
             <table >
                 <tr><th colspan="14">Datos del Cliente</th></tr>
                     <tr class="text-center">
@@ -207,13 +207,13 @@
                         
                         
                             <tr class="text-center">
-                                <td> {{ $row->item }}</div></td>
+                                <td> {{ $row->item }}</td>
                                 <td> {{ $row->amount }}</div></td>
-                                <td> {{ $row->unit }}</div></td>
-                                <td> {{ $row->sku }}</div></td>
-                                <td> {{ $row->family }}</div></td>
-                                <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</div></td>
-                                <td rowspan="2"> ${{number_format($row->import, 2) }}</div></td>
+                                <td> {{ $row->unit }}</td>
+                                <td> {{ $row->sku }}</td>
+                                <td> {{ $row->family }}</td>
+                                <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</td>
+                                <td rowspan="2"> ${{number_format($row->import, 2) }}></td>
                             </tr>
                             <tr>
                                 <td colspan="5"> {!!  nl2br($row->description )!!} </td>
@@ -228,28 +228,28 @@
             <table>
                 <tr>
                     <th>Numero de COBROs:</div></td>
-                    <td> {{$payments->count()}}</div></td>
+                    <td> {{$payments->count()}}</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>Subtotal: </td>
-                    <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
+                    <td> $ {{number_format($InternalOrders->subtotal,2)}}</td>
                        
                 </tr>
 
                 <tr> 
-                    <th rowspan="2">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</div></td>
+                    <th rowspan="2">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
                     <td rowspan="2">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
-                        @endforeach</div>
+                        @endforeach
                     </td>
                     <td  rowspan="2" style="border: none;"> </td><!-- celda de espacio -->
                     <th>Descuento: </td>
-                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </div></td>
+                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
                        
                 </tr>
 
                 <tr>
                 <th>I.E.P.S:</td>
-                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</div></td>   
+                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
                 </tr>
                 
                 <tr>
@@ -257,7 +257,7 @@
                     <td>  @foreach($payments->unique('payment_method')->pluck('payment_method') as $pay) {{$pay}} @if(!$loop->last), @endif @endforeach</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
-                    <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
+                    <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</td>
                 </tr>
                 
                 <tr>
@@ -265,15 +265,15 @@
                     <td rowspan="3"> {{$InternalOrders->payment_observations}} </td>
                     <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET IVA:</td>
-                        <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>     
+                        <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</td>     
                 </tr>
                 <tr>
                         <th>IVA:</td>
-                        <td> $  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</div></td>
+                        <td> $  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</td>
                         </tr>
                         <tr>
                         <th>Total</td>
-                        <td> $ {{number_format($InternalOrders->total,2)}}</div></td>
+                        <td> $ {{number_format($InternalOrders->total,2)}}</td>
                         </tr>
             </table>
     
@@ -311,9 +311,12 @@
                     </tr>
                 </table>
                <br><br>&nbsp; <br>
-
+        </div>
+        </div>
+        <div class="page">
+            <div class="watermark">Cancelado</div>
                <table >
-               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion) </div></th></tr>
+               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion)</th> </tr>
                 <tr>
                     <th rowspan="2">   <br> COBRO No. <br><br> &nbsp;</th>
                     <th rowspan="2">   <br> Fecha <br><br> Planeada </th>
@@ -609,8 +612,7 @@ MARCA:
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
-                    
-                    
+                     
                     <br><br><br>
                     </div></div>
                     <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
@@ -619,27 +621,65 @@ MARCA:
                     
                     <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
-                    @endif
-                     
-
-                  
-
-                  
-                   
+                @endif
                                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
                     <button id="downloadPdf">Exportar a PDF</button>
-                                    
                     
-  
         </div>
+    </div>
     </div>
       
 @stop
 
 @section('css')
+
+
+
 <style>
-@media print {
+    
+      .watermark {
+            position: fixed;
+            top: 90%;
+            left: 50%;
+            transform: translate(-35%, -50%) rotate(-45deg);
+            transform-origin: bottom left;
+            font-size: 10vw;
+            opacity: 0.3;
+            color: red;
+            z-index: 9999;
+            pointer-events: none;
+            white-space: nowrap;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+</style>
+<style>
+ 
+    @media print {
+        .page {
+    position: relative;
+    /* Ajusta el tamaño según tu hoja, por ejemplo A4: 210×297 mm */
+    width: 210mm;
+    height: 297mm;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 8em;
+    font-weight: bold;
+    color: red;
+    opacity: 0.3;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+    
   #printPageButton {
     display: none;
   }
