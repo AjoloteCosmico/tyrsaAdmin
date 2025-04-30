@@ -8,7 +8,9 @@
 
 @section('content')     
 <div class="page">
+    @if($InternalOrders->status=='CANCELADO')
     <div class="watermark">Cancelado</div>
+    @endif
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg" id='content'>
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
@@ -314,7 +316,9 @@
         </div>
         </div>
         <div class="page">
-            <div class="watermark">Cancelado</div>
+        @if($InternalOrders->status=='CANCELADO')
+    <div class="watermark">Cancelado</div>
+    @endif
                <table >
                <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion)</th> </tr>
                 <tr>
@@ -658,11 +662,14 @@ MARCA:
 <style>
  
     @media print {
+        @if($InternalOrders->status=='CANCELADO')
+    
+  
         .page {
     position: relative;
     /* Ajusta el tamaño según tu hoja, por ejemplo A4: 210×297 mm */
-    width: 210mm;
-    height: 297mm;
+    /* width: 210mm;
+    height: 297mm; */
     page-break-after: always;
     overflow: hidden;
   }
@@ -679,7 +686,7 @@ MARCA:
     pointer-events: none;
     white-space: nowrap;
   }
-    
+  @endif
   #printPageButton {
     display: none;
   }

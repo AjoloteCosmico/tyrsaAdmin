@@ -408,6 +408,11 @@ public function recalcular_total($id){
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
     $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)-$ret;
     $InternalOrder->save();
+    if($InternalOrder->status=='CANCELADO'){
+        $InternalOrder->total=0;
+        $InternalOrder->subtotal=0;
+        $InternalOrder->save();
+    }
 }
     
     public function store(Request $request)
@@ -1278,8 +1283,9 @@ public function asignar_marca(Request $request){
 public function cancel($id){
     $InternalOrder = InternalOrder::find($id);
     $InternalOrder->status='CANCELADO';
+    $InternalOrder->total=0;
+    $InternalOrder->subtotal=0;
     $InternalOrder->save();
-
     return redirect()->route('internal_orders.index')->with('cancel','ok');
 }
 }
