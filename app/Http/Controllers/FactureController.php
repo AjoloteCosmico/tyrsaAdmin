@@ -54,7 +54,7 @@ class FactureController extends Controller
                 $Facture->date=$request->date;
                 $Facture->save();
                 // $Facture->customer_id=$request->customer_id;
-                dd($Facture);
+                
                 // $Facture->customer_id=$request->customer_id;
                 $comp=$request->comp_file;
                 \Storage::disk('comp')->put('fac'.$Facture->id.'.pdf',  \File::get($comp));
