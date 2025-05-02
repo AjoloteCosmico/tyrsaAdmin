@@ -22,7 +22,6 @@ class FactureController extends Controller
         ->select('factures.*','customers.customer','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
-    
         return view('factures.index',compact(
         'Factures'
         ));
@@ -53,7 +52,7 @@ class FactureController extends Controller
                 $Facture->tc=$request->tc;
                 $Facture->date=$request->date;
                 $Facture->save();
-                dd($request->comp_file,$request->file('comp_file'),$request->hasFile('comp_file'),$request); // O dd($request->allFiles());
+                // dd($request->comp_file,$request->file('comp_file'),$request->hasFile('comp_file'),$request); // O dd($request->allFiles());
 
                 if ($request->hasFile('comp_file')) {
                     $comp = $request->file('comp_file'); // Obtiene el archivo subido
