@@ -26,7 +26,7 @@
                                 <div class="col-sm-12 col-xs-12">
                                     <h1 class="h2 text-center font-bold text-xs uppercase">Direcciones de Embarque</h1>
                                     <div class="col-sm-12 col-xs-12 text-right p-3">
-                                        <a href="{{ route('customers_shipping_address.show', $TempInternalOrders->id) }}" class="btn btn-green">
+                                        <a href="{{ route('customers_shipping_address.show_real', $TempInternalOrders->id) }}" class="btn btn-green">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Domicilio
                                         </a>
                                     </div>
