@@ -60,7 +60,7 @@
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="table-responsive">
-                <table class="table tableinternalorders table-striped text-xs font-medium">
+                <table class="table tableinternalorders table-striped text-xs font-medium" id="example">
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>
@@ -163,15 +163,28 @@
 
 <?php $__env->startSection('css'); ?>
     
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('js'); ?>
+<?php $__env->startPush('js'); ?>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+<script>
+  new DataTable('#example');
+</script>
 
-
-<script type="text/javascript" src="<?php echo e(asset('vendor/mystylesjs/js/tablecatalogointernal_orders.js')); ?>"></script>
+<!-- <script type="text/javascript" src="<?php echo e(asset('vendor/mystylesjs/js/tablecatalogointernal_orders.js')); ?>"></script> -->
 
 <script type="text/javascript" src="<?php echo e(asset('vendor/mystylesjs/js/alert_delete_reg.js')); ?>"></script>
 
@@ -195,5 +208,5 @@
 <?php if(session('update_reg') == 'ok'): ?>
 <script type="text/javascript" src="<?php echo e(asset('vendor/mystylesjs/js/update_reg.js')); ?>"></script>
 <?php endif; ?>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\admintyrsa2\tyrsaAdmin\resources\views/internal_orders/index.blade.php ENDPATH**/ ?>
