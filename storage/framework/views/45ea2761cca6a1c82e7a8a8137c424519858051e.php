@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; REGISTRAR FACTURA:
             </h5>
         </div>
-        <form action="<?php echo e(route('factures.update',$Facture->id)); ?>" method="PUT" enctype="multipart/form-data">
+        <form action="<?php echo e(route('factures.update2',$Facture->id)); ?>" method="POST" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.input','data' => ['type' => 'hidden','name' => 'item','value' => ' ']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -113,14 +113,14 @@
                                     </div>
                                     <div class="form-group">
                                         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
-<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.label','data' => ['value' => 'TOTAL DE PAGOS']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.label','data' => ['value' => 'TOTAL DE COBROS']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('jet-label'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['value' => 'TOTAL DE PAGOS']); ?>
+<?php $component->withAttributes(['value' => 'TOTAL DE COBROS']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -160,14 +160,14 @@
                                     </div>
                                     <div class="form-group">
                                         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
-<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.label','data' => ['value' => '* NUM PAGO']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.label','data' => ['value' => '* NUM COBRO']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('jet-label'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['value' => '* NUM PAGO']); ?>
+<?php $component->withAttributes(['value' => '* NUM COBRO']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -363,14 +363,14 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
                                         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
-<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.input','data' => ['type' => 'number','step' => '0.01','name' => 'amount','id' => 'import','class' => 'w-full text-xs','value' => ''.e(old('unit_price')).'']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'jetstream::components.input','data' => ['type' => 'number','step' => '0.01','name' => 'amount','id' => 'import','class' => 'w-full text-xs','value' => ''.e($Facture->amount).'']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('jet-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['type' => 'number','step' => '0.01','name' => 'amount','id' => 'import','class' => 'w-full text-xs','value' => ''.e(old('unit_price')).'']); ?>
+<?php $component->withAttributes(['type' => 'number','step' => '0.01','name' => 'amount','id' => 'import','class' => 'w-full text-xs','value' => ''.e($Facture->amount).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -393,7 +393,11 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
                                     </div>
-
+                                    Ingresa su comprobante
+                                    <a href="<?php echo e($pdfUrl); ?>">Archivo Anterior</a>
+                                    <br>
+                                    <input type="file" name="comp_file" id="comp_file">
+                                    <br><br>
                         </div>
                     </div>
                 </div>
@@ -493,14 +497,21 @@ for(index in example_array) {
 })
      });
 </script>
-
+<script>
+    i = document.getElementById("import");
+    subtotal = parseFloat(i.value/1.16);
+    iva=parseFloat(subtotal*0.16);
+    document.getElementById("sniva").value = subtotal.toFixed(2);
+    document.getElementById("iva").value = iva.toFixed(2);
+    
+</script>
 
 <script>
     document.getElementById("import").addEventListener("input", function(){
     subtotal = parseFloat(this.value/1.16);
     iva=parseFloat(subtotal*0.16);
-    document.getElementById("sniva").value = subtotal;
-    document.getElementById("iva").value = iva;
+    document.getElementById("sniva").value = subtotal.toFixed(2);
+    document.getElementById("iva").value = iva.toFixed(2);
     });
 </script>
 <?php $__env->stopSection(); ?>

@@ -127,7 +127,7 @@
 <script>
 $(document).on("keypress", ".just-number", function (e) {
   let charCode = (e.which) ? e.which : e.keyCode;
-  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+  if (charC ode > 31 && (charCode < 48 || charCode > 57)) {
     return false;
   }
 });

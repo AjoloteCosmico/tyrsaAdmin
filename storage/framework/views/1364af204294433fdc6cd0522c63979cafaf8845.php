@@ -7,7 +7,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>     
-
+<div class="page">
+    <?php if($InternalOrders->status=='CANCELADO'): ?>
+    <div class="watermark">Cancelado</div>
+    <?php endif; ?>
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg" id='content'>
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
@@ -17,15 +20,15 @@
                             <td style="border: none; border-collapse: collapse;">
                                 <div class="contaier">
                         
-                                                <img src="<?php echo e(asset('img/logo/logo.svg')); ?>" alt="TYRSA"  style="align-self: left;"></td>
-                                                </div></td>
+                                                <img src="<?php echo e(asset('img/logo/logo.svg')); ?>" alt="TYRSA"  style="align-self: left;"> </div></td>
+                                        </td>
                                  
                             <td rowspan="2" style="border: none; border-collapse: collapse;">
                         <br>
             Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
             C.P. 54,963, Tultepec, Edo. México,<b> R.F.C.</b>  <br> <br>
             TCO990507S91 Tels: (55) 26472033 / 26473330 <br>
- <div style="text-transform: lowercase;"> info@tyrsa.com.mx <b> <a href="https://www.tyrsa.com.mx"> www.tyrsa.com.mx</a> </b></div>     <br>
+ <div style="text-transform: lowercase;"> info@tyrsa.com.mx <b> <a href="https://www.tyrsa.com.mx"> www.tyrsa.com.mx</a> </b>    <br>
                         <!-- Domicilio Fiscal:
                                 <?php echo e($CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '); ?>
 
@@ -65,13 +68,12 @@
 
                     </table>
 
-
+</div>
 
             
             <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
-            <div >
-                        <!-- 14 columas, para poder copiar del excel -->
+                  <!-- 14 columas, para poder copiar del excel -->
             <table >
                 <tr><th colspan="14">Datos del Cliente</th></tr>
                     <tr class="text-center">
@@ -119,9 +121,9 @@
 
                     <tr>
                         <th rowspan="3">  Embarque</th>
-                        <td rowspan="3"> Si</td>
+                        <td rowspan="3"> <?php if($InternalOrders->shipment=="No"): ?> NO <?php else: ?> SI <?php endif; ?></td>
                         <th colspan="3"> Domicilio de Embarque </th>
-                        <td colspan="9">  <?php echo e($CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb); ?> <br> <?php echo e($CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor); ?></td>
+                        <td colspan="9">  <?php if($InternalOrders->shipment=="No"): ?> <?php else: ?>  <?php echo e($CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb); ?> <br> <?php echo e($CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor); ?>  <?php endif; ?></td>
                     </tr>
 
                     <tr>
@@ -211,13 +213,13 @@
                         
                         
                             <tr class="text-center">
-                                <td> <?php echo e($row->item); ?></div></td>
+                                <td> <?php echo e($row->item); ?></td>
                                 <td> <?php echo e($row->amount); ?></div></td>
-                                <td> <?php echo e($row->unit); ?></div></td>
-                                <td> <?php echo e($row->sku); ?></div></td>
-                                <td> <?php echo e($row->family); ?></div></td>
-                                <td rowspan="2"> $<?php echo e(number_format($row->unit_price, 2)); ?></div></td>
-                                <td rowspan="2"> $<?php echo e(number_format($row->import, 2)); ?></div></td>
+                                <td> <?php echo e($row->unit); ?></td>
+                                <td> <?php echo e($row->sku); ?></td>
+                                <td> <?php echo e($row->family); ?></td>
+                                <td rowspan="2"> $<?php echo e(number_format($row->unit_price, 2)); ?></td>
+                                <td rowspan="2"> $<?php echo e(number_format($row->import, 2)); ?>></td>
                             </tr>
                             <tr>
                                 <td colspan="5"> <?php echo nl2br($row->description ); ?> </td>
@@ -232,55 +234,52 @@
             <table>
                 <tr>
                     <th>Numero de COBROs:</div></td>
-                    <td> <?php echo e($payments->count()); ?></div></td>
+                    <td> <?php echo e($payments->count()); ?></td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>Subtotal: </td>
-                    <td> $ <?php echo e(number_format($InternalOrders->subtotal,2)); ?></div></td>
+                    <td> $ <?php echo e(number_format($InternalOrders->subtotal,2)); ?></td>
                        
                 </tr>
 
                 <tr> 
-                    <th rowspan="2">Condiciones de PAGO: <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <br> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></div></td>
+                    <th rowspan="2">Condiciones de PAGO: <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <br> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
                     <td rowspan="2">  <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo e($pay->percentage); ?>% &nbsp; <?php echo e($pay->concept); ?>,<br>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </td>
                     <td  rowspan="2" style="border: none;"> </td><!-- celda de espacio -->
                     <th>Descuento: </td>
-                        <td> $ <?php echo e(number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)); ?> </div></td>
+                        <td> $ <?php echo e(number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)); ?> </td>
                        
                 </tr>
 
                 <tr>
                 <th>I.E.P.S:</td>
-                <td> $ <?php echo e(number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)); ?></div></td>   
+                <td> $ <?php echo e(number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)); ?></td>   
                 </tr>
                 
                 <tr>
                     <th>Forma de pago:</th>
-                    <td> Transferencia Electronica</td>
+                    <td>  <?php $__currentLoopData = $payments->unique('payment_method')->pluck('payment_method'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <?php echo e($pay); ?> <?php if(!$loop->last): ?>, <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
-                    <td> $  <?php echo e(number_format($InternalOrders->isr * $InternalOrders->subtotal,2)); ?></div></td>
-                           
-                    
+                    <td> $  <?php echo e(number_format($InternalOrders->isr * $InternalOrders->subtotal,2)); ?></td>
                 </tr>
                 
                 <tr>
                     <th rowspan="3">Observaciones: <br> <br> <br> </th>
-                    <td rowspan="3"> <br> -<br> </td>
+                    <td rowspan="3"> <?php echo e($InternalOrders->payment_observations); ?> </td>
                     <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET IVA:</td>
-                        <td> $  <?php echo e(number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)); ?></div></td>
-                        
+                        <td> $  <?php echo e(number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)); ?></td>     
                 </tr>
                 <tr>
                         <th>IVA:</td>
-                        <td> $  <?php echo e(number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)); ?></div></td>
+                        <td> $  <?php echo e(number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)); ?></td>
                         </tr>
                         <tr>
                         <th>Total</td>
-                        <td> $ <?php echo e(number_format($InternalOrders->total,2)); ?></div></td>
+                        <td> $ <?php echo e(number_format($InternalOrders->total,2)); ?></td>
                         </tr>
             </table>
     
@@ -318,10 +317,14 @@
                     </tr>
                 </table>
                <br><br>&nbsp; <br>
-
+        </div>
+        </div>
+        <div class="page">
+        <?php if($InternalOrders->status=='CANCELADO'): ?>
+    <div class="watermark">Cancelado</div>
+    <?php endif; ?>
                <table >
-               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion) </div></th></tr>
-               
+               <tr> <th colspan="9" style="text-align: center;">   Tabla de Promesas de Cobros (Planeacion)</th> </tr>
                 <tr>
                     <th rowspan="2">   <br> COBRO No. <br><br> &nbsp;</th>
                     <th rowspan="2">   <br> Fecha <br><br> Planeada </th>
@@ -375,16 +378,24 @@
                <br>&nbsp;
                <table style="text-align: center;" id="tabla-obsevaciones">
                 <tr>
-                    <th>Observaciones: </div></td>
+                    <th>Observaciones: </th>
                 </tr>
                     <tr>
-                        <td> <div class="com-text"> <?php echo e($InternalOrders->observations); ?></div></div></td>
+                        <td> <div class="com-text"> <?php echo e($InternalOrders->observations); ?></div></td>
+                        
                     </tr>
-                
+               </table>
+               <br>
+               <table style="text-align: center;" id="tabla-obsevaciones">
+                <tr>
+                    <th>Kilos totales: </th>
+                </tr>
+                    <tr>
+                        <td> <div class="com-text"> <?php echo e($InternalOrders->kilos); ?> KG</div></td>
+                        
+                    </tr>
                </table>
                
-               
-
 
            
             
@@ -404,7 +415,7 @@
                <br>
                  
                     <tr>
-                        <td> <?php echo e($Sellers->id); ?></td>
+                        <td> <?php echo e($Sellers->folio); ?></td>
                         <td> <?php echo e($Sellers->iniciales); ?></td>
                         <td>  Comision Principal</td>
                         <td>  <?php echo e(number_format($InternalOrders->comision * 100,2)); ?> %</td>
@@ -626,14 +637,19 @@ MARCA:
                 <?php endif; ?>   
                 <br><br><br>
                     </div></div>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('EDITAR PEDIDO AUTORIZADO')): ?>
+                    <a href="<?php echo e(route('internal_orders.edit_order', $InternalOrders->id)); ?> "  class="btn btn-green mb-2">
+                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                    </a>
+                    
+                    <?php endif; ?>
                 <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
                       
                     <?php else: ?> 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
-                    
-                    
+                     
                     <br><br><br>
                     </div></div>
                     <a href="<?php echo e(route('internal_orders.edit_order', $InternalOrders->id)); ?> "  class="btn btn-green mb-2">
@@ -642,27 +658,68 @@ MARCA:
                     
                     <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
-                    <?php endif; ?>
-                     
-
-                  
-
-                  
-                   
+                <?php endif; ?>
                                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
                     <button id="downloadPdf">Exportar a PDF</button>
-                                    
                     
-  
         </div>
+    </div>
     </div>
       
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
+
+
+
 <style>
-@media print {
+    
+      .watermark {
+            position: fixed;
+            top: 90%;
+            left: 50%;
+            transform: translate(-35%, -50%) rotate(-45deg);
+            transform-origin: bottom left;
+            font-size: 10vw;
+            opacity: 0.3;
+            color: red;
+            z-index: 9999;
+            pointer-events: none;
+            white-space: nowrap;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+</style>
+<style>
+ 
+    @media print {
+        <?php if($InternalOrders->status=='CANCELADO'): ?>
+    
+  
+        .page {
+    position: relative;
+    /* Ajusta el tamaño según tu hoja, por ejemplo A4: 210×297 mm */
+    /* width: 210mm;
+    height: 297mm; */
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 8em;
+    font-weight: bold;
+    color: red;
+    opacity: 0.3;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  <?php endif; ?>
   #printPageButton {
     display: none;
   }

@@ -71,7 +71,11 @@
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->amount}}"/>
                                         <x-jet-input-error for='unit_price' />
                                     </div>
-
+                                    Ingresa su comprobante
+                                    <a href="{{$pdfUrl}}">Archivo Anterior</a>
+                                    <br>
+                                    <input type="file" name="comp_file" id="comp_file">
+                                    <br><br>
                         </div>
                     </div>
                 </div>

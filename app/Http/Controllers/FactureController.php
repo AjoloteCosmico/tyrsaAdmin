@@ -62,8 +62,10 @@ class FactureController extends Controller
                     throw new \Exception("Archivo no subido");
                 }
                 
-                return $this->index();
+                return redirect()->route('factures.index');
                 }
+
+
     public function show($id){
     $file_path = public_path('storage/fac'.$id.'.pdf');
     return response()->file($file_path);
@@ -83,11 +85,23 @@ class FactureController extends Controller
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
                 
+                $filename = 'fac' . $Facture->id . '.pdf';
+                // dd(\Storage::disk('comp')->exists($filename));
+                if (!\Storage::disk('comp')->exists($filename)) {
+                    // Crear PDF en blanco si no existe
+                    $pdfBlank = app('dompdf.wrapper');
+                    $pdfBlank->loadHTML('<h3>comprobante factura</h3>');
+                    \Storage::disk('comp')->put($filename, $pdfBlank->output());
+                }
+                
+                $pdfUrl = \Storage::disk('public')->url($filename);
+                // $pdfUrl = public_path('storage/'.$filename);
                 return view('factures.edit',compact(
                 'Facture',
                 'Factures',
                 'Customers',
-                'InternalOrders'
+                'InternalOrders',
+                'pdfUrl'
                 ));
                 }
     public function update($id,Request $request){
@@ -99,11 +113,19 @@ class FactureController extends Controller
                 $Facture->npagos=$request->npagos;
                 $Facture->facture=$request->facture;
                 $Facture->save();
+                if ($request->hasFile('comp_file')) {
+                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
+                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+                    \Storage::disk('comp')->put('fac'.$Facture->id.'.pdf', $contenidoPDF);
+                } else {
+                    throw new \Exception("Archivo no subido");
+                }
+                
                 // $Facture->customer_id=$request->customer_id;
                 
                 // $Facture->customer_id=$request->customer_id;
 
-                return $this->index();
+                return redirect()->route('factures.index');
                 }
 
     public function destroy($id){
