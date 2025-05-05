@@ -18,9 +18,9 @@
                 <br><br>
                 <div class="container" style ="padding: 15px">
                 <div class="btn-group" role="group"  aria-label="Basic example">
-  <button type="button" class="btn btn-blue mb-2" onclick="Clientes()">Clientes</button>
-  <button type="button" class="btn btn-blue mb-2" onclick="Ordenes()">Pedido</button>
-  <button type="button"class="btn btn-blue mb-2"  onclick="Fechas()">Fecha</button>
+  <button type="button" class="btn btn-blue mb-2 " style="background-color: rgb(37 ,99 ,235 );color: white;" onclick="Clientes()">Clientes</button>
+  <button type="button" class="btn btn-blue  mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;" onclick="Ordenes()">Pedido</button>
+  <button type="button"class="btn btn-blue  mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;"  onclick="Fechas()">Fecha</button>
 </div></div>
 <br> <br>
 <div id = "ClientView">  
@@ -60,7 +60,7 @@
                                         <div class="col-6 text-center w-10" >
                                         
                                             <a href="{{ route('accounting.cuentas_customer', $row->id)}}">
-                                                <i class="fas fa-usd btn btn-blue w-3 h-3"></i>
+                                                <i class="fas fa-usd btn btn-blue w-3 h-3 " style="background-color: rgb(37 ,99 ,235 );color: white;"></i>
                                             </a>
                                             
                                         </div>
@@ -112,7 +112,7 @@
                                         <div class="col-6 text-center w-10" >
                                         
                                             <a href="{{ route('accounting.cuentas_order', $row->id)}}">
-                                                <i class="fas fa-usd btn btn-blue w-3 h-3"></i>
+                                                <i class="fas fa-usd btn btn-blue w-3 h-3 " style="background-color: rgb(37 ,99 ,235 );color: white;"></i>
                                             </a>
                                             
                                         </div>

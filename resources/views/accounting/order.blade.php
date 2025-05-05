@@ -179,7 +179,7 @@
         <br><br>
 
         <br>
-        <button type="submit" class="btn btn-blue">PAGAR SELECCIONADOS</button>
+        <button type="submit" class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">PAGAR SELECCIONADOS</button>
         
     </div>
     </form>
@@ -189,7 +189,7 @@
             <br> <br> 
             
                 </div>
-                    <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();"> 
+                    <input  class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();"> 
                     
                                     
                     

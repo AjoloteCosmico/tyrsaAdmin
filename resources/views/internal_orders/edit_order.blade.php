@@ -152,7 +152,7 @@
                                 <div class="col-sm-12 col-xs-12">
                                     <h1 class="h2 text-center font-bold text-xs uppercase">Direcciones de Embarque</h1>
                                     <div class="col-sm-12 col-xs-12 text-right p-3">
-                                        <a href="{{ route('customers_shipping_address.show_real', [0,$InternalOrders->id]) }}" class="btn btn-green">
+                                        <a href="{{ route('customers_shipping_address.show_real', [0,$InternalOrders->id]) }}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Domicilio
                                         </a>
                                     </div>
@@ -184,7 +184,7 @@
                                                         <div class="row">
                                                             <div class="col-6 text-center w-10">
                                                                  @can('EDITAR DIRECCIONES') 
-                                                                 <button  class="btn btn-blue h-9 w-9" type="button"><a href="{{ route('customers_shipping_address.editb', [$row->id,0,$InternalOrders->id])}}">
+                                                                 <button  class="btn btn-blue h-9 w-9  " style="background-color: rgb(37 ,99 ,235 );color: white;" type="button"><a href="{{ route('customers_shipping_address.editb', [$row->id,0,$InternalOrders->id])}}">
                                                                     <i class="fas fa-edit"></i></span>
                                                                 </a>  </button>
                                                                  @endcan 
@@ -193,7 +193,7 @@
                                                                  @can('BORRAR DIRECCIONES') 
                                                                  <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, 0,$InternalOrders->id]) }}" method="POST">
                                                                   
-                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
+                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" h-9 w-9">
                                                                         <i class="fas fa-trash items-center"></i>
                                                                     </button>
                                                                   </a>  
@@ -305,7 +305,7 @@
                             <button type="submit" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
                 </button>
-                <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-red mb-2">
+                <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  </form>
            <h3 style="color:red"><b>Hasta aqui el formulario de datos generales de la orden, porfavor guarde los cambios aqui, si se han modificado</b></h3> 
@@ -317,7 +317,7 @@
                 <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 text-right p-3">
-                                        <a href="{{ route('items.creation', $InternalOrders->id) }} " class="btn btn-green">
+                                        <a href="{{ route('items.creation', $InternalOrders->id) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                         </a>
                                     </div>
@@ -361,7 +361,7 @@
                                         <form class="DeleteReg" action="{{route('items.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red btn-lg ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" btn-lg ">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -445,11 +445,11 @@
                     <td>{{$c->percentage * 100}} %  </td>
                     
                     <td>{{$c->description}}  </td>
-                    <td><a href="{{ route('edit_comissions', [$c->id,'edit_order']) }} " class="btn btn-green">
+                    <td><a href="{{ route('edit_comissions', [$c->id,'edit_order']) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                     </a></td>
-                    <td><a href="{{ route('delete_comissions', [$c->id,'edit_order']) }} " class="btn btn-red">
-                        <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
+                    <td><a href="{{ route('delete_comissions', [$c->id,'edit_order']) }} " class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"">
+                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" > <i class="fas fa-trash"></i> </button>
                     </a></td>
                 </tr>
                 @endforeach

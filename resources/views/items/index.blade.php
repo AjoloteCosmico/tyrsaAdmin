@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 {{-- @can('CREAR MONEDAS') --}}
-                <a href="{{ route('coins.create')}}" class="btn btn-green">
+                <a href="{{ route('coins.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 {{-- @endcan --}}
@@ -44,7 +44,7 @@
                                     <div class="col-6 text-center w-10">
                                         {{-- @can('EDITAR MONEDAS') --}}
                                         <a href="{{ route('coins.edit', $row->id)}}">
-                                            <i class="fas fa-edit btn btn-blue w-9 h-9"></i></span>
+                                            <i class="fas fa-edit btn btn-blue w-9 h-9 " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         {{-- @endcan --}}
                                     </div>
@@ -53,7 +53,7 @@
                                         {{--  <form class="DeleteReg" action="{{ route('coins.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red h-9 w-9">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" h-9 w-9">
                                                 <i class="fas fa-trash items-center"></i>
                                             </button>
                                         </form>  --}}

@@ -163,14 +163,6 @@
 
 <?php $__env->startSection('css'); ?>
     
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-<link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
-<style>
-    .btn-blue{
-background-color:rgb(1, 10, 148);        
-    }
-</style>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('js'); ?>

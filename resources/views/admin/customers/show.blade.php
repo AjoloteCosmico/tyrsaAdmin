@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">
-                <a href="{{ route('customers.index')}}" class="btn btn-red mb-2">
+                <a href="{{ route('customers.index')}}" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
                 <button type="submit" class="btn btn-green mb-2">
@@ -178,14 +178,14 @@
                                 <td>{{$row->customer_contact_city}}</td>
                                 <td> @can('EDITAR MONEDAS')
                                         <a href="{{ route('customer_contacts.edit', $row->id)}}">
-                                            <i class="fas fa-edit btn btn-blue "></i></span>
+                                            <i class="fas fa-edit btn btn-blue " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         @endcan</td>
                                 <td>@can('BORRAR VENDEDORES')
                                         <form class="DeleteReg" action="{{ route('customer_contacts.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fas fa-trash items-center fa-xl"></i>
                                             </button>
                                         </form>

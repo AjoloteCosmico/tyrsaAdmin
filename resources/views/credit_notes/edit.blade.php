@@ -124,7 +124,7 @@
                                     </div>
                                     Ver comprobante anterior
                                     <br>
-                                    <button type="button" onclick = "openPDF()"  class="btn btn-blue" > 
+                                    <button type="button" onclick = "openPDF()"  class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;"> 
                                      <i class="fas fa-eye fa-2x"></i> &nbsp; Ver comprobante  </button>
                                     <br> Si desea reemplazar el comprobante ingreselo a continuación:
                                     <br>

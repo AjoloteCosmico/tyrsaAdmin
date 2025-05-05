@@ -26,7 +26,7 @@
                                 <div class="col-sm-12 col-xs-12">
                                     <h1 class="h2 text-center font-bold text-xs uppercase">Direcciones de Embarque</h1>
                                     <div class="col-sm-12 col-xs-12 text-right p-3">
-                                        <a href="{{ route('customers_shipping_address.show_real', $TempInternalOrders->id) }}" class="btn btn-green">
+                                        <a href="{{ route('customers_shipping_address.show_real', $TempInternalOrders->id) }}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Domicilio
                                         </a>
                                     </div>
@@ -59,7 +59,7 @@
                                                             <div class="col-6 text-center w-10">
                                                                 {{-- @can('EDITAR DIRECCIONES') --}}
                                                                 {{--  <a href="{{ route('customers_shipping_address.edit', $row->id)}}">
-                                                                    <i class="fas fa-edit btn btn-blue w-9 h-9"></i></span>
+                                                                    <i class="fas fa-edit btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"w-9 h-9"></i></span>
                                                                 </a>  --}}
                                                                 {{-- @endcan --}}
                                                             </div>
@@ -67,7 +67,7 @@
                                                                 {{-- @can('BORRAR DIRECCIONES') --}}
                                                                  <a class="DeleteReg" href="{{ route('customers_shipping_address.borrar', [$row->id, $TempInternalOrders->id]) }}" method="POST">
                                                                   
-                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red h-9 w-9">
+                                                                    <button type="button" onclick="return confirm('Are you sure?')" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" h-9 w-9">
                                                                         <i class="fas fa-trash items-center"></i>
                                                                     </button>
                                                                   </a>  

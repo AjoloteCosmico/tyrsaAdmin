@@ -56,7 +56,7 @@
                                             <x-jet-input type="password" name="key" class="w-flex text-xs"/>
                                         </div>
                                         <div class="col">
-                                            <button class="btn btn-red">Invalidar</button>
+                                            <button class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"">Invalidar</button>
                                         </div>
                                        
                                     </div>

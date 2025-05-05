@@ -67,6 +67,15 @@ class FactureController extends Controller
 
 
     public function show($id){
+        
+        $filename = 'fac' . $id . '.pdf';
+        //Crear un pdf en blanco si no existe
+        if (!\Storage::disk('comp')->exists($filename)) {
+            // Crear PDF en blanco si no existe
+            $pdfBlank = app('dompdf.wrapper');
+            $pdfBlank->loadHTML('<h3>comprobante factura</h3>');
+            \Storage::disk('comp')->put($filename, $pdfBlank->output());
+        }
     $file_path = public_path('storage/fac'.$id.'.pdf');
     return response()->file($file_path);
     //return Storage::download('app/comp'.$id.'.pdf');
@@ -87,6 +96,7 @@ class FactureController extends Controller
                 
                 $filename = 'fac' . $Facture->id . '.pdf';
                 // dd(\Storage::disk('comp')->exists($filename));
+                //Crear un pdf en blanco si no existe
                 if (!\Storage::disk('comp')->exists($filename)) {
                     // Crear PDF en blanco si no existe
                     $pdfBlank = app('dompdf.wrapper');

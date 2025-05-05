@@ -5,7 +5,7 @@
 @section('content_header')
     <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; PEDIDO INTERNO</h1>
      <!-- Bootstrap 5.0 -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         
         <!-- Font Awesome 6 Kit LEPER SYSTEMS -->
         <script src="https://kit.fontawesome.com/1bfa36884d.js" crossorigin="anonymous"></script>
@@ -53,7 +53,7 @@
                 </a>
                 @endcan
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('internal_orders.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
+                <a href="{{ route('internal_orders.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
@@ -88,7 +88,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('VER PEDIDOS')
                                         <a href="{{ route('internal_orders.show', $row->id)}}">
-                                            <i class="fa-solid fa-eye btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
+                                            <i class="fa-solid fa-eye btn btn-blue"  style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         @endcan
                                     </div>
@@ -98,7 +98,7 @@
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"  style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
@@ -107,7 +107,7 @@
                                         <form class="CancelReg" action="{{route('internal_orders.cancel', $row->id) }}" method="POST">
                                             @csrf
                                             @method('POST')
-                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"  style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-xmark items-center"></i>
                                             </button>
                                         </form>
@@ -119,7 +119,7 @@
                                         <form action="{{ route('internal_orders.pagos', $row->id) }}" method="POST">
                                             @csrf
                                             <x-jet-input type="hidden" name="order_id" value="{{ $row->id}}"/>
-                                            <button type="submit" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
+                                            <button type="submit" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" style="background-color: rgb(22,163,74);color: white;">
                                                 <i class="fa-solid fa-percent items-center"></i>
                                             </button>
                                         </form>
@@ -128,7 +128,7 @@
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"  style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
@@ -149,14 +149,6 @@
 
 @section('css')
     
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-<style>
-    .btn-blue{
-background-color:rgb(1, 10, 148);        
-    }
-</style>
 @stop
 
 @push('js')

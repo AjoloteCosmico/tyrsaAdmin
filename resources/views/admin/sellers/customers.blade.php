@@ -15,7 +15,7 @@
                 <div class="col">
                     
                                 <a href="{{route('sellers.select_customers',$Seller->id)}}">
-                                        <button class="btn btn-blue ">
+                                        <button class="btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-users"> </i>
                                                Asignar Clientes
                                             </button></a>
@@ -55,7 +55,7 @@
                             <td> 
                                 @can('REASIGNAR CLIENTE')
                                 <a href="{{route('sellers.reasign_customer',$row->id)}}">
-                                        <button class="btn btn-blue ">
+                                        <button class="btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class=" fas fa-exchange-alt"> </i>
                                                Asignar a otro vendedor
                                             </button></a>

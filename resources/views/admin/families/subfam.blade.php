@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR FAMILIAS')
-                <a href="{{ route('families.create')}}" class="btn btn-green">
+                <a href="{{ route('families.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 @endcan
@@ -40,7 +40,7 @@
                                         @can('EDITAR FAMILIAS')
                                         @if($row->id > 15)
                                         <a href="{{ route('products_show', 15)}}">
-                                        <button class="btn btn-blue">
+                                        <button class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-eye"></i>&nbsp; &nbsp;
                                                 ver productos
                                                 </button>
@@ -49,7 +49,7 @@
                                         @else
                                         
                                         <a href="{{ route('products_show', $row->id)}}">
-                                        <button class="btn btn-blue">
+                                        <button class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-eye"></i>&nbsp; &nbsp;
                                                 ver productos
                                                 </button>
@@ -65,7 +65,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR FAMILIAS')
                                         <a href="{{ route('subfam_show', $row->id)}}">
-                                        <button class="btn btn-blue">
+                                        <button class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>
                                         </a>
@@ -77,7 +77,7 @@
                                         <form class="DeleteReg" action="{{ route('families.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" >
                                                 <i class="fas fa-trash items-center fa-xl"></i>
                                             </button>
                                         </form>

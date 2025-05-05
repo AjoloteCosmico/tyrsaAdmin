@@ -134,7 +134,7 @@
                             <x-jet-input type="password" name="customer_street" value="{{old('customer_street')}}"/>         
                          </div>
                          <br>
-                <button   type="submit" class="btn btn-green mb-2" id="btn"  onclick="guardar()" style="display: none">
+                <button   type="submit" class="btn btn-green mb-2" id="btn"  onclick="guardar()" style="background-color: rgb(22,163,74);color: white; display: none">
                 <i class="fas fa-usd fa-2x" ></i>
                 
                          &nbsp; &nbsp;
@@ -176,7 +176,7 @@
                 </tbody>
               </table>
               <br><br><br>
-             <button type="button" onclick = "openPDF()"  class="btn btn-blue" > 
+             <button type="button" onclick = "openPDF()"  class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;" > 
              <i class="fas fa-eye fa-2x"></i> &nbsp; Ver comprobante  </button>
              
              <br><br><br> <br>

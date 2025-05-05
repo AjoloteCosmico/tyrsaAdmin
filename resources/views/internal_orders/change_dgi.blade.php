@@ -85,7 +85,7 @@
                     <td>{{$c->percentage * 100}} %  </td>
                     
                     <td>{{$c->description}}  </td>
-                    <td><a href="{{ route('edit_comissions', [$c->id,'edit_dgi']) }} " class="btn btn-green">
+                    <td><a href="{{ route('edit_comissions', [$c->id,'edit_dgi']) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                     </a></td>
                     <td>
@@ -94,7 +94,7 @@
                                         <form class="DeleteReg" action="{{ route('delete_comissions', [$c->id,'edit_dgi']) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"">
                                                 <i class="fas fa-trash items-center fa-xl"></i>
                                             </button>
                                         </form>

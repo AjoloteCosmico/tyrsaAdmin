@@ -61,11 +61,11 @@
                                                     <td>{{$c->percentage * 100}} %  </td>
                                                     
                                                     <td>{{$c->description}}  </td>
-                                                    <td><a href="{{ route('edit_temp_comissions', $c->id) }} " class="btn btn-green">
+                                                    <td><a href="{{ route('edit_temp_comissions', $c->id) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                                                    </a></td>
-                                                   <td><a href="{{ route('delete_temp_comissions', $c->id) }} " class="btn btn-red">
-                                                        <button type = "button" class="btn btn-red "> <i class="fas fa-trash"></i> </button>
+                                                   <td><a href="{{ route('delete_temp_comissions', $c->id) }} " class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;"">
+                                                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" > <i class="fas fa-trash"></i> </button>
                                                    </a></td>
                                                 </tr>
                                                 @endforeach

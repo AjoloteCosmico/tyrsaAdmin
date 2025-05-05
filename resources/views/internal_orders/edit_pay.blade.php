@@ -125,7 +125,7 @@ $aux_count=$aux_count+1;
     </tr>
 </table>
 <br>
-      <td> <span><button type="button" onclick="myFunction()"  class="btn btn-blue mb-2"> </span>
+      <td> <span><button type="button" onclick="myFunction()"  class="btn btn-blue mb-2 " style="background-color: rgb(37 ,99 ,235 );color: white;"> </span>
       <i class="fa fa-plus" ></i>
       &nbsp; &nbsp;
       <p>Agregar Concepto</p></button></td>

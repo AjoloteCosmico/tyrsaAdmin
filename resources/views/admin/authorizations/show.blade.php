@@ -47,10 +47,10 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">
-                <a href="{{ route('authorizations.index')}}" class="btn btn-green mb-2">
+                <a href="{{ route('authorizations.index')}}" class="btn btn-green mb-2" style="background-color: rgb(22,163,74);color: white;" >
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
-                <button type="submit" class="btn btn-red mb-2">
+                <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>
