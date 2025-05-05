@@ -294,13 +294,7 @@ class CobrosController extends Controller
         $Cobro->date=$request->date;
         $Cobro->reviso=Auth::user()->id;
         $Cobro->save();
-        if ($request->hasFile('comp_file')) {
-                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
-                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
-                    \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
-                }else {
-                    throw new \Exception("Archivo no subido");
-                }
+        
                 
         //Borar facturas anteriores asociadas
         cobro_facture::where('cobro_id',$Cobro->id)->delete();
@@ -316,7 +310,15 @@ class CobrosController extends Controller
                   }
                   $Cobro->order_id=Factures::find($request->facture[0])->order_id;
                   $Cobro->save();}
-        //$comp=$request->comp_file;
+       
+        
+        $Facturas=DB::table('cobro_factures')
+        ->join('factures','factures.id','=','cobro_factures.facture_id')
+        ->where('cobro_factures.cobro_id','=',$Cobro->id)
+        ->select('factures.order_id')
+        ->groupBy('factures.order_id')
+        ->get();
+         //$comp=$request->comp_file;
         //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
         if ($request->hasFile('comp_file')) {
             $comp = $request->file('comp_file'); // Obtiene el archivo subido
@@ -325,13 +327,6 @@ class CobrosController extends Controller
         }else {
             throw new \Exception("Archivo no subido");
         }
-        
-        $Facturas=DB::table('cobro_factures')
-        ->join('factures','factures.id','=','cobro_factures.facture_id')
-        ->where('cobro_factures.cobro_id','=',$Cobro->id)
-        ->select('factures.order_id')
-        ->groupBy('factures.order_id')
-        ->get();
         if($Facturas->count()>1){
             return $this->desglosar_cobro($Cobro->id);
         }else{
@@ -349,6 +344,7 @@ class CobrosController extends Controller
             $registro->cobro_id=$Cobro->id;
             $registro->amount=$Cobro->amount;
             $registro->save();}
+
             return redirect('cobros')->with('update_reg', 'ok');
         }
         }
