@@ -39,7 +39,7 @@ class ReportsController extends Controller
        public function generate($id,$report,$pdf,$tipo=0)
        {  
            $caminoalpoder=public_path();
-           $process = new Process(["var/www/tres/tyrsaAdmin/venv/bin/python3", $caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           $process = new Process(["/var/www/tres/tyrsaAdmin/venv/bin/python3", $caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            ini_set('max_execution_time', '300');  
         //    dd(env('PY_COMAND'));
            $process->run();
