@@ -172,7 +172,7 @@ class NotasCreditoController extends Controller
                 'customer_id' => 'required',
                 'credit_note' => 'required',
                 'date' => 'required',
-                'amount' => 'required',s
+                'amount' => 'required',
             ];
         
             $messages = [
