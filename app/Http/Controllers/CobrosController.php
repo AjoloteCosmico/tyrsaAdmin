@@ -82,6 +82,16 @@ class CobrosController extends Controller
 
     public function show($id){
                 $file_path = public_path('storage/comp'.$id.'.pdf');
+                $filename = 'comp'.$id.'.pdf';
+        //Crear un pdf en blanco si no existe
+        
+        if (!\Storage::disk('comp')->exists($filename)) {
+            // Crear PDF en blanco si no existe
+            $pdfBlank = app('dompdf.wrapper');
+            $pdfBlank->loadHTML('<h3>comprobante cobro</h3>');
+            \Storage::disk('comp')->put($filename, $pdfBlank->output());
+        }
+        
                 return response()->file($file_path);
                 //return Storage::download('app/comp'.$id.'.pdf');
                 
@@ -147,7 +157,14 @@ class CobrosController extends Controller
                 $Cobro->order_id=Factures::find($request->facture[0])->order_id;
                 $Cobro->save();}
                 $comp=$request->comp_file;
-                \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
+                // \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
+                if ($request->hasFile('comp_file')) {
+                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
+                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+                    \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
+                }else {
+                    throw new \Exception("Archivo no subido");
+                }
                 
                 $Facturas=DB::table('cobro_factures')
                 ->join('factures','factures.id','=','cobro_factures.facture_id')
@@ -277,6 +294,14 @@ class CobrosController extends Controller
         $Cobro->date=$request->date;
         $Cobro->reviso=Auth::user()->id;
         $Cobro->save();
+        if ($request->hasFile('comp_file')) {
+                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
+                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+                    \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
+                }else {
+                    throw new \Exception("Archivo no subido");
+                }
+                
         //Borar facturas anteriores asociadas
         cobro_facture::where('cobro_id',$Cobro->id)->delete();
         //Facturas asociadas al cobro via checkboxes
@@ -293,6 +318,14 @@ class CobrosController extends Controller
                   $Cobro->save();}
         //$comp=$request->comp_file;
         //\Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf',  \File::get($comp));
+        if ($request->hasFile('comp_file')) {
+            $comp = $request->file('comp_file'); // Obtiene el archivo subido
+            $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+            \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
+        }else {
+            throw new \Exception("Archivo no subido");
+        }
+        
         $Facturas=DB::table('cobro_factures')
         ->join('factures','factures.id','=','cobro_factures.facture_id')
         ->where('cobro_factures.cobro_id','=',$Cobro->id)

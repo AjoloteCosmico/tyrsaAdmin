@@ -101,11 +101,21 @@ class NotasCreditoController extends Controller
                           $registro->save();
                       }}
                 $comp=$request->comp_file;
-                \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
-       
+                // \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
+                if ($request->hasFile('comp_file')) {
+                    $comp = $request->file('comp_file'); // Obtiene el archivo subido
+                    $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+                    \Storage::disk('comp')->put('note'.$Nota->id.'.pdf', $contenidoPDF);
+                }else {
+                    throw new \Exception("Archivo no subido");
+                }
+                
                 return redirect('credit_notes');
                 }
-        public function destroy($id){
+       
+       
+       
+    public function destroy($id){
 
             
             $Facturas=note_facture::where('note_id',$id)->get();
