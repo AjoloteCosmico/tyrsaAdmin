@@ -39,7 +39,7 @@ class ReportsController extends Controller
        public function generate($id,$report,$pdf,$tipo=0)
        {  
            $caminoalpoder=public_path();
-           $process = new Process(['python3',$caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           $process = new Process([env('PY_COMAND'), $caminoalpoder.'/'.$report.'.py',$id,$tipo]);
            ini_set('max_execution_time', '300');  
            $process->run();
            if (!$process->isSuccessful()) {
