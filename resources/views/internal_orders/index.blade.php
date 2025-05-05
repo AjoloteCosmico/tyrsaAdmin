@@ -48,12 +48,12 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @CAN('VER RESUMEN PI')
-            <a href="{{ route('reports.generate',[0,'resumen_pedido',0])}}" class="btn btn-blue">
+            <a href="{{ route('reports.generate',[0,'resumen_pedido',0])}}" class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
                 @endcan
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('internal_orders.create')}}" class="btn btn-green">
+                <a href="{{ route('internal_orders.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
@@ -88,7 +88,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('VER PEDIDOS')
                                         <a href="{{ route('internal_orders.show', $row->id)}}">
-                                            <i class="fa-solid fa-eye btn btn-blue  "></i></span>
+                                            <i class="fa-solid fa-eye btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         @endcan
                                     </div>
@@ -98,7 +98,7 @@
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
@@ -107,7 +107,7 @@
                                         <form class="CancelReg" action="{{route('internal_orders.cancel', $row->id) }}" method="POST">
                                             @csrf
                                             @method('POST')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-xmark items-center"></i>
                                             </button>
                                         </form>
@@ -119,7 +119,7 @@
                                         <form action="{{ route('internal_orders.pagos', $row->id) }}" method="POST">
                                             @csrf
                                             <x-jet-input type="hidden" name="order_id" value="{{ $row->id}}"/>
-                                            <button type="submit" class="btn btn-green">
+                                            <button type="submit" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                                 <i class="fa-solid fa-percent items-center"></i>
                                             </button>
                                         </form>
@@ -128,7 +128,7 @@
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>

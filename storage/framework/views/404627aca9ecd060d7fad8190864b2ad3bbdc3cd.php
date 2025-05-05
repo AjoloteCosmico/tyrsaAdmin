@@ -48,12 +48,12 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('VER RESUMEN PI')): ?>
-            <a href="<?php echo e(route('reports.generate',[0,'resumen_pedido',0])); ?>" class="btn btn-blue">
+            <a href="<?php echo e(route('reports.generate',[0,'resumen_pedido',0])); ?>" class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('CREAR PEDIDOS')): ?>
-                <a href="<?php echo e(route('internal_orders.create')); ?>" class="btn btn-green">
+                <a href="<?php echo e(route('internal_orders.create')); ?>" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 <?php endif; ?>
@@ -88,7 +88,7 @@
                                     <div class="col-6 text-center w-10">
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('VER PEDIDOS')): ?>
                                         <a href="<?php echo e(route('internal_orders.show', $row->id)); ?>">
-                                            <i class="fa-solid fa-eye btn btn-blue  "></i></span>
+                                            <i class="fa-solid fa-eye btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         <?php endif; ?>
                                     </div>
@@ -98,7 +98,7 @@
                                         <form class="DeleteReg" action="<?php echo e(route('internal_orders.destroy', $row->id)); ?>" method="POST">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
@@ -107,7 +107,7 @@
                                         <form class="CancelReg" action="<?php echo e(route('internal_orders.cancel', $row->id)); ?>" method="POST">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('POST'); ?>
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-xmark items-center"></i>
                                             </button>
                                         </form>
@@ -133,7 +133,7 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-                                            <button type="submit" class="btn btn-green">
+                                            <button type="submit" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                                 <i class="fa-solid fa-percent items-center"></i>
                                             </button>
                                         </form>
@@ -142,7 +142,7 @@
                                         <form class="DeleteReg" action="<?php echo e(route('internal_orders.destroy', $row->id)); ?>" method="POST">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;">
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
@@ -185,6 +185,7 @@ background-color:rgb(1, 10, 148);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   new DataTable('#example');
 </script>
