@@ -72,7 +72,7 @@
                                         <x-jet-input-error for='unit_price' />
                                     </div>
                                     Ingresa su comprobante
-                                    <a href="{{$pdfUrl}}">Archivo Anterior</a>
+                                    <a href="{{route('factures.show',$Facture->id)}}">Archivo Anterior</a>
                                     <br>
                                     <input type="file" name="comp_file" id="comp_file">
                                     <br><br>

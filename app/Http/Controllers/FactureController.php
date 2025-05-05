@@ -68,15 +68,18 @@ class FactureController extends Controller
 
     public function show($id){
         
-        $filename = 'fac' . $id . '.pdf';
+        $filename = 'fac'.$id.'.pdf';
         //Crear un pdf en blanco si no existe
+        
         if (!\Storage::disk('comp')->exists($filename)) {
             // Crear PDF en blanco si no existe
             $pdfBlank = app('dompdf.wrapper');
             $pdfBlank->loadHTML('<h3>comprobante factura</h3>');
             \Storage::disk('comp')->put($filename, $pdfBlank->output());
         }
+        
     $file_path = public_path('storage/fac'.$id.'.pdf');
+    // dd($file_path);
     return response()->file($file_path);
     //return Storage::download('app/comp'.$id.'.pdf');
                     
@@ -90,28 +93,15 @@ class FactureController extends Controller
         ->select('factures.*','customers.id as customer_id','customers.clave', 'coins.symbol', 'internal_orders.invoice','internal_orders.reg_date','internal_orders.payment_conditions')
         ->where('factures.id','=',$facture)
         ->first();
-                $Factures=Factures::all();
-                $Customers=Customer::orderby('clave')->get();
-                $InternalOrders=InternalOrder::all();
-                
-                $filename = 'fac' . $Facture->id . '.pdf';
-                // dd(\Storage::disk('comp')->exists($filename));
-                //Crear un pdf en blanco si no existe
-                if (!\Storage::disk('comp')->exists($filename)) {
-                    // Crear PDF en blanco si no existe
-                    $pdfBlank = app('dompdf.wrapper');
-                    $pdfBlank->loadHTML('<h3>comprobante factura</h3>');
-                    \Storage::disk('comp')->put($filename, $pdfBlank->output());
-                }
-                
-                $pdfUrl = \Storage::disk('public')->url($filename);
-                // $pdfUrl = public_path('storage/'.$filename);
+        $Factures=Factures::all();
+        $Customers=Customer::orderby('clave')->get();
+        $InternalOrders=InternalOrder::all();
+        
                 return view('factures.edit',compact(
                 'Facture',
                 'Factures',
                 'Customers',
                 'InternalOrders',
-                'pdfUrl'
                 ));
                 }
     public function update($id,Request $request){
