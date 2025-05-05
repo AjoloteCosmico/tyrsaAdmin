@@ -130,6 +130,15 @@ class NotasCreditoController extends Controller
         }
         public function show($id){
             $file_path = public_path('storage/note'.$id.'.pdf');
+              //Crear un pdf en blanco si no existe
+              $filename = 'note'.$id.'.pdf';
+            if (!\Storage::disk('comp')->exists($filename)) {
+                // Crear PDF en blanco si no existe
+                $pdfBlank = app('dompdf.wrapper');
+                $pdfBlank->loadHTML('<h3>comprobante cobro</h3>');
+                \Storage::disk('comp')->put($filename, $pdfBlank->output());
+            }
+        
             return response()->file($file_path);
             //return Storage::download('app/comp'.$id.'.pdf');
                             
@@ -200,9 +209,16 @@ class NotasCreditoController extends Controller
                   $registro->save();
               }}
         $comp=$request->comp_file;
-        \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
-
-            return $this->index();
+        // \Storage::disk('comp')->put('note'.$Nota->id.'.pdf',  \File::get($comp));
+        if ($request->hasFile('comp_file')) {
+            $comp = $request->file('comp_file'); // Obtiene el archivo subido
+            $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+            \Storage::disk('comp')->put('note'.$FNota->id.'.pdf', $contenidoPDF);
+        } else {
+            throw new \Exception("Archivo no subido");
+        }
+        
+            return redirect()->route('credit_notes.index');
         }
 
 }

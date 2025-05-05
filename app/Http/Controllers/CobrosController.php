@@ -161,7 +161,7 @@ class CobrosController extends Controller
                 if ($request->hasFile('comp_file')) {
                     $comp = $request->file('comp_file'); // Obtiene el archivo subido
                     $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
-                    \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
+                    \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf', $contenidoPDF);
                 }else {
                     throw new \Exception("Archivo no subido");
                 }
@@ -321,7 +321,7 @@ class CobrosController extends Controller
         if ($request->hasFile('comp_file')) {
             $comp = $request->file('comp_file'); // Obtiene el archivo subido
             $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
-            \Storage::disk('comp')->put('comp'.$Facture->id.'.pdf', $contenidoPDF);
+            \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf', $contenidoPDF);
         }else {
             throw new \Exception("Archivo no subido");
         }

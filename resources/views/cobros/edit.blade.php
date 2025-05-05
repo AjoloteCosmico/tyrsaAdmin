@@ -130,12 +130,11 @@ th     { background:#eee; }" >
                                     <br>
                                     Ingresa su comprobante
                                      <p><a href="{{ route('cobros.show', $Cobro->id)}}">Comprobante <i class='far fa-file'></i></a> </p>
-                                    <a href="{{route('factures.show',$Facture->id)}}">
+                                    
                                     <br>
                                     <input type="file" name="comp_file" id="comp_file">
                                     <br><br>
 
-                                    <br>
                                     <!-- <input type="file" name="comp_file" id="comp_file"> -->
                                     <br><br>
 

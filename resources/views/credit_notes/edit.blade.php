@@ -122,14 +122,13 @@
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Nota->amount}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
-                                    Ver comprobante anterior
+                                    Ingresa su comprobante
+                                     <p><a href="{{ route('credit_notes.show', $Nota->id)}}">Comprobante <i class='far fa-file'></i></a> </p>
+                                    
                                     <br>
-                                    <button type="button" onclick = "openPDF()"  class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;"> 
-                                     <i class="fas fa-eye fa-2x"></i> &nbsp; Ver comprobante  </button>
-                                    <br> Si desea reemplazar el comprobante ingreselo a continuación:
-                                    <br>
-                                    <input type="file" name="comp_file" id="comp_file"  value="{{asset('storage/note'.$Nota->id.'pdf')}}" >
+                                    <input type="file" name="comp_file" id="comp_file">
                                     <br><br>
+
 
                         </div>
                     </div>
