@@ -30,7 +30,7 @@
            
                                     <div class="col-sm-12 text-right p-3">
                                         
-                                        <button type="button" id="your-id" class="btn btn-green">
+                                        <button type="button" id="your-id" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                          </button>
                                     </div>
@@ -68,8 +68,8 @@
                                                     <td>{{ $row->description }}</td>
                                                     <td class="text-right">$ {{ number_format($row->unit_price, 2) }}</td>
                                                     <td class="text-right">$ {{ number_format($row->import, 2) }}</td>
-                                                    <td><a href="{{ route('tempitems.edit_item', [$row->id,0]) }} " class="btn btn-green">
-                                                        <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
+                                                    <td><a href="{{ route('tempitems.edit_item', [$row->id,0]) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
+                                                        <button type = "button" class="btn btn-green " > <i class="fas fa-edit"></i> </button>
                                                    </a></td>
                                                 </tr>
                                                 @endforeach
@@ -151,7 +151,7 @@
                 {{--  <a href="{{ route('internal_orders.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
-                <button type="button" onclick="send_data()" class="btn btn-green mb-2">
+                <button type="button" onclick="send_data()" class="btn btn-green mb-2" style="background-color: rgb(22,163,74);color: white;" >
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>

@@ -76,7 +76,7 @@
                 {{--  <a href="{{ route('customers_shipping_address.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
-                <button type="submit" class="btn btn-green mb-2">
+                <button type="submit" class="btn btn-green mb-2" style="background-color: rgb(22,163,74);color: white;" >
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>

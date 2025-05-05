@@ -191,14 +191,14 @@
                 <form action="{{ route('internal_orders.payment_edit', $InternalOrders->id) }}" method="POST">
                                             @csrf                               
                                             <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id }}"/>
-                                            <button  class="btn btn-green" type="submit" name="editar" >
+                                            <button  class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" type="submit" name="editar" >
                                                 <i class="fas fa-edit"></i> &nbsp; Editar
                                             </button>
                                         </form>
                                         </div>
     <div class ="col">@can('VER PEDIDOS')
                                         <a href="{{ route('internal_orders.show', $InternalOrders->id)}}">
-                                            <i class="fas fa-eye btn btn-blue ">Ver Detalles</i></span>
+                                            <i class="fas fa-eye btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;">Ver Detalles</i></span>
                                         </a>
                                         @endcan</div>
   </div>

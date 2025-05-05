@@ -166,7 +166,7 @@
                            <x-jet-input type="password" name="key" class="w-flex text-xs"/>
                        </div>
                        <div class="row">
-                           <button class="btn btn-green">Firmar</button>
+                           <button class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">Firmar</button>
                        </div>
                    </div>
                    </form>

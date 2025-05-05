@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR ROL')
-                <a href="{{ route('roles.create')}}" class="btn btn-green">
+                <a href="{{ route('roles.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
@@ -35,7 +35,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR ROL')
                                             <a href="{{ route('roles.edit', $row->id)}}">
-                                                <button class="btn btn-blue">
+                                                <button class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>
                                                 

@@ -67,7 +67,7 @@
                 <a href="{{ route('sellers.index')}}" class="btn btn-green mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
-                <button type="submit" class="btn btn-red mb-2">
+                <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>

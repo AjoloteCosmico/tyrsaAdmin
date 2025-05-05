@@ -26,7 +26,7 @@
                 </table>
             <div class="col-sm-12 text-right">
                 @can('VER DGI')
-                <a href="{{ route('sellers.create')}}" class="btn btn-green">
+                <a href="{{ route('sellers.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
@@ -60,7 +60,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR VENDEDORES')
                                         <a href="{{ route('dgi_com.edit', $row->id)}}">
-                                        <button  class="btn btn-blue ">
+                                        <button  class="btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
                                             </button>
                                         </a>

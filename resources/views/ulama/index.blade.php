@@ -78,7 +78,7 @@
                             
                         </tbody>
                     </table>
-                    <a href="{{ route('ulama.create')}}" class="btn btn-green">
+                    <a href="{{ route('ulama.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Registrar rotacion
                 </a>
                 

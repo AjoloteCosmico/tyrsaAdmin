@@ -467,7 +467,7 @@
                            <x-jet-input type="password" name="key" class="w-flex text-xs"/>
                        </div>
                        <div class="row">
-                           <button class="btn btn-green">Firmar</button>
+                           <button class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">Firmar</button>
                        </div>
                    </div>
                    </form>
@@ -522,7 +522,7 @@ MARCA:
     <option value="{{$row->id}}" @if($InternalOrders->marca==$row->id) selected @endif>{{$row->name}} </option>
     @endforeach
 </select>
-<button class="btn btn-blue mb-2" type="submit"> Asignar marca</button> 
+<button class="btn btn-blue mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;" type="submit"> Asignar marca</button> 
               
 </form>
 <hr>
@@ -600,7 +600,7 @@ MARCA:
                                          
                 
                @can('VER DGI')        
-                <button type = "button" class="btn btn-red mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
+                <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
                 @endcan   
                 <br><br><br>
                     </div></div>
@@ -610,7 +610,7 @@ MARCA:
                     </a>
                     
                     @endcan
-                <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
                       
                     @else 
@@ -623,7 +623,7 @@ MARCA:
                     <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                     </a>
                     
-                    <button type = "button" class="btn btn-red mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
                 @endif
                                     

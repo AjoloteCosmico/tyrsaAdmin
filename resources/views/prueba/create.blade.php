@@ -95,7 +95,7 @@ console.log(total);
                         <td><form class="DeleteReg" action="{{ route('prueba.destroy', $c->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" >
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form></td>

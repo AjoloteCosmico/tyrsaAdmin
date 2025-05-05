@@ -139,7 +139,7 @@
         <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 text-right p-3">
-                                        <a href="{{ route('items.create', $InternalOrders->id) }} " class="btn btn-green">
+                                        <a href="{{ route('items.create', $InternalOrders->id) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                             <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida
                                         </a>
                                     </div>
@@ -169,7 +169,7 @@
                                                     <td>{{ $row->description }}</td>
                                                     <td class="text-right">$ {{ number_format($row->unit_price, 2) }}</td>
                                                     <td class="text-right">$ {{ number_format($row->import, 2) }}</td>
-                                                    <td><a href="{{ route('items.edit_item', $row->id) }} " class="btn btn-green">
+                                                    <td><a href="{{ route('items.edit_item', $row->id) }} " class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                                                    </a></td>
                                                 </tr>
@@ -184,7 +184,7 @@
                             <button type="submit" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
                 </button>
-                <a href="{{ route('internal_orders.index')}}" class="btn btn-red mb-2">
+                <a href="{{ route('internal_orders.index')}}" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  
             </div>

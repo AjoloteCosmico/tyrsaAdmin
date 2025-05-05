@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR DIRECCIONES')
-                <a href="{{ route('customers_shipping_address.create')}}" class="btn btn-green">
+                <a href="{{ route('customers_shipping_address.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 @endcan
@@ -42,7 +42,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR DIRECCIONES')
                                         <a href="{{ route('customers_shipping_address.edit', $row->id)}}">
-                                            <i class="fas fa-edit btn btn-blue "></i></span>
+                                            <i class="fas fa-edit btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"></i></span>
                                         </a>
                                         @endcan
                                     </div>
@@ -51,7 +51,7 @@
                                         <form class="DeleteReg" action="{{ route('customers_shipping_address.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" >
                                                 <i class="fas fa-trash items-center"></i>
                                             </button>
                                         </form>

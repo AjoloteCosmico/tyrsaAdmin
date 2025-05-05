@@ -222,7 +222,7 @@
                                             <x-jet-input type="password" name="key" class="w-flex text-xs"/>
                                         </div>
                                         <div class="col">
-                                            <button class="btn btn-green">Firmar</button>
+                                            <button class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">Firmar</button>
                                         </div>
                                     </div>
                                     </form>
@@ -248,7 +248,7 @@
                                         <form action="{{ route('internal_orders.pagos', $row->id) }}" method="POST">
                                             @csrf                               
                                             <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id }}"/>
-                                            <button type="submit" class="btn btn-green">
+                                            <button type="submit" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                                                 <i class="fas fa-percent items-center fa-2x"></i> &nbsp; Porcentaje de Avances
                                             </button>
                                         </form>-->
@@ -258,7 +258,7 @@
                     @endif
                     <br><br><br>
                 </div>
-                    <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();"> 
+                    <input  class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();"> 
                     <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} " class="btn btn-green btn-sm">
                      <button type = "button" class="btn btn-green "> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                     </a></td>

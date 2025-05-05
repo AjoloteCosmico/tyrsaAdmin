@@ -144,7 +144,7 @@
                                 </div>
   
     <br>
-    <button   type="button" class="btn btn-blue mb-2"  onclick="redondear()">
+    <button   type="button" class="btn btn-blue mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;" onclick="redondear()">
                 <i class="fa-regular fa-circle fa-2x" ></i>
                          &nbsp; &nbsp;
                 <p>Redondear</p></button>

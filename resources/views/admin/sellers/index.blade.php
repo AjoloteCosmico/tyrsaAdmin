@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR VENDEDORES')
-                <a href="{{ route('sellers.create')}}" class="btn btn-green">
+                <a href="{{ route('sellers.create')}}" class="btn btn-green" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan
@@ -51,7 +51,7 @@
                             <td >
                             <div class="col-6 text-center">
                                 <a href="{{route('sellers.customers',$row->id)}}">
-                                        <button class="btn btn-blue " style="font-size:0.6vw">
+                                        <button class="btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;"" style="font-size:0.6vw">
                                                 <i class="fas fa-users fa-lg"> </i> <br>
                                                 Clientes
                                             </button></a>
@@ -62,7 +62,7 @@
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR VENDEDORES')
                                         <a href="{{ route('sellers.edit', $row->id)}}">
-                                            <button  class="btn btn-blue ">
+                                            <button  class="btn btn-blue  " style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
                                             </button>
                                         </a>
@@ -74,7 +74,7 @@
                                         <!-- <form class="DeleteReg" action="{{ route('sellers.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red ">
+                                            <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" >
                                                 <i class="fas fa-trash items-center fa-xl"></i>
                                             </button>
                                         </form> -->
