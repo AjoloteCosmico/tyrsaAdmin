@@ -302,7 +302,7 @@
                                <x-jet-input-error for='descuento' />
                            </div>
                
-                            <button type="submit" class="btn btn-green mb-2">
+                            <button type="submit" class="btn btn-green mb-2" style="background-color: rgb(22,163,74);color: white;">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar Cambios
                 </button>
                 <a href="{{ route('internal_orders.show',$InternalOrders->id)}}" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2">
