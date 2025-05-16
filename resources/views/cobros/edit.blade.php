@@ -38,12 +38,11 @@
                                           @foreach($Ordenes as $o)
                                                 <option value="{{$o->id}}" >{{$o->invoice}} </option>
                                           @endforeach
-                                          
                                         </select>
                                         <t-error for='order_id' />
                                     </div>
                                     <div class="form-group">
-                                        <xx-jet-inpu-jet-label value="Fecha de cobro" />
+                                        <x-jet-label value="Fecha de cobro" />
                                         <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{$Cobro->date}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>

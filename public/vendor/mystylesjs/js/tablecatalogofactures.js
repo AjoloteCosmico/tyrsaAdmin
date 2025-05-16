@@ -6,15 +6,15 @@ if ( $.fn.dataTable.isDataTable( '.tablefactures' ) ) {
         destroy: true,
         responsive: true,
 
-        // "columnDefs": [
+        "columnDefs": [
        
-        //     {
-        //         "targets": [6],
-        //         "searchable": false,
-        //         "sortable": false,
-        //         "visible": true,
-        //     },
-        // ],
+            {
+                "targets": [6],
+                "searchable": false,
+                "sortable": false,
+                "visible": true,
+            },
+        ],
 
         /** Para usar los botones */ 
         dom: 'Bfrtilp',       

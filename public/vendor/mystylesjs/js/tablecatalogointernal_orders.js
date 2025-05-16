@@ -1,7 +1,9 @@
-var script = document.createElement('script');
-script.src = 'https://code.jquery.com/jquery-3.6.3.min.js'; // Check https://jquery.com/ for the current version
-document.getElementsByTagName('head')[0].appendChild(script);
+// var script = document.createElement('script');
+// script.src = 'https://code.jquery.com/jquery-3.6.3.min.js'; // Check https://jquery.com/ for the current version
+// document.getElementsByTagName('head')[0].appendChild(script);
+console.log("si hay tabla (main case)");
 if ( $.fn.dataTable.isDataTable( '.tableinternalorders' ) ) {
+    
     table = $(".tableinternalorders").DataTable({
         destroy: true,
         responsive: true,
@@ -78,7 +80,8 @@ if ( $.fn.dataTable.isDataTable( '.tableinternalorders' ) ) {
     });
 }
 else {
+    console.log("No hay tabla (else case)");
     table = $('.tableinternalorders').DataTable( {
-        paging: false
+        paging: true
     } );
 }

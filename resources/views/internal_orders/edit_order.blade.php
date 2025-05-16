@@ -249,7 +249,6 @@
                                         <option value="Servicios" @if($InternalOrders->category=="Servicios") selected @endif>Servicios</option>
                                         <option value="Integracion" @if($InternalOrders->category=="Integracion") selected @endif>Integracion</option>
                                        
-                                    
                                 </select>
                                 <x-jet-input-error for='category' /> 
                             <div class="form-group">
