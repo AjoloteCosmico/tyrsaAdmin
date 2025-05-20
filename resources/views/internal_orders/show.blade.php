@@ -395,35 +395,7 @@
 
            
             
-            <br> 
-            <table>
-            <tr class="text-center"><th colspan="7">Comision principal</th></tr>
-                <tr class="text-center">
-                    <th>Vendedor no.</th>
-                    <th>Inicia</th>
-                    <th>Descripcion</th>
-                    <th>% </th>
-                    <th>Monto sin IVA </th>
-                    <th>Moneda </th>
-                    <th>EQUIVALENTE EN  M.N. SIN IVA </th>
-                 </tr>
-
-               <br>
-                 
-                    <tr>
-                        <td> {{$Sellers->folio}}</td>
-                        <td> {{$Sellers->iniciales}}</td>
-                        <td>  Comision Principal</td>
-                        <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*$InternalOrders->subtotal ,2)}} </td>
-                        <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
-                    </tr>
-                    
-                    
-                   <tr>
-            </table>
-            <br> 
+           
            
              <br><br>
 
@@ -530,7 +502,34 @@ MARCA:
                     <br> <br>
                     <center> <h1> CONFIDENCIAL</h1> </center>
 <br>
+ <br> 
+            <table>
+            <tr class="text-center"><th colspan="7">Comision principal</th></tr>
+                <tr class="text-center">
+                    <th>Vendedor no.</th>
+                    <th>Inicia</th>
+                    <th>Descripcion</th>
+                    <th>% </th>
+                    <th>Monto sin IVA </th>
+                    <th>Moneda </th>
+                    <th>EQUIVALENTE EN  M.N. SIN IVA </th>
+                 </tr>
 
+               <br>
+                 
+                    <tr>
+                        <td> {{$Sellers->folio}}</td>
+                        <td> {{$Sellers->iniciales}}</td>
+                        <td>  Comision Principal</td>
+                        <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
+                        <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*$InternalOrders->subtotal ,2)}} </td>
+                        <td> {{$Coins->code}}</td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
+                    </tr>
+
+                   <tr>
+            </table>
+            <br> 
                     @can('ASIGNAR DGI')
                     <!-- que aparezca solo si el pedido no esta aut -->
                 <a href="{{route('change_dgi',$InternalOrders->id)}}"><button class="btn btn-black mb-2"> Asignar dgi</button>  </a>
@@ -813,9 +812,10 @@ tr th:last-child {
             html: `la contraseña es incorrecta` ,  
                     showCancelButton: false,
                     showConfirmButton: true,
-
             });
+
 </script>
+ 
 @endif
 
 @if (session('markasigned') == 'ok')
