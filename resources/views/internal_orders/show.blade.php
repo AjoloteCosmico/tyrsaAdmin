@@ -516,7 +516,6 @@ MARCA:
                  </tr>
 
                <br>
-                 
                     <tr>
                         <td> {{$Sellers->folio}}</td>
                         <td> {{$Sellers->iniciales}}</td>
@@ -663,7 +662,6 @@ MARCA:
     @media print {
         @if($InternalOrders->status=='CANCELADO')
     
-  
         .page {
     position: relative;
     /* Ajusta el tamaño según tu hoja, por ejemplo A4: 210×297 mm */

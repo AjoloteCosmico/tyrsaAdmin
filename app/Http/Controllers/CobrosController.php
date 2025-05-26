@@ -173,7 +173,7 @@ class CobrosController extends Controller
                 ->groupBy('factures.order_id')
                 ->get();
                 if($Facturas->count()>1){
-                    return $this->desglosar_cobro($Cobro->id);
+                   return redirect()->route('cobros.create_desglose',$Cobro->id);
                 }else{
                     $registro= new cobro_order();
                     if($Facturas->count()==0){
@@ -328,7 +328,7 @@ class CobrosController extends Controller
             throw new \Exception("Archivo no subido");
         }
         if($Facturas->count()>1){
-            return $this->desglosar_cobro($Cobro->id);
+            return redirect()->route('cobros.create_desglose',$Cobro->id);
         }else{
             if($Facturas->count()==0){
                 cobro_order::where('cobro_id',$Cobro->id)->delete();
@@ -364,7 +364,7 @@ class CobrosController extends Controller
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
                     Cobro::destroy($id);
-                    return $this->index();
+                    return redirect()->route('cobros')->with('delete_reg', 'ok');
             }
     
 
@@ -372,7 +372,7 @@ class CobrosController extends Controller
        $Cobro= Cobro::find($id);
        $Cobro->reviso=Auth::user()->id;
        $Cobro->save();
-       return $this->index();
+       return redirect()->route('cobros');
 
     }
     public function autorizar($id){
