@@ -113,6 +113,7 @@ class UserController extends Controller
         $request->validate($rules, $messages);
 
         $input = $request->all();
+        // dd($input);
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }else{
@@ -122,6 +123,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         $user->update($input);
+        
 
         DB::table('model_has_roles')->where('model_id', $id)->delete();
 
