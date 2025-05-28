@@ -61,9 +61,9 @@
     </tr>
     <tr   >
      <td scope="col">Saldo deudor     (-):</td>
-     <td style="color:#ff0000"> {{$Coins -> symbol}} {{number_format( $Subtotal * 1.16 - $abonos->sum('amount'))}}</td>
+     <td style="color:#ff0000"> {{$Coins -> symbol}} {{number_format( $InternalOrders->total - $abonos->sum('amount'))}}</td>
     </tr>
-    <tr style="background-color: #4dff88">
+    <tr @if( $InternalOrders->total - $abonos->sum('amount')>0) style="background-color:rgb(207, 53, 53)" @else style="background-color: #4dff88" @endif>
      <td scope="col">Abonos Recibidos (+):</td>
      <td>{{$abonos->count()}}</td>
     </tr>

@@ -829,4 +829,31 @@ tr th:last-child {
 </script>
 @endif
 
+@if (session('firma') == 'ok')
+<script>
+      Swal.fire({
+            icon: 'success',
+            title: "<i>La firma se registro correctamente</i>", 
+            html: "Se ha completado la autorizacion por parte del usuario autorizado" ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+            });
+</script>
+@endif
+
+@if (in_array(session('firma'),['Contraseña Incorrecta','Usuario no autorizado']))
+<script>
+      Swal.fire({
+            icon: 'error',
+            title: "<i>La firma no se ha completado</i>", 
+            html: `{{session('firma')}}` ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+            });
+
+</script>
+ 
+@endif
+
 @endpush

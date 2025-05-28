@@ -700,11 +700,38 @@ public function recalcular_total($id){
     $stored_key = Auth::user()->password;
     $key_code =  $request->key;
     $isPasswordCorrect = Hash::check($key_code, $stored_key);
-    if($isPasswordCorrect){
+
+    $userHasRole=False;
+    //verificar que se tenga el rol necesario
+    if(Auth::user()->id !=1){//el super usuario no se verifica (ni firma)
+         $user_rol_id=DB::table('model_has_roles')->where('model_id',Auth::user()->id)->first()->role_id;
+         //revisar los 3 casos de autorizacion
+         if($signature->auth_id==2){//gerente de ventas 2 es el auth id
+           if(in_array($user_rol_id,[16])) {//si el usuario tiene el rol 16, gerente de ventas
+            $userHasRole=True;
+           }
+          }
+        if($signature->auth_id==3){//gerente de ventas 2 es el auth id
+           if(in_array($user_rol_id,[11])) {//si el usuario tiene el rol 16, gerente de ventas
+            $userHasRole=True;
+           }
+         }
+        if($signature->auth_id==4){//gerente de ventas 2 es el auth id
+           if(in_array($user_rol_id,[13])) {//si el usuario tiene el rol 16, gerente de ventas
+            $userHasRole=True;
+           }
+         }
+    }
+    if($isPasswordCorrect && $userHasRole ){
         $signature->status = 1;
         $signature->firma=Auth::user()->firma;
         $signature->save();
+        $Warn='ok';
     }
+
+    if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
+    
+    if(!$userHasRole){$Warn='Usuario no autorizado';}
     $required_signatures = signatures::where('order_id',$internal_order->id)->get();
     #$areAllSigns=0;
     $nSigns=$required_signatures->count();
@@ -718,7 +745,7 @@ public function recalcular_total($id){
     $internal_order->status = 'autorizado';}
     $internal_order->save();
 //hay que retornar el id de la orden, no del pago
-        return $this->show($internal_order->id);
+        return redirect()->route('internal_orders.show',$internal_order->id)->with('firma',$Warn);
         //return view('internal_orders.test',compact('signature','internal_order','key_code','isPasswordCorrect','stored_key'));
     }
 //recibe el id de la orden
@@ -903,7 +930,8 @@ public function recalcular_total($id){
         #ahora hay que traer de la base de datos lo que se acaba de guardar
         $payments = payments::where('order_id', $request->order_id)->get();
         $hpayments = historical_payments::where('order_id', $request->order_id)->get();
-        $abonos = payments ::where('status','pagado')->where('order_id', $request->order_id)->get();
+        // $abonos = payments ::where('status','pagado')->where('order_id', $request->order_id)->get();
+        $abonos=DB::table('cobro_orders')->where('order_id',$InternalOrder->id)->get();
         
         
         return view('internal_orders.store_payment', compact(
@@ -942,7 +970,9 @@ public function recalcular_total($id){
         $Items = Item::where('internal_order_id', $id)->get();
         $actualized='';
         $Subtotal = $InternalOrders->subtotal;
-        $abonos = payments ::where('status','pagado')->where('order_id', $id)->get();
+        // $abonos = payments ::where('status','pagado')->where('order_id', $id)->get();
+        $abonos=DB::table('cobro_orders')->where('order_id',$InternalOrders->id)->get();
+      
             return view('internal_orders.store_payment', compact(
                 'CompanyProfiles',
                 'InternalOrders',
