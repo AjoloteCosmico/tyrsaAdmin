@@ -19,8 +19,8 @@
                 <table id="tableContraportada" class="table tablepayments table-striped text-xs font-medium">
   <thead class="thead">
     <tr>
-      <th scope="col">Cliente</th>
-      <th > Pedido</th>
+      <th scope="col">Pedido</th>
+      <th > Cliente</th>
       <th>fecha</th>
       <th scope="col">Cantidad</th>
       <th scope="col">---</th>
@@ -49,8 +49,7 @@
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                </td>
-                               
-                               
+                                                              
                             </tr>
                             @endforeach
   

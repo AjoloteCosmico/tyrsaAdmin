@@ -177,7 +177,7 @@ class CobrosController extends Controller
                 }else{
                     $registro= new cobro_order();
                     if($Facturas->count()==0){
-                        $registro->order_id=0;
+                        $registro->order_id=$request->order_id;
                     }else{
                         $registro->order_id=$Facturas->first()->order_id;
                     }
