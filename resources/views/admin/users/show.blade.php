@@ -44,7 +44,6 @@
                 </div>
             </div>
             <div class="col-xs-12 p-2 gap-2">
-
                 <div class="form-group">
                     <x-jet-label value="* Zona" />
                     @if (empty($usuarioZone))

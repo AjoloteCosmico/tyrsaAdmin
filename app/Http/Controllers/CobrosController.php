@@ -266,7 +266,6 @@ class CobrosController extends Controller
                 'coin_id'=> 'required',
                 'tc' => 'required',
                 'amount' => 'required',
-                'comp_file' => 'required',
                 // 'seller_id' => 'required',
                 // 'comision' => 'required',
             ];
@@ -324,9 +323,10 @@ class CobrosController extends Controller
             $comp = $request->file('comp_file'); // Obtiene el archivo subido
             $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
             \Storage::disk('comp')->put('comp'.$Cobro->id.'.pdf', $contenidoPDF);
-        }else {
-            throw new \Exception("Archivo no subido");
         }
+        // else {
+        //     throw new \Exception("Archivo no subido");
+        // }
         if($Facturas->count()>1){
             return redirect()->route('cobros.create_desglose',$Cobro->id);
         }else{
