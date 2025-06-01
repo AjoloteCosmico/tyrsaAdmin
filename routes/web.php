@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
     Route::post('factures/update_2/{id}', [FactureController::class, 'update'])->name('factures.update2');
+    Route::get('factures/assign/{id}', [FactureController::class, 'assign'])->name('factures.assign');
+    Route::post('factures/make_assign', [FactureController::class, 'make_assign'])->name('factures.make_assign');
+    
     Route::resource('cobros', CobrosController::class);
     Route::post('cobros/update_2/{id}', [CobrosController::class, 'update'])->name('cobros.update2');
     Route::get('cobros/create_desglose/{id}', [CobrosController::class, 'desglosar_cobro'])->name('cobros.create_desglose');

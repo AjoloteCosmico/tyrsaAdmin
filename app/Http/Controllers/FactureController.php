@@ -7,6 +7,7 @@ use App\Models\InternalOrder;
 use App\Models\Coin;
 use App\Models\CompanyProfile;
 use App\Models\Factures;
+use App\Models\cobro_facture;
 use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 
@@ -61,10 +62,43 @@ class FactureController extends Controller
                 } else {
                     throw new \Exception("Archivo no subido");
                 }
-                
-                return redirect()->route('factures.index');
-                }
 
+                //revisar si el pedido tiene cobros para ligar sin facturas
+                 $Cobros=DB::table('cobros')
+                        ->leftJoin('cobro_factures','cobros.id','cobro_factures.cobro_id','left_otter')
+                        ->select('cobros.*')
+                        ->where('cobros.order_id',$request->order_id)
+                        ->whereNull('cobro_factures.facture_id')
+                        ->get();
+                // dd($Cobros);     
+                if($Cobros->count()>0) {
+                    return redirect()->route('factures.assign',$Facture->id);
+                }else{
+                    return redirect()->route('factures.index');
+                
+                }         
+                }
+    public function assign($id){
+        $Id=$id;
+        $Facture=Factures::find($id);
+        $Cobros=DB::table('cobros')
+                        ->leftJoin('cobro_factures','cobros.id','cobro_factures.cobro_id','left_otter')
+                        ->select('cobros.*')
+                        ->where('cobros.order_id',$Facture->order_id)
+                        ->whereNull('cobro_factures.facture_id')
+                        ->get();
+        
+    return view('factures.assign',compact('Cobros','Id')) ;       
+    }
+
+    public function make_assign(Request $request){
+        $registro=new cobro_facture();
+        $registro->cobro_id=$request->cobro_id;
+        $registro->facture_id=$request->facture_id;
+        $registro->save();
+        
+        return redirect()->route('factures.index');
+    }
 
     public function show($id){
         
