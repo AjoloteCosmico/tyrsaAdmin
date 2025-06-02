@@ -22,17 +22,22 @@
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-body">
-                            <div class="form-group">
-                                <x-jet-label value="* Puesto" />
-                                <x-jet-input type="text" name="job" class="w-full text-xs " value="{{$Authorizations->job}}"/>
-                                <x-jet-input-error for='job' />
-                            </div>
+                           <div class="form-group">
+                                        <x-jet-label value="* ROl" />
+                                        <select class="form-capture  w-full text-xs uppercase" name="role_id" id='role_id' onchange="put_job()">
+                                        <option  > </option>    
+                                        @foreach ($Roles as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('role_id')) selected @endif > {{$row->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='coin_id' />
+                                </div>
                             <div class="form-group">
                                 <x-jet-label value="* Rango superior en pesos" />
                                 <x-jet-input type="number" step="0.01" name="clearance_level" class="w-full text-xs " value="{{$Authorizations->clearance_level}}"/>
                                 <x-jet-input-error for='clearance_level' />
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <x-jet-label value="Contraseña" />
                                 <x-jet-input type="password" name="key_code" class="w-full text-xs " />
                                 <x-jet-input-error for='key_code' />
@@ -41,7 +46,7 @@
                                 <x-jet-label value="Confirmar Contraseña" />
                                 <x-jet-input type="password" step="0.01" name="confirm-password" class="w-full text-xs "/>
                                 <x-jet-input-error for='confirm-password' />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

@@ -34,7 +34,6 @@
                             <td> {{ $row->invoice }}</td>
                                 <td> <p>{{ $row->customer }}</p></td>
                                 
-                                
                                 <td>{{date('d-m-Y', strtotime($row->date)) }}</td>
                                 <td>{{$row->symbol}} {{ number_format($row->total)}} </td>
                                

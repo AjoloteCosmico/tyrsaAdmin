@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Authorization;
+
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,28 +20,33 @@ class AuthorizationController extends Controller
 
     public function create()
     {
-        return view('admin.authorizations.create');
+        $Roles=Role::all();
+        return view('admin.authorizations.create',compact('Roles'));
     }
 
     public function store(Request $request)
     {
         $rules = [
-            'job' => 'required',
+            // 'job' => 'required',
+            'role_id' => 'required',
             'clearance_level' => 'required',
-            'key_code' => 'required|same:confirm-password|min:8',
+            // 'key_code' => 'required|same:confirm-password|min:8',
         ];
 
         $messages = [
-            'job.required' => 'Capture el nombre de la Familia',
+            // 'job.required' => 'Capture el rol de la autorizacion',
+            
+            'role_id.required' => 'Capture el rol de la autorizacion',
             'clearance_level.required' => 'Capture el rango máximo de importe',
-            'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
-            'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
+            // 'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
+            // 'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
         ];
 
         $request->validate($rules, $messages);
-
+        $Job=Role::Find($request->role_id)->name;
         $Authorizations = new Authorization();
-        $Authorizations->job = $request->job;
+        $Authorizations->job = $Job;
+        $Authorizations->role_id = $request->role_id;
         $Authorizations->clearance_level = $request->clearance_level;
         $Authorizations->key_code = Hash::make($request->key_code);
         $Authorizations->save();
@@ -55,49 +62,65 @@ class AuthorizationController extends Controller
     public function edit($id)
     {
         $Authorizations = Authorization::find($id);
-//x
-        return view('admin.authorizations.show', compact('Authorizations'));
+        
+        $Roles=Role::all();
+        return view('admin.authorizations.show', compact('Authorizations','Roles'));
     }
 
     public function update(Request $request, $id)
     {
         if($request->key_code){
+            
             $rules = [
-                'job' => 'required',
-                'clearance_level' => 'required',
-                'key_code' => 'required|same:confirm-password|min:8',
-            ];
+            // 'job' => 'required',
+            'role_id' => 'required',
+            'clearance_level' => 'required',
+            // 'key_code' => 'required|same:confirm-password|min:8',
+        ];
 
-            $messages = [
-                'job.required' => 'Capture el nombre de la Familia',
-                'clearance_level.required' => 'Capture el rango máximo de importe',
-                'key_code.required' => 'Capture una contraseña',
-                'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
-                'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
-            ];
+        $messages = [
+            // 'job.required' => 'Capture el rol de la autorizacion',
+            
+            'role_id.required' => 'Capture el rol de la autorizacion',
+            'clearance_level.required' => 'Capture el rango máximo de importe',
+            // 'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
+            // 'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
+        ];
 
+            $Job=Role::Find($request->role_id)->name;
             $request->validate($rules, $messages);
 
             $Authorizations = Authorization::find($id);
-            $Authorizations->job = $request->job;
+            $Authorizations->job = $Job;
             $Authorizations->clearance_level = $request->clearance_level;
-            $Authorizations->key_code = Hash::make($request->key_code);
+            
+            $Authorizations->role_id = $request->role_id;
+            // $Authorizations->key_code = Hash::make($request->key_code);
             $Authorizations->save();
         }else{
-            $rules = [
-                'job' => 'required',
-                'clearance_level' => 'required',
-            ];
+           $rules = [
+            // 'job' => 'required',
+            'role_id' => 'required',
+            'clearance_level' => 'required',
+            // 'key_code' => 'required|same:confirm-password|min:8',
+        ];
 
-            $messages = [
-                'job.required' => 'Capture el nombre de la Familia',
-                'clearance_level.required' => 'Capture el rango máximo de importe',
-            ];
+        $messages = [
+            // 'job.required' => 'Capture el rol de la autorizacion',
+            
+            'role_id.required' => 'Capture el rol de la autorizacion',
+            'clearance_level.required' => 'Capture el rango máximo de importe',
+            // 'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
+            // 'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
+        ];
 
             $request->validate($rules, $messages);
 
+            $Job=Role::Find($request->role_id)->name;
             $Authorizations = Authorization::find($id);
-            $Authorizations->job = $request->job;
+            $Authorizations->job = $Job;
+            
+            $Authorizations->role_id = $request->role_id;
             $Authorizations->clearance_level = $request->clearance_level;
             $Authorizations->save();
         }        

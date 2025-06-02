@@ -493,29 +493,18 @@ public function recalcular_total($id){
                 $c->order_id=$InternalOrders->id;
                 $c->save();
             }
-            $Signature=new signatures();
-            $Signature->order_id = $InternalOrders->id;
-            $Signature->auth_id = 2;
-            $Signature->save();
-            if($InternalOrders->subtotal >= 700000){
-                    $Signature=new signatures();
-                    //$Signature->order_id = $InternalOrders->id;
-                    //$Signature->auth_id = 5;
-                    //$Signature->save(); 
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 3;
-                    $Signature->save(); 
+
+            //loop para crear las firmas desde la tabla de Autorizations
+            $Autorizaciones=Authorization::all();
+           
+            foreach($Authorizations as $auth){
+                if($auth->clearance_level>=$InternalOrders->total) {
                     $Signature=new signatures();
                     $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 4;
+                    $Signature->auth_id = $auth->id;
                     $Signature->save(); 
-                 }
-            if($InternalOrders->subtotal >= 5000000){
-                    $Signature=new signatures();
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 6;
-                    $Signature->save(); 
-                 }
+                }
+            }
 
             $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
             $t=0;
@@ -694,58 +683,54 @@ public function recalcular_total($id){
     }
 
     public function firmar(Request $request){
-    $signature = signatures::find($request->signature_id);
-    $internal_order = InternalOrder::find($signature->order_id);
-    $auth = Authorization::find($signature->auth_id);
-    $stored_key = Auth::user()->password;
-    $key_code =  $request->key;
-    $isPasswordCorrect = Hash::check($key_code, $stored_key);
+        $signature = signatures::find($request->signature_id);
+        $signature=DB::table('signatures')->join('authorizations','authorizations.id','signatures.auth_id')
+        ->select('signatures.*','authorizations.role_id')
+        ->where('signatures.id',$request->signature_id)
+        ->first();
 
-    $userHasRole=False;
-    //verificar que se tenga el rol necesario
-    if(Auth::user()->id !=1){//el super usuario no se verifica (ni firma)
-         $user_rol_id=DB::table('model_has_roles')->where('model_id',Auth::user()->id)->first()->role_id;
-         //revisar los 3 casos de autorizacion
-         if($signature->auth_id==2){//gerente de ventas 2 es el auth id
-           if(in_array($user_rol_id,[16])) {//si el usuario tiene el rol 16, gerente de ventas
-            $userHasRole=True;
-           }
-          }
-        if($signature->auth_id==3){//gerente de ventas 2 es el auth id
-           if(in_array($user_rol_id,[11])) {//si el usuario tiene el rol 16, gerente de ventas
-            $userHasRole=True;
-           }
-         }
-        if($signature->auth_id==4){//gerente de ventas 2 es el auth id
-           if(in_array($user_rol_id,[13])) {//si el usuario tiene el rol 16, gerente de ventas
-            $userHasRole=True;
-           }
-         }
-    }
-    if($isPasswordCorrect && $userHasRole ){
-        $signature->status = 1;
-        $signature->firma=Auth::user()->firma;
-        $signature->save();
-        $Warn='ok';
-    }
+        $internal_order = InternalOrder::find($signature->order_id);
+        $auth = Authorization::find($signature->auth_id);
+        $stored_key = Auth::user()->password;
+        $key_code =  $request->key;
+        $isPasswordCorrect = Hash::check($key_code, $stored_key);
 
-    if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
-    
-    if(!$userHasRole){$Warn='Usuario no autorizado';}
-    $required_signatures = signatures::where('order_id',$internal_order->id)->get();
-    #$areAllSigns=0;
-    $nSigns=$required_signatures->count();
-    $areAllSigns=$required_signatures->where('status',1)->count();
-    #foreach($required_signatures as $r){
-    #    if($r->status == 1){
-    #        $areAllSigns+=1;)
-    #    }
-    #}
-    if($areAllSigns ==$nSigns){
-    $internal_order->status = 'autorizado';}
-    $internal_order->save();
-//hay que retornar el id de la orden, no del pago
-        return redirect()->route('internal_orders.show',$internal_order->id)->with('firma',$Warn);
+        $userHasRole=False;
+        //verificar que se tenga el rol necesario
+        if(Auth::user()->id !=1){//el super usuario no se verifica (ni firma)
+            $user_rol_id=DB::table('model_has_roles')->where('model_id',Auth::user()->id)->first()->role_id;
+            //revisar los 3 casos de autorizacion
+            //IF unico
+            if($signature->role_id==$user_rol_id){
+                $userHasRole=True;
+            }
+            
+        }
+
+        if($isPasswordCorrect && $userHasRole ){
+            $signature->status = 1;
+            $signature->firma=Auth::user()->firma;
+            $signature->save();
+            $Warn='ok';
+        }
+
+        if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
+        
+        if(!$userHasRole){$Warn='Usuario no autorizado';}
+        $required_signatures = signatures::where('order_id',$internal_order->id)->get();
+        #$areAllSigns=0;
+        $nSigns=$required_signatures->count();
+        $areAllSigns=$required_signatures->where('status',1)->count();
+        #foreach($required_signatures as $r){
+        #    if($r->status == 1){
+        #        $areAllSigns+=1;)
+        #    }
+        #}
+        if($areAllSigns ==$nSigns){
+        $internal_order->status = 'autorizado';}
+        $internal_order->save();
+    //hay que retornar el id de la orden, no del pago
+            return redirect()->route('internal_orders.show',$internal_order->id)->with('firma',$Warn);
         //return view('internal_orders.test',compact('signature','internal_order','key_code','isPasswordCorrect','stored_key'));
     }
 //recibe el id de la orden
@@ -828,7 +813,6 @@ public function recalcular_total($id){
             'aux_count',
             'numpagos'
         ));
-
     }
     
     //cambiar a que en ves de request traireciba solo el id
