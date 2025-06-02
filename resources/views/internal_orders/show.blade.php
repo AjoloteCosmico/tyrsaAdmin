@@ -51,21 +51,16 @@
                             <tr>  <td> {{date('W', strtotime($InternalOrders->instalation_date))}}   </td> <th>E. Final: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->instalation_date))}}  </td></tr>
                         </table>
 
-
                             </td>
                         </tr>
-                        
-                            
+
                         <td  colspan="2"class="text-lg " style="color: red;  width:23%; border: none; border-collapse: collapse;">{{ $CompanyProfiles->company}}
                         </td>
-                        <tr>
-                                           
-                        </tr >
+                        <tr>              
+                        </tr>
 
                     </table>
-
-</div>
-
+    </div>
             
             <h5 class="text-lg text-center text-bold">PEDIDO INTERNO</h5>
             <br>
@@ -392,11 +387,6 @@
                     </tr>
                </table>
                
-
-           
-            
-           
-           
              <br><br>
 
                <table style="border: none;">

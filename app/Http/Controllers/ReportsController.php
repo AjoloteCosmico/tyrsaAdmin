@@ -380,7 +380,8 @@ public function note_pdf($id){
     $Sellers=Seller::where('status','ACTIVO')->get();
     $InternalOrders=DB::table('internal_orders')
     ->join('sellers','sellers.id','internal_orders.seller_id')
-    ->select('internal_orders.*','sellers.seller_name')
+    ->join('coins','internal_orders.coin_id','coins.id')
+    ->select('internal_orders.*','sellers.seller_name', DB::raw('(coins.exchange_sell * internal_orders.total) as exchange_total'))
     ->where('date','>=',$Year.'-01-01')
     ->where('sellers.status','ACTIVO')
     ->get();
