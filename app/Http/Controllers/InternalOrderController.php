@@ -73,7 +73,7 @@ class InternalOrderController extends Controller
     {
         $Medios=Medio::all();
         $NextInvoice = InternalOrder::orderBy('invoice', 'DESC')->first()->invoice+1;
-        if(Auth::user()->can('ASIGNAR CLIENTES')){
+        if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
             
         $Customers = Customer::all()->sortBy('clave');
         }   

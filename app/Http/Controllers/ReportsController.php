@@ -371,8 +371,8 @@ public function note_pdf($id){
     ));
   }
 
-  //reporte por producto
   
+  //reporte por producto
   public function objetivos($Monto){
     $CompanyProfiles = CompanyProfile::first();
     $comp=$CompanyProfiles->id;
