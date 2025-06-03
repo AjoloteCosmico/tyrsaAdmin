@@ -684,24 +684,24 @@ public function recalcular_total($id){
 
     public function firmar(Request $request){
         $signature = signatures::find($request->signature_id);
-        $signature=DB::table('signatures')->join('authorizations','authorizations.id','signatures.auth_id')
+        $signature_role_id=DB::table('signatures')
+        ->join('authorizations','authorizations.id','signatures.auth_id')
         ->select('signatures.*','authorizations.role_id')
         ->where('signatures.id',$request->signature_id)
-        ->first();
-
+        ->first()->role_id;
+        //  dd($signature);
         $internal_order = InternalOrder::find($signature->order_id);
         $auth = Authorization::find($signature->auth_id);
         $stored_key = Auth::user()->password;
         $key_code =  $request->key;
         $isPasswordCorrect = Hash::check($key_code, $stored_key);
-
         $userHasRole=False;
         //verificar que se tenga el rol necesario
         if(Auth::user()->id !=1){//el super usuario no se verifica (ni firma)
             $user_rol_id=DB::table('model_has_roles')->where('model_id',Auth::user()->id)->first()->role_id;
             //revisar los 3 casos de autorizacion
             //IF unico
-            if($signature->role_id==$user_rol_id){
+            if($signature_role_id==$user_rol_id){
                 $userHasRole=True;
             }
             
