@@ -76,9 +76,9 @@
                                             </button>
                                         </form>
                                         @endcan
-                                        
-                                    </div>@endif
-                                    @if($row->status == 'autorizado')
+                                    </div>
+                                    @endif
+                                    @if($row->vent_auth == 1)
                                     <div class="col-6 text-center w-10">
                                         <form action="{{ route('internal_orders.pagos', $row->id) }}" method="POST">
                                             @csrf

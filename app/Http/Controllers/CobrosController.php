@@ -187,8 +187,7 @@ class CobrosController extends Controller
                     $registro->save();
                     return redirect('cobros');
                 }
-                }
-
+            }
     public function desglosar_cobro($id){
             $Cobro=Cobro::find($id);
             $Pedidos=DB::table('cobro_factures')
@@ -224,6 +223,8 @@ class CobrosController extends Controller
         return redirect('cobros');
 
         }
+
+        
     public function edit($id){
             $Cobro=DB::table('cobros')
             ->join('internal_orders', 'internal_orders.id', '=', 'cobros.order_id')

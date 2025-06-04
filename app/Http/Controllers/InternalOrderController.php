@@ -578,7 +578,17 @@ public function recalcular_total($id){
         //$comp=$CompanyProfiles->id;
         $InternalOrders = InternalOrder::find($id);
         
-        $Customers = Customer::all();
+        if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
+            
+        $Customers = Customer::all()->sortBy('clave');
+        }   
+        else{
+            $Seller_key=Auth::user()->name;
+            $Customers= $Customers = DB::table('customers')->leftJoin('sellers','sellers.id','=','customers.seller_id')
+            ->select('customers.*','sellers.iniciales')
+            ->where('sellers.seller_name',$Seller_key)->orderBy('clave')->get();
+            // dd($Customers);
+        }
         $Sellers = Seller::all();
         $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
         $Coins = Coin::all();
@@ -704,7 +714,6 @@ public function recalcular_total($id){
             if($signature_role_id==$user_rol_id){
                 $userHasRole=True;
             }
-            
         }
 
         if($isPasswordCorrect && $userHasRole ){
@@ -712,6 +721,12 @@ public function recalcular_total($id){
             $signature->firma=Auth::user()->firma;
             $signature->save();
             $Warn='ok';
+            //identificar si es la firma del Gerente Ventas roles id 16
+            //marcar vent_auth=1
+            if($user_rol_id=16){
+                $internal_order->vent_auth=1;
+                $internal_order->save();
+            }
         }
 
         if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}

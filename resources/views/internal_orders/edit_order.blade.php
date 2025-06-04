@@ -225,6 +225,7 @@
                    <div class="w-100">&nbsp;</div>
                    <div class="row">
                        <div class="col-sm-12">
+                         @can('VER DGI')
                            <div class="form-group">
                                <x-jet-label value="* Vendedor" />
                                <select class="form-capture  w-full text-xs uppercase" name="seller_id">
@@ -237,8 +238,10 @@
                            <div class="form-group">
                                <x-jet-label value="* Comision del Vendedor" />
                                <input type="number" name="comision" style='width: 10%;' max=100 min=0 step=any value="{{$InternalOrders->comision* 100}}"> %
-                               <x-jet-input-error for='seller_id' />
+                               <x-jet-input-error for='comision' />
                            </div>
+                         @endcan
+
                            <div class="form-group">
                                 <x-jet-label value="* Categoria" />
                                 <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>

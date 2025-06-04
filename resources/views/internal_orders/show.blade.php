@@ -604,15 +604,17 @@ MARCA:
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
-                     
+                     @if($InternalOrders->status != 'CANCELADO')
                     <br><br><br>
                     </div></div>
-                    <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
-                    <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
-                                    </a>
-                    
-                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
-                
+                        @can('EDITAR PEDIDOS')
+                        <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
+                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                                        </a>
+                        
+                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                    @endcan
+                   @endif
                 @endif
                                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>

@@ -41,12 +41,10 @@
                             </table>
                             </td>
                         </tr>
-                        
                             
                         <td  colspan="2"class="text-lg " style="color: red;  width:23%; border: none; border-collapse: collapse;">{{ $CompanyProfiles->company}}
                         </td>
-                        <tr>
-                                           
+                        <tr> 
                         </tr >
 
                     </table>
@@ -91,7 +89,6 @@
                         <!-- 14 columas, para poder copiar del excel -->
                <table class="table text-xs font-medium table-striped "  id="example" >
                <thead> 
-                
                 <!-- 15 columnas -->
                <tr class="text-center">
                     <th width="18%">Vendedor</th>
