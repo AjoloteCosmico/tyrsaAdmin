@@ -708,25 +708,13 @@ public function recalcular_total($id){
         ->select('comissions.*','sellers.seller_name','sellers.iniciales')
         ->get();
        $Marcas = Marca::all();
-        //  $pdf = PDF::loadView('internal_orders.print_orders', compact(
-        //     'CompanyProfiles',
-        //     'InternalOrders',
-        //     'Customers',
-        //     'Sellers',
-        //     'CustomerShippingAddresses',
-        //     'Coins',
-        //     'Items',
-        //     'Authorizations',
-        //     'id',
-        //     'requiredSignatures',
-        //     'Contacts',
-        //     'payments',
-        //     'ASellers',
-        //     'Comisiones',
-        //     'Marcas')); 
+        $imagePath = public_path('img/logo/logo.png');
 
-        // return $pdf->download('Pedido_interno '.$InternalOrders->invoice.'.pdf');
-        return view('internal_orders.print_order', compact(
+        $type = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $data = file_get_contents($imagePath);
+
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+         $pdf = PDF::loadView('internal_orders.print_order', compact(
             'CompanyProfiles',
             'InternalOrders',
             'Customers',
@@ -741,7 +729,27 @@ public function recalcular_total($id){
             'payments',
             'ASellers',
             'Comisiones',
-            'Marcas')); 
+            'Marcas',
+            'base64')); 
+
+        return $pdf->download('Pedido_interno '.$InternalOrders->invoice.'.pdf');
+        // return view('internal_orders.print_order', compact(
+        //     'CompanyProfiles',
+        //     'InternalOrders',
+        //     'Customers',
+        //     'Sellers',
+        //     'CustomerShippingAddresses',
+        //     'Coins',
+        //     'Items',
+        //     'Authorizations',
+        //     'id',
+        //     'requiredSignatures',
+        //     'Contacts',
+        //     'payments',
+        //     'ASellers',
+        //     'Comisiones',
+        //     'base64',
+        //     'Marcas')); 
     }
 
 
