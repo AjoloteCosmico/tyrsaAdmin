@@ -22,7 +22,8 @@
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>
-                            <th>Puesto</th>
+                            <th>Rol</th>
+                            <th>Titulo de la firma</th>
                             <th>Rango Mayor</th>
                             <th></th>
                         </tr>
@@ -32,6 +33,7 @@
                         <tr class="text-center">
                             <td>{{$row->id}}</td>
                             <td>{{$row->job}}</td>
+                            <td>GERENTE DE VENTAS</td>
                             <td>$ {{number_format($row->clearance_level,2)}}</td>
                             <td class="w-15">
                                 <div class="row">

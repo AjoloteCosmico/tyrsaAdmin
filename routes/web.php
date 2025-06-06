@@ -115,6 +115,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/pay_redefine', [InternalOrderController::class, 'pay_redefine'])->name('internal_orders.pay_redefine');
     Route::post('internal_orders/asignar_marca', [InternalOrderController::class, 'asignar_marca'])->name('internal_orders.asignar_marca');
     
+    Route::get('internal_orders/print_order/{id}', [InternalOrderController::class, 'print_order'])->name('internal_orders.print_order');
+    
     Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
    
    //rutas par desautorizar un pedido

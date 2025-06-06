@@ -22,6 +22,11 @@
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-body">
+                              <div class="form-group">
+                                <x-jet-label value="* Titulo de la firma" />
+                                <x-jet-input type="text"  name="titulo" class="w-full text-xs " value="GERENTE DE VENTAS"/>
+                                <x-jet-input-error for='titulo' />
+                            </div>
                            <div class="form-group">
                                         <x-jet-label value="* ROl" />
                                         <select class="form-capture  w-full text-xs uppercase" name="role_id" id='role_id' onchange="put_job()">

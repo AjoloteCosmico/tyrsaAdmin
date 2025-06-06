@@ -598,8 +598,10 @@ MARCA:
                     </a>
                     
                     @endcan
-                <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
-                
+                <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
+                                    <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
+
+                                     </a>   
                       
                     @else 
                     <br><br><br><br><br>
@@ -612,7 +614,12 @@ MARCA:
                         <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                         </a>
                         
-                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+
+                                     <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
+                                    <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
+
+                                     </a>   
+                        <!-- <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> -->
                     @endcan
                    @endif
                 @endif

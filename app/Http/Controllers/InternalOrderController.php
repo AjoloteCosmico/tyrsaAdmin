@@ -32,6 +32,7 @@ use App\Models\signatures;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Auth;
 
+use PDF;
 class InternalOrderController extends Controller
 {
     public function index()
@@ -676,6 +677,74 @@ public function recalcular_total($id){
             'Marcas',
         ));
     }
+
+    public function print_order($id){
+         $CompanyProfiles = CompanyProfile::first();
+        $comp=$CompanyProfiles->id;
+        $InternalOrders = InternalOrder::find($id);
+        $Customers = Customer::find($InternalOrders->customer_id);
+        $Contacts =DB::table('order_contacts')
+        ->join('customer_contacts', 'customer_contacts.id', '=', 'order_contacts.contact_id')
+        ->where('order_contacts.order_id', $id)
+        ->select('customer_contacts.*')
+        ->get();
+        $Sellers = Seller::find($InternalOrders->seller_id);
+        $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
+        $Coins = Coin::find($InternalOrders->coin_id);
+        $Items = Item::where('internal_order_id', $id)->get();
+        $requiredSignatures = DB::table('authorizations')
+        ->join('signatures', 'authorizations.id', '=', 'signatures.auth_id')
+        ->where('signatures.order_id', $id)
+        ->select('signatures.*','authorizations.job')
+        ->get();
+        $Subtotal = $InternalOrders->subtotal;
+        $payments=payments::where('order_id',$InternalOrders->id)->get();
+        $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
+        
+        $ASellers = Seller::all();
+        $Comisiones=DB::table('comissions')
+        ->join('sellers', 'sellers.id', '=', 'comissions.seller_id')
+        ->where('order_id',$InternalOrders->id)
+        ->select('comissions.*','sellers.seller_name','sellers.iniciales')
+        ->get();
+       $Marcas = Marca::all();
+        //  $pdf = PDF::loadView('internal_orders.print_orders', compact(
+        //     'CompanyProfiles',
+        //     'InternalOrders',
+        //     'Customers',
+        //     'Sellers',
+        //     'CustomerShippingAddresses',
+        //     'Coins',
+        //     'Items',
+        //     'Authorizations',
+        //     'id',
+        //     'requiredSignatures',
+        //     'Contacts',
+        //     'payments',
+        //     'ASellers',
+        //     'Comisiones',
+        //     'Marcas')); 
+
+        // return $pdf->download('Pedido_interno '.$InternalOrders->invoice.'.pdf');
+        return view('internal_orders.print_order', compact(
+            'CompanyProfiles',
+            'InternalOrders',
+            'Customers',
+            'Sellers',
+            'CustomerShippingAddresses',
+            'Coins',
+            'Items',
+            'Authorizations',
+            'id',
+            'requiredSignatures',
+            'Contacts',
+            'payments',
+            'ASellers',
+            'Comisiones',
+            'Marcas')); 
+    }
+
+
     public function dgi(Request $request){
     
     $internal_order = InternalOrder::find($request->order_id);
