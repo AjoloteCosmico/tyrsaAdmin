@@ -645,7 +645,7 @@ public function recalcular_total($id){
         $requiredSignatures = DB::table('authorizations')
         ->join('signatures', 'authorizations.id', '=', 'signatures.auth_id')
         ->where('signatures.order_id', $id)
-        ->select('signatures.*','authorizations.job')
+        ->select('signatures.*','authorizations.titulo')
         ->get();
         $Subtotal = $InternalOrders->subtotal;
         $payments=payments::where('order_id',$InternalOrders->id)->get();
