@@ -27,14 +27,14 @@ class AuthorizationController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            // 'job' => 'required',
+            'titulo' => 'required',
             'role_id' => 'required',
             'clearance_level' => 'required',
             // 'key_code' => 'required|same:confirm-password|min:8',
         ];
 
         $messages = [
-            // 'job.required' => 'Capture el rol de la autorizacion',
+            'titulo.required' => 'Capture el nombre de la autorizacion',
             
             'role_id.required' => 'Capture el rol de la autorizacion',
             'clearance_level.required' => 'Capture el rango máximo de importe',
@@ -46,6 +46,7 @@ class AuthorizationController extends Controller
         $Job=Role::Find($request->role_id)->name;
         $Authorizations = new Authorization();
         $Authorizations->job = $Job;
+        $Authorizations->titulo = $request->titulo;
         $Authorizations->role_id = $request->role_id;
         $Authorizations->clearance_level = $request->clearance_level;
         $Authorizations->key_code = Hash::make($request->key_code);
@@ -72,14 +73,14 @@ class AuthorizationController extends Controller
         if($request->key_code){
             
             $rules = [
-            // 'job' => 'required',
+            'titulo' => 'required',
             'role_id' => 'required',
             'clearance_level' => 'required',
             // 'key_code' => 'required|same:confirm-password|min:8',
         ];
 
         $messages = [
-            // 'job.required' => 'Capture el rol de la autorizacion',
+            'titulo.required' => 'Capture el nombre de la autorizacion',
             
             'role_id.required' => 'Capture el rol de la autorizacion',
             'clearance_level.required' => 'Capture el rango máximo de importe',
@@ -93,36 +94,37 @@ class AuthorizationController extends Controller
             $Authorizations = Authorization::find($id);
             $Authorizations->job = $Job;
             $Authorizations->clearance_level = $request->clearance_level;
-            
+            $Authorizations->titulo = $request->titulo;
             $Authorizations->role_id = $request->role_id;
             // $Authorizations->key_code = Hash::make($request->key_code);
             $Authorizations->save();
         }else{
-           $rules = [
-            // 'job' => 'required',
-            'role_id' => 'required',
-            'clearance_level' => 'required',
-            // 'key_code' => 'required|same:confirm-password|min:8',
-        ];
-
-        $messages = [
-            // 'job.required' => 'Capture el rol de la autorizacion',
-            
-            'role_id.required' => 'Capture el rol de la autorizacion',
-            'clearance_level.required' => 'Capture el rango máximo de importe',
-            // 'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
-            // 'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
-        ];
-
-            $request->validate($rules, $messages);
-
-            $Job=Role::Find($request->role_id)->name;
-            $Authorizations = Authorization::find($id);
-            $Authorizations->job = $Job;
-            
-            $Authorizations->role_id = $request->role_id;
-            $Authorizations->clearance_level = $request->clearance_level;
-            $Authorizations->save();
+            $rules = [
+                'titulo' => 'required',
+                'role_id' => 'required',
+                'clearance_level' => 'required',
+                // 'key_code' => 'required|same:confirm-password|min:8',
+            ];
+    
+            $messages = [
+                'titulo.required' => 'Capture el nombre de la autorizacion',
+                
+                'role_id.required' => 'Capture el rol de la autorizacion',
+                'clearance_level.required' => 'Capture el rango máximo de importe',
+                // 'key_code.same' => 'Las contraseñas no coinciden, favor de verificarlas',
+                // 'key_code.min' => 'La contraseña debe contener al menos 8 caracteres',
+            ];
+    
+                $Job=Role::Find($request->role_id)->name;
+                $request->validate($rules, $messages);
+    
+                $Authorizations = Authorization::find($id);
+                $Authorizations->job = $Job;
+                $Authorizations->clearance_level = $request->clearance_level;
+                $Authorizations->titulo = $request->titulo;
+                $Authorizations->role_id = $request->role_id;
+                // $Authorizations->key_code = Hash::make($request->key_code);
+                $Authorizations->save();
         }        
 
 

@@ -35,7 +35,7 @@
                                                 <option value="{{$row->id}}" @if ($row->id == old('role_id')) selected @endif > {{$row->name}}</option>
                                             @endforeach
                                         </select>
-                                        <x-jet-input-error for='coin_id' />
+                                        <x-jet-input-error for='role_id' />
                                 </div>
                             <div class="form-group">
                                 <x-jet-label value="* Rango superior en pesos" />

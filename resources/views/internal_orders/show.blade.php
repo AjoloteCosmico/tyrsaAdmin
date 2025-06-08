@@ -421,7 +421,7 @@
                    @csrf
                    <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
                    <div class="col" >
-                       <span class="text-xs uppercase" >Firma: {{$firma->job}} --</span><br>
+                       <span class="text-xs uppercase" >Firma: {{$firma->titulo}} --</span><br>
                    </div>
 
                    <div class="col">
@@ -438,7 +438,7 @@
                        <tbody>
                            <tr style="font-size:16px; font-weight:bold" style="border: none;"><td style="border: none;">{{$firma->firma}} <br>  <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
                               </td></tr>
-                           <tr style="border: none;"><td style="border: none;"><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
+                           <tr style="border: none;"><td style="border: none;"><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->titulo}} </span>
                    </td></tr>
                        </tbody>
                    </table>
