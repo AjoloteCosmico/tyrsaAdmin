@@ -33,7 +33,7 @@
                         <tr class="text-center">
                             <td>{{$row->id}}</td>
                             <td>{{$row->job}}</td>
-                            <td>GERENTE DE VENTAS</td>
+                            <td>{{$row->titulo}}</td>
                             <td>$ {{number_format($row->clearance_level,2)}}</td>
                             <td class="w-15">
                                 <div class="row">
