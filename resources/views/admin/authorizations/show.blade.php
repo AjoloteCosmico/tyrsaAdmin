@@ -29,10 +29,10 @@
                             </div>
                            <div class="form-group">
                                         <x-jet-label value="* ROl" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="role_id" id='role_id' onchange="put_job()">
+                                        <select class="form-capture  w-full text-xs uppercase" name="role_id" id='role_id'>
                                         <option  > </option>    
                                         @foreach ($Roles as $row)
-                                                <option value="{{$row->id}}" @if ($row->id == old('role_id')) selected @endif > {{$row->name}}</option>
+                                                <option value="{{$row->id}}" @if ($row->id == $Authorizations->role_id) selected @endif > {{$row->name}}</option>
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='role_id' />
