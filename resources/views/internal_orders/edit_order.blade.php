@@ -17,7 +17,7 @@
         @csrf
         <x-jet-input type="hidden" name="internal_order_id" value="{{$InternalOrders->id}}"/>
         <div class="col-12  p-2 gap-2">
-        <div class="form-group">
+        <!-- <div class="form-group">
                                         <x-jet-label value="* Cliente" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id">
                                             @foreach ($Customers as $row)
@@ -25,7 +25,7 @@
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='customer_id' />
-                                    </div>
+                                    </div> -->
             <div class="row">
                             
                                      

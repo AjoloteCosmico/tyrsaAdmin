@@ -58,8 +58,8 @@ class InternalOrderController extends Controller
             ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
             ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
             
-            ->where('customers.seller_id',$Seller_key)
-            ->orWhere('internal_orders.seller_id',$Seller_key)
+            // ->where('customers.seller_id',$Seller_key)
+            ->where('internal_orders.seller_id',$Seller_key)
             ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
             
             ->orderBy('internal_orders.invoice', 'DESC')
@@ -1120,7 +1120,7 @@ public function recalcular_total($id){
         
         $signatures=signatures::where('order_id',$id)->delete();
         //reasignarle Todo
-        $InternalOrders->customer_id=$request->customer_id;
+        // $InternalOrders->customer_id=$request->customer_id;
         $InternalOrders->coin_id=$request->coin_id;
         $InternalOrders->seller_id=$request->seller_id;
         $InternalOrders->reg_date=$request->reg_date;

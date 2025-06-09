@@ -421,7 +421,7 @@
                    @csrf
                    <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
                    <div class="col" >
-                       <span class="text-xs uppercase" >Firma: {{$firma->titulo}} --</span><br>
+                       <span class="text-xs uppercase" >Firma: {{$firma->titulo}} </span><br>
                    </div>
 
                    <div class="col">
