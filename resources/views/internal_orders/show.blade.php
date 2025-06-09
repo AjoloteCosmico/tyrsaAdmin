@@ -598,11 +598,13 @@ MARCA:
                     </a>
                     
                     @endcan
-                <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
+                <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
 
-                                     </a>   
+                                     </a>    -->
                       
+                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
@@ -615,11 +617,11 @@ MARCA:
                                         </a>
                         
 
-                                     <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
+                                     <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
 
-                                     </a>   
-                        <!-- <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> -->
+                                     </a>    -->
+                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                     @endcan
                    @endif
                 @endif
