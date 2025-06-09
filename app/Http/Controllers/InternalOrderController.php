@@ -222,7 +222,14 @@ class InternalOrderController extends Controller
     public function capture_comissions($id,$message){
     $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
     $Message=$message;
+    if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
     $Sellers = Seller::all();
+    }else {
+        
+        $Seller=Seller::where('seller_name',Auth::user()->name)->first();
+        $Sellers = Seller::where('id',$Seller->id)->get();
+        # code...
+    }
     $Comisiones=DB::table('temp_comissions')
      ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
      ->where('temp_order_id',$TempInternalOrders->id)
