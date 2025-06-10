@@ -441,7 +441,6 @@ public function recalcular_total($id){
         }
         
         $TempInternalOrders->save();
-        $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
         $InternalOrders = InternalOrder::orderBy('invoice', 'DESC')->first();
         $Invoice = '100';
@@ -556,7 +555,7 @@ public function recalcular_total($id){
             $InternalOrders->save();
             $this->recalcular_total($InternalOrders->id);
             //loop para crear las firmas desde la tabla de Autorizations
-            $Autorizaciones=Authorization::all();
+            $Authorizations=Authorization::all();
            
             foreach($Authorizations as $auth){
              
@@ -1194,7 +1193,7 @@ public function recalcular_total($id){
         $InternalOrders->total = $Total;
         $InternalOrders->save();
         $this->recalcular_total($id);
-        $Autorizaciones=Authorization::all();
+        $Authorizations=Authorization::all();
            
             foreach($Authorizations as $auth){
                 if($InternalOrders->total>=$auth->clearance_level) {
@@ -1362,7 +1361,7 @@ public function recalcular_total($id){
         if($isPasswordCorrect){
             
             $signatures=signatures::where('order_id',$id)->delete();
-            $Autorizaciones=Authorization::all();
+            $Authorizations=Authorization::all();
            
             foreach($Authorizations as $auth){
                 if($InternalOrders->total>=$auth->clearance_level) {
