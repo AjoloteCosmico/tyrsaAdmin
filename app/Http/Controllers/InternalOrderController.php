@@ -506,7 +506,7 @@ public function recalcular_total($id){
             $Autorizaciones=Authorization::all();
            
             foreach($Authorizations as $auth){
-                if($auth->clearance_level>=$InternalOrders->total) {
+                if($InternalOrders->total>=$auth->clearance_level) {
                     $Signature=new signatures();
                     $Signature->order_id = $InternalOrders->id;
                     $Signature->auth_id = $auth->id;
@@ -848,6 +848,7 @@ public function recalcular_total($id){
         $npagos=(int)$InternalOrders->payment_conditions;
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
+        
         $actualized = " ";
         return view('internal_orders.payment', compact(
             'CompanyProfiles',
@@ -1055,7 +1056,12 @@ public function recalcular_total($id){
         $Subtotal = $InternalOrders->subtotal;
         // $abonos = payments ::where('status','pagado')->where('order_id', $id)->get();
         $abonos=DB::table('cobro_orders')->where('order_id',$InternalOrders->id)->get();
-      
+
+        $Cobros=DB::table('cobro_orders')
+        ->join('cobros', 'cobros.id', '=', 'cobro_orders.cobro_id')
+        ->select('cobros.comp','cobro_orders.*')
+        ->where('cobro_orders.order_id',$id)->get();
+
             return view('internal_orders.store_payment', compact(
                 'CompanyProfiles',
                 'InternalOrders',
@@ -1064,7 +1070,7 @@ public function recalcular_total($id){
                 'CustomerShippingAddresses',
                 'Coins',
                 'Items',
-                
+                'Cobros',
                 'Subtotal',
                 'actualized',
                 'payments',
