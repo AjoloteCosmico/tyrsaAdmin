@@ -1181,29 +1181,16 @@ public function recalcular_total($id){
         $InternalOrders->iva = $Iva;
         $InternalOrders->total = $Total;
         $InternalOrders->save();
-        $Signature=new signatures();
-            $Signature->order_id = $InternalOrders->id;
-            $Signature->auth_id = 2;
-            $Signature->save();
-            if($InternalOrders->subtotal >= 500000){
-                    $Signature=new signatures();
-                    //$Signature->order_id = $InternalOrders->id;
-                    //$Signature->auth_id = 5;
-                    //$Signature->save(); 
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 3;
-                    $Signature->save(); 
+        $Autorizaciones=Authorization::all();
+           
+            foreach($Authorizations as $auth){
+                if($InternalOrders->total>=$auth->clearance_level) {
                     $Signature=new signatures();
                     $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 4;
+                    $Signature->auth_id = $auth->id;
                     $Signature->save(); 
-                 }
-            if($InternalOrders->subtotal >= 5000000){
-                    $Signature=new signatures();
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 6;
-                    $Signature->save(); 
-                 }
+                }
+            }
              
         
         $this->recalcular_total($id);
@@ -1362,29 +1349,16 @@ public function recalcular_total($id){
         if($isPasswordCorrect){
             
             $signatures=signatures::where('order_id',$id)->delete();
-            $Signature=new signatures();
-            $Signature->order_id = $InternalOrders->id;
-            $Signature->auth_id = 2;
-            $Signature->save();
-            if($InternalOrders->subtotal >= 500000){
-                    $Signature=new signatures();
-                    //$Signature->order_id = $InternalOrders->id;
-                    //$Signature->auth_id = 5;
-                    //$Signature->save(); 
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 3;
-                    $Signature->save(); 
+            $Autorizaciones=Authorization::all();
+           
+            foreach($Authorizations as $auth){
+                if($InternalOrders->total>=$auth->clearance_level) {
                     $Signature=new signatures();
                     $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 4;
+                    $Signature->auth_id = $auth->id;
                     $Signature->save(); 
-                 }
-            if($InternalOrders->subtotal >= 5000000){
-                    $Signature=new signatures();
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = 6;
-                    $Signature->save(); 
-                 }
+                }
+            }
             $InternalOrders->status='CAPTURADO';
             $InternalOrders->save();
             return redirect()->route('internal_orders.show',$id)->with('unautorized','ok');
