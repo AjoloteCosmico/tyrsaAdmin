@@ -667,7 +667,7 @@ public function recalcular_total($id){
        $Marcas = Marca::all();
         if($payments->count() ==0){
             
-            return redirect()->route('payment',$id);
+            return redirect()->route('internal_orders.payment',$id);
         }
         return view('internal_orders.show', compact(
             'CompanyProfiles',
@@ -1082,7 +1082,7 @@ public function recalcular_total($id){
             ));
             
         }else{
-            return redirect()->route('payment',$id);
+            return redirect()->route('internal_orders.payment',$id);
 
         }
     // si hay pagos mostrar el iva uwu
