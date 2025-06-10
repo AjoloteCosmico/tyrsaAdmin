@@ -850,7 +850,10 @@ public function recalcular_total($id){
         $Subtotal = $InternalOrders->subtotal;
         $npagos=(int)$InternalOrders->payment_conditions;
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
-        
+        $Cobros=DB::table('cobro_orders')
+        ->join('cobros', 'cobros.id', '=', 'cobro_orders.cobro_id')
+        ->select('cobros.comp','cobro_orders.*')
+        ->where('cobro_orders.order_id',$id)->get();
         
         $actualized = " ";
         return view('internal_orders.payment', compact(
@@ -860,6 +863,7 @@ public function recalcular_total($id){
             'Sellers',
             'CustomerShippingAddresses',
             'Coins',
+            'Cobros',
             'Items',
             'Authorizations',
             'Subtotal',

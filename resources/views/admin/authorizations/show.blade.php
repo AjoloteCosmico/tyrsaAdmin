@@ -24,7 +24,7 @@
                         <div class="card-body">
                               <div class="form-group">
                                 <x-jet-label value="* Titulo de la firma" />
-                                <x-jet-input type="text"  name="titulo" class="w-full text-xs " value="GERENTE DE VENTAS"/>
+                                <x-jet-input type="text"  name="titulo" class="w-full text-xs " value="{{$Authorizations->titulo}}"/>
                                 <x-jet-input-error for='titulo' />
                             </div>
                            <div class="form-group">
