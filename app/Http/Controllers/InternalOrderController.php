@@ -808,7 +808,6 @@ public function recalcular_total($id){
         if(Auth::user()->id == 1){
             $userHasRole=True;
         }
-
         if($isPasswordCorrect && $userHasRole ){
             $signature->status = 1;
             $signature->firma=Auth::user()->firma;

@@ -59,7 +59,7 @@
      <td scope="col">Cliente:</td>
      <td>{{$Customers->customer}}</td>
     </tr>
-    <tr   >
+    <tr>
      <td scope="col">Saldo deudor     (-):</td>
      <td style="color:#ff0000"> {{$Coins -> symbol}} {{number_format( $InternalOrders->total - $abonos->sum('amount'))}}</td>
     </tr>
@@ -93,10 +93,14 @@
   @foreach ($hpayments as $row)
 
 
-  @php
-{{$datetime1 = new DateTime($row->date);
-  $datetime2 = new DateTime("2022-1-1");
-  $dias = $datetime1->diff($datetime2)->format('%a');}}
+  
+ @php
+  {{$datetime1 = new DateTime($row->date);
+  $pdia=$datetime1->format('Y');
+  
+  $datetime2 = new DateTime($pdia."-1-1");
+  $dias = $datetime2->diff($datetime1)->format('%a')+1;
+  }}
 @endphp
                             <tr class="text-center">
                                 <td>  {{ $row->concept }}</td>
@@ -125,7 +129,7 @@
 <br><br>
 
 
-<h1 ><span class="badge badge-secondary" style="font-size : 19px; align-self: start;">Derechos adquiridos PI: {{$InternalOrders->invoice}}  <br>Modificado </span></h1>
+<h1 ><span class="badge badge-secondary" style="font-size : 19px; align-self: start;">Derechos adquiridos PI: {{$InternalOrders->invoice}}  <br>COBROS EFECTUADOS </span></h1>
 <form action="{{ route('internal_orders.pay_conditions')}}" method="POST" enctype="multipart/form-data">
 @csrf
 <x-jet-input type="hidden" name="order_id" value=""/>
@@ -145,19 +149,22 @@
     </tr>
   </thead>
   <tbody>
-  @foreach ($payments as $row)
+  @foreach ($Cobros as $row)
 
 
-  @php
-{{$datetime1 = new DateTime($row->date);
-  $datetime2 = new DateTime("2022-1-1");
-  $dias = $datetime1->diff($datetime2)->format('%a');}}
+   @php
+  {{$datetime1 = new DateTime($row->date);
+  $pdia=$datetime1->format('Y');
+  
+  $datetime2 = new DateTime($pdia."-1-1");
+  $dias = $datetime2->diff($datetime1)->format('%a')+1;
+  }}
 @endphp
                             <tr class="text-center">
-                                <td>  {{ $row->concept }}</td>
+                                <td>  {{ $row->comp }}</td>
                                 <td>{{ $row->percentage }} %</td>
-                                <td>{{$Coins -> symbol}} {{number_format( $row->percentage * $Subtotal * 0.01)}}</td>
-                                <td>{{$Coins -> symbol}} {{number_format( $row->percentage * $Subtotal *0.0016) }}</td>
+                                <td>{{$Coins -> symbol}} {{number_format( $row->amount /1.16)}}</td>
+                                <td>{{$Coins -> symbol}} {{number_format( $row->amount * 0.16) }}</td>
                                 <td>{{$Coins -> symbol}} {{number_format( $row->amount )}}</td>
                                 <td>{{ $row->date }}</td>
                                 <td>{{$dias}}</td>
