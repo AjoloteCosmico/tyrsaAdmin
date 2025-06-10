@@ -502,17 +502,7 @@ public function recalcular_total($id){
                 $c->save();
             }
 
-            //loop para crear las firmas desde la tabla de Autorizations
-            $Autorizaciones=Authorization::all();
-           
-            foreach($Authorizations as $auth){
-                if($InternalOrders->total>=$auth->clearance_level) {
-                    $Signature=new signatures();
-                    $Signature->order_id = $InternalOrders->id;
-                    $Signature->auth_id = $auth->id;
-                    $Signature->save(); 
-                }
-            }
+            
 
             $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
             $t=0;
@@ -565,6 +555,19 @@ public function recalcular_total($id){
             
             $InternalOrders->save();
             $this->recalcular_total($InternalOrders->id);
+            //loop para crear las firmas desde la tabla de Autorizations
+            $Autorizaciones=Authorization::all();
+           
+            foreach($Authorizations as $auth){
+             
+                if($InternalOrders->total >= (int)($auth->clearance_level)) {
+                    
+                    $Signature=new signatures();
+                    $Signature->order_id = $InternalOrders->id;
+                    $Signature->auth_id = $auth->id;
+                    $Signature->save(); 
+                }
+            }
             // return pay_contitions con internal order id
             // $InternalOrders->id
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
@@ -1188,6 +1191,7 @@ public function recalcular_total($id){
         $InternalOrders->iva = $Iva;
         $InternalOrders->total = $Total;
         $InternalOrders->save();
+        $this->recalcular_total($id);
         $Autorizaciones=Authorization::all();
            
             foreach($Authorizations as $auth){
@@ -1200,7 +1204,7 @@ public function recalcular_total($id){
             }
              
         
-        $this->recalcular_total($id);
+        
         if($PagosWasChanged){
             return $this->payment($id);
         }else{
