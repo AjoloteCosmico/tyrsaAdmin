@@ -162,7 +162,7 @@
 @endphp
                             <tr class="text-center">
                                 <td>  {{ $row->comp }}</td>
-                                <td>{{ $row->percentage }} %</td>
+                                <td>{{ number_format($row->amount/$InternalOrders->total,1) }} %</td>
                                 <td>{{$Coins -> symbol}} {{number_format( $row->amount /1.16)}}</td>
                                 <td>{{$Coins -> symbol}} {{number_format( $row->amount * 0.16) }}</td>
                                 <td>{{$Coins -> symbol}} {{number_format( $row->amount )}}</td>
