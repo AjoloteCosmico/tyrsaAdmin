@@ -857,7 +857,7 @@ public function recalcular_total($id){
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         $Cobros=DB::table('cobro_orders')
         ->join('cobros', 'cobros.id', '=', 'cobro_orders.cobro_id')
-        ->select('cobros.comp','cobro_orders.*')
+        ->select('cobros.comp','cobros.date','cobro_orders.*')
         ->where('cobro_orders.order_id',$id)->get();
         
         $actualized = " ";
@@ -1071,7 +1071,7 @@ public function recalcular_total($id){
 
         $Cobros=DB::table('cobro_orders')
         ->join('cobros', 'cobros.id', '=', 'cobro_orders.cobro_id')
-        ->select('cobros.comp','cobro_orders.*')
+        ->select('cobros.comp','cobros.date','cobro_orders.*')
         ->where('cobro_orders.order_id',$id)->get();
 
             return view('internal_orders.store_payment', compact(
