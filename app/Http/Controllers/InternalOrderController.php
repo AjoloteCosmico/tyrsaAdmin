@@ -665,7 +665,10 @@ public function recalcular_total($id){
      ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
        $Marcas = Marca::all();
-     
+        if($payments->count() ==0){
+            
+            return redirect()->route('payment',$id);
+        }
         return view('internal_orders.show', compact(
             'CompanyProfiles',
             'InternalOrders',
@@ -1079,7 +1082,7 @@ public function recalcular_total($id){
             ));
             
         }else{
-            return $this->payment($id);
+            return redirect()->route('payment',$id);
 
         }
     // si hay pagos mostrar el iva uwu
