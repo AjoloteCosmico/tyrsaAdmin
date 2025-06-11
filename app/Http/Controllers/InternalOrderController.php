@@ -572,7 +572,6 @@ public function recalcular_total($id){
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
             return $this->payment($InternalOrders->id);
 
-             
     }
 
     public function edit_order($id){

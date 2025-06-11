@@ -397,11 +397,10 @@
                             <td style="border: none; word-wrap: break-word;">
                                 Firma o codigo
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
-                              <br> <br>
-                              
+                              <br> 
                             <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
                                
-                              <p style="color:red"> Elaboró </p><br>
+                           <p style="color:red"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Elaboró </p> <br>
                                    {{$Sellers->firma}}
                             </td>
                         </tr>
@@ -593,29 +592,34 @@ MARCA:
                 <br><br><br>
                     </div></div>
                     @can('EDITAR PEDIDO AUTORIZADO')
-                    <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
-                        <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
-                    </a>
-                    
+                        <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
+                            <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                        </a>
                     @endcan
                 <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
 
                                      </a>    -->
-                      
+                    
                     <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
                 
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
+                        @if($requiredSignatures->where('status',1)->count() > 0)
+                            @can('VER DGI')        
+                                <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
+                            @endcan   
+                        @endif
                      @if($InternalOrders->status != 'CANCELADO')
                     <br><br><br>
                     </div></div>
                         @can('EDITAR PEDIDOS')
+                            @if($requiredSignatures->where('status',1)->count() == 0)
                         <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
                         <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                                         </a>
-                        
+                            @endif
 
                                      <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
