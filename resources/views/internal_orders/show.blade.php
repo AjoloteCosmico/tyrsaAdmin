@@ -395,13 +395,13 @@
                     <table  style="border: none; ">
                         <tr style="border: none; border-collapse: collapse;">
                             <td style="border: none; word-wrap: break-word;">
-                                Firma o codigo
+                                {{$Sellers->firma}}
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
                               <br> 
                             <hr style="border-top: 0.3vw solid black; border-color:#000000; width: 90%">
                                
-                           <p style="color:red"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Elaboró </p> <br>
-                                   {{$Sellers->firma}}
+                           <p> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Elaboró </p> <br>
+                                   
                             </td>
                         </tr>
                     </table>
