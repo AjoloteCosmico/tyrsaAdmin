@@ -61,7 +61,7 @@ class NotasCreditoController extends Controller
                 ));
             }
         
-            public function store(Request $request){
+    public function store(Request $request){
  
                 $rules = [
                         'customer_id' => 'required',
@@ -180,7 +180,6 @@ class NotasCreditoController extends Controller
                 'date.required' => 'La fecha  es necesaria',
                 'credit_note.required' => 'Ingrese una clave para la nota de credito',
                 'amount.required' => 'Indique una cantidad valida',
-        
                 // 'seller_id.required' => 'Elija un vendedor',
                 // 'comision.required' => 'Determine una comision para el vendedor',
             ];
@@ -188,7 +187,7 @@ class NotasCreditoController extends Controller
         $request->validate($rules, $messages);
         $Nota=CreditNote::find($id);    
         $Facturas=note_facture::where('note_id',$id)->get();
-            
+        
         foreach ($Facturas as $f) {
                 note_facture::destroy($f->id);
             }

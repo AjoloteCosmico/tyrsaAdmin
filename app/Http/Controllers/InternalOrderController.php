@@ -494,6 +494,7 @@ public function recalcular_total($id){
             $InternalOrders->authorization_id = 1;
             $InternalOrders->category = $request->category;
             $InternalOrders->description = $request->description;
+            $InternalOrders->user_id=AUth::user()->id;
             $InternalOrders->save();
             $contactos=order_contacts::where('temp_order_id',$TempInternalOrders->id)->get();
             foreach($contactos as $c){
@@ -550,8 +551,7 @@ public function recalcular_total($id){
             
             $factor_aumento= +$TempInternalOrders->ieps+$TempInternalOrders->isr+$TempInternalOrders->tasa+0.16;
             $InternalOrders->total=$t*($factor_aumento-$InternalOrders->descuento)+$ret +$t;
-            
-            
+             
             $InternalOrders->save();
             $this->recalcular_total($InternalOrders->id);
             //loop para crear las firmas desde la tabla de Autorizations

@@ -407,13 +407,7 @@ return [
         //     'can' => 'VER APLICACIONES DE PAGO',
         // ],
         
-        [
-            'text' => 'INTERFASE ASPEL COI',
-            'icon' => 'fas fa-money-check fa-fw',
-            
-            'route'  => 'payed_accounts',
-            'can' => 'VER APLICACIONES DE PAGO',
-        ],
+     
         // [
         //     'text' => 'VISUALZIACION DE DATOS',
         //     'icon' => 'fas fa-bar-chart fa-fw',
