@@ -89,6 +89,7 @@
                                         </form>
                                        
                                         @can('BORRAR PEDIDO AUTORIZADO')
+                                        @if($row->status == 'autorizado')
                                         <form class="DeleteReg" action="{{route('internal_orders.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -96,6 +97,7 @@
                                                 <i class="fa-solid fa-trash items-center"></i>
                                             </button>
                                         </form>
+                                        @endif
                                         @endcan
 
                                     </div>
