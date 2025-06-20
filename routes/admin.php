@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\MediosController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\ProductController;
-
+use App\Http\Controllers\Admin\ComisionController;
 Route::group(['middleware' => ['auth']], function()
 {
     Route::resource('users', UserController::class);
@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('marcas', MarcasController::class);
     Route::resource('medios', MediosController::class);
     
+    Route::resource('comisiones', ComisionController::class);
+
     Route::get('families/subfamilies/{id}', [ FamilyController::class, 'subfam_show'])->name('subfam_show');
     Route::get('categories', [ FamilyController::class, 'categories'])->name('categories');
     Route::get('categories/products', [ FamilyController::class, 'categories'])->name('products');

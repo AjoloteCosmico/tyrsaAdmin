@@ -5,7 +5,7 @@ use Session;
 use App\Models\Authorization;
 use App\Models\InternalOrder;
 use App\Models\Coin;
-
+use App\Models\Cantidades;
 use App\Models\Cobro;
 use App\Models\Factures;
 use App\Models\CreditNote;
@@ -42,7 +42,8 @@ class InternalOrderController extends Controller
             $InternalOrders = DB::table('customers')
                 ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
                 ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
-                ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
+                ->join('coins', 'internal_orders.coin_id','=','coins.id')
+                ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name','coins.code')
                 ->orderBy('internal_orders.invoice', 'DESC')
                 ->get();  }   
             else{
@@ -201,7 +202,7 @@ class InternalOrderController extends Controller
      ->where('temp_order_id',$TempInternalOrders->id)
      ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
-     session(['p_comission' => '']);
+     session(['p_comission' => Cantidades::find(1)->cant]);
      session(['p_seller_id' => ' ']);
      #Asignar automaticamente DGI
      $Socios=Seller::where('dgi','>',0)->get();

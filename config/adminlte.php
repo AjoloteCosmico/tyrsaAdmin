@@ -262,6 +262,12 @@ return [
                     'route'  => 'company_profiles.index',
                     'can'  => 'VER EMPRESAS',
                 ],
+                 [
+                    'text' => 'COMISION DE VENTA',
+                    'icon' => 'fas fa-percent fa-fw',
+                    'route'  => 'comisiones.index',
+                    'can'  => 'VER CONFIG COMISIONES',
+                ],
                 [
                     'text' => ' CONFIGURACIÓN',
                     'icon' => 'fas fa-cogs fa-fw',
@@ -398,15 +404,13 @@ return [
             'can' => 'VER COBROS',
         ],
        
-        
         // [
         //     'text' => 'CUENTAS COBRADAS',
         //     'icon' => 'fas fa-money-check fa-fw',
             
         //     'route'  => 'payed_accounts',
         //     'can' => 'VER APLICACIONES DE PAGO',
-        // ],
-        
+        // ], 
      
         // [
         //     'text' => 'VISUALZIACION DE DATOS',

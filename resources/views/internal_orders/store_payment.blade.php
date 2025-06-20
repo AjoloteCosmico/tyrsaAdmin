@@ -184,8 +184,7 @@
    
   </tbody>
 </table>      
-                </form>
-            
+</form>        
   
   <div class="row">
     <div class ="col"><input  class="btn btn-gray" type="button" name="imprimir" value="Imprimir" onclick="window.print();"> 

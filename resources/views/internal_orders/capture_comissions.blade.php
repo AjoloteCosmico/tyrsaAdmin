@@ -40,7 +40,7 @@
                                         <x-jet-input-error for='seller_id' />
                                     
                                     </div>
-                                    
+                                    @can('COMISION MANUAL')
                                     <div class="col-sm-3 col-xs-5">
                                       <div class="form-group">
                                         <x-jet-label value="* Comision del Vendedor" />
@@ -50,7 +50,7 @@
                                        </div>
                                        
                                     </div>
-                                   
+                                   @endcan
                                 </form>
                                         
         <br><br><br>

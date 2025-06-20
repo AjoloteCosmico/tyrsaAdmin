@@ -33,6 +33,7 @@
                             <th>Cliente</th>
                             <th>Clave</th>
                             <th>Vendedor</th>
+                            <th>Total</th>
                             <th>Estatus</th>
                             <th></th>
                         </tr>
@@ -46,6 +47,7 @@
                             <td style="word-wrap: break-word; width: 38.3vh">{{$row->customer}}</td>
                             <td>{{$row->clave}}</td>
                             <td>{{$row->seller_name}}</td>
+                            <td>{{number_format($row->total,2)}} {{$row->code}}</td>
                             <td>{{$row->status}}</td>
                             <td class="w-18">
                                 <div class="row">
