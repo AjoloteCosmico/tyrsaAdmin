@@ -5,7 +5,6 @@ use Session;
 use App\Models\TempItem;
 use App\Models\Customer;
 use App\Models\Family;
-
 use App\Models\subfamilies;
 use App\Models\products;
 use App\Models\fabrication;

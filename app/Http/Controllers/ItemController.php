@@ -36,7 +36,7 @@ class ItemController extends Controller
         $Units = Unit::all();
         //traer familias fabricadas pro tyrsa
         $Families = subfamilies::where('family_id','16')->get();
-        dd($Families);
+        // dd($Families);
         $Products=report_product::all();
         return view('admin.items.add_item', compact(
             'InternalOrders',
@@ -70,8 +70,6 @@ class ItemController extends Controller
             'amount' => 'required',
             'unit' => 'required',
             'family' => 'required',
-            
-            
             'sku' => 'required',
             'description' => 'required',
             'unit_price' => 'required',
