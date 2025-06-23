@@ -3,7 +3,7 @@
 @section('title', 'PARTIDAS')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fa-brands fa-buffer"></i>&nbsp; Partida</h1>
+    <h1 class="font-bold"><i class="fa-brands fa-buffer"></i>&nbsp; Partida </h1>
 @stop
 
 @section('content')
@@ -59,14 +59,16 @@
                                 <x-jet-label value="* Familia" />
                                 {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
                                 <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
-                                        
-                                        <option value=" " > </option>
+                                              @foreach($Families as $row)
+                                                    <option value="{{$row->description}}" @if ($row->id == old('family')) selected @endif >{{$row->description}}</option>
+                                              @endforeach
+                                        <!-- <option value=" " > </option>
                                         <option value="RACKS" >RACKS</option>
                                         <option value="TRANSPORTADORES" >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" >SOFTWARE</option>
                                         <option value="FLETE" >FLETE</option>
-                                        <option value="OTRO" >OTRO</option>
+                                        <option value="OTRO" >OTRO</option> -->
                                 </select>
                                 
                                 <x-jet-input-error for='family' />
@@ -105,7 +107,7 @@
                                         <option value="{{$row->description}}" @if ($row->id == old('fabricacion')) selected @endif >{{$row->description}}</option>
                                     @endforeach
                                 </select>
-                                <x-jet-input-error for='unit' />
+                                <x-jet-input-error for='fabricacion' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Descripcion" />

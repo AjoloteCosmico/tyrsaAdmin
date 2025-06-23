@@ -6,6 +6,8 @@ use App\Models\TempItem;
 use App\Models\Customer;
 use App\Models\Family;
 
+use App\Models\subfamilies;
+use App\Models\products;
 use App\Models\fabrication;
 use App\Models\TempInternalOrder;
 use App\Models\report_product;
@@ -57,7 +59,8 @@ class TempItemController extends Controller
         }
 
         $Units = Unit::all();
-        $Families = Family::all();
+        $Families = subfamilies::where('family_id','16')->get();
+        // dd($Families);
         $Fabricaciones=fabrication::all();
         
         $Products=report_product::all();

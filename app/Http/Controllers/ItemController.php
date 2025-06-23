@@ -6,6 +6,8 @@ use App\Http\Controllers\InternalOrderController;
 use App\Models\Item;
 use App\Models\Customer;
 use App\Models\Family;
+use App\Models\subfamilies;
+use App\Models\products;
 use App\Models\InternalOrder;
 use App\Models\Unit;
 
@@ -32,7 +34,9 @@ class ItemController extends Controller
         }
 
         $Units = Unit::all();
-        $Families = Family::all();
+        //traer familias fabricadas pro tyrsa
+        $Families = subfamilies::where('family_id','16')->get();
+        dd($Families);
         $Products=report_product::all();
         return view('admin.items.add_item', compact(
             'InternalOrders',

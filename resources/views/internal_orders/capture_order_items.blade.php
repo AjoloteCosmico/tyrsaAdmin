@@ -103,7 +103,7 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Categoria" />
-                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
+                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat' onchange="update_desc()">
                                         
                                         <option value="" > </option>
                                         
@@ -126,6 +126,7 @@
                                         <option value="PF+SI" @if($desc=="PF+SI") selected @endif>PF+SI</option>
                                         <option value="PC+SD" @if($desc=="PC+SD") selected @endif>PC+SD</option>
                                         <option value="PC+SI" @if($desc=="PC+SI") selected @endif>PC+SI</option>
+                                       
                                        
                                 </select><x-jet-input-error for='description' />
                             </div>
@@ -201,5 +202,56 @@ document.getElementById("desc").addEventListener("input", function(){
    document.getElementById("session_desc").value = this.value;
    console.log(document.getElementById("session_desc").value)
     }); 
+</script>
+
+<script>
+function removeOptions(selectElement) {
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
+    function update_desc(){
+        val=document.getElementById('cat').value;
+        removeOptions(document.getElementById('desc'));
+        var prod = document.getElementById("desc");
+        switch(val) {
+            case 'Productos':
+                var options_array = {
+                        PF:"Producto Fabricacion",
+                        PC:"Producto Comercializacion",
+                        PF_SD:"PF+SD",
+                        PF_SI:"PF+SI",
+                        PC_SD:"PC+SD",
+                        PC_SI:"PC+SI",
+                    };
+                break;
+            case 'Servicios':
+                var options_array = {
+                        SD:"Servicio directo SD" ,
+                        SI:"Servicio indirecto SI",
+                        PF_SD:"PF+SD",
+                        PF_SI:"PF+SI",
+                        PC_SD:"PC+SD",
+                        PC_SI:"PC+SI",
+                    };
+                break;
+            case 'Integracion':
+                var options_array = {
+                        // PF:"Producto Fabricacion",
+                        // PC:"Producto Comercializacion",
+                        // SD:"Servicio directo SD" ,
+                        // SI:"Servicio indirecto SI",
+                        PF_SD:"PF+SD",
+                        PF_SI:"PF+SI",
+                        PC_SD:"PC+SD",
+                        PC_SI:"PC+SI",
+                    };
+                break;
+            }
+        for(index in options_array) {
+    prod.options[prod.options.length] = new Option(options_array[index], index);
+}
+    }
 </script>
 @stop
