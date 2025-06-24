@@ -49,7 +49,7 @@
                                         <x-jet-input-error for='seller_id' />
                                        </div>
                                     </div>
-                                    @elsecan
+                                    @else
                                     <div class="col-sm-3 col-xs-5">
                                       <div class="form-group">
                                         <x-jet-label value="* Comision del Vendedor" />
