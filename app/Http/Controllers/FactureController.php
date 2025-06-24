@@ -36,7 +36,6 @@ class FactureController extends Controller
                     $lastNumber = intval(preg_replace('/[^0-9]/', '', $LastComp->facture));
                     $ncomp = 'A ' . strval($lastNumber + 1);
                 }
-                dd($ncomp);
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
