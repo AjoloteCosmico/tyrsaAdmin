@@ -88,7 +88,7 @@
                                     @else
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$ncomp}}" onkeyup="javascript:this.value=this.value.toUpperCase();" disabled  />
+                                        <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$ncomp}}"  disabled  />
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     @endcan
