@@ -54,7 +54,7 @@
                                       <div class="form-group">
                                         <x-jet-label value="* Comision del Vendedor" />
                                         <div class="row">&nbsp;&nbsp;
-                                        <input class="form-capture   text-md" value="{{$p_comission}}" type="number" name="comision2" style='width: 40%; background-color:#cccccc; ' max=100 min=0.01 step=any disabled id='comision2'> &nbsp; %</div>
+                                        <input class="form-capture   text-md" value="{{$p_comission}}" type="number" name="comision2" style='width: 40%; background-color:#cccccc; ' max=100 min=0.01 step=any readonly id='comision2'> &nbsp; %</div>
                                         La comision fija establecida es del {{number_format($FixedComision,1)}}% 
                                         <x-jet-input-error for='seller_id' />
                                        </div>

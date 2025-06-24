@@ -51,7 +51,7 @@
                             @else 
                                     <div class="form-group">
                                         <x-jet-label value="* COMPORBANTE DE INGRESO" />
-                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp}}" disabled />
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp}}" readonly  />
                                         <x-jet-input-error for='comp' />
                                     </div>
                                @endcan 
