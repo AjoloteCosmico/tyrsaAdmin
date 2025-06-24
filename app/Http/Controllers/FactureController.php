@@ -29,10 +29,10 @@ class FactureController extends Controller
     }   
     public function create(){
         //traer todas las facturas
-                $LastComp = Cobro::where('comp', 'REGEXP', "^[0-9]+$")->orderBy('comp', 'DESC')->first();
-               $ncomp = 'A-100';
+                $LastComp = Factures::orderByRaw('CAST(REGEXP_REPLACE(facture, "[^0-9]", "") AS UNSIGNED)')->orderBy('comp', 'DESC')->first();
+               $ncomp = 'A 100';
                if($LastComp){
-                    $ncomp = 'A-'.strval($LastComp->comp + 1);
+                    $ncomp = 'A '.strval($LastComp->facture + 1);
                 }
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
