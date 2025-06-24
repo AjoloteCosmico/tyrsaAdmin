@@ -221,6 +221,7 @@ class InternalOrderController extends Controller
 
 
     public function capture_comissions($id,$message){
+    $FixedComision=Cantidades::find(1)->cant;
     $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
     $Message=$message;
     if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
@@ -239,7 +240,7 @@ class InternalOrderController extends Controller
      $p_comission=Session::get('p_comission');
      $p_seller_id=Session::get('p_seller_id');
     return view('internal_orders.capture_comissions', compact(
-        'TempInternalOrders','Sellers','Comisiones','Message','p_seller_id','p_comission'
+        'TempInternalOrders','Sellers','Comisiones','Message','p_seller_id','p_comission','FixedComision'
         
     ));
     }
@@ -1223,6 +1224,7 @@ public function recalcular_total($id){
             'Sellers',
         ));
     }
+
     public function update_temp_comissions($id,Request $request){
         $TempInternalOrders = TempInternalOrder::find($request->temp_order_id);
         $Comission=temp_comissions::find($id);
@@ -1232,9 +1234,12 @@ public function recalcular_total($id){
         $Comission->save();
         return $this->capture_comissions($TempInternalOrders->id,' ');
     }
+
     public function delete_temp_comissions($id){
+
         $Comission=temp_comissions::find($id);
         $TempInternalOrders = TempInternalOrder::find($Comission->temp_order_id);
+        
         temp_comissions::destroy($id);
         return $this->capture_comissions($TempInternalOrders->id,' ');
     }
@@ -1279,18 +1284,18 @@ public function recalcular_total($id){
         return redirect('internal_orders/edit/'.$InternalOrders->id);
     }
     public function exterminio(){
-        comissions::truncate();
-        signatures::truncate();
-        historical_payments::truncate();
-        payments::truncate();
-        Item::truncate();
-        TempItem::truncate();
-        //TempInternalOrder::truncate();
+        // comissions::truncate();
+        // signatures::truncate();
+        // historical_payments::truncate();
+        // payments::truncate();
+        // Item::truncate();
+        // TempItem::truncate();
+        // //TempInternalOrder::truncate();
         
-        InternalOrder::truncate();
+        // InternalOrder::truncate();
         return $this->index();
     }
-
+    
     public function change_dgi($id,$message=""){
         $InternalOrders = InternalOrder::where('id', $id)->first();
         $Message=$message;

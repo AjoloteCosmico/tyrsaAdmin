@@ -19,7 +19,7 @@
                                       <div class="form-group">
                                         <x-jet-label value="* Comision del Vendedor" />
                                         <div class="row">&nbsp;&nbsp;
-                                        <input class="form-capture   text-md"  type="number" name="comision" style='width: 40%;' max=100 min=0.01 step=any value=0.01> &nbsp; %</div>
+                                        <input class="form-capture   text-md"  type="number" name="comision" style='width: 40%;' max=5 min=0.01 step=0.01 value=0.01> &nbsp; %</div>
                                         <x-jet-input-error for='seller_id' />
                                        </div>
                                        

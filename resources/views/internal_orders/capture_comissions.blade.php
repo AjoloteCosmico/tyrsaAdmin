@@ -38,7 +38,6 @@
                                             @endforeach
                                         </select>
                                         <x-jet-input-error for='seller_id' />
-                                    
                                     </div>
                                     @can('COMISION MANUAL')
                                     <div class="col-sm-3 col-xs-5">
@@ -46,14 +45,14 @@
                                         <x-jet-label value="* Comision del Vendedor" />
                                         <div class="row">&nbsp;&nbsp;
                                         <input class="form-capture   text-md" value="{{$p_comission}}" type="number" name="comision2" style='width: 40%;' max=100 min=0.01 step=any id='comision2'> &nbsp; %</div>
+                                        La comision fija establecida es del {{number_format($FixedComision,1)}}%, 
                                         <x-jet-input-error for='seller_id' />
                                        </div>
-                                       
                                     </div>
                                    @endcan
-                                </form>
-                                        
-        <br><br><br>
+                                </form>             
+        <br><br>
+        <br>
     @can('ASIGNAR DGI')
         <h3> <b> Agregar otras Comisiones: </b></h3>
         <h2>Las comisiones DGI se asignan automaticamente</h2>
