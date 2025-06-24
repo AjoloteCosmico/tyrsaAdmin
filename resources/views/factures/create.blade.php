@@ -78,9 +78,10 @@
                                         <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>
+                                    
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control  w-full text-xs" value="{{old('unit_price')}}" onkeyup="javascript:this.value=this.value.toUpperCase();" @cannot('FOLIO FACTURA MANUAL') disabled @endcannot/>
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     <div class="form-group">
