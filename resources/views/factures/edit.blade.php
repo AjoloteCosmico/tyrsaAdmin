@@ -43,17 +43,17 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="TOTAL DE COBROS" />
-                                        <x-jet-input type="number" step="0.01" name="tpagos" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="1" name="tpagos" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='tpagos' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NUM COBRO" />
-                                        <x-jet-input type="number" step="0.01" name="ordinal" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="1" name="ordinal" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='ordinal' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text" step="0.01" name="facture" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->facture}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
+                                        <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->facture}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     <div class="form-group">

@@ -190,6 +190,7 @@ function removeOptions(selectElement) {
       selectElement.remove(i);
    }
 }
+
 //actualziar productos funcion
 function actualizarProductos(){
 var seleccionado = document.getElementById("subfam").value;

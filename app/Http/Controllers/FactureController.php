@@ -47,7 +47,7 @@ class FactureController extends Controller
                 $Facture->amount=$request->amount;
                 $Facture->ordinal=$request->ordinal;
                 $Facture->status='CAPTURA';
-                $Facture->npagos=$request->npagos;
+                $Facture->npagos=$request->tpagos;
                 $Facture->facture=$request->facture;
                 $Facture->coin_id=$request->coin_id;
                 $Facture->tc=$request->tc;
@@ -142,9 +142,10 @@ class FactureController extends Controller
         //traer todas las facturas
                 $Facture=Factures::find($id);
                 $Facture->amount=$request->amount;
+                $Facture->order_id=$request->order_id;
                 $Facture->ordinal=$request->ordinal;
                 $Facture->status='CAPTURA';
-                $Facture->npagos=$request->npagos;
+                $Facture->npagos=$request->tpagos;
                 $Facture->facture=$request->facture;
                 $Facture->save();
                 if ($request->hasFile('comp_file')) {
