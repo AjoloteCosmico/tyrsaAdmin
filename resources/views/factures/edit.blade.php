@@ -51,11 +51,19 @@
                                         <x-jet-input type="number" step="1" name="ordinal" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='ordinal' />
                                     </div>
+                                    @can('FOLIO FACTURA MANUAL')
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
                                         <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->facture}}" onkeyup="javascript:this.value=this.value.toUpperCase();"  />
                                         <x-jet-input-error for='facture' />
                                     </div>
+                                    @elsecan
+                                    <div class="form-group">
+                                        <x-jet-label value="* FACTURA" />
+                                        <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$Facture->facture}}" onkeyup="javascript:this.value=this.value.toUpperCase();" disabled  />
+                                        <x-jet-input-error for='facture' />
+                                    </div>
+                                    @endcan
                                     <div class="form-group">
                                         <x-jet-label value=" IMPORTE PAGADO SIN IVA" />
                                         <x-jet-input type="number" step="0.01" name="unit_price" id="sniva" style="background-color :#E3E3E3;" class="form-control just-number price-format-input" class="w-full text-xs" disabled/>

@@ -263,7 +263,7 @@ return [
                     'can'  => 'VER EMPRESAS',
                 ],
                  [
-                    'text' => 'COMISION DE VENTA',
+                    'text' => 'COMISION PRINCIPAL',
                     'icon' => 'fas fa-percent fa-fw',
                     'route'  => 'comisiones.index',
                     'can'  => 'VER CONFIG COMISIONES',

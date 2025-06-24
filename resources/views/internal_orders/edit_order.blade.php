@@ -235,11 +235,14 @@
                                </select>
                                <x-jet-input-error for='seller_id' />
                            </div>
+
+                           @can('EDITAR COMISION PRINCIPAL')
                            <div class="form-group">
                                <x-jet-label value="* Comision del Vendedor" />
                                <input type="number" name="comision" style='width: 10%;' max=100 min=0 step=any value="{{$InternalOrders->comision* 100}}"> %
                                <x-jet-input-error for='comision' />
                            </div>
+                           @endcan
                          @endcan
 
                            <div class="form-group">

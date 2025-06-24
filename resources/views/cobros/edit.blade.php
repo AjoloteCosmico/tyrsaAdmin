@@ -46,12 +46,21 @@
                                         <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{$Cobro->date}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
+                        @can('FOLIO COBRO MANUAL') 
 
                                     <div class="form-group">
                                         <x-jet-label value="* COMPORBANTE DE INGRESO" />
-                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$Cobro->comp}}" onkeyup="javascript:this.value=this.value.toUpperCase();" @cannot('FOLIO COBRO MANUAL') disabled @endcannot/>
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$Cobro->comp}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
                                         <x-jet-input-error for='comp' />
                                     </div>
+
+                            @elsecan 
+                                    <div class="form-group">
+                                        <x-jet-label value="* COMPORBANTE DE INGRESO" />
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$Cobro->comp}}" disabled />
+                                        <x-jet-input-error for='comp' />
+                                    </div>
+                               @endcan 
                                        
                                     SELECCIONA LAS FACTURAS A CUBRIR CON EL COMPROBANTE
                                     <table class="table tableshippingaddress table-striped text-xs font-medium tableFixHead " style=".tableFixHead          { overflow: auto; height: 10px; }

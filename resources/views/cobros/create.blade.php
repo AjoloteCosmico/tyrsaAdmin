@@ -40,11 +40,21 @@
                                         <x-jet-input-error for='date' />
                                     </div>
 
+                                    @can('FOLIO COBRO MANUAL') 
+
                                     <div class="form-group">
                                         <x-jet-label value="* COMPORBANTE DE INGRESO" />
-                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp}}" @cannot('FOLIO COBRO MANUAL') disabled @endcannot />
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp}}" onkeyup="javascript:this.value=this.value.toUpperCase();" />
                                         <x-jet-input-error for='comp' />
                                     </div>
+
+                            @elsecan 
+                                    <div class="form-group">
+                                        <x-jet-label value="* COMPORBANTE DE INGRESO" />
+                                        <x-jet-input type="text"  name="comp" id="comp" class="form-control  w-full text-xs" value="{{$ncomp}}" disabled />
+                                        <x-jet-input-error for='comp' />
+                                    </div>
+                               @endcan 
                                     <!-- <div class="form-group">
                                         <x-jet-label value="* Factura" />
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
