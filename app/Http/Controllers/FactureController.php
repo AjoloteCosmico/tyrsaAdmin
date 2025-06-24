@@ -31,10 +31,12 @@ class FactureController extends Controller
         //traer todas las facturas
                 $LastComp = Factures::orderByRaw('CAST(REGEXP_REPLACE(facture, "[^0-9]", "") AS UNSIGNED)')->first();
                $ncomp = 'A 100';
+               
                if($LastComp){
                     $lastNumber = intval(preg_replace('/[^0-9]/', '', $LastComp->facture));
                     $ncomp = 'A ' . strval($lastNumber + 1);
                 }
+                dd($ncomp);
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
