@@ -58,10 +58,12 @@ class InternalOrderController extends Controller
            $InternalOrders = DB::table('customers')
             ->join('internal_orders', 'internal_orders.customer_id', '=', 'customers.id')
             ->join('sellers', 'internal_orders.seller_id','=','sellers.id')
+             ->join('coins', 'internal_orders.coin_id','=','coins.id')
+                
             
             // ->where('customers.seller_id',$Seller_key)
             ->where('internal_orders.seller_id',$Seller_key)
-            ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name')
+            ->select('internal_orders.*','customers.customer','customers.clave', 'sellers.seller_name','coins.code')
             
             ->orderBy('internal_orders.invoice', 'DESC')
             ->get();
