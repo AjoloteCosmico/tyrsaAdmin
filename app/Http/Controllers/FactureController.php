@@ -29,7 +29,7 @@ class FactureController extends Controller
     }   
     public function create(){
         //traer todas las facturas
-                $LastComp = Factures::orderByRaw('CAST(REGEXP_REPLACE(facture, "[^0-9]", "") AS UNSIGNED)')->first();
+                $LastComp = Factures::orderByRaw('CAST(REGEXP_REPLACE(facture, "[^0-9]", "") AS UNSIGNED)')->last();
                $ncomp = 'A 100';
                
                if($LastComp){
