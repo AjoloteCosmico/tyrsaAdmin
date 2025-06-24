@@ -330,7 +330,7 @@ public function store_comissions(Request $request)
         $TempInternalOrders->seller_id = $request->seller_id;
         $TempInternalOrders->comision=$request->comision2 * 0.01;
         $TempInternalOrders->save();
-        dd($request->comision2);
+        // dd($request->comision2);
         //dd($request->comision2,$TempInternalOrders->comision);
         $CustomerAddress = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->first();
        
