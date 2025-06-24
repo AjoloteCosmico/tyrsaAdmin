@@ -43,7 +43,8 @@ class FactureController extends Controller
                 'Factures',
                 'Customers',
                 'InternalOrders',
-                'Coins'
+                'Coins','ncomp'
+
                 ));
             }
     public function store(Request $request){
