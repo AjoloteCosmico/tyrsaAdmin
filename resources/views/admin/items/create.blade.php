@@ -88,9 +88,9 @@
                             <div class="form-group">
                                 <x-jet-label value="* Productos" />
                                <select class="form-capture  w-full text-xs uppercase" name="products" id='prod'>
-                                    @foreach($Products as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endforeach
+                                    
+                                    <option value=""> </option>
+                                    
                                 </select>
                                 
                             </div> 

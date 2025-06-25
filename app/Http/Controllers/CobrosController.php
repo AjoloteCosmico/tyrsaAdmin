@@ -365,7 +365,7 @@ class CobrosController extends Controller
                    $file_path = public_path('storage/comp'.$id.'.pdf');
                    File::delete($file_path);
                     Cobro::destroy($id);
-                    return redirect()->route('cobros')->with('delete_reg', 'ok');
+                    return redirect()->route('cobros.index')->with('delete_reg', 'ok');
             }
     
 
@@ -373,7 +373,8 @@ class CobrosController extends Controller
        $Cobro= Cobro::find($id);
        $Cobro->reviso=Auth::user()->id;
        $Cobro->save();
-       return redirect()->route('cobros');
+       
+        return redirect('/cobros');
 
     }
     public function autorizar($id){

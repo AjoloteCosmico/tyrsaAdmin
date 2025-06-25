@@ -40,15 +40,11 @@
                             <div class="form-group">
                                 <x-jet-label value="* Familia" />
                                 {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
-                                       
+                                <select class="form-capture  w-full text-xs uppercase" name="family" id='fam' onchange="actualizarProductos()">
                                         <option value="RACKS" @if ($Item->family == 'RACKS') selected @endif >RACKS</option>
                                         <option value="TRANSPORTADORES" @if ($Item->family == 'TRANSPORTADORES') selected @endif >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" @if ($Item->family == 'EQUIPO AUXILIAR') selected @endif >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" @if ($Item->family == 'SOFTWARE') selected @endif >SOFTWARE</option>
-                                        <option value="FLETE"  @if ($Item->family == 'FLETE') selected @endif >FLETE</option>
-                                        <option value="OTRO" @if ($Item->family == 'OTRO') selected @endif >OTRO</option>
-                                
                                 </select>
                                 
                                 <x-jet-input-error for='family' />
@@ -151,5 +147,54 @@ else{
 }
 })
 });
+</script>
+
+<script>
+function removeOptions(selectElement) {
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
+
+function actualizarProductos(){
+var seleccionado = document.getElementById("fam").value;
+console.log('entrando a la funcion');
+console.log(seleccionado)
+removeOptions(document.getElementById('prod'));
+var prod = document.getElementById("prod");
+
+if(seleccionado=='RACKS'){
+    var example_array = {
+        @foreach($Products->where('familia','RACKS') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
+    
+};}
+if(seleccionado=='TRANSPORTADORES'){
+    var example_array = {
+        @foreach($Products->where('familia','TRANSPORTADORES') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
+    
+};}
+if(seleccionado=='EQUIPO AUXILIAR'){
+    var example_array = {
+        @foreach($Products->where('familia','EQUIPO AUXILIAR') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
+    
+};}
+if(seleccionado=='SOFTWARE'){
+    var example_array = {
+        @foreach($Products->where('familia','SOFTWARE') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
+    
+};}
+for(index in example_array) {
+    prod.options[prod.options.length] = new Option(example_array[index], index);
+}
+}
 </script>
 @stop
