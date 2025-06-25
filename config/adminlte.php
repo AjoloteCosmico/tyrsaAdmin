@@ -266,7 +266,7 @@ return [
                     'text' => 'COMISION PRINCIPAL',
                     'icon' => 'fas fa-percent fa-fw',
                     'route'  => 'comisiones.index',
-                    'can'  => 'VER CONFIG COMISIONES',
+                    'can'  => 'VER COMISION PRINCIPAL',
                 ],
                 [
                     'text' => ' CONFIGURACIÓN',
