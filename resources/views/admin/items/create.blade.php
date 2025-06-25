@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <x-jet-label value="* Familia" />
                                 {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
+                                <select class="form-capture  w-full text-xs uppercase" name="family" id='fam' onchange="actualizarProductos()">
                                               {{--@foreach($Families as $row)
                                                     <option value="{{$row->description}}" @if ($row->id == old('family')) selected @endif >{{$row->description}}</option>
                                               @endforeach--}}
@@ -67,8 +67,8 @@
                                         <option value="TRANSPORTADORES" >TRANSPORTADORES</option>
                                         <option value="EQUIPO AUXILIAR" >EQUIPO AUXILIAR</option>
                                         <option value="SOFTWARE" >SOFTWARE</option>
-                                        <option value="FLETE" >FLETE</option>
-                                        <option value="OTRO" >OTRO</option>
+                                        <!-- <option value="FLETE" >FLETE</option>
+                                        <option value="OTRO" >OTRO</option> -->
                                 </select>
                                 
                                 <x-jet-input-error for='family' />
@@ -193,95 +193,40 @@ function removeOptions(selectElement) {
 
 //actualziar productos funcion
 function actualizarProductos(){
-var seleccionado = document.getElementById("subfam").value;
+var seleccionado = document.getElementById("fam").value;
 console.log('entrando a la funcion');
 console.log(seleccionado)
 removeOptions(document.getElementById('prod'));
 var prod = document.getElementById("prod");
-var example_array = {
-    INS_MECANICA : 'Ins. Mecanica',
-    INS_ELECTRICA : 'Ins. Mecanica',
-    ING_MECANICA : 'Ing. Mecanica',
-    ING_ELECTRICA : 'Ing. Electrica',
-    ING_INDUSTRIAL : 'Ing. Industrial',
-    CONSULTORIA : 'consultoria',
-    FLETES : 'fletes',
-    OTROS_SERVICIOS : 'Otros Servicios',};
-if(seleccionado=='RACK'){
-    var example_array = {
-    Estanteria : 'Estanteria',
-    Mini_rack : 'Mini Rack',
-    Selectivo: 'Selectivo',
-    Drive_In: 'Drive In /Drive thru ',
-    Push_back: 'Push Back ',
-    Dinamico: 'Dinamico ',
-    Carton_flow: 'Carton Flow ',
-    Pasarelas: 'Pasarelas ',
-    Entrepisos: 'Entrepisos',
-    Convertidores: 'Convertidores',
-    Otros : 'Otros'
-    
-};}
+
 if(seleccionado=='RACKS'){
     var example_array = {
-    subcontratistas : 'Subcontratistas',
-    ins_mecanica : 'Ins. Mecanica',
-    ins_electrica : 'Ins. Mecanica',
-    ing_mecanica : 'Ing. Mecanica',
-    ing_electrica : 'Ing. Electrica',
-    ing_industrial : 'Ing. Industrial',
-    consultoria : 'consultoria',
-    fletes : 'fletes',
-    otros_servicios : 'Otros Servicios',
+        @foreach($Products->where('familia','RACKS') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
     
 };}
 if(seleccionado=='TRANSPORTADORES'){
     var example_array = {
-    GR : 'GR',
-    GW : 'GW',
-    SB_BOR: 'SB/BOR ',
-    LBRD: 'LRBD',
+        @foreach($Products->where('familia','TRANSPORTADORES') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
     
 };}
-if(seleccionado=='ESPECIALES'){
+if(seleccionado=='EQUIPO AUXILIAR'){
     var example_array = {
+        @foreach($Products->where('familia','EQUIPO AUXILIAR') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
     
-    XTYRSA : 'Xtyrsa',
-    XCLIENTE : 'Xcliente',
+};}
+if(seleccionado=='SOFTWARE'){
+    var example_array = {
+        @foreach($Products->where('familia','SOFTWARE') as $row)
+        {{$row->id}}:'{{$row->name}}',
+        @endforeach
     
 };}
-
-if(seleccionado=='NACIONAL_RACKS_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='NACIONAL_TRANSPORTADORES_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='NACIONAL_ESPECIALES_'){
-    var example_array = {
-    LINEA_MERIK : 'LINEA MERIK',
-};}
-if(seleccionado=='IMPORTADO_RACKS_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='IMPORTADO_TRANSPORTADORES_'){
-    var example_array = {
-    LINEA_ASCI : 'LINEA ASCI',
-    LINEA_DAIFUKU : 'LINEA DAIFUKU',
-    LINEA_WASP : 'LINEA WASP',
-    LINEA_NESTAFLEX : 'LINEA NESTAFLEX',
-    LINEA_RYSON : 'LINEA RYSON',
-    LINEA_OTROS : 'LINEA OTROS'
-
-};}
-if(seleccionado=='IMPORTADO_ESPECIALES_'){
-    var example_array = {
-    LINEA_MERIK : 'LINEA MERIK',
-};}
-
 for(index in example_array) {
     prod.options[prod.options.length] = new Option(example_array[index], index);
 }

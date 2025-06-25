@@ -220,28 +220,18 @@ function removeOptions(selectElement) {
                 var options_array = {
                         PF:"Producto Fabricacion",
                         PC:"Producto Comercializacion",
-                        PF_SD:"PF+SD",
-                        PF_SI:"PF+SI",
-                        PC_SD:"PC+SD",
-                        PC_SI:"PC+SI",
+                      
                     };
                 break;
             case 'Servicios':
                 var options_array = {
                         SD:"Servicio directo SD" ,
                         SI:"Servicio indirecto SI",
-                        PF_SD:"PF+SD",
-                        PF_SI:"PF+SI",
-                        PC_SD:"PC+SD",
-                        PC_SI:"PC+SI",
+                    
                     };
                 break;
             case 'Integracion':
                 var options_array = {
-                        // PF:"Producto Fabricacion",
-                        // PC:"Producto Comercializacion",
-                        // SD:"Servicio directo SD" ,
-                        // SI:"Servicio indirecto SI",
                         PF_SD:"PF+SD",
                         PF_SI:"PF+SI",
                         PC_SD:"PC+SD",
