@@ -47,17 +47,13 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('cobros/create_desglose/{id}', [CobrosController::class, 'desglosar_cobro'])->name('cobros.create_desglose');
     Route::post('cobros/store_desglose/{id}', [CobrosController::class, 'store_desglose'])->name('cobros.store_desglose');
     
-    
-    Route::resource('credit_notes', NotasCreditoController::class);
+    Route::resource('credit_notes', NotasCreditoController::class); 
     Route::post('credit_notes/update_/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update2');
-    
    
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');
     Route::get('cobros/autorizar/{id}', [CobrosController::class, 'autorizar'])->name('cobros.autorizar');
     Route::get('aberelpdf/{name}', [ReportsController::class, 'prueba'])->name('pdf.prueba');
     Route::get('visualization', [VisualizacionController::class, 'pedidos_no_autorizados'])->name('visualizacion');
-    
-
 
     Route::get('accounting/payed_accounts', [PaymentsController::class, 'payed_accounts'])->name('payed_accounts');
    //rutas para generar reportes

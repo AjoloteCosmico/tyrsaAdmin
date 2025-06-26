@@ -27,13 +27,12 @@
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR COMISION FIJA')
+                                        @can('EDITAR COMISION PRINCIPAL')
                                         <a href="{{ route('comisiones.edit', $Comision->id)}}">
                                         
                                         <button class="btn btn-blue" style="background-color: rgb(37 ,99 ,235 );color: white;">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>
-                                                
                                         </a>
                                         @endcan
                                     </div>
