@@ -31,10 +31,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('coins', CoinController::class);
     Route::resource('banks', BankController::class);
     Route::resource('units', UnitController::class);
-    Route::resource('families', FamilyController::class);
-    
+    Route::resource('families', FamilyController::class);   
     Route::resource('report_product', ProductController::class);
-    
     Route::resource('marcas', MarcasController::class);
     Route::resource('medios', MediosController::class);
     
