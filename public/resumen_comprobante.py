@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+# id=0
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -59,6 +60,7 @@ if(int(id)!=0):
    cobros=cobros.loc[cobros['order_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
+##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
     'bold': 0,
     'border': 0,
@@ -108,6 +110,7 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
@@ -117,9 +120,20 @@ blue_header_format_bold = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1,
     'font_size':13})
-
+blue_footer_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':11})
 red_header_format = workbook.add_format({
     'bold': True,
     'bg_color': b_color,
@@ -140,24 +154,7 @@ red_header_format_bold = workbook.add_format({
     'font_color': 'white',
     'border': 1,
     'font_size':13})
-yellow_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#e8b321',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-green_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#2D936C',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
+
 
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
@@ -166,8 +163,10 @@ blue_content = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
-    'border_color':a_color})
+    
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -175,39 +174,48 @@ blue_content_bold = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':11,
     'border_color':a_color,
-    'font_size':13})
-yellow_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
-red_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
+    'num_format': '[$$-409]#,##0.00'})
 
-green_content = workbook.add_format({
-    'border': 3,
+blue_content_bold_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
-red_content_bold = workbook.add_format({
-    'bold':True,
-    'border': 3,
+    'font_size':11,
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_date = workbook.add_format({
+    'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13,
-    'border_color':'#80848E'})
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -216,6 +224,15 @@ observaciones_format = workbook.add_format({
     'fg_color':'#BDD7EE',
     'border': 1})
 
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 total_cereza_format = workbook.add_format({
     'bold': True,
     'text_wrap': True,
@@ -224,28 +241,26 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df.to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+df[0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 
 
+# Encabezado.
+worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
+worksheet.merge_range('G2:K2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
+worksheet.merge_range('G3:K3', 'Soluciones en logistica interior', negro_s)
+worksheet.merge_range('G4:K4', 'RESUMEN DE COMPROBANTES DE INGRESO' ,negro_b)
+worksheet.merge_range('G5:K5', 'Control de Cobros por P.I.', rojo_b)
 
-#Encabezado del documento--------------
+worksheet.merge_range('L2:M3', """FECHA DEL REPORTE             
+DD/MM/AAAA""", negro_b)
 
-worksheet.merge_range('B2:G2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
-worksheet.merge_range('B3:G3', 'RESUMEN DE COMPROBANTE DE INGRESOS', negro_s)
-worksheet.merge_range('B4:G4', 'Cuentas Cobradas Pedidos Internos', rojo_b)
 import datetime
-
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 year = date.strftime("%Y")
-worksheet.write('H2', 'AÑO', negro_b)
-worksheet.write('I2', year, negro_b)
-worksheet.merge_range('J2:K3', """FECHA DEL REPORTE
-DD/MM/AAAA""", negro_b)
-worksheet.merge_range('J4:K4', date, negro_b)
-worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-
+worksheet.merge_range('N2:O3', date, negro_b)
+#Cabeceras
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
 worksheet.merge_range('E6:E7', 'NUMERO DE COMPROBANTE', blue_header_format)
@@ -270,7 +285,7 @@ cobros=cobros.sort_values(by='comp')
 for i in range(0,len(cobros)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
-   worksheet.write('D'+row_index, str(cobros['date'].values[i]), blue_content)
+   worksheet.write('D'+row_index, cobros['date'].values[i], blue_content_date)
    worksheet.write('E'+row_index, str(cobros['comp'].values[i]), blue_content)
    worksheet.write('F'+row_index, str(cobros['bank_description'].values[i]), blue_content)
    worksheet.write('G'+row_index, str(cobros['facture'].values[i]), blue_content)
@@ -278,8 +293,8 @@ for i in range(0,len(cobros)):
    worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
    worksheet.write('J'+row_index, str(cobros['coin'].values[i]), blue_content)
    worksheet.write('K'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
-   worksheet.write('L'+row_index, str(cobros['amount'].values[i]), blue_content)
-   worksheet.write('M'+row_index, str(cobros['exchange_sell'].values[i]*cobros['amount'].values[i]), blue_content)
+   worksheet.write('L'+row_index, cobros['amount'].values[i], blue_content)
+   worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*cobros['amount'].values[i], blue_content_dll)
    
    worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
    worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
@@ -289,8 +304,8 @@ for i in range(0,len(cobros)):
 trow=8+len(cobros)
 
 worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Total', blue_header_format_bold)
-worksheet.write('K'+str(trow), str(cobros['amount'].sum()), blue_content)
-worksheet.write('L'+str(trow), str(cobros['exchange_sell'].values[0]*cobros['amount'].sum()), blue_content_bold)
+worksheet.write('K'+str(trow), cobros['amount'].sum(), blue_content)
+worksheet.write('L'+str(trow), cobros['exchange_sell'].values[0]*cobros['amount'].sum(), blue_content_bold_dll)
    
 
 
@@ -300,7 +315,7 @@ worksheet.set_column('I:J',17)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 
-worksheet.set_column('N:P',16)
+worksheet.set_column('M:P',16)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  

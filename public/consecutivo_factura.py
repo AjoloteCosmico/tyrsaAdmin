@@ -43,7 +43,7 @@ facturas=pd.read_sql("""Select factures.* ,
 
 
 
-writer = pd.ExcelWriter('storage/report/consecutivo_factura'+str(id)+'.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/consecutivo_factura1.xlsx', engine='xlsxwriter')
 workbook = writer.book
 
 ##FORMATOS PARA EL TITULO---------------------------------------
@@ -63,12 +63,15 @@ negro_s = workbook.add_format({
     'font_color': 'black',
     'font_size':12})
 negro_b = workbook.add_format({
-    'bold': 2,
+    'bold': 1,
     'border': 0,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':10,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -298,9 +301,9 @@ blue_content = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':9,
     'border_color':a_color,
-    'num_format': '#,###'})
+    'num_format': '[$$-409]#,##0.00'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -308,25 +311,19 @@ blue_content_bold = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':10,
     'border_color':a_color,
-    'font_size':13,
-    'num_format': '#,###'})
-yellow_content = workbook.add_format({
+    'num_format': '[$$-409]#,##0.00'})
+
+blue_content_date = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
-red_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color,
-    'num_format': '#,###'})
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
+
 
 green_content = workbook.add_format({
     'border': 3,
@@ -410,17 +407,25 @@ b4s = workbook.add_format({
     
 #dataframes
 
-facturas['date'].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
+facturas['date'][0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #worksheet.set_column(2,19,15)
 # Encabezado.
-worksheet.merge_range('G2:N2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_g)
-worksheet.merge_range('G3:N3', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('G4:N4', 'CONSECUTIVO DE PEDIDOS INTERNOS' ,negro_b)
-worksheet.merge_range('G5:N5', 'Control de Cobros por P.I.', rojo_b)
-worksheet.write(4, 20, "AÑO", negro_b)
-worksheet.write(4, 19, "2023", negro_b)
 
+worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
+worksheet.merge_range('G2:K2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_g)
+worksheet.merge_range('G3:K3', 'Soluciones en logistica interior', negro_s)
+worksheet.merge_range('G4:K4', 'CONSECUTIVO DE FACTURAS' ,negro_b)
+worksheet.merge_range('G5:K5', 'Control de Cobros por P.I.', rojo_b)
+
+worksheet.merge_range('L2:M3', """FECHA DEL REPORTE             
+DD/MM/AAAA""", negro_b)
+
+import datetime
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
+worksheet.merge_range('N2:O3', date, negro_b)
 #Dataframe yellow headers bitch xd
 worksheet.merge_range('B6:B7', 'NOH', blue_header_format)
 worksheet.merge_range('C6:C7', 'FECHA D-M-A', blue_header_format)
@@ -466,6 +471,13 @@ for i in range(0,len(facturas)):
     worksheet.write(7+i, 18, str(facturas['autorizador'].values[i]),blue_content)
     worksheet.write(7+i, 19, str(facturas['status'].values[i]),blue_content)
 
-
+worksheet.set_column('C:C',15)
+worksheet.set_column('I:I',19)
+worksheet.set_column('L:M',15)
+worksheet.set_column('O:P',19)
+worksheet.set_column('Q:T',20)
+worksheet.set_landscape()
+worksheet.set_paper(9)
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
 

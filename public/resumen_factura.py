@@ -47,7 +47,6 @@ writer = pd.ExcelWriter('storage/report/resumen_factura1.xlsx', engine='xlsxwrit
 #    facturas=facturas.loc[facturas['customer_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
-##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
     'bold': 0,
     'border': 0,

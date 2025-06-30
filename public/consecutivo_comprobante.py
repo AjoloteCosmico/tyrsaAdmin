@@ -27,7 +27,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 query = ('SELECT * from payments')
 pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
-writer = pd.ExcelWriter("storage/report/consecutivo_comprobante"+str(id)+".xlsx", engine='xlsxwriter')
+writer = pd.ExcelWriter("storage/report/consecutivo_comprobante1.xlsx", engine='xlsxwriter')
 cobros=pd.read_sql("""Select cobros.* ,
     customers.customer,customers.customer_suburb, customers.clave,
     internal_orders.invoice, internal_orders.payment_conditions,
@@ -46,19 +46,11 @@ cobros=pd.read_sql("""Select cobros.* ,
     inner join banks on banks.id=cobros.bank_id """,cnx)
 
 
-cobros['date'].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
+cobros['date'][0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
 
 workbook = writer.book
-##FORMATOS PARA EL TITULO---------------------------------------
-azul_g = workbook.add_format({
-    'bold': 1,
-    'border': 0,
-    'align': 'center',
-    'valign': 'vcenter',
-    #'fg_color': 'yellow',
-    'font_color': '#0070C0',
-    'font_size':17})
-rojo_g = workbook.add_format({
+##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
+rojo_l = workbook.add_format({
     'bold': 0,
     'border': 0,
     'align': 'center',
@@ -79,7 +71,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -87,28 +82,7 @@ rojo_b = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'red',
     'font_size':13})      
- 
-azulito = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'fg_color': '#B4C6E7',
-    'font_size':12})
-#FORMATOS PARA CABECERAS DE TABLA --------------------------------
-header_format = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color': 'yellow',
-    'border': 1})
 
-header_format_green = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color': 'yellow',
-    'font_color':'green',
-    'border': 1})
 #FORMATOS PARA CABECERAS DE TABLA --------------------------------
 header_format = workbook.add_format({
     'bold': True,
@@ -125,6 +99,7 @@ blue_header_format = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1})
 blue_header_format_bold = workbook.add_format({
     'bold': True,
@@ -134,9 +109,20 @@ blue_header_format_bold = workbook.add_format({
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
     'border': 1,
     'font_size':13})
-
+blue_footer_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':11})
 red_header_format = workbook.add_format({
     'bold': True,
     'bg_color': b_color,
@@ -157,24 +143,7 @@ red_header_format_bold = workbook.add_format({
     'font_color': 'white',
     'border': 1,
     'font_size':13})
-yellow_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#e8b321',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-green_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#2D936C',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
+
 
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
@@ -183,9 +152,10 @@ blue_content = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    
     'border_color':a_color,
-    'num_format': '#,###'})
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -193,57 +163,89 @@ blue_content_bold = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12,
+    'font_size':11,
     'border_color':a_color,
-    'font_size':13,
-    'num_format': '#,###'})
-yellow_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
-red_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color,
-    'num_format': '#,###'})
+    'num_format': '[$$-409]#,##0.00'})
 
-green_content = workbook.add_format({
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
-red_content_bold = workbook.add_format({
-    'bold':True,
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':13,
-    'border_color':'#80848E',
-    'num_format': '#,###'})
-
-#FORMATOS PARA TABLAS PER CE------------------------------------
-tabla_normal = workbook.add_format({
+blue_content_bold_dll = workbook.add_format({
+    'bold': True,
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12})
+    'font_size':11,
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
+#FOOTER FORMATS---------------------------------------------------------
+observaciones_format = workbook.add_format({
+    'bold': True,
+    'text_wrap': True,
+    'valign': 'top',
+    'fg_color':'#BDD7EE',
+    'border': 1})
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
+total_cereza_format = workbook.add_format({
+    'bold': True,
+    'text_wrap': True,
+    'valign': 'top',
+    'fg_color':'#F4B084',
+    'border': 1})
+
     
 worksheet = writer.sheets['Sheet1']
 # Encabezado.
-worksheet.merge_range('G2:N2', 'CONSECUTIVO DE COMPROBANTE DE INGRESOS ', azul_g)
-worksheet.merge_range('G3:N3', 'CUENTAS COBRADAS DE PEDIDOS INTERNOS', azul_g)
+worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
+worksheet.merge_range('G2:K2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
+worksheet.merge_range('G3:K3', 'Soluciones en logistica interior', negro_s)
+worksheet.merge_range('G4:K4', 'CONSECUTIVO DE COMPROBANTES DE INGRESO' ,negro_b)
+worksheet.merge_range('G5:K5', 'Control de Cobros por P.I.', rojo_b)
 
+worksheet.merge_range('L2:M3', """FECHA DEL REPORTE             
+DD/MM/AAAA""", negro_b)
 
+import datetime
+currentDateTime = datetime.datetime.now()
+date = currentDateTime.date()
+year = date.strftime("%Y")
+worksheet.merge_range('N2:O3', date, negro_b)
 
 #Dataframe yellow headers bitch xd
 worksheet.merge_range('B6:B7', 'NOH', blue_header_format)
@@ -278,9 +280,9 @@ cobros=cobros.sort_values(by='comp')
 acum=0
 for i in range(0,len(cobros)):
      acum=acum+cobros['amount'].values[i]*cobros['tc'].values[i]
-     worksheet.write(7+i, 1, i+1,blue_content)
+     worksheet.write(7+i, 1, str(i+1),blue_content)
      worksheet.write(7+i, 2, str(cobros['comp'].values[i]),blue_content)
-     worksheet.write(7+i, 3, str(cobros['date'].values[i]),blue_content)
+     worksheet.write(7+i, 3, cobros['date'].values[i],blue_content_date)
      worksheet.write(7+i, 4, str(cobros['invoice'].values[i]),blue_content)
      worksheet.write(7+i, 5, str(cobros['ordinal'].values[i]),blue_content)
      worksheet.write(7+i, 6, str(cobros['payment_conditions'].values[i]),blue_content)
@@ -292,8 +294,8 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 12, str(cobros['customer_suburb'].values[i]),blue_content)
      worksheet.write(7+i, 13, str(cobros['coin'].values[i]),blue_content)
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
-     worksheet.write(7+i, 15, str(cobros['amount'].values[i]),blue_content)
-     worksheet.write(7+i, 16, str(cobros['amount'].values[i]*cobros['tc'].values[i]),blue_content)
+     worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
+     worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
      worksheet.write(7+i, 17, str(cobros['capturista'].values[i]),blue_content)
      worksheet.write(7+i, 18, str(cobros['revisor'].values[i]),blue_content)
      worksheet.write(7+i, 19, str(cobros['autorizador'].values[i]),blue_content)
@@ -304,10 +306,12 @@ trow=8+len(cobros)
 worksheet.merge_range(trow,13,trow,14 ,'Total sin iva', blue_header_format)
 worksheet.write(trow, 15, cobros["amount"].sum(),blue_header_format_bold)
 worksheet.write(trow, 16, acum,blue_header_format)
+worksheet.set_column('C:C',15)
+worksheet.set_column('I:I',19)
+worksheet.set_column('L:M',15)
+worksheet.set_column('O:P',19)
+worksheet.set_column('Q:T',20)
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)       
+worksheet.fit_to_pages(1, 1)  
 workbook.close()
-
-
-

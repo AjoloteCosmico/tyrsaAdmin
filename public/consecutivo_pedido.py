@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
-id=str(sys.argv[1])
+# id=str(sys.argv[1])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -26,10 +26,10 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               use_pure=False)
 query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal,i.date, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
 orders=pd.read_sql(query,cnx)
-writer = pd.ExcelWriter('storage/report/consecutivo_pedido'+str(id)+'.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/report/consecutivo_pedido1.xlsx', engine='xlsxwriter')
 workbook = writer.book
-##FORMATOS PARA EL TITULO---------------------------------------
-rojo_g = workbook.add_format({
+##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
+rojo_l = workbook.add_format({
     'bold': 0,
     'border': 0,
     'align': 'center',
@@ -50,7 +50,10 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13}) 
+    'font_size':13,
+    
+    'text_wrap': True,
+    'num_format': 'dd/mm/yyyy'}) 
 rojo_b = workbook.add_format({
     'bold': 2,
     'border': 0,
@@ -65,39 +68,121 @@ header_format = workbook.add_format({
     'text_wrap': True,
     'valign': 'center',
     'fg_color': 'yellow',
-    'border': 1})
+    'border': 1,})
 
 blue_header_format = workbook.add_format({
     'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'border_color':'blue',
+    'bg_color': a_color,
+     'text_wrap': True,
+    'valign': 'vcenter',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
     'border': 1})
-
-blue_hf = workbook.add_format({
+blue_header_format_bold = workbook.add_format({
     'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'vcenter',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':13})
+
+blue_footer_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
     'text_wrap': True,
     'valign': 'top',
-    'border_color':'blue',
-    'font_color': 'blue',
-    'border': 1})
-
-
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'num_format': '[$$-409]#,##0.00',
+    'font_size':11})
 #FORMATOS PARA TABLAS PER CE------------------------------------
-tabla_normal = workbook.add_format({
+
+blue_content = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':12})
     
-tabla_prog = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_unit = workbook.add_format({
     'border': 1,
-    'border_color':'blue',})
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    
+    'border_color':a_color,
+    'font_size':10,
+    })
+
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
+
+blue_content_bold = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':11,
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'
+    })
+
+blue_content_bold_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':11,
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -112,307 +197,14 @@ total_cereza_format = workbook.add_format({
     'valign': 'top',
     'fg_color':'#F4B084',
     'border': 1})
-
-#azul blanco------------------------------------------
-b1no = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'font_size':12,
-    'top': 1,
-    'left': 1,
-    'border_color': '#0094FF'})
-    
-b1n = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'font_size':13,
-    'top': 1,
-    'border_color': '#0094FF'})
-    
-b1ne = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'font_size':13,
-     'top': 1,
-    'right': 1,
-    'border_color': '#0094FF'})
-    
-b1e = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'font_size':13,
-    'right': 1,
-    'border_color': '#0094FF'})
-    
-b1se = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'font_color':'#00D91A',
-    'right': 1,
-    'bottom': 1,
-    'border_color': '#0094FF'})
-    
-b1s = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'bottom': 1,
-    'border_color': '#0094FF'})
-    
-b1so = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'bottom': 1,
-    'left': 1,
-    'border_color': '#0094FF'})
-
-b1o = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'left': 1,
-    'border_color': '#0094FF'})
-
- #-------------------------------------------------
- # AZUL ROJO
- 
-b2n = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':13,
-    'top': 1,
-    'left': 1,
-    'right': 1,
-    'border_color': '#0094FF'})
-    
-b2c = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':12,
-    'left': 1,
-    'right': 1,
-    'border_color': '#0094FF'})
-    
-b2s = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':13,
-    'font_color':'#00D91A',
-    'left': 1,
-    'right': 1,
-    'bottom':1,
-    'border_color': '#0094FF'})
-    
-#---------------negro AMARILLO
-b3n = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color': 'yellow',
-    'font_size':13,
-    'top': 1,
-    'left': 1,
-    'right': 1,})
-    
-b3c = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color': 'yellow',
-    'font_size':12,
-    'left': 1,
-    'right': 1,})
-    
-b3s = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color': 'yellow',
-    'font_size':13,
-    'font_color':'#00D91A',
-    'left': 1,
-    'right': 1,
-    'bottom':1,})
-    
-    #---------------NEGRO ROJO
-totales_rojo= workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':13,
-    })
-    
-totales_verde = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':13,
-    'font_color':'green',
-    })
-    
-b4s = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'top',
-    'fg_color':'#F4B084',
-    'font_size':12,
-    'font_color':'#00D91A',
-    'left': 1,
-    'right':1,
-    'bottom':1})
-
-#FORMATOS PARA CABECERAS DE TABLA --------------------------------
-header_format = workbook.add_format({
-    'bold': True,
-    'text_wrap': True,
-    'valign': 'center',
-    'fg_color': 'yellow',
-    'border': 1,})
-
-blue_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': a_color,
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-blue_header_format_bold = workbook.add_format({
-    'bold': True,
-    'bg_color': a_color,
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1,
-    'font_size':13})
-
-red_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': b_color,
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-
-red_header_format_bold = workbook.add_format({
-    'bold': True,
-    'bg_color': b_color,
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1,
-    'font_size':13})
-yellow_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#e8b321',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-green_header_format = workbook.add_format({
-    'bold': True,
-    'bg_color': '#2D936C',
-    'text_wrap': True,
-    'valign': 'top',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-
-#FORMATOS PARA TABLAS PER CE------------------------------------
-
-blue_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':a_color,
-    'num_format': '[$$-409]#,##0.00'})
-blue_content_unit = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    
-    'border_color':a_color,
-    'font_size':10,
-    })
-
-blue_content_bold = workbook.add_format({
-    'bold': True,
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':a_color,
-    'font_size':13,
-    'num_format': '[$$-409]#,##0.00'})
-yellow_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':'#e8b321'})
-red_content = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color,
-    'num_format': '#,###'})
-
-green_content = workbook.add_format({
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':12,
-    'border_color':b_color})
-red_content_bold = workbook.add_format({
-    'bold':True,
-    'border': 3,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'font_size':13,
-    'border_color':'#80848E',
-    'num_format': '#,###'})
-    
 #dataframes
 
-orders['reg_date'].to_excel(writer, sheet_name='Sheet1', startrow=14,startcol=3, header=False, index=False)
+orders['reg_date'][0:4].to_excel(writer, sheet_name='Sheet1', startrow=14,startcol=3, header=False, index=False)
 orders['clave'] = orders['clave'].replace({' ':''}, regex=True)
 worksheet = writer.sheets['Sheet1']
 #worksheet.set_column(2,19,15)
 # Encabezado.
-worksheet.merge_range('G2:N2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_g)
+worksheet.merge_range('G2:N2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('G3:N3', 'Soluciones en logistica interior', negro_s)
 worksheet.merge_range('G4:N4', 'CONSECUTIVO DE PEDIDOS INTERNOS' ,negro_b)
 worksheet.merge_range('G5:N5', 'Control de Cobros por P.I.', rojo_b)
@@ -437,7 +229,7 @@ worksheet.set_column(3, 3, 20)
 
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 1, "y_scale": 1})
 worksheet.merge_range('C12:C14', 'PDA \n NOHA \n '+str(date.strftime("%Y")), blue_header_format)
-worksheet.merge_range('D12:D14', 'FECHA DE EMISION  \n DD-MM-AA', blue_header_format)
+worksheet.merge_range('D12:D14', 'FECHA DE EMISION  \n AAAA-MM-DD', blue_header_format)
 worksheet.merge_range('E12:E14', 'PEDIDO INTERNO NO.', blue_header_format)
 
 worksheet.merge_range('F12:G12', 'CLIENTE', blue_header_format)
@@ -483,7 +275,7 @@ for i in range(0,len(orders)):
      worksheet.write(14+i, 14, (orders["total"].values[i]*orders["exchange_sell"].values[i])/1.16,blue_content)
     
      worksheet.write(14+i, 15, acumulado,blue_content)
-     worksheet.write(14+i, 16, orders["status"].values[i],tabla_normal)
+     worksheet.write(14+i, 16, orders["status"].values[i],blue_content_bold)
 
 worksheet.set_column('H:J',23)
 worksheet.set_column('M:M',20)
