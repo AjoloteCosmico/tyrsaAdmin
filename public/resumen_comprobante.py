@@ -305,7 +305,7 @@ trow=8+len(cobros)
 worksheet.merge_range('J'+str(trow)+':K'+str(trow), 'Total', blue_header_format_bold)
 
 worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer)
-worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer_dll)
+worksheet.write_formula('M'+str(trow),  '{=SUM(M8:M'+str(trow-1)+')}', blue_content_footer_dll)
 
 worksheet.set_column('A:A',16)
 
