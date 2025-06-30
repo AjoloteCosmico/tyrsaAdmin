@@ -40,9 +40,6 @@ facturas=pd.read_sql("""Select factures.* ,
     left join users as autorizadores on cobros.autorizo=autorizadores.id
      """,cnx)
 
-
-
-
 writer = pd.ExcelWriter('storage/report/consecutivo_factura1.xlsx', engine='xlsxwriter')
 workbook = writer.book
 
