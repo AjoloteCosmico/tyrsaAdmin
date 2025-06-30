@@ -298,16 +298,14 @@ for i in range(0,len(cobros)):
    
    worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
    worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
-   worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)
-   
+   worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)  
  
 trow=8+len(cobros)
 
-worksheet.merge_range('I'+str(trow)+':J'+str(trow), 'Total', blue_header_format_bold)
-worksheet.write('K'+str(trow), cobros['amount'].sum(), blue_content)
-worksheet.write('L'+str(trow), cobros['exchange_sell'].values[0]*cobros['amount'].sum(), blue_content_bold_dll)
-   
+worksheet.merge_range('J'+str(trow)+':K'+str(trow), 'Total', blue_header_format_bold)
 
+worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer)
+worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer_dll)
 
 worksheet.set_column('A:A',16)
 

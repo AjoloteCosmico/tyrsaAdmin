@@ -75,7 +75,26 @@ rojo_b = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'red',
     'font_size':13})      
-
+blue_content_footer_dll = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#356e31',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_footer = workbook.add_format({
+    'bold': True,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'white',
+    'font_size':11,
+    'bg_color': '#3e5585',
+    'border_color':'white',
+    'num_format': '[$$-409]#,##0.00'})
 #FORMATOS PARA CABECERAS DE TABLA --------------------------------
 header_format = workbook.add_format({
     'bold': True,
@@ -164,6 +183,24 @@ blue_content_bold = workbook.add_format({
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00',
     })
+
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
+blue_content_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': 'dd/mm/yyyy'})
 yellow_content = workbook.add_format({
     'border': 1,
     'align': 'center',
@@ -210,7 +247,7 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df[0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
@@ -250,7 +287,7 @@ for i in range(0,len(pedidos)):
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
    worksheet.write('D'+row_index, str(pedidos['invoice'].values[i]), blue_content)
-   worksheet.write('E'+row_index, str(pedidos['reg_date'].values[i]), blue_content)
+   worksheet.write('E'+row_index, pedidos['reg_date'].values[i], blue_content_date)
    worksheet.write('F'+row_index, str(pedidos['date_delivery'].values[i]), blue_content)
    worksheet.write('G'+row_index, str(pedidos['instalation_date'].values[i]), blue_content)
    worksheet.write('H'+row_index, str(pedidos['clave'].values[i]), blue_content)
@@ -262,17 +299,17 @@ for i in range(0,len(pedidos)):
    worksheet.write('N'+row_index, pedidos['total'].values[i], blue_content)
    worksheet.write('O'+row_index, str(pedidos['payment_conditions'].values[i]), blue_content)
    worksheet.write('P'+row_index, pedidos['total'].values[i], blue_content)
-   worksheet.write('Q'+row_index, pedidos['total'].values[i]*pedidos['exchange_sell'].values[i], blue_content)
+   worksheet.write('Q'+row_index, pedidos['total'].values[i]*pedidos['exchange_sell'].values[i], blue_content_dll)
    worksheet.write('R'+row_index,  str(pedidos['category'].values[i]), blue_content)
    worksheet.write('S'+row_index,  str(pedidos['description'].values[i]), blue_content)
 
  
 trow=8+len(pedidos)
 
-worksheet.merge_range('O'+str(trow)+':P'+str(trow), 'Total', blue_header_format_bold)
-# worksheet.write('M'+str(trow), str(pedidos[''].sum()), blue_content)
-worksheet.write('Q'+str(trow), pedidos['exchange_sell'].values[0]*pedidos['total'].sum(), blue_content_bold)
-   
+worksheet.merge_range('N'+str(trow)+':O'+str(trow), 'Total', blue_header_format_bold)
+
+worksheet.write_formula('P'+str(trow),  '{=SUM(P8:P'+str(trow-1)+')}', blue_content_footer)
+worksheet.write_formula('Q'+str(trow),  '{=SUM(Q8:Q'+str(trow-1)+')}', blue_content_footer_dll)
 
 
 worksheet.set_column('I:I',15)
