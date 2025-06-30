@@ -46,7 +46,7 @@ cobros=pd.read_sql("""Select cobros.* ,
     inner join banks on banks.id=cobros.bank_id """,cnx)
 
 
-cobros['date'].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
+cobros['date'][0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
 
 workbook = writer.book
 ##FORMATOS PARA EL TITULO---------------------------------------
