@@ -210,7 +210,7 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df.to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+df[0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
