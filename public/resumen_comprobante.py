@@ -38,7 +38,7 @@ cobros=pd.read_sql("""Select cobros.* ,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
     coins.exchange_sell, coins.coin, coins.symbol,
-    banks.bank_description, factures.facture, factures.ordinal,
+    banks.bank_description,
     capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
     from (((((((
     cobros inner join internal_orders on internal_orders.id = cobros.order_id) 
@@ -46,18 +46,18 @@ cobros=pd.read_sql("""Select cobros.* ,
     inner join coins on internal_orders.coin_id = coins.id)
     left join users as capturistas on cobros.capturo=capturistas.id)
     left join users as revisores on cobros.reviso=revisores.id)
-    left join users as autorizadores on cobros.autorizo=autorizadores.id)
-    inner join factures on factures.id = cobros.facture_id)
+    left join users as autorizadores on cobros.autorizo=autorizadores.id))
     inner join banks on banks.id=cobros.bank_id """,cnx)
 
-
-print(cobros)
+facturas=pd.read_sql('select * from cobro_factures inner join factures on cobro_factures.facture_id=factures.id',cnx)
+# print(cobros)
 nordenes=len(pd.read_sql(query,cnx))
 df=cobros[['date']]
-print(cobros['order_id'])
+# print(cobros['order_id'])
 writer = pd.ExcelWriter('storage/report/resumen_comprobante'+str(id)+'.xlsx', engine='xlsxwriter')
 if(int(id)!=0):
    cobros=cobros.loc[cobros['order_id']==int(id)]
+cobros['clave'] = cobros['clave'].replace({' ':''}, regex=True)
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
@@ -283,19 +283,30 @@ worksheet.merge_range('P6:P7', 'AUTORIZO', blue_header_format)
 cobros=cobros.sort_values(by='comp')
 
 for i in range(0,len(cobros)):
+   this_factures=facturas.loc[facturas['cobro_id']==cobros['id'].values[i]]
    row_index=str(8+i)
    worksheet.write('C'+row_index, str(i+1), blue_content)
    worksheet.write('D'+row_index, cobros['date'].values[i], blue_content_date)
    worksheet.write('E'+row_index, str(cobros['comp'].values[i]), blue_content)
    worksheet.write('F'+row_index, str(cobros['bank_description'].values[i]), blue_content)
-   worksheet.write('G'+row_index, str(cobros['facture'].values[i]), blue_content)
+   if(len(this_factures)==1):
+       worksheet.write('G'+row_index, str(this_factures['facture'].values[0]), blue_content)
+   else:
+       worksheet.write('G'+row_index, str(len(this_factures)) +' facturas asociadas', blue_content)
+   
    worksheet.write('H'+row_index, str(cobros['invoice'].values[i]), blue_content)
    worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
    worksheet.write('J'+row_index, str(cobros['coin'].values[i]), blue_content)
    worksheet.write('K'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
-   worksheet.write('L'+row_index, cobros['amount'].values[i], blue_content)
-   worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*cobros['amount'].values[i], blue_content_dll)
-   
+   if(cobros['exchange_sell'].values[i]>1):
+      
+        worksheet.write('L'+row_index, 0, blue_content)
+        worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*cobros['amount'].values[i], blue_content_dll)
+   else:     
+        worksheet.write('L'+row_index, cobros['amount'].values[i], blue_content)
+        worksheet.write('M'+row_index, 0, blue_content_dll)
+  
+       
    worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
    worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
    worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)  
@@ -311,7 +322,8 @@ worksheet.set_column('A:A',16)
 
 worksheet.set_column('I:J',17)
 worksheet.set_column('L:L',15)
-worksheet.set_column('H:H',15)
+worksheet.set_column('G:G',16)
+worksheet.set_column('H:H',14)
 
 worksheet.set_column('M:P',16)
 worksheet.set_landscape()
