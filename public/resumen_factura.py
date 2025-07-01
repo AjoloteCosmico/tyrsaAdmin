@@ -281,15 +281,20 @@ for i in range(0,len(facturas)):
    worksheet.write('I'+row_index, str(facturas['customer'].values[i]), blue_content)
    worksheet.write('J'+row_index, str(facturas['coin'].values[i]), blue_content)
    worksheet.write('K'+row_index, facturas['exchange_sell'].values[i], blue_content)
-   worksheet.write('L'+row_index, facturas['amount'].values[i], blue_content)
-   worksheet.write('M'+row_index, facturas['exchange_sell'].values[i]*facturas['amount'].values[i], blue_content)
+   if(facturas['exchange_sell'].values[i]>1):
+        worksheet.write('L'+row_index,0, blue_content)
+        worksheet.write('M'+row_index, facturas['exchange_sell'].values[i]*facturas['amount'].values[i], blue_content_dll)
+   else:
+       
+        worksheet.write('L'+row_index, facturas['amount'].values[i], blue_content)
+        worksheet.write('M'+row_index, 0, blue_content_dll)
 #  worksheet.write('N'+row_index, ' ', blue_content)
 
 trow=8+len(facturas)
 
 worksheet.merge_range('J'+str(trow)+':K'+str(trow), 'Total', blue_header_format_bold)
-worksheet.write('L'+str(trow), str(facturas['amount'].sum()), blue_content)
-worksheet.write('M'+str(trow), str(facturas['exchange_sell'].values[0]*facturas['amount'].sum()), blue_content_bold)
+worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer)
+worksheet.write_formula('M'+str(trow),  '{=SUM(M8:M'+str(trow-1)+')}', blue_content_footer_dll)
 
 worksheet.set_column('L:N',19)
 worksheet.set_column('I:I',20)
