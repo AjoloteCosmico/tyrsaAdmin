@@ -233,8 +233,6 @@ import datetime
 currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 
-dias_transcurridos=date-datetime.date(int(year), 1, 1)
-
 worksheet.merge_range('L2:M3', """FECHA DEL REPORTE
 # DD/MM/AAAA""", negro_b)
 worksheet.merge_range('N2:N3', date, negro_b)
