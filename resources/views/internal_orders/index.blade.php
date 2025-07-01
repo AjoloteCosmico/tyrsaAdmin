@@ -33,7 +33,7 @@
                             <th>Cliente</th>
                             <th>Clave</th>
                             <th>Vendedor</th>
-                            <th>Total</th>
+                            <th>Total (con IVA) </th>
                             <th>Estatus</th>
                             <th></th>
                         </tr>
