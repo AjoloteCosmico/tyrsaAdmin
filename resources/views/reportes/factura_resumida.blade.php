@@ -27,7 +27,7 @@
                
                 <div id='ordenes'  class="col-sm-12 table-responsive">
 
-                <table class="table tablepayments table-striped text-xs font-medium">
+                <table class="table  table-striped text-xs font-medium" id="tabla_pedidos">
   <thead class="thead">
     <tr>
       <th scope="col">Cliente</th>
@@ -69,7 +69,7 @@
             </div>
             <div id='clientes' style="display:none" class="col-sm-12 table-responsive">
 
-<table class="table tablepayments table-striped text-xs font-medium">
+<table class="table table-striped text-xs font-medium " id="tabla_clientes">
 <thead class="thead">
 <tr>
 <th scope="col">Clave <br> Cliente</th>
@@ -119,6 +119,22 @@
 @stop
 
 @section('js')
+<script>
+  
+<script>
+
+$(document).ready(function () {
+    $('#tabla_clientes').DataTable();
+});
+
+$(document).ready(function () {
+    $('#tabla_pedidos').DataTable();
+});
+</script>
+
+
+</script>
+
 <script>
     function Cliente() {
     

@@ -28,7 +28,9 @@ query = ('SELECT * from customers where id =1')
 
 # join para cobros
 # facturas=pd.read_sql('Select factures.* ,customers.customer,internal_orders.invoice, users.name from ((factures inner join internal_orders on internal_orders.id = factures.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on factures.capturo=users.id',cnx)
+id=str(sys.argv[1])
 
+tipo=str(sys.argv[2])
 
 #traer todas las facturas
 facturas=pd.read_sql("""Select factures.* ,customers.customer ,customers.id as customer_id,
@@ -40,11 +42,11 @@ facturas=pd.read_sql("""Select factures.* ,customers.customer ,customers.id as c
 nordenes=len(pd.read_sql(query,cnx))
 df=facturas[['date']]
 print(facturas.columns)
-writer = pd.ExcelWriter('storage/report/resumen_factura1.xlsx', engine='xlsxwriter')
-# if((int(id)!=0)&(int(tipo)==0)):
-#    facturas=facturas.loc[facturas['order_id']==int(id)]
-# if((int(id)!=0)&(int(tipo)==1)):
-#    facturas=facturas.loc[facturas['customer_id']==int(id)]
+writer = pd.ExcelWriter('storage/report/resumen_factura'+str(id)+'.xlsx', engine='xlsxwriter')
+if((int(id)!=0)&(int(tipo)==0)):
+   facturas=facturas.loc[facturas['order_id']==int(id)]
+if((int(id)!=0)&(int(tipo)==1)):
+   facturas=facturas.loc[facturas['customer_id']==int(id)]
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({
@@ -91,24 +93,24 @@ header_format = workbook.add_format({
 blue_header_format = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
-     'text_wrap': True,
-    'valign': 'vcenter',
-    'align': 'center',
-    'border_color':'white',
-    'font_color': 'white',
-    'border': 1})
-blue_header_format_bold = workbook.add_format({
-    'bold': True,
-    'bg_color': a_color,
     'text_wrap': True,
     'valign': 'vcenter',
     'align': 'center',
     'border_color':'white',
     'font_color': 'white',
-    'border': 1,
     'num_format': '[$$-409]#,##0.00',
+    'border': 1})
+blue_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': a_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'num_format': '[$$-409]#,##0.00',
+    'border': 1,
     'font_size':13})
-
 blue_footer_format_bold = workbook.add_format({
     'bold': True,
     'bg_color': a_color,
@@ -120,6 +122,28 @@ blue_footer_format_bold = workbook.add_format({
     'border': 1,
     'num_format': '[$$-409]#,##0.00',
     'font_size':11})
+red_header_format = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1})
+
+red_header_format_bold = workbook.add_format({
+    'bold': True,
+    'bg_color': b_color,
+    'text_wrap': True,
+    'valign': 'top',
+    'align': 'center',
+    'border_color':'white',
+    'font_color': 'white',
+    'border': 1,
+    'font_size':13})
+
+
 #FORMATOS PARA TABLAS PER CE------------------------------------
 
 blue_content = workbook.add_format({
@@ -128,26 +152,6 @@ blue_content = workbook.add_format({
     'valign': 'vcenter',
     'font_color': 'black',
     
-    'border_color':a_color,
-    'font_size':10,
-    'num_format': '[$$-409]#,##0.00'})
-blue_content_unit = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    
-    'border_color':a_color,
-    'font_size':10,
-    })
-
-
-blue_content_dll = workbook.add_format({
-    'border': 1,
-    'align': 'center',
-    'valign': 'vcenter',
-    'font_color': 'black',
-    'bg_color': '#b4e3b1',
     'border_color':a_color,
     'font_size':10,
     'num_format': '[$$-409]#,##0.00'})
@@ -160,8 +164,7 @@ blue_content_bold = workbook.add_format({
     'font_color': 'black',
     'font_size':11,
     'border_color':a_color,
-    'num_format': '[$$-409]#,##0.00'
-    })
+    'num_format': '[$$-409]#,##0.00'})
 
 blue_content_bold_dll = workbook.add_format({
     'bold': True,
@@ -209,12 +212,22 @@ observaciones_format = workbook.add_format({
     'fg_color':'#BDD7EE',
     'border': 1})
 
+blue_content_dll = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'bg_color': '#b4e3b1',
+    'border_color':a_color,
+    'font_size':10,
+    'num_format': '[$$-409]#,##0.00'})
 total_cereza_format = workbook.add_format({
     'bold': True,
     'text_wrap': True,
     'valign': 'top',
     'fg_color':'#F4B084',
     'border': 1})
+
 
 
 df[0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
