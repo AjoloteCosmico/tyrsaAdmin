@@ -298,8 +298,12 @@ for i in range(0,len(pedidos)):
    worksheet.write('M'+row_index, pedidos['subtotal'].values[i]* 0.16, blue_content)
    worksheet.write('N'+row_index, pedidos['total'].values[i], blue_content)
    worksheet.write('O'+row_index, str(pedidos['payment_conditions'].values[i]), blue_content)
-   worksheet.write('P'+row_index, pedidos['total'].values[i], blue_content)
-   worksheet.write('Q'+row_index, pedidos['total'].values[i]*pedidos['exchange_sell'].values[i], blue_content_dll)
+   if(pedidos['exchange_sell'].values[i]>1):
+        worksheet.write('P'+row_index, 0, blue_content)
+        worksheet.write('Q'+row_index, pedidos['total'].values[i]*pedidos['exchange_sell'].values[i], blue_content_dll)
+   else:
+        worksheet.write('P'+row_index, pedidos['total'].values[i], blue_content)
+        worksheet.write('Q'+row_index, 0, blue_content_dll)
    worksheet.write('R'+row_index,  str(pedidos['category'].values[i]), blue_content)
    worksheet.write('S'+row_index,  str(pedidos['description'].values[i]), blue_content)
 
