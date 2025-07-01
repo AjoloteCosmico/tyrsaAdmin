@@ -248,7 +248,7 @@ year = date.strftime("%Y")
 worksheet.merge_range('N2:O3', date, negro_b)
 
 #Dataframe yellow headers bitch xd
-worksheet.merge_range('B6:B7', 'NOH', blue_header_format)
+worksheet.merge_range('B6:B7', 'NOHA', blue_header_format)
 
 worksheet.merge_range('C6:C7', 'NO. COMPROBANTE', blue_header_format)
 worksheet.merge_range('D6:D7', 'FECHA D-M-A', blue_header_format)
