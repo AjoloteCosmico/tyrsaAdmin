@@ -376,7 +376,7 @@ public function store_comissions(Request $request)
         $TempInternalOrders->shipment = $request->shipment;
         $TempInternalOrders->customer_shipping_address_id = $CustomerShippingAddresses->id;
         $TempInternalOrders->save();
-        
+        $Marcas = Marca::all();
 
         $Customers = Customer::where('id', $request->customer_id)->first();
         $TempItems = TempItem::where('temp_internal_order_id', $TempInternalOrders->id)->get();
@@ -401,6 +401,7 @@ public function store_comissions(Request $request)
             'CustomerShippingAddresses',
             'TempItems',
             'Subtotal',
+            'Marcas',
             'Iva',
             'Total',
             'cat','desc','obs'
@@ -467,7 +468,7 @@ public function recalcular_total($id){
             }
             $InternalOrders->date = $TempInternalOrders->date;
             
-            $InternalOrders->marca=10;
+            // $InternalOrders->marca=10;
             $InternalOrders->customer_id = $TempInternalOrders->customer_id;
             $InternalOrders->seller_id = $TempInternalOrders->seller_id;
             $InternalOrders->comision = $TempInternalOrders->comision;
@@ -499,6 +500,7 @@ public function recalcular_total($id){
             $InternalOrders->authorization_id = 1;
             $InternalOrders->category = $request->category;
             $InternalOrders->description = $request->description;
+            $InternalOrders->marca = $request->marca;
             $InternalOrders->user_id=AUth::user()->id;
             $InternalOrders->save();
             $contactos=order_contacts::where('temp_order_id',$TempInternalOrders->id)->get();

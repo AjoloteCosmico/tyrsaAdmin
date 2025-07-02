@@ -473,19 +473,6 @@
 <br>
 <h4 style="size:2.1vw">OTROS FORMULARIOS: </h4>
 <br>
-<form action="{{ route('internal_orders.asignar_marca') }}" method="POST" enctype="multipart/form-data">
-                   @csrf
-                   <input type="hidden" name="order_id" value="{{$InternalOrders->id}}">
-MARCA:
-<select name="marca" value="{{$InternalOrders->marca}}">
-    <option value="">Ninguna marca asignada</option>
-    @foreach($Marcas as $row)
-    <option value="{{$row->id}}" @if($InternalOrders->marca==$row->id) selected @endif>{{$row->name}} </option>
-    @endforeach
-</select>
-<button class="btn btn-blue mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;" type="submit"> Asignar marca</button> 
-              
-</form>
 <hr>
                 @can('VER DGI')
                     <br> <br>

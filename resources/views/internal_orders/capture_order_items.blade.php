@@ -131,6 +131,15 @@
                                 </select><x-jet-input-error for='description' />
                             </div>
                             <div class="form-group">
+                            <x-jet-label value="* Marca" />
+                            <select class="form-capture  w-full text-xs "  name="marca" id="marca" value="">
+                                <option value="">Ninguna marca asignada</option>
+                                @foreach($Marcas as $row)
+                                <option value="{{$row->id}}" @if($InternalOrders->marca==$row->id) selected @endif>{{$row->name}} </option>
+                                @endforeach
+                            </select>
+                            </div>
+                            <div class="form-group">
                                         <x-jet-label value="* TOTAL DE KILOS " />
                                         <x-jet-input type="number" step="0.1" name="kilos" class="form-control just-number price-format-input w-full text-xs"  />
                                         <x-jet-input-error for='kilos' />

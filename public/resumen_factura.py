@@ -228,8 +228,6 @@ total_cereza_format = workbook.add_format({
     'fg_color':'#F4B084',
     'border': 1})
 
-
-
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=6,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
