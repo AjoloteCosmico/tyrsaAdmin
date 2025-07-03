@@ -74,11 +74,11 @@ class FactureController extends Controller
                 //revisar si el pedido tiene cobros para ligar sin facturas
                  $Cobros=DB::table('cobros')
                         ->leftJoin('cobro_factures','cobros.id','cobro_factures.cobro_id','left_otter')
-                        ->select('cobros.*')
+                        ->select('cobros.id','cobro_factures.facture_id')
                         ->where('cobros.order_id',$request->order_id)
                         ->whereNull('cobro_factures.facture_id')
                         ->get();
-                // dd($Cobros);     
+                // dd($Cobros,$request->order_id);     
                 if($Cobros->count()>0) {
                     return redirect()->route('factures.assign',$Facture->id);
                 }else{
@@ -171,6 +171,7 @@ class FactureController extends Controller
 
     public function destroy($id){
             Factures::destroy($id);
+            cobro_facture::where('facture_id',$id)->delete();
             return $this->index();
     }
     

@@ -377,7 +377,17 @@
                     </tr>
                </table>
                <br>
-               <table style="text-align: center;" id="tabla-obsevaciones">
+               <table style="text-align: center;" >
+                <tr>
+                    <th>Marca: </th>
+                </tr>
+                    <tr>
+                        <td> <div class="com-text"> {{$Marcas->where('id',$InternalOrders->marca)->first()->name}}</div></td>
+                        
+                    </tr>
+               </table>
+               <br>
+                <table style="text-align: center;" >
                 <tr>
                     <th>Kilos totales: </th>
                 </tr>
@@ -386,7 +396,6 @@
                         
                     </tr>
                </table>
-               
              <br><br>
 
                <table style="border: none;">

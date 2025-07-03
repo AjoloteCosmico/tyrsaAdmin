@@ -395,6 +395,8 @@ public function store_comissions(Request $request)
         $cat=" ";
         $desc=" ";
         $obs=" ";
+        
+        $marca=" ";
         return view('internal_orders.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -404,7 +406,7 @@ public function store_comissions(Request $request)
             'Marcas',
             'Iva',
             'Total',
-            'cat','desc','obs'
+            'cat','desc','obs','marca'
             // 'ITEM',
         ));
         

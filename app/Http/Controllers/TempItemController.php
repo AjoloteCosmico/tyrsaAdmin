@@ -5,6 +5,7 @@ use Session;
 use App\Models\TempItem;
 use App\Models\Customer;
 use App\Models\Family;
+use App\Models\Marca;
 use App\Models\subfamilies;
 use App\Models\products;
 use App\Models\fabrication;
@@ -46,7 +47,12 @@ class TempItemController extends Controller
                        
                     session(['obs' => $obs]);
                     }
-
+        $marca=$request->session_marca;
+                //$p_comission=$request->p_comission;
+                    if($marca!="."){
+                       
+                    session(['marca' => $obs]);
+                    }
 
         $TempInternalOrders = $id;
         $TempItems = TempItem::where('temp_internal_order_id', $id)->OrderBy('id', 'DESC')->first();
@@ -167,6 +173,9 @@ class TempItemController extends Controller
         $desc=Session::get('desc');
         
         $obs=Session::get('obs');
+        
+        $marca=Session::get('marca');
+        $Marcas = Marca::all();
         return view('internal_orders.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -174,7 +183,8 @@ class TempItemController extends Controller
             'Subtotal',
             'Iva',
             'Total',
-            'cat','desc','obs'
+            'Marcas',
+            'cat','desc','obs','marca'
         ));
     }
 

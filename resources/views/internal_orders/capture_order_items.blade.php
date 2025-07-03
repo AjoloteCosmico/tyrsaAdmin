@@ -20,6 +20,8 @@
         <x-jet-input type="hidden" name="session_cat" id="session_cat" value="."/>
         <x-jet-input type="hidden" name="session_obs" id="session_obs" value="."/>
         
+        <x-jet-input type="hidden" name="session_marca" id="session_marca" value="."/>
+        
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
@@ -135,7 +137,7 @@
                             <select class="form-capture  w-full text-xs "  name="marca" id="marca" value="">
                                 <option value="">Ninguna marca asignada</option>
                                 @foreach($Marcas as $row)
-                                <option value="{{$row->id}}" @if($InternalOrders->marca==$row->id) selected @endif>{{$row->name}} </option>
+                                <option value="{{$row->id}}" @if($marca==$row->id) selected @endif>{{$row->name}} </option>
                                 @endforeach
                             </select>
                             </div>
@@ -210,6 +212,10 @@ document.getElementById("cat").addEventListener("input", function(){
 document.getElementById("desc").addEventListener("input", function(){
    document.getElementById("session_desc").value = this.value;
    console.log(document.getElementById("session_desc").value)
+    }); 
+document.getElementById("marca").addEventListener("input", function(){
+   document.getElementById("session_marca").value = this.value;
+   console.log(document.getElementById("session_marca").value)
     }); 
 </script>
 

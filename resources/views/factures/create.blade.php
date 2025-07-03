@@ -41,9 +41,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Pedido Interno" />
                                         <select class="form-capture  w-full text-xs uppercase" name="order_id" id='order_id'>
-                                          
                                                 <option  > </option>
-                                          
                                         </select>
                                         <x-jet-input-error for='order_id' />
                                     </div>

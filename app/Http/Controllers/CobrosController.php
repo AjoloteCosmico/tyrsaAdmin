@@ -48,11 +48,11 @@ class CobrosController extends Controller
                  'banks.bank_description','capturistas.name as capturista','revisores.name as revisor','autorizadores.name as autorizador')
         // ->orderBy('internal_orders.invoice', 'DESC')
         ->get();
-        $FacturasCobradas=DB::table('factures')
-        ->join('cobro_factures','cobro_factures.facture_id','=','factures.id')
+        $FacturasCobradas=DB::table('cobro_factures')
+        ->leftJoin('factures','cobro_factures.facture_id','=','factures.id')
         ->select('factures.facture','cobro_factures.*')
         ->get();
-        //dd($FacturasCobradas);
+        // dd($FacturasCobradas->where('cobro_id',175));
         return view('cobros.index',compact('Cobros','FacturasCobradas'));
     }
     public function create(){
