@@ -540,9 +540,9 @@ desface=desface+len(facturas_no_asociadas)
 
 # notas
 for i in range(0,len(notas)):
-    worksheet.write('H'+str(15+i+desface+1), str(notas['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface+1), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface+1), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
+    worksheet.write('H'+str(15+i+desface+2), str(notas['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(15+i+desface+2), notas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+i+desface+2), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 
 table_len=max(len(hpagos),(len(cobros)+desface)+len(notas))
