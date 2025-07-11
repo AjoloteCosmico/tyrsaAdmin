@@ -245,6 +245,8 @@ dias_transcurridos=date-datetime.date(int(year), 1, 1)
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
 pedidos=pedidos.loc[pedidos['date']>year+'-01-01']
+
+pedidos['total']=pedidos['total']*pedidos['exchange_sell']
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------

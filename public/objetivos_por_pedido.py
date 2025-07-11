@@ -53,7 +53,7 @@ creditos=pd.read_sql("""select *
                          credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 vendedores=pd.read_sql("""select * 
-                     from sellers where status='ACTIVO'""",cnx)
+                     from sellers where status='ACTIVO' order by seller_name""",cnx)
 objetivo=pd.read_sql("""select * 
                      from settings""",cnx)['objetivo_anual'].values[0]
 
