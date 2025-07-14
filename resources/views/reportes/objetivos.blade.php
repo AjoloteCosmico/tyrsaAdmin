@@ -269,9 +269,9 @@
  
  
  
- 
-                dom: 'Ptri',
-                pageLength: '82',
+                
+                // dom: 'Ptri',
+                // pageLength: '82',
  
                 columnDefs: [
  
