@@ -305,18 +305,27 @@
  
  
 footerCallback: function (row, data, start, end, display) {
+            const formatNumber = function (num) {
+                return '$' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
             let api = this.api();
- 
-            // Calculate total over all pages
-            let total = api.column(3, { page: 'all' }).data().sum();
- 
-            // Calculate total over this page
-            let pageTotal = api.column(3, { page: 'current' }).data().sum();
+
+            for (let i = 1; i < 14; i++) {
+              
+            let pageTotal = api.column(i, { page: 'current' }).data().sum();
  
             // Update footer
-            $(api.column(3).footer()).html(
-                '$' + pageTotal + ' ( $' + total + ' total)'
-            );
+            
+                      @if($Monto=='MONTO')    
+            $(api.column(i).footer()).html(formatNumber(pageTotal));
+            @else
+            
+            $(api.column(i).footer()).html(pageTotal);
+            @endif
+            }
+                
+ 
+            // Calculate total over this page
         }
  
  
