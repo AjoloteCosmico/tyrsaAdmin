@@ -472,6 +472,8 @@ return [
                 ],
                 
         ],
+        
+                    'can'  => 'DESCARGAR CONTRAPORTADA',
     ],
     [
         'text' => 'REPORTES DE VENTAS',
@@ -541,6 +543,7 @@ return [
             ],
             
     ],
+    'can'  => 'DESCARGAR OBJETIVOS PI',
 ],
 [
     'text' => 'REPORTES DGI',
@@ -555,6 +558,7 @@ return [
         ],
 
     ],
+    'can'  => 'VER DGI',
 ]
 ],
 
