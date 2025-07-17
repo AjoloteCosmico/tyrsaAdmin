@@ -530,7 +530,7 @@ for i in range(0,len(cobros)):
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
     print(facturas_asociadas['facture'])
     desface=desface+max(len(facturas_asociadas) -1,0)
-
+desface=desface+1
 #Facturas no asociadas
 for i in range(0,len(facturas_no_asociadas)):
     worksheet.write('H'+str(15+i+desface), str(facturas_no_asociadas['facture'].values[i]), red_content)
