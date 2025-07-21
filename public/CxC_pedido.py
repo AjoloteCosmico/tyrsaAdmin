@@ -526,5 +526,5 @@ worksheet.set_column('P:T',15)
 
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1, 0)  
 workbook.close()
