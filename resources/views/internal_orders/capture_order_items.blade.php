@@ -189,11 +189,13 @@ function send_data(){
     var a = document.forms["body_form"]["category"].value;
     var b = document.forms["body_form"]["description"].value;
     var c = document.forms["body_form"]["kilos"].value;
-    if ((a == null || a == "") || (b == null || b == "") || (c == null || c == "")) {
+    var d = document.forms["body_form"]["marca"].value;
+    if ((a == null || a == "") || (b == null || b == "") || (c == null || c == "") || (d == null || d == "")) {
       alert("Por favor llene los campos obligatorios marcados con *");
       return false;
     }else{
-    document.getElementById("body_form").submit();}
+    document.getElementById("body_form").submit();
+     }
 }
 </script>
 
@@ -235,14 +237,12 @@ function removeOptions(selectElement) {
                 var options_array = {
                         PF:"Producto Fabricacion",
                         PC:"Producto Comercializacion",
-                      
                     };
                 break;
             case 'Servicios':
                 var options_array = {
                         SD:"Servicio directo SD" ,
                         SI:"Servicio indirecto SI",
-                    
                     };
                 break;
             case 'Integracion':

@@ -518,7 +518,6 @@ for i in range(0,len(cobros)):
     worksheet.write('T'+str(15+i+desface), str(cobros['revisor'].values[i]), red_content)
     worksheet.write('U'+str(15+i+desface), str(cobros['autorizador'].values[i]), red_content)
    
-    
     #rellenar facturas asociada
     j=0
     for j in range(0,len(facturas_asociadas)):
