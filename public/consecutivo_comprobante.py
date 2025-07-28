@@ -313,7 +313,7 @@ worksheet.set_column('C:C',15)
 worksheet.set_column('I:I',19)
 worksheet.set_column('L:M',15)
 worksheet.set_column('O:P',19)
-worksheet.set_column('Q:T',20)
+worksheet.set_column('Q:Q',20)
 worksheet.set_column('U:U',15)
 for df_col,col in zip(["alias",'category','description','customer_suburb','capturista','revisor','autorizador'],['J','K','L','M','R','S','T']):
     col_width = min(cobros[df_col].str.len().max(),45)
@@ -322,6 +322,7 @@ for df_col,col in zip(["alias",'category','description','customer_suburb','captu
     worksheet.set_column(f'{col}:{col}', col_width)
     print(col_width,col)
 
+worksheet.set_column('R:T',29)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 0)  
