@@ -321,7 +321,7 @@ worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_cont
 worksheet.write_formula('M'+str(trow),  '{=SUM(M8:M'+str(trow-1)+')}', blue_content_footer_dll)
 
 worksheet.set_column('A:A',16)
-
+worksheet.set_column('D:D',16)
 worksheet.set_column('E:E',16)
 
 worksheet.set_column('I:J',17)
@@ -330,7 +330,7 @@ worksheet.set_column('G:G',16)
 worksheet.set_column('H:H',14)
 worksheet.set_column('M:P',16)
 
-for df_col,col in zip(["customer",'capturista','revisor','autorizador'],['I','N','O','P']):
+for df_col,col in zip(["customer",'capturista','revisor','autorizador','bank_description'],['I','N','O','P','F']):
     col_width = min(cobros[df_col].str.len().max(),45)
     if(pd.isna(col_width)):
         col_width = 15
