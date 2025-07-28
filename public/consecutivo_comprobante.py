@@ -29,10 +29,10 @@ pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
 writer = pd.ExcelWriter("storage/report/consecutivo_comprobante1.xlsx", engine='xlsxwriter')
 cobros=pd.read_sql("""Select cobros.* ,
-    customers.customer,customers.customer_suburb, customers.clave,
+    customers.alias,customers.customer_suburb, customers.clave,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
-    coins.exchange_sell, coins.coin, coins.symbol,
+    coins.exchange_sell, coins.code, coins.symbol,
     banks.bank_description, factures.facture, factures.ordinal,
     capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
     from (((((((
@@ -231,6 +231,8 @@ total_cereza_format = workbook.add_format({
 
     
 worksheet = writer.sheets['Sheet1']
+cobros['code']=cobros['code'].str.replace('MN','MXN')
+
 # Encabezado.
 worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
 worksheet.merge_range('G2:K2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
@@ -288,18 +290,18 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 6, str(cobros['payment_conditions'].values[i]),blue_content)
      worksheet.write(7+i, 7, str(cobros['facture'].values[i]),blue_content)
      worksheet.write(7+i, 8, str(cobros['clave'].values[i]),blue_content)
-     worksheet.write(7+i, 9, str(cobros['customer'].values[i]),blue_content)
-     worksheet.write(7+i, 10, str(cobros['category'].values[i]),blue_content)
+     worksheet.write(7+i, 9, str(cobros['alias'].values[i]),blue_content)
+     worksheet.write(7+i, 10, str(cobros['category'].values[i]).upper(),blue_content)
      worksheet.write(7+i, 11, str(cobros['description'].values[i]),blue_content)
      worksheet.write(7+i, 12, str(cobros['customer_suburb'].values[i]),blue_content)
-     worksheet.write(7+i, 13, str(cobros['coin'].values[i]),blue_content)
+     worksheet.write(7+i, 13, str(cobros['code'].values[i]),blue_content)
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
      worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
      worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
      worksheet.write(7+i, 17, str(cobros['capturista'].values[i]),blue_content)
      worksheet.write(7+i, 18, str(cobros['revisor'].values[i]),blue_content)
      worksheet.write(7+i, 19, str(cobros['autorizador'].values[i]),blue_content)
-     worksheet.write(7+i, 20, str(cobros['status'].values[i]),blue_content)
+     worksheet.write(7+i, 20, str(cobros['status'].values[i].upper()),blue_content)
 
 #barra inferior de totales
 trow=8+len(cobros)
@@ -311,7 +313,15 @@ worksheet.set_column('I:I',19)
 worksheet.set_column('L:M',15)
 worksheet.set_column('O:P',19)
 worksheet.set_column('Q:T',20)
+worksheet.set_column('U:U',15)
+for df_col,col in zip(["alias",'category','description','customer_suburb','capturista','revisor','autorizador'],['J','K','L','M','R','S','T']):
+    col_width = min(cobros[df_col].str.len().max(),45)
+    if(pd.isna(col_width)):
+        col_width = 15
+    worksheet.set_column(f'{col}:{col}', col_width)
+    print(col_width,col)
+
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1, 0)  
 workbook.close()

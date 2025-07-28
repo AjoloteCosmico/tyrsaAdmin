@@ -16,24 +16,23 @@
                
                 <div class="col-sm-12 table-responsive">
 
-                <table class="table tablepayments table-striped text-xs font-medium">
+                <table class="table table-striped text-xs font-medium" id="example">
   <thead class="thead">
     <tr>
-      <th scope="col">Cliente</th>
+      
       <th > Pedido</th>
+      <th scope="col">Cliente</th>
       <th scope="col">Excel</th>
       <th scope="col">PDF</th>
-      <th scope="col">---</th>
 
     </tr>
   </thead>
   <tbody>
   @foreach ($Ordenes as $row)
                             <tr class="text-center">
-                            
+                                <td>{{$row->invoice}} </td>
                                 <td> <p>{{ $row->customer }}</p></td>
-                                
-                               <td>{{$row->invoice}} </td>
+                                                              
                                 <td>
                                 <a href="{{route('reports.generate',[$row->id,'resumen_comprobante',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
@@ -65,6 +64,11 @@
 @stop
 
 @section('js')
+<script>
 
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
 
 @stop

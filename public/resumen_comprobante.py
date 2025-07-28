@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=0
+# id=151
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -37,7 +37,7 @@ cobros=pd.read_sql("""Select cobros.* ,
     customers.customer,customers.customer_suburb, customers.clave,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
-    coins.exchange_sell, coins.coin, coins.symbol,
+    coins.exchange_sell, coins.code, coins.symbol,
     banks.bank_description,
     capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
     from (((((((
@@ -241,8 +241,9 @@ total_cereza_format = workbook.add_format({
     'border': 1})
 
 
-df[0:4].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
+df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
+cobros['code']=cobros['code'].str.replace('MN','MXN')
 
 
 # Encabezado.
@@ -262,7 +263,8 @@ year = date.strftime("%Y")
 worksheet.merge_range('N2:O3', date, negro_b)
 #Cabeceras
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
-worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
+worksheet.merge_range('D6:D7', """FECHA
+DD/MM/AAAA                      """, blue_header_format)
 worksheet.merge_range('E6:E7', 'NUMERO DE COMPROBANTE', blue_header_format)
 worksheet.merge_range('F6:F7', 'BANCO', blue_header_format)
 worksheet.merge_range('G6:G7', 'FACTURA', blue_header_format)
@@ -296,14 +298,14 @@ for i in range(0,len(cobros)):
    
    worksheet.write('H'+row_index, str(cobros['invoice'].values[i]), blue_content)
    worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
-   worksheet.write('J'+row_index, str(cobros['coin'].values[i]), blue_content)
+   worksheet.write('J'+row_index, str(cobros['code'].values[i]), blue_content)
    worksheet.write('K'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
    if(cobros['exchange_sell'].values[i]>1):
       
         worksheet.write('L'+row_index, 0, blue_content)
-        worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*cobros['amount'].values[i], blue_content_dll)
+        worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*(cobros['amount'].values[i]/1.16), blue_content_dll)
    else:     
-        worksheet.write('L'+row_index, cobros['amount'].values[i], blue_content)
+        worksheet.write('L'+row_index, cobros['amount'].values[i]/1.16, blue_content)
         worksheet.write('M'+row_index, 0, blue_content_dll)
   
        
@@ -320,13 +322,22 @@ worksheet.write_formula('M'+str(trow),  '{=SUM(M8:M'+str(trow-1)+')}', blue_cont
 
 worksheet.set_column('A:A',16)
 
+worksheet.set_column('E:E',16)
+
 worksheet.set_column('I:J',17)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',16)
 worksheet.set_column('H:H',14)
-
 worksheet.set_column('M:P',16)
+
+for df_col,col in zip(["customer",'capturista','revisor','autorizador'],['I','N','O','P']):
+    col_width = min(cobros[df_col].str.len().max(),45)
+    if(pd.isna(col_width)):
+        col_width = 15
+    worksheet.set_column(f'{col}:{col}', col_width)
+    print(col_width,col)
+
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1, 0)  
 workbook.close()
