@@ -232,6 +232,7 @@ total_cereza_format = workbook.add_format({
     
 worksheet = writer.sheets['Sheet1']
 cobros['code']=cobros['code'].str.replace('MN','MXN')
+cobros['clave']=cobros['clave'].str.replace(' ','')
 
 # Encabezado.
 worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
@@ -292,8 +293,8 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 8, str(cobros['clave'].values[i]),blue_content)
      worksheet.write(7+i, 9, str(cobros['alias'].values[i]),blue_content)
      worksheet.write(7+i, 10, str(cobros['category'].values[i]).upper(),blue_content)
-     worksheet.write(7+i, 11, str(cobros['description'].values[i]),blue_content)
-     worksheet.write(7+i, 12, str(cobros['customer_suburb'].values[i]),blue_content)
+     worksheet.write(7+i, 11, str(cobros['description'].values[i]).upper(),blue_content)
+     worksheet.write(7+i, 12, str(cobros['customer_suburb'].values[i]).upper(),blue_content)
      worksheet.write(7+i, 13, str(cobros['code'].values[i]),blue_content)
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
      worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
