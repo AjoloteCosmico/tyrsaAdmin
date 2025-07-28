@@ -382,8 +382,11 @@
                     <th>Marca: </th>
                 </tr>
                     <tr>
+                        @if($InternalOrders->marca==0)
+                        <td> <div class="com-text"> No hay marca asignada</div></td>
+                        @else
                         <td> <div class="com-text"> {{$Marcas->where('id',$InternalOrders->marca)->first()->name}}</div></td>
-                        
+                        @endif
                     </tr>
                </table>
                <br>

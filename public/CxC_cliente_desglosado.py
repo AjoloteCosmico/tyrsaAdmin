@@ -40,6 +40,8 @@ from ((
     inner join coins on internal_orders.coin_id = coins.id)
                     where status  != 'CANCELADO'
      """,cnx)
+pedidos['code']=pedidos['code'].str.replace('MN','MXN')
+
 clientes=pd.read_sql("select * from customers",cnx)
 cobros=pd.read_sql("""select cobro_orders.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id
                      from (((
@@ -260,7 +262,7 @@ year = date.strftime("%Y")
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 #llenando la tabla
-row_index=7
+row_index=0
 
 clientes=clientes.sort_values(by='clave')
 for i in range(0,len(clientes)):
@@ -465,19 +467,19 @@ DA X C
         worksheet.merge_range('G'+str(trow+2)+':H'+str(trow+2), 'GRAN TOTAL', blue_header_format)
 
         worksheet.merge_range('I'+str(trow+1)+':J'+str(trow+2),' ',blue_footer_format_bold)
-        worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  'SUM(I'+str(trow)+'+J'+str(trow)+')',blue_footer_format_bold)
+        worksheet.write_formula('I'+str(trow+1)+':J'+str(trow+2),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
         worksheet.merge_range('K'+str(trow+1)+':L'+str(trow+2),' ',blue_footer_format_bold)
-        worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  'SUM(K'+str(trow)+'+L'+str(trow)+')',blue_footer_format_bold)
+        worksheet.write_formula('K'+str(trow+1)+':L'+str(trow+2),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
         worksheet.merge_range('M'+str(trow+1)+':N'+str(trow+2),' ',blue_footer_format_bold)
-        worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  'SUM(M'+str(trow)+'+N'+str(trow)+')',blue_footer_format_bold)
+        worksheet.write_formula('M'+str(trow+1)+':N'+str(trow+2),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
         worksheet.merge_range('P'+str(trow+1)+':Q'+str(trow+1),' ',blue_footer_format_bold)
-        worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  'SUM(P'+str(trow)+'+Q'+str(trow)+')',blue_footer_format_bold)
+        worksheet.write_formula('P'+str(trow+1)+':Q'+str(trow+1),  '{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
 
         worksheet.merge_range('R'+str(trow+1)+':S'+str(trow+1),' ',blue_footer_format_bold)
-        worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  'SUM(R'+str(trow)+'+S'+str(trow)+')',blue_footer_format_bold)
+        worksheet.write_formula('R'+str(trow+1)+':S'+str(trow+1),  '{=(R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}',blue_footer_format_bold)
         #gran total facturacion
         worksheet.merge_range('P'+str(trow+2)+':S'+str(trow+2),' ', blue_footer_format_bold)
         worksheet.write_formula('P'+str(trow+2)+':S'+str(trow+2),'{=(P'+str(trow)+'+Q'+str(trow)+' * '+str(tc)+'+R'+str(trow)+'+S'+str(trow)+' * '+str(tc)+')}', blue_footer_format_bold)
@@ -576,7 +578,7 @@ worksheet.set_column('H:H',15)
 worksheet.set_column('I:N',15)
 worksheet.set_column('P:T',15)
 
-#worksheet.set_landscape()
+worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1, 0)  
 workbook.close()

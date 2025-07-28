@@ -243,9 +243,98 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
-<script>
+<script src="https://cdn.datatables.net/plug-ins/2.3.2/api/sum().js"></script>
+<!-- <script>
   new DataTable('#example');
-</script>
+</script> -->
+
+<script>
+        $(document).ready(function() {
+ 
+ 
+ 
+ 
+            $('#example').DataTable( {
+ 
+ 
+ 
+                searchPanes: {
+                    collapse: false,
+                    layout: 'columns-4',
+                    dtOpts: {
+                        scrollY: '50px',
+                        scrollY: false,
+                    }
+                },
+ 
+ 
+ 
+                
+                // dom: 'Ptri',
+                // pageLength: '82',
+ 
+                columnDefs: [
+ 
+            {
+                searchPanes: {
+                    show: true,
+                    collapse: false,
+                    header: 'Opponent',
+                    dtOpts: {
+                        scrollY: '100px',
+                    }
+                },
+                targets: [11]
+            },
+            {
+                searchPanes: {
+                    show: false
+                },
+                targets: [2,3,4,5]
+            },
+            {
+                searchPanes: {
+                    controls: false
+                },
+                targets: [1,8,9,10]
+            }
+ 
+ 
+ 
+        ],
+ 
+ 
+footerCallback: function (row, data, start, end, display) {
+            const formatNumber = function (num) {
+                return '$' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            let api = this.api();
+
+            for (let i = 1; i < 14; i++) {
+              
+            let pageTotal = api.column(i, { page: 'current' }).data().sum();
+ 
+            // Update footer
+            
+                      @if($Monto=='MONTO')    
+            $(api.column(i).footer()).html(formatNumber(pageTotal));
+            @else
+            
+            $(api.column(i).footer()).html(pageTotal);
+            @endif
+            }
+                
+ 
+            // Calculate total over this page
+        }
+ 
+ 
+    });
+ 
+        });
+ 
+    </script>
+    
 <script>
   function mostrar(id, boton) {
     // Ocultar todos los contenedores

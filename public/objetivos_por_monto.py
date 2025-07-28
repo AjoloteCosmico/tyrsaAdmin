@@ -54,7 +54,7 @@ creditos=pd.read_sql("""select *
                          credit_notes    inner join internal_orders on internal_orders.id = credit_notes.order_id )
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 vendedores=pd.read_sql("""select * 
-                     from sellers where status='ACTIVO'""",cnx)
+                     from sellers where status='ACTIVO' order by seller_name""",cnx)
 objetivo=pd.read_sql("""select * 
                      from settings""",cnx)['objetivo_monto'].values[0]
 
@@ -245,6 +245,8 @@ dias_transcurridos=date-datetime.date(int(year), 1, 1)
 #Columna para filtrar por fechas
 pedidos['date']=pd.to_datetime(pedidos['date'])
 pedidos=pedidos.loc[pedidos['date']>year+'-01-01']
+
+pedidos['total']=pedidos['total']*pedidos['exchange_sell']
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------

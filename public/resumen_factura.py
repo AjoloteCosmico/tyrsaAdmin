@@ -245,11 +245,12 @@ currentDateTime = datetime.datetime.now()
 date = currentDateTime.date()
 
 worksheet.merge_range('L2:M3', """FECHA DEL REPORTE
-# DD/MM/AAAA""", negro_b)
+(DD/MM/AAAA)""", negro_b)
 worksheet.merge_range('N2:N3', date, negro_b)
 
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
-worksheet.merge_range('D6:D7', 'FECHA', blue_header_format)
+worksheet.merge_range('D6:D7', """FECHA
+(DD/MM/AAAA)""", blue_header_format)
 
 worksheet.merge_range('E6:F6', 'COBROS', blue_header_format)
 worksheet.write('E7', 'PROGRAMADO', blue_header_format)
@@ -272,8 +273,8 @@ worksheet.merge_range('J6:J7', 'MONEDA', blue_header_format)
 worksheet.merge_range('K6:K7', 'TC', blue_header_format)
 
 worksheet.merge_range('L6:M6', 'IMPORTE TOTAL I/I', blue_header_format)
-worksheet.write('L7', 'DLLS', blue_header_format)
-worksheet.write('M7', 'MN', blue_header_format)
+worksheet.write('L7', 'MN', blue_header_format)
+worksheet.write('M7', 'DLL', blue_header_format)
 # worksheet.merge_range('O6:O7', 'CAPTURO ', blue_header_format)
 # worksheet.merge_range('P6:P7', 'REVISO ', blue_header_format)
 # worksheet.merge_range('Q6:Q7', 'AUTORIZO', blue_header_format)

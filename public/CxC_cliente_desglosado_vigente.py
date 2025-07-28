@@ -40,6 +40,7 @@ from ((
     inner join coins on internal_orders.coin_id = coins.id)
                     where status  != 'CANCELADO'
      """,cnx)
+pedidos['code']=pedidos['code'].str.replace('MN','MXN')
 
 clientes=pd.read_sql("select * from customers",cnx)
 cobros=pd.read_sql("""select cobro_orders.*,internal_orders.coin_id as coin_pedido,internal_orders.customer_id
@@ -582,7 +583,7 @@ worksheet.set_column('H:H',15)
 worksheet.set_column('I:N',15)
 worksheet.set_column('P:T',15)
 
-#worksheet.set_landscape()
+worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1,0)  
 workbook.close()

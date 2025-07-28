@@ -201,6 +201,8 @@ total_cereza_format = workbook.add_format({
 
 orders['reg_date'][0:4].to_excel(writer, sheet_name='Sheet1', startrow=14,startcol=3, header=False, index=False)
 orders['clave'] = orders['clave'].replace({' ':''}, regex=True)
+orders['code']=orders['code'].str.replace('MN','MXN')
+
 worksheet = writer.sheets['Sheet1']
 #worksheet.set_column(2,19,15)
 # Encabezado.
@@ -219,9 +221,9 @@ worksheet.write('O7', orders.loc[orders['date'].astype(str)>date.strftime("%Y")+
 worksheet.write('O8', "HASTA EL ULTIMO PEDIDO", blue_content)
 
 worksheet.set_column(14, 14, 20)
-worksheet.write('L10', "$0.0", blue_header_format)
-worksheet.write('M10', "$0.0", blue_header_format)
-worksheet.write('N10', "NA", blue_header_format)
+# worksheet.write('L10', "$0.0", blue_header_format)
+# worksheet.write('M10', "$0.0", blue_header_format)
+# worksheet.write('N10', "NA", blue_header_format)
 worksheet.write('O10', orders["total"].sum()/1.16, blue_content_bold)
 
 #Headers del dataframe
@@ -266,7 +268,7 @@ for i in range(0,len(orders)):
      worksheet.write(14+i, 8, str(orders["description"].values[i]),blue_content)
      worksheet.write(14+i, 9, str(orders["customer_suburb"].values[i])[:15],blue_content)
      worksheet.write(14+i, 10, str(orders["code"].values[i]),blue_content)
-     worksheet.write(14+i, 11, str(orders["code"].values[i]),blue_content)
+     worksheet.write(14+i, 11, str(orders["coin"].values[i]),blue_content)
      if(orders["coin"].values[i]=='NACIONAL'):
         worksheet.write(14+i, 12, '0',blue_content)
      else:
@@ -276,6 +278,9 @@ for i in range(0,len(orders)):
     
      worksheet.write(14+i, 15, acumulado,blue_content)
      worksheet.write(14+i, 16, orders["status"].values[i],blue_content_bold)
+
+worksheet.write_formula('M'+str(len(orders)+14), '=SUM(M15:M'+str(len(orders)+13)+')', blue_content_bold_dll)
+worksheet.write_formula('O'+str(len(orders)+14), '=SUM(O15:O'+str(len(orders)+13)+')', blue_content_bold)
 
 worksheet.set_column('H:J',23)
 worksheet.set_column('M:M',20)
