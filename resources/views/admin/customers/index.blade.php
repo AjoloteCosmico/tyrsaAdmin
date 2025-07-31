@@ -4,11 +4,9 @@
 
 @section('content_header')
     <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; CLIENTES</h1>
-    
-        <!-- My Style -->
+            <!-- My Style -->
         <link href="{{ asset('vendor/mystylesjs/css/datatable_gral.css') }}" rel="stylesheet">
 
-    
 @stop
 
 @section('content')

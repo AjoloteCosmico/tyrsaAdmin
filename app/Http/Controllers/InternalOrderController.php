@@ -1034,7 +1034,7 @@ public function recalcular_total($id){
         $payments = payments::where('order_id', $request->order_id)->get();
         $hpayments = historical_payments::where('order_id', $request->order_id)->get();
         // $abonos = payments ::where('status','pagado')->where('order_id', $request->order_id)->get();
-        $abonos=DB::table('cobro_orders')->where('order_id',$InternalOrder->id)->get();
+        $abonos=DB::table('cobro_orders')->where('order_id',$InternalOrders->id)->get();
         
         
         return view('internal_orders.store_payment', compact(

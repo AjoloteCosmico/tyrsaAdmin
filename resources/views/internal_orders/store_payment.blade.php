@@ -190,13 +190,18 @@
     <div class ="col"><input  class="btn btn-gray" type="button" name="imprimir" value="Imprimir" onclick="window.print();"> 
                 </div>
     <div class ="col">
-                <form action="{{ route('internal_orders.payment_edit', $InternalOrders->id) }}" method="POST">
+                <!-- <form action="{{ route('internal_orders.payment_edit', $InternalOrders->id) }}" method="POST">
                                             @csrf                               
                                             <x-jet-input type="hidden" name="order_id" value="{{$InternalOrders->id }}"/>
                                             <button  class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" type="submit" name="editar" >
                                                 <i class="fas fa-edit"></i> &nbsp; Editar
                                             </button>
-                                        </form>
+                                        </form> -->
+                                        <a href="{{route('internal_orders.payment', $InternalOrders->id)}}">
+                                          <button  class="btn btn-green" style="background-color: rgb(22,163,74);color: white;" type="button" name="editar" >
+                                                <i class="fas fa-edit"></i> &nbsp; Editar
+                                            </button>
+                                        </a>
                                         </div>
     <div class ="col">@can('VER PEDIDOS')
                                         <a href="{{ route('internal_orders.show', $InternalOrders->id)}}">

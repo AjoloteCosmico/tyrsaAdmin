@@ -198,7 +198,7 @@ $aux_count=$aux_count+1;
 function myFunction() {
   index=1
   var count= parseInt(document.getElementById("rowcount").value);
-  total = parseFloat(document.getElementById('subtotal').value)*1.16;
+  total = parseFloat(document.getElementById('total').value)*1.16;
   console.log(count);
   var table = document.getElementById("tabla1");
   var row = table.insertRow(count);
