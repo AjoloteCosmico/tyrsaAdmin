@@ -111,8 +111,6 @@
                                 <td>{{ $row->date }}</td>
                                 <td>{{$dias}}</td>
                                 <td>{{(int)($dias / 7)}}</td>
-                      
-                                
                             </tr>
                             @endforeach
                             <tr >
@@ -150,16 +148,14 @@
   </thead>
   <tbody>
   @foreach ($Cobros as $row)
-
-
-   @php
-  {{$datetime1 = new DateTime($row->date);
-  $pdia=$datetime1->format('Y');
-  
-  $datetime2 = new DateTime($pdia."-1-1");
-  $dias = $datetime2->diff($datetime1)->format('%a')+1;
-  }}
-@endphp
+    @php
+      {{$datetime1 = new DateTime($row->date);
+      $pdia=$datetime1->format('Y');
+      
+      $datetime2 = new DateTime($pdia."-1-1");
+      $dias = $datetime2->diff($datetime1)->format('%a')+1;
+      }}
+    @endphp
                             <tr class="text-center">
                                 <td>  {{ $row->comp }}</td>
                                 <td>{{ number_format(($row->amount/$InternalOrders->total)*100,1) }} %</td>

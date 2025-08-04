@@ -300,21 +300,21 @@ for i in range(0,len(clientes)):
         worksheet.merge_range('I'+str(7+row_index)+':J'+str(9+row_index), """IMPORTE TOTAL 
 (DERECHOS ADQUIRIDOS) 
 SIN IVA""", blue_header_format)
-        worksheet.write('I'+str(10+row_index), 'MN', blue_header_format)
+        worksheet.write('I'+str(10+row_index), 'MXN', blue_header_format)
         worksheet.write('J'+str(10+row_index), 'DLLS', blue_header_format)
 
 
         worksheet.merge_range('K'+str(7+row_index)+':L'+str(9+row_index), """COBRADO
 (IMPORTE TOTAL COBRADO)
 SIN IVA""", blue_header_format)
-        worksheet.write('K'+str(10+row_index), 'MN', blue_header_format)
+        worksheet.write('K'+str(10+row_index), 'MXN', blue_header_format)
         worksheet.write('L'+str(10+row_index), 'DLLS', blue_header_format)
 
 
         worksheet.merge_range('M'+str(7+row_index)+':N'+str(9+row_index),  """POR COBRAR
 (IMPORTE TOTAL POR COBRAR) 
 SIN IVA""", blue_header_format)
-        worksheet.write('M'+str(10+row_index), 'MN', blue_header_format)
+        worksheet.write('M'+str(10+row_index), 'MXN', blue_header_format)
         worksheet.write('N'+str(10+row_index), 'DLLS', blue_header_format)
 
 
@@ -324,14 +324,14 @@ SIN IVA""", blue_header_format)
         worksheet.merge_range('P'+str(7+row_index)+':Q'+str(9+row_index), """FACTURADO
 CxC CONTABLES
 (SIN IVA)""", blue_header_format)
-        worksheet.write('P'+str(10+row_index), 'MN', blue_header_format)
+        worksheet.write('P'+str(10+row_index), 'MXN', blue_header_format)
         worksheet.write('Q'+str(10+row_index), 'DLLS', blue_header_format)
 
 
         worksheet.merge_range('R'+str(7+row_index)+':S'+str(9+row_index), """POR FACTURAR
 DA X C
 (SIN IVA)""", blue_header_format)
-        worksheet.write('R'+str(10+row_index), 'MN', blue_header_format)
+        worksheet.write('R'+str(10+row_index), 'MXN', blue_header_format)
         worksheet.write('S'+str(10+row_index), 'DLLS', blue_header_format)
         
         worksheet.merge_range('T'+str(6+row_index)+':T'+str(10+row_index), 'STATUS', blue_header_format)
@@ -356,6 +356,7 @@ DA X C
 
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
+        this_
         for k in range(len(this_pedidos)):
             
             this_cobros=cobros.loc[(cobros['order_id']==this_pedidos['id'].values[k])]

@@ -174,7 +174,7 @@ class ReportsController extends Controller
                     $Sellers = Seller::find($InternalOrders->seller_id);
                     $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
                     $Coins=Coin::find($InternalOrders->coin_id);
-                    $Banco=bank::where('bank_id',$Cobro->bank_id)->first();
+                    $Banco=bank::find($Cobro->bank_id);
                     $Factura=Factures::find($Cobro->facture_id);
                     
                     $pdf = PDF::loadView('reportes.test', compact(

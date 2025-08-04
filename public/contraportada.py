@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=620
-#id=147
+# id=733
+# id=790
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -528,8 +528,9 @@ for i in range(0,len(cobros)):
         worksheet.merge_range('H'+str(15+j+i+desface)+':J'+str(15+i+desface), 'PENDIENTE POR FACTURAR', red_content_date)
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
     print(facturas_asociadas['facture'])
-    desface=desface+max(len(facturas_asociadas) -1,0)
-desface=desface+1
+    if(len(facturas_asociadas)>1):
+        desface=desface+len(facturas_asociadas)-1
+desface=desface+len(cobros)
 #Facturas no asociadas
 for i in range(0,len(facturas_no_asociadas)):
     worksheet.write('H'+str(15+i+desface), str(facturas_no_asociadas['facture'].values[i]), red_content)
@@ -539,9 +540,9 @@ desface=desface+len(facturas_no_asociadas)
 
 # notas
 for i in range(0,len(notas)):
-    worksheet.write('H'+str(15+i+desface+2), str(notas['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface+2), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface+2), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
+    worksheet.write('H'+str(15+i+desface), str(notas['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(15+i+desface), notas['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+i+desface), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
 
 
 table_len=max(len(hpagos),(len(cobros)+desface)+len(notas))

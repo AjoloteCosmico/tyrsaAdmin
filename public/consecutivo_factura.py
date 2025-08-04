@@ -25,11 +25,11 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 facturas=pd.read_sql("""Select factures.* ,
-    customers.customer,customers.customer_suburb, customers.clave,
+    customers.alias,customers.customer_suburb, customers.clave,
     internal_orders.invoice, internal_orders.payment_conditions,internal_orders.noha,
     internal_orders.category,internal_orders.description,internal_orders.status as estado,
-    coins.exchange_sell, coins.coin, coins.symbol,
-    capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
+    coins.exchange_sell, coins.code, coins.symbol,
+    capturistas.name as capturista, revisores.iniciales as revisor, autorizadores.iniciales as autorizador
     from ((((((
     factures inner join internal_orders on internal_orders.id = factures.order_id) 
     inner join customers on customers.id = internal_orders.customer_id )
@@ -231,6 +231,7 @@ worksheet = writer.sheets['Sheet1']
 # Encabezado.
 
 facturas['clave'] = facturas['clave'].replace({' ':''}, regex=True)
+facturas['code'] = facturas['code'].replace({'MN':'MXN'}, regex=True)
 worksheet.insert_image("E1", "img/logo/logo.png",{"x_scale": 0.5, "y_scale": 0.5})
 worksheet.merge_range('G2:K2', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('G3:K3', 'Soluciones en logistica interior', negro_s)
@@ -246,8 +247,9 @@ date = currentDateTime.date()
 year = date.strftime("%Y")
 worksheet.merge_range('N2:O3', date, negro_b)
 #Dataframe yellow headers bitch xd
-worksheet.merge_range('B6:B7', 'NOH', blue_header_format)
-worksheet.merge_range('C6:C7', 'FECHA D-M-A', blue_header_format)
+worksheet.merge_range('B6:B7', 'NOHA', blue_header_format)
+worksheet.merge_range('C6:C7', """FECHA 
+AAAA-MM-DD""", blue_header_format)
 worksheet.merge_range('D6:D7', 'P.I. NO.', blue_header_format)
 worksheet.merge_range('E6:E7', 'NUMERO DE PAGO', blue_header_format)
 worksheet.merge_range('F6:F7', 'NUMERO TOTAL DE PAGOS', blue_header_format)
@@ -257,12 +259,12 @@ worksheet.merge_range('I6:I7', 'NOMBRE CORTO CLIENTE', blue_header_format)
 worksheet.merge_range('J6:J7', 'CATEGORIA EQUIPO', blue_header_format)
 worksheet.merge_range('K6:K7', 'DESCRIPCION BREVE', blue_header_format)
 worksheet.merge_range('L6:L7', 'UBI / SUC / TIENDA PROYECTO', blue_header_format)
-worksheet.merge_range('M6:M7', 'TIPO DE MOBEDA', blue_header_format)
+worksheet.merge_range('M6:M7', 'TIPO DE MONEDA', blue_header_format)
 worksheet.merge_range('N6:N7', 'TIPO DE CAMBIO', blue_header_format)
 
 worksheet.merge_range('O6:P6', 'IMPORTE TOTAL SIN IVA', blue_header_format)
-worksheet.write(6, 14, "DLLS", blue_header_format)
-worksheet.write(6, 15, "M.N.(Equivalente)", blue_header_format)
+worksheet.write(6, 14, "M.N.(Equivalente)", blue_header_format)
+worksheet.write(6, 15, "DLLS", blue_header_format)
 
 worksheet.merge_range('Q6:Q7', 'CAPTURO', blue_header_format)
 worksheet.merge_range('R6:R7', 'REVISO', blue_header_format)
@@ -277,11 +279,11 @@ for i in range(0,len(facturas)):
     worksheet.write(7+i, 5,str(facturas['payment_conditions'].values[i]), blue_content)
     worksheet.write(7+i, 6,str(facturas['facture'].values[i]), blue_content)
     worksheet.write(7+i, 7,str(facturas['clave'].values[i]), blue_content)
-    worksheet.write(7+i, 8,str(facturas['customer'].values[i]), blue_content)
-    worksheet.write(7+i, 9,str(facturas['category'].values[i]), blue_content)
-    worksheet.write(7+i, 10,str(facturas['description'].values[i]), blue_content)
-    worksheet.write(7+i, 11,str(facturas['customer_suburb'].values[i]), blue_content)
-    worksheet.write(7+i, 12,str(facturas['coin'].values[i]), blue_content)
+    worksheet.write(7+i, 8,str(facturas['alias'].values[i]), blue_content)
+    worksheet.write(7+i, 9,str(facturas['category'].fillna(' ').values[i].upper()), blue_content)
+    worksheet.write(7+i, 10,str(facturas['description'].values[i].upper()), blue_content)
+    worksheet.write(7+i, 11,str(facturas['customer_suburb'].values[i].upper()), blue_content)
+    worksheet.write(7+i, 12,str(facturas['code'].values[i]), blue_content)
     worksheet.write(7+i, 13,str(facturas['exchange_sell'].values[i]), blue_content)
     if(facturas['exchange_sell'].values[i]>1):
         worksheet.write(7+i, 14, 0,blue_content)
@@ -289,18 +291,28 @@ for i in range(0,len(facturas)):
     else:
         worksheet.write(7+i, 14, facturas['amount'].values[i],blue_content)
         worksheet.write(7+i, 15,0,blue_content_dll)
-    worksheet.write(7+i, 16, str(facturas['capturista'].values[i]),blue_content)
+    worksheet.write(7+i, 16, ' '.join(str(facturas['capturista'].values[i]).split(' ')[:2]),blue_content)
     worksheet.write(7+i, 17, str(facturas['revisor'].values[i]),blue_content)
     worksheet.write(7+i, 18, str(facturas['autorizador'].values[i]),blue_content)
-    worksheet.write(7+i, 19, str(facturas['status'].values[i]),blue_content)
+    worksheet.write(7+i, 19, str(facturas['estado'].values[i].upper()),blue_content)
+trow=8+len(facturas)
+
+worksheet.merge_range('M'+str(trow)+':N'+str(trow), 'Total', blue_header_format_bold)
+
+worksheet.write_formula('O'+str(trow),  '{=SUM(O8:O'+str(trow-1)+')}', blue_content_footer)
+worksheet.write_formula('P'+str(trow),  '{=SUM(P8:P'+str(trow-1)+')}', blue_content_footer_dll)
+
 
 worksheet.set_column('C:C',15)
 worksheet.set_column('I:I',19)
+
+worksheet.set_column('J:L',20)
 worksheet.set_column('L:M',15)
 worksheet.set_column('O:P',19)
 worksheet.set_column('Q:T',20)
+
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1, 0)  
 workbook.close()
 

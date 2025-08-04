@@ -269,8 +269,6 @@ document.getElementById("monitor").innerHTML=String(parseFloat(total))+'%';
       if(error==0){  
 
       document.getElementById("form1").submit();}
-
-
     }
 </script>
 <script>
