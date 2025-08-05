@@ -19,7 +19,6 @@ use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
     return redirect(route('login'));
 });
@@ -115,8 +114,7 @@ Route::group(['middleware' => ['auth']], function()
    //rutas par desautorizar un pedido
     Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
     Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
-  
-   
+
     //rutas para agregar comisione
     Route::post('captura/comissions', [InternalOrderController::class, 'comissions'])->name('captura.comissions');
     Route::post('guardar_comission', [InternalOrderController::class, 'guardar_comissions'])->name('guardar_comissions');
