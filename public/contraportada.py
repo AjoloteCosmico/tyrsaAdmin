@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=733
+# id=715
 # id=790
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -408,7 +408,9 @@ worksheet.merge_range('C8:D8', 'CLIENTE', blue_header_format)
 worksheet.merge_range('E8:F8', cliente['alias'].values[0], blue_content)
 worksheet.merge_range('C9:D9', 'MONEDA', blue_header_format)
 worksheet.merge_range('E9:F9', moneda['coin'].values[0], blue_content)
-worksheet.merge_range('C10:D10', 'FECHA DD-MM-AAA', blue_header_format)
+worksheet.merge_range('C10:D10', 'AAAA-MM-DD', blue_header_format)
+orden['reg_date']=pd.to_datetime(orden['reg_date'] , format='%Y-%m-%d')
+orden['reg_date']=orden['reg_date'].dt.strftime('%d-%m-%Y')
 worksheet.merge_range('E10:F10', str(orden['reg_date'].values[0]), blue_content)
 
 #tabla superior totales
@@ -453,10 +455,16 @@ worksheet.merge_range('C12:C14', 'COBRO ', blue_header_format)
 worksheet.merge_range('D12:G12', 'PI. Programado', blue_header_format)
 
 worksheet.merge_range('D13:D14', 'MONEDA', blue_header_format)
-worksheet.merge_range('E13:E14', 'FECHA \n DD-MM-AA', blue_header_format)
+worksheet.merge_range('E13:E14', 'FECHA \n DD-MM-AAAA', blue_header_format)
 worksheet.merge_range('F13:F14', 'IMPORTE $ \n IVA INCLUIDO', blue_header_format)
 worksheet.merge_range('G13:G14', '% DEL PAGO PARCIAL', blue_header_format)
 #      rellenando la tabla----------------------------------
+hpagos['date']=pd.to_datetime(hpagos['date'], format='%Y-%m-%d')
+hpagos['date']=hpagos['date'].dt.strftime('%d-%m-%Y')
+cobros['date']=pd.to_datetime(cobros['date'], format='%Y-%m-%d')
+cobros['date']=cobros['date'].dt.strftime('%d-%m-%Y')
+facturas['date']=pd.to_datetime(facturas['date'], format='%Y-%m-%d')
+facturas['date']=facturas['date'].dt.strftime('%d-%m-%Y')
 mac=0
 for i in range(0,len(hpagos)):
     worksheet.write('C'+str(15+i), str(i+1), blue_content)
@@ -532,6 +540,8 @@ for i in range(0,len(cobros)):
         desface=desface+len(facturas_asociadas)-1
 desface=desface+len(cobros)
 #Facturas no asociadas
+facturas_no_asociadas['date']=pd.to_datetime(facturas_no_asociadas['date'], format='%Y-%m-%d')
+facturas_no_asociadas['date']=facturas_no_asociadas['date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(facturas_no_asociadas)):
     worksheet.write('H'+str(15+i+desface), str(facturas_no_asociadas['facture'].values[i]), red_content)
     worksheet.write('I'+str(15+i+desface), facturas_no_asociadas['date'].values[i], red_content_date)
@@ -539,6 +549,8 @@ for i in range(0,len(facturas_no_asociadas)):
 desface=desface+len(facturas_no_asociadas)
 
 # notas
+notas['date']=pd.to_datetime(notas['date'], format='%Y-%m-%d')
+notas['date']=notas['date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(notas)):
     worksheet.write('H'+str(15+i+desface), str(notas['credit_note'].values[i])+' (credito)', red_content)
     worksheet.write('I'+str(15+i+desface), notas['date'].values[i], red_content_date)
@@ -608,7 +620,9 @@ else:
    worksheet.merge_range(trow+5,1,trow+8,18,'SIN OBSERVACIONES', observaciones_format)
 
 
+worksheet.set_column('E:E',15)
 worksheet.set_column('F:F',15)
+worksheet.set_column('I:I',15)
 worksheet.set_column('L:L',15)
 worksheet.set_column('H:H',15)
 worksheet.set_column('P:Q',15)
