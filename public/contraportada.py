@@ -408,7 +408,7 @@ worksheet.merge_range('C8:D8', 'CLIENTE', blue_header_format)
 worksheet.merge_range('E8:F8', cliente['alias'].values[0], blue_content)
 worksheet.merge_range('C9:D9', 'MONEDA', blue_header_format)
 worksheet.merge_range('E9:F9', moneda['coin'].values[0], blue_content)
-worksheet.merge_range('C10:D10', 'AAAA-MM-DD', blue_header_format)
+worksheet.merge_range('C10:D10', 'DD-MM-AAAA', blue_header_format)
 orden['reg_date']=pd.to_datetime(orden['reg_date'] , format='%Y-%m-%d')
 orden['reg_date']=orden['reg_date'].dt.strftime('%d-%m-%Y')
 worksheet.merge_range('E10:F10', str(orden['reg_date'].values[0]), blue_content)
@@ -476,7 +476,7 @@ for i in range(0,len(hpagos)):
 #tabla facturas-------------------------------
 worksheet.merge_range('H12:J12', 'FACTURA', red_header_format)
 worksheet.merge_range('H13:H14', 'NUMERO',red_header_format)
-worksheet.merge_range('I13:I14', 'FECHA \n DD-MM-AAA',red_header_format)
+worksheet.merge_range('I13:I14', 'FECHA \n DD-MM-AAAA',red_header_format)
 worksheet.merge_range('J13:J14', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 #rellenando la tabla
 # for i in range(0,len(facturas)):
@@ -491,13 +491,13 @@ worksheet.merge_range('J13:J14', 'IMPORTE \n IVA INCLUIDO',red_header_format)
 #tabla  comprobantes de ingreso------------------
 worksheet.merge_range('K12:O12', 'COMPROBANTE DE INGRESO (COBRADO REALMENTE)', blue_header_format)
 worksheet.merge_range('K13:K14', 'NUMERO', blue_header_format)
-worksheet.merge_range('L13:L14', 'FECHA \n DD-MM-AAA', blue_header_format)
+worksheet.merge_range('L13:L14', 'FECHA \n DD-MM-AAAA', blue_header_format)
 worksheet.merge_range('M13:M14', 'MONEDA', blue_header_format)
 worksheet.merge_range('N13:N14', 'IMPORTE \n IVA INCLUIDO', blue_header_format)
 worksheet.merge_range('O13:O14', '% DEL COBRO PARCIAL', blue_header_format)
 #Tabla equivalente- pero sigue siendo la de comprobante eh
 worksheet.merge_range('P12:P14', 'TIPO DE \n CAMBIO', red_header_format)
-worksheet.merge_range('Q12:R12', 'EQUIVALENTE EN M.N.', red_header_format)
+worksheet.merge_range('Q12:R12', 'EQUIVALENTE EN MXN', red_header_format)
 worksheet.merge_range('Q13:Q14', 'IMPORTE $  ACUMULADO', red_header_format)
 worksheet.merge_range('R13:R14', '% DE COBRO ACUMULADO', red_header_format)
 worksheet.merge_range('S12:U12', 'VALIDACION DEL COBRO', red_header_format)
