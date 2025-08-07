@@ -259,6 +259,8 @@ orders["category"]=orders["category"].fillna('PRODUCTOS')
 #Llenar la tabla
 orders['reg_date']=pd.to_datetime(orders['reg_date'], format='%Y-%m-%d')
 orders['reg_date']=orders['reg_date'].dt.strftime('%d-%m-%Y')
+orders.loc[orders['status'] == 'CANCELADO','total']= 0
+orders=orders.sort_values(by=['invoice'], ascending=True)
 for i in range(0,len(orders)):
      acumulado=acumulado+((orders["total"].values[i])/1.16*orders["exchange_sell"].values[i])
      worksheet.write(14+i, 2, str(int(orders["noha"].values[i])),blue_content_unit)
@@ -275,7 +277,6 @@ for i in range(0,len(orders)):
         worksheet.write(14+i, 11, ' ',blue_content)
         worksheet.write(14+i, 12, '0',blue_content_dll)
      else:
-        
         worksheet.write(14+i, 11, 'EXTRANJERA',blue_content)
         worksheet.write(14+i, 12, orders["total"].values[i]/1.16,blue_content_dll)
      worksheet.write(14+i, 13, "{:.4f}".format(orders["exchange_sell"].values[i]),blue_content)
