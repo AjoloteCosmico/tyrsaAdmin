@@ -519,7 +519,7 @@ for i in range(0,len(cobros)):
     worksheet.write('M'+str(15+i+desface), moneda['code'].values[0], blue_content)
     worksheet.write('N'+str(15+i+desface), cobros['amount'].values[i], blue_content)
     worksheet.write('O'+str(15+i+desface), "{:.2f}".format(cobros['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
-    worksheet.write('P'+str(15+i+desface), cobros['tc'].values[i], red_content)
+    worksheet.write('P'+str(15+i+desface), "{:.4f}".format(cobros['tc'].values[i]), red_content)
     worksheet.write('Q'+str(15+i+desface), importe_acumulado, red_content)
     worksheet.write('R'+str(15+i+desface), "{:.2f}".format(porcentaje_acumulado)+'%', red_content)
     worksheet.write('S'+str(15+i+desface), str(cobros['capturista'].values[i]), red_content)
