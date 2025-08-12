@@ -230,7 +230,8 @@ worksheet.set_column(14, 14, 20)
 worksheet.set_column(3, 3, 20)
 
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 1, "y_scale": 1})
-worksheet.merge_range('C12:C14', 'PDA \n NOHA \n '+str(date.strftime("%Y")), blue_header_format)
+worksheet.merge_range('C12:C14', 'PDA \n NOHA \n ', blue_header_format)
+# +str(date.strftime("%Y"))
 worksheet.merge_range('D12:D14', 'FECHA DE EMISION  \n DD-MM-AAAA', blue_header_format)
 worksheet.merge_range('E12:E14', 'PEDIDO INTERNO NO.', blue_header_format)
 
@@ -300,5 +301,5 @@ worksheet.set_column('Q:Q',15)
 
 worksheet.set_landscape()
 worksheet.set_paper(9)
-worksheet.fit_to_pages(1, 1)  
+worksheet.fit_to_pages(1,0)  
 workbook.close()
