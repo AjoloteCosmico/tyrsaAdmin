@@ -24,7 +24,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               port=DB_PORT,
                               database=DB_DATABASE,
                               use_pure=False)
-query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal,i.date, i.description, i.category, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
+query = ('SELECT i.reg_date,i.invoice, i.noha,i.status,i.total, i.subtotal,i.date, i.description, i.category, i.tc, c.clave, c.alias, c.customer_suburb, c.customer, coins.code, coins.coin, coins.exchange_sell from internal_orders as i INNER JOIN customers as c on c.id = i.customer_id INNER JOIN coins on coins.id = i.coin_id  ORDER BY i.invoice;')
 orders=pd.read_sql(query,cnx)
 writer = pd.ExcelWriter('storage/report/consecutivo_pedido1.xlsx', engine='xlsxwriter')
 workbook = writer.book
@@ -262,7 +262,7 @@ orders['reg_date']=orders['reg_date'].dt.strftime('%d-%m-%Y')
 orders.loc[orders['status'] == 'CANCELADO','total']= 0
 orders=orders.sort_values(by=['invoice'], ascending=True)
 for i in range(0,len(orders)):
-     acumulado=acumulado+((orders["total"].values[i]*orders["exchange_sell"].values[i])/1.16)
+     acumulado=acumulado+((orders["total"].values[i]*orders["tc"].values[i])/1.16)
      worksheet.write(14+i, 2, str(int(orders["noha"].values[i])),blue_content_unit)
      worksheet.write(14+i, 3, str(orders["reg_date"].values[i]),blue_content)
      worksheet.write(14+i, 4, str(int(orders["invoice"].values[i])),blue_content_unit)
@@ -279,8 +279,8 @@ for i in range(0,len(orders)):
      else:
         worksheet.write(14+i, 11, 'EXTRANJERA',blue_content)
         worksheet.write(14+i, 12, orders["total"].values[i]/1.16,blue_content_dll)
-     worksheet.write(14+i, 13, "{:.4f}".format(orders["exchange_sell"].values[i]),blue_content)
-     worksheet.write(14+i, 14, (orders["total"].values[i]*orders["exchange_sell"].values[i])/1.16,blue_content)
+     worksheet.write(14+i, 13, "{:.4f}".format(orders["tc"].values[i]),blue_content)
+     worksheet.write(14+i, 14, (orders["total"].values[i]*orders["tc"].values[i])/1.16,blue_content)
     
      worksheet.write(14+i, 15, acumulado,blue_content)
      worksheet.write(14+i, 16, orders["status"].values[i],blue_content_bold)

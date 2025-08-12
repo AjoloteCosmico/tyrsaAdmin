@@ -504,6 +504,7 @@ public function recalcular_total($id){
             $InternalOrders->description = $request->description;
             $InternalOrders->marca = $request->marca;
             $InternalOrders->user_id=AUth::user()->id;
+            $InternalOrders->tc=Coin::find($TempInternalOrders->coin_id)->exchange_sell;
             $InternalOrders->save();
             $contactos=order_contacts::where('temp_order_id',$TempInternalOrders->id)->get();
             foreach($contactos as $c){
