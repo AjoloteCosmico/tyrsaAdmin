@@ -356,7 +356,7 @@ DA X C
 
         #datos generales del pedido
         #worksheet.write('B'+row_index, str(pedidos['noha'].values[i]), blue_content)
-        this_
+        
         for k in range(len(this_pedidos)):
             
             this_cobros=cobros.loc[(cobros['order_id']==this_pedidos['id'].values[k])]
