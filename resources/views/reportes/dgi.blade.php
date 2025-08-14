@@ -86,7 +86,7 @@
                 <tbody>
                 @foreach($Sellers as $seller)
                 
-                <tr @if($seller->status=='INACTIVO') style="color:red"  @endif>
+                <tr @if($seller->status!='ACTIVO') style="color:red; --bs-table-striped-color: red;"  @endif>
                     <td>{{$seller->folio}}</td>
                     <td>{{$seller->iniciales}} </td>
                     <td>{{$seller->seller_name}} </td>

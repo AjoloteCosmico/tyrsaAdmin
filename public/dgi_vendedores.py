@@ -12,7 +12,7 @@ import numpy as np
 
 year = datetime.date.today().year
 quincena=int(sys.argv[1])+1
-# quincena=2
+# quincena=15
 month = np.ceil(quincena/ 2)
 isFirstHalf = quincena % 2 != 0
 startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
@@ -80,7 +80,7 @@ creditos=pd.read_sql("""select *
     inner join coins on internal_orders.coin_id = coins.id) """,cnx)
 
 vendedores=pd.read_sql("""select * 
-                     from sellers where status='ACTIVO'""",cnx)
+                     from sellers order by folio""",cnx)
 
 # socios_ids=pd.read_sql("select distinct seller_id from comissions where description like 'DGI'",cnx)
 # socios=vendedores.loc[vendedores['id'].isin(socios_ids['seller_id'].unique())]
@@ -304,36 +304,36 @@ pedidos['date']=pd.to_datetime(pedidos['date'])
 worksheet =  workbook.add_worksheet('Vendedores')
 
 #Encabezado del documento--------------
-worksheet.merge_range('B2:F2', 'CUENTAS POR COBRAR REPORTE DGI', negro_b)
+worksheet.merge_range('B2:F2', 'REPORTE DGI VENDEDORES', negro_b)
 worksheet.merge_range('B3:F4', 'TABLA DE VENDEDORES PARA PAGO DE COMISIONES  DGI PARA NIVELES DIRECTIVOS', negro_s)
 
 worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
 worksheet.write('G2', 'AÑO', negro_b)
-
 worksheet.write('G2', year, negro_b)
 worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
 
 worksheet.merge_range('I2:I3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-worksheet.write('B6', 'IDENTIFICADORr', blue_header_format)
-worksheet.write('C6', 'No VENDEDOR', blue_header_format)
+worksheet.write('B6', 'IDENTIFICADOR', blue_header_format)
+worksheet.write('C6', 'No. VENDEDOR', blue_header_format)
 worksheet.write('D6', 'INICALES', blue_header_format)
 worksheet.write('E6', 'NOMBRE CORTO', blue_header_format)
 worksheet.write('F6', 'ESTATUS', blue_header_format)
-vendedores=vendedores.sort_values(by='status')
+vendedores=vendedores.sort_values(by='folio')
 for i in range(len(vendedores)):
     if(vendedores['status'].values[i]=='ACTIVO'):
+        print(i)
         worksheet.write('B'+str(7+i), str(i+1), blue_content)
         worksheet.write('C'+str(7+i), vendedores['folio'].values[i], blue_content_unit)
         worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content)
-        worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content)
+        worksheet.write('E'+str(7+i), str(vendedores['seller_name'].values[i].replace('\t',' ').split(' ')[0]+' '+vendedores['seller_name'].values[i].replace('\t',' ').split(' ')[1]), blue_content)
         worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content)
     else:
         worksheet.write('B'+str(7+i), str(i+1), blue_content_red)
         worksheet.write('C'+str(7+i), str(vendedores['folio'].values[i]), blue_content_red)
         worksheet.write('D'+str(7+i), vendedores['iniciales'].values[i], blue_content_red)
-        worksheet.write('E'+str(7+i), vendedores['seller_name'].values[i], blue_content_red)
+        worksheet.write('E'+str(7+i), str(vendedores['seller_name'].values[i].replace('\t',' ').split(' ')[0]+' '+vendedores['seller_name'].values[i].replace('\t',' ').split(' ')[1]), blue_content_red)
         worksheet.write('F'+str(7+i), vendedores['status'].values[i], blue_content_red)
            
 
@@ -350,7 +350,7 @@ for i in range(len(vendedores)):
 # #AGRANDAR CPLUMNAS
 
 worksheet.set_column('A:A',15)
-worksheet.set_column('B:B',15)
+worksheet.set_column('B:C',15)
 worksheet.set_column('E:E',35)
 worksheet.set_column('L:L',15)
 worksheet.set_column('G:G',15)

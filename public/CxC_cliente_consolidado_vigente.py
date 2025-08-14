@@ -285,7 +285,7 @@ worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6
 worksheet.merge_range('C6:C10', """PDA""", blue_header_format)
 worksheet.merge_range('D6:D10', """PI CANTIDAD""", blue_header_format)
 worksheet.merge_range('E6:E10', """FECHA
-AAAA-MM-DD""", blue_header_format)
+DD-MM-AAAA""", blue_header_format)
 
 worksheet.merge_range('F6:G9', 'CLIENTE', blue_header_format)
 worksheet.write('F10', 'NUMERO', blue_header_format)
@@ -338,7 +338,9 @@ ESTATUS""", blue_header_format)
 counter=0
 total_total=0
 pedidos['code']=pedidos['code'].str.replace('MN','MXN')
-
+pedidos['reg_date']=pd.to_datetime(pedidos['reg_date'], format='%Y-%m-%d')
+pedidos['reg_date']=pedidos['reg_date'].dt.strftime('%d-%m-%Y')
+pedidos.loc[pedidos['status'] == 'CANCELADO','total']= 0
 
 clientes=clientes.sort_values(by='clave')
 for i in range(0,len(clientes)):
