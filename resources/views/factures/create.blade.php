@@ -47,17 +47,17 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="Fecha de la factura" />
-                                        <x-jet-input type="date" name="date" id="date" class="form-control  text-xs" value=""  />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control  text-xs" value="{{old('date')}}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="TOTAL DE COBROS" />
-                                        <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="" disabled />
+                                        <x-jet-input type="number" step="1" name="tpagos" id="tpagos" class="form-control just-number price-format-input w-full text-xs" value="{{old('tpagos')}}" disabled />
                                         <x-jet-input-error for='tpagos' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NUM PAGO" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="ordinal" id="ordinal" class="form-control just-number price-format-input w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <select class="form-capture  w-full text-xs uppercase" name="ordinal" id="ordinal" class="form-control just-number price-format-input w-full text-xs" value="{{old('ordinal')}}"/>
                                         </select>
                                         <x-jet-input-error for='ordinal' />
                                     </div>
@@ -80,7 +80,7 @@
                                     @can('FOLIO FACTURA MANUAL')
                                     <div class="form-group">
                                         <x-jet-label value="* FACTURA" />
-                                        <x-jet-input type="text"  name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$ncomp}}" onkeyup="javascript:this.value=this.value.toUpperCase();"  />
+                                        <x-jet-input type="number" step="1" name="facture" class="form-control just-number price-format-input" class="w-full text-xs" value="{{$ncomp}}" onkeyup="javascript:this.value=this.value.toUpperCase();"  />
                                         <x-jet-input-error for='facture' />
                                     </div>
                                     @else
@@ -143,7 +143,7 @@
 <script>
 $(document).on("keypress", ".just-number", function (e) {
   let charCode = (e.which) ? e.which : e.keyCode;
-  if (charC ode > 31 && (charCode < 48 || charCode > 57)) {
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
     return false;
   }
 });
@@ -185,6 +185,12 @@ $(document).on('keyup', '.price-format-input', function (e) {
 
 
 <script>
+@if(old('customer_id'))
+document.getElementById('customer_id').value={{old('customer_id')}};
+@endif
+
+
+    
      $(document).ready(function () {     
 $('#customer_id').change(function(){
 var seleccionado = $(this).val();
@@ -238,7 +244,6 @@ document.getElementById('tpagos').value=npagos[seleccionado];
 for(index in example_array) {
     desc.options[desc.options.length] = new Option(example_array[index], index);
 }
-
 
 })
      });

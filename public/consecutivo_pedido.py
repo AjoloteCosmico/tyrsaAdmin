@@ -218,7 +218,7 @@ date = currentDateTime.date()
 worksheet.write('P4', date.strftime("%Y"), negro_b)
 worksheet.write('O6', "ACUMULADO", blue_header_format)
 # worksheet.write('O7', orders.loc[orders['date'].astype(str)>date.strftime("%Y")+'-01-01',"total"].sum()/1.16, blue_content)
-worksheet.write('O7','=SUM(O15:O'+str(len(orders)+14)+')', blue_content_bold)
+worksheet.write('O7','{=SUM(O15:O'+str(len(orders)+14)+')}', blue_content_bold)
 worksheet.write('O8', "HASTA EL ULTIMO PEDIDO", blue_content)
 
 worksheet.set_column(14, 14, 20)
@@ -287,8 +287,8 @@ for i in range(0,len(orders)):
      worksheet.write(14+i, 16, orders["status"].values[i],blue_content_bold)
 
 worksheet.merge_range('K'+str(len(orders)+15)+':L'+str(len(orders)+15), 'TOTALES', blue_header_format)
-worksheet.write_formula('M'+str(len(orders)+15), '=SUM(M15:M'+str(len(orders)+14)+')', blue_content_bold_dll)
-worksheet.write_formula('O'+str(len(orders)+15), '=SUM(O15:O'+str(len(orders)+14)+')', blue_content_bold)
+worksheet.write_formula('M'+str(len(orders)+15), '{=SUM(M15:M'+str(len(orders)+14)+')}', blue_content_bold_dll)
+worksheet.write_formula('O'+str(len(orders)+15), '{=SUM(O15:O'+str(len(orders)+14)+')}', blue_content_bold)
 
 worksheet.set_column('H:J',23)
 

@@ -30,11 +30,11 @@ class FactureController extends Controller
     public function create(){
         //traer todas las facturas
                 $LastComp = Factures::orderByRaw('CAST(REGEXP_REPLACE(facture, "[^0-9]", "") AS UNSIGNED) DESC')->first();
-               $ncomp = 'A 100';
+               $ncomp = '100';
                
                if($LastComp){
                     $lastNumber = intval(preg_replace('/[^0-9]/', '', $LastComp->facture));
-                    $ncomp = 'A ' . strval($lastNumber + 1);
+                    $ncomp =  strval($lastNumber + 1);
                 }
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
@@ -50,6 +50,24 @@ class FactureController extends Controller
             }
     public function store(Request $request){
         
+                    $rules = [
+                        
+                        'date' => 'required',
+                        'facture'=> 'unique:factures,facture',
+                        'coin_id'=> 'required',
+                        'tc' => 'required',
+                        'amount' => 'required',
+                    ];
+
+                $messages = [
+                        'date.required' => 'La fecha  es necesaria',
+                        'facture.unique' => 'Ya existe un registro con este numero de factura',
+                        'coin_id.required' => 'Seleccione una moneda',
+                        'tc.required' => 'Indique el tipo de cambio',
+                        'amount.required' => 'Indique una cantidad valida',
+                        
+                    ];
+                $request->validate($rules, $messages);
                 $Facture= new Factures();
                 $Facture->order_id=$request->order_id;
                 $Facture->amount=$request->amount;
