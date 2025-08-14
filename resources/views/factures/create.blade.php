@@ -187,6 +187,57 @@ $(document).on('keyup', '.price-format-input', function (e) {
 <script>
 @if(old('customer_id'))
 document.getElementById('customer_id').value={{old('customer_id')}};
+var seleccionado = {{old('customer_id')}};
+console.log('entrando a la funcion');
+console.log(seleccionado)
+removeOptions(document.getElementById('order_id'));
+console.log('hecho¿?');
+var desc = document.getElementById("order_id");
+@foreach($Customers as $cliente)
+if(seleccionado=='{{$cliente->id}}'){
+    var example_array = {
+        @foreach($InternalOrders as $order)
+        @if($order->customer_id==$cliente->id)
+    {{$order->id}} : '{{$order->invoice}}',
+         @endif
+    @endforeach
+};}
+   
+  
+@endforeach
+
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+}
+
+
+var npagos={
+    @foreach($InternalOrders as $i)
+    {{$i->id}}:{{$i->payment_conditions}},
+    @endforeach};
+
+var seleccionado = document.getElementById('order_id').value;
+console.log('entrando a la funcion de num pagos');
+console.log(seleccionado)
+console.log(npagos[seleccionado])
+removeOptions(document.getElementById('ordinal'));
+var desc = document.getElementById("ordinal");
+@foreach($InternalOrders as $order)
+if(seleccionado=='{{$order->id}}'){
+    var example_array = {1:1};
+    for (i = 2; i < {{$order->payment_conditions +1}} ;i++){
+        example_array[i]=i;
+    }
+}
+document.getElementById('tpagos').value=npagos[seleccionado];
+   
+@endforeach
+
+for(index in example_array) {
+    desc.options[desc.options.length] = new Option(example_array[index], index);
+}
+
 @endif
 
 
