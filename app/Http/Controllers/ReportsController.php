@@ -67,6 +67,37 @@ class ReportsController extends Controller
         
        }}
     
+          public function impresion_pedido($id,$report,$pdf,$tipo=0)
+       {  
+           $caminoalpoder=public_path();
+           $process = new Process(["/var/www/app-env/bin/python3", $caminoalpoder.'/'.$report.'.py',$id,$tipo]);
+           ini_set('max_execution_time', '300');  
+        //    dd(env('PY_COMAND'));
+           $process->run();
+           if (!$process->isSuccessful()) {
+               throw new ProcessFailedException($process);
+           }
+           
+           $data = $process->getOutput();
+           if($pdf==0){
+               return response()->download(public_path('storage/report/'.$report.$id.'.xlsx'));
+           }else{
+            //shell_exec('cd'.$caminoalpoder.'/storage/report/;'.' localc --headless --convert-to pdf '.$report.$id.'.xlsx');
+             $process2=new Process(['localc','--headless','--convert-to', 'pdf', $report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
+            //$process=new Process(['localc','--headless','--convert-to','pdf','--outdir',$caminoalpoder.'/storage/report/',$report.$id.'.xlsx'],$caminoalpoder.'/storage/report/');
+            //$process2 = new Process(["soffice", "--convert-to","pdf:calc_pdf_Export:{\"SinglePageSheets\":{\"type\":\"boolean\",\"value\":\"true\"}}",$report.$id.".xlsx "],$caminoalpoder.'/storage/report/');
+            // $process2->setTimeout(null);
+            // $process2->setIdleTimeout(null);
+             $process2->run();
+             if (!$process2->isSuccessful()) {
+                throw new ProcessFailedException($process2);
+             }
+             $data = $process2->getOutput();
+             
+            return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
+        
+       }}
+    
        public function contraportada()
        {
         if(!Auth::user()->can('DESCARGAR CONTRAPORTADA')){
