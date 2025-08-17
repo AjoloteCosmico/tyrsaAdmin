@@ -24,11 +24,11 @@ payload = {
 writer.render_book([payload])
 
 # Guarda el resultado
-writer.save(f'storage/report/impresion_pedido{id}.xlsx')
+writer.save(f'storage/report/temp.xlsx')
 from openpyxl import load_workbook
 
 # Abre el archivo generado por xltpl
-wb = load_workbook(f'storage/report/impresion_pedido{id}.xlsx')
+wb = load_workbook(f'storage/report/temp.xlsx')
 ws = wb.active  # o wb["NombreDeHoja"]
 
 # Configurar impresión
