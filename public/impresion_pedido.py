@@ -32,8 +32,6 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 
 # Carga la plantilla
 
-# id=808
-
 id=str(sys.argv[1])
 
 #traer datos de los pedidos
@@ -82,26 +80,18 @@ for df,name in zip([items,required_signatures,contacts],["items","signatures","c
     if(name=='signatures'):
         for i in range(5-len(required_signatures)):
             objects.append({'firma':'FIRMA','titulo':'Autorizacion'})
-            
-
+    if((name=='contacts')&(len(df)<3)):
+        for i in range(3-len(df)):
+            objects.append({'customer_contact_name':'NA','customer_contact_office_phone':'-','customer_contact_office_phone_ext':'-',
+                            'customer_contact_mobile':'-','customer_contact_email':'-'}) 
+    if((name=='items')&(len(df)<3)):
+        for i in range(3-len(items)):
+            objects.append({'amount':'0',})         
     payload.update({name:objects})
 # #Renderizar excel
 writer = BookWriter('plantilla_pedido.xlsx')
-# # Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
+# Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
 writer.render_book([payload])
 
-# # Guarda el resultado
+# Guarda el resultado
 writer.save(f'storage/report/impresion_pedido{id}.xlsx')
-# from openpyxl import load_workbook
-
-# # Abre el archivo generado por xltpl
-# wb = load_workbook(f'storage/report/temp.xlsx')
-# ws = wb.active  # o wb["NombreDeHoja"]
-
-# # Configurar impresión
-# ws.page_setup.orientation = ws.ORIENTATION_PORTRAIT   # Vertical
-# ws.page_setup.fitToWidth = 1  # Ajustar a 1 página de ancho
-# ws.page_setup.fitToHeight = 3  # Ajustar a 3 páginas de alto
-
-# # Guardar cambios
-# wb.save(f'storage/report/impresion_pedido{id}.xlsx')
