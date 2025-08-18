@@ -86,12 +86,12 @@ for df,name in zip([items,required_signatures,contacts],["items","signatures","c
 
     payload.update({name:objects})
 # #Renderizar excel
-writer = BookWriter('plantilla_pedido.xlsx')
-# Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
-writer.render_book([payload])
+# writer = BookWriter('plantilla_pedido.xlsx')
+# # Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
+# writer.render_book([payload])
 
-# Guarda el resultado
-writer.save(f'storage/report/impresion_pedido{id}.xlsx')
+# # Guarda el resultado
+# writer.save(f'storage/report/impresion_pedido{id}.xlsx')
 # from openpyxl import load_workbook
 
 # # Abre el archivo generado por xltpl
