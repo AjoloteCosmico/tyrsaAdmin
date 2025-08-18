@@ -589,13 +589,15 @@
                 <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" onclick="confirm_unauthorize()"> <i class="fas fa-warning"> &nbsp; </i> Desautorizar</button>
                 @endcan   
                 <br><br><br>
-                    </div></div>
+                    </div>
+                        </div>
+                    
                     @can('EDITAR PEDIDO AUTORIZADO')
                         <a href="{{ route('internal_orders.edit_order', $InternalOrders->id) }} "  class="btn btn-green mb-2">
                             <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                         </a>
                     @endcan
-                <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
+                                    <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
 
                                      </a>    -->
@@ -628,6 +630,13 @@
                     @endcan
                    @endif
                 @endif
+            <br>
+                  @can('VER DGI')       
+                  <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido',1])}}">
+                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print"> &nbsp; </i> GENERAR IMPRESIÓN</button>
+                
+                  </a> 
+                @endcan 
 <!--                                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
                     <button id="downloadPdf">Exportar a PDF</button> -->
