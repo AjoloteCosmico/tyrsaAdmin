@@ -290,7 +290,8 @@ for i in range(0,len(clientes)):
         row_index=row_index+2
         worksheet.merge_range('C'+str(6+row_index)+':C'+str(10+row_index), 'PDA', blue_header_format)
         worksheet.merge_range('D'+str(6+row_index)+':D'+str(10+row_index), 'PI CANTIDAD', blue_header_format)
-        worksheet.merge_range('E'+str(6+row_index)+':E'+str(10+row_index), 'FECHA', blue_header_format)
+        worksheet.merge_range('E'+str(6+row_index)+':E'+str(10+row_index), """FECHA
+DD/MM/AAAA""", blue_header_format)
 
         worksheet.merge_range('F'+str(6+row_index)+':G'+str(9+row_index), 'CLIENTE', blue_header_format)
         worksheet.write('F'+str(10+row_index), 'NUMERO', blue_header_format)
@@ -365,7 +366,7 @@ DA X C
         
             worksheet.write('C'+row_index, str(k+1), blue_content)
             worksheet.write('D'+row_index, this_pedidos['invoice'].values[k], blue_content)
-            worksheet.write('E'+row_index, this_pedidos['reg_date'].values[k], blue_content)
+            worksheet.write('E'+row_index, this_pedidos['reg_date'].values[k], blue_content_date)
             worksheet.write('F'+row_index, str(clientes['clave'].values[i]), blue_content)
             worksheet.write('G'+row_index, str(clientes['alias'].values[i]), blue_content)
             worksheet.write('H'+row_index, this_pedidos['code'].values[k], blue_content)
