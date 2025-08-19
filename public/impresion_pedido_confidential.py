@@ -62,7 +62,9 @@ pagos=pd.read_sql(f"select * from payments where order_id ={order['id'].values[0
 pagos['dia_anio']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.dayofyear
 pagos['semana']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.isocalendar().week
 pagos['date'] = pd.to_datetime(pagos['date'], format="%Y-%m-%d").dt.strftime("%d-%m-%Y")
-
+comisiones=pd.read_sql(f"""select * from comissions
+                       inner join sellers on sellers.id=comissions.seller_id
+                        where order_id ={order['id'].values[0]}""",cnx)
 letter_total=num2words.num2words(order['total'].values[0], lang='es')
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
 payload = {
@@ -100,9 +102,9 @@ for df,name in zip([items,required_signatures,contacts,pagos,comisiones],["items
             objects.append({'amount':'0',})         
     payload.update({name:objects})
 # #Renderizar excel
-writer = BookWriter('plantilla_pedido.xlsx')
+writer = BookWriter('plantilla_pedido_confidential.xlsx')
 # Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
 writer.render_book([payload])
 
 # Guarda el resultado
-writer.save(f'storage/report/impresion_pedido{id}.xlsx')
+writer.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')

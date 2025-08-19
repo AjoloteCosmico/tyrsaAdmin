@@ -728,13 +728,13 @@ public function recalcular_total($id){
         ->where('order_id',$InternalOrders->id)
         ->select('comissions.*','sellers.seller_name','sellers.iniciales')
         ->get();
-       $Marcas = Marca::all();
-        $imagePath = public_path('img/logo/logo.png');
+         $Marcas = Marca::all();
+         $imagePath = public_path('img/logo/logo.png');
 
-        $type = pathinfo($imagePath, PATHINFO_EXTENSION);
-        $data = file_get_contents($imagePath);
+         $type = pathinfo($imagePath, PATHINFO_EXTENSION);
+         $data = file_get_contents($imagePath);
 
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
          $pdf = PDF::loadView('internal_orders.print_order', compact(
             'CompanyProfiles',
             'InternalOrders',

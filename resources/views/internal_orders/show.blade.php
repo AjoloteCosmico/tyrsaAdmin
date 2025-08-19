@@ -218,9 +218,7 @@
                     </table>
                     <br>
                             @endforeach
-                    
-
- <br>
+            <br>
             <!-- tablaunida -->
             <table>
                 <tr>
@@ -597,13 +595,7 @@
                             <button type = "button" class="btn btn-green mb-2"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
                         </a>
                     @endcan
-                                    <!-- <a href="{{route('internal_orders.print_order',$InternalOrders->id)}}">
-                                    <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
-
-                                     </a>    -->
-                    
-                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
-                
+                                
                     @else 
                     <br><br><br><br><br>
                     <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
@@ -626,18 +618,30 @@
                                     <button type = "button" class="btn btn-red mb2 " style="background-color: rgb(220 ,38 ,38);color: white;"  > <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button> 
 
                                      </a>    -->
-                        <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                        
                     @endcan
                    @endif
                 @endif
             <br>
-                  @can('VER DGI')       
-                  <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido',1])}}">
-                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print"> &nbsp; </i> GENERAR IMPRESIÓN</button>
+                  
+                <table class=" table-responsive text-xs" style="border: none; border-collapse: collapse;">
+                    <tr style="border: none; border-collapse: collapse;">
+                        <td style="border: none; border-collapse: collapse;"> <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-5x"> </i>  &nbsp; Imprimir PDF <br>  &nbsp; desde esta pagina <br> &nbsp;  (sujeto a graficos del navegador) </button></td>
+                        <td style="border: none; border-collapse: collapse;"></td>
+                        <td style="border: none; border-collapse: collapse;">@can('VER DGI')       
+                  <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido_confidential',1])}}">
+                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print fa-5x"> </i>  &nbsp; GENERAR IMPRESIÓN <br>  &nbsp; (estandarizada, puede tardar) </button>
                 
                   </a> 
-                @endcan 
-<!--                                     
+                  @elsecan
+                  <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido',1])}}">
+                    <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print fa-5x"> </i>  &nbsp; GENERAR IMPRESIÓN <br>  &nbsp; (estandarizada, puede tardar)</button>
+                
+                  </a> 
+                @endcan </td>
+                    </tr>
+                </table>
+<!--                  
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
                     <button id="downloadPdf">Exportar a PDF</button> -->
                     
