@@ -79,7 +79,7 @@ for df,name in zip([order,customer,seller,customer_adress,coin],["order","custom
         aux_dict.update({col : df[col].values[0]})
     payload.update({name:aux_dict})
 #Colecciones de datos con mas de una fila en el dataframe
-for df,name in zip([items,required_signatures,contacts,pagos,comisiones],["items","signatures","contacts","pagos","comisiones"]):
+for df,name in zip([items,required_signatures,contacts,pagos],["items","signatures","contacts","pagos"]):
     objects=[]
     print(name,len(df))
     aux_dict={}
