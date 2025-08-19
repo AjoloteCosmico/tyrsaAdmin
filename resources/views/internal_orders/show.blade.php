@@ -633,7 +633,7 @@
                     <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print fa-5x"> </i>  &nbsp; GENERAR IMPRESIÓN <br>  &nbsp; (estandarizada, puede tardar) </button>
                 
                   </a> 
-                  @elsecan
+                  @else
                   <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido',1])}}">
                     <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print fa-5x"> </i>  &nbsp; GENERAR IMPRESIÓN <br>  &nbsp; (estandarizada, puede tardar)</button>
                 
