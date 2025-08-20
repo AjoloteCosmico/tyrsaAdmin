@@ -62,7 +62,7 @@ print(creditos)
 nordenes=len(pedidos)
 df=pedidos[['date']]
 print(cobros['order_id'])
-tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
+tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
 
 writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado'+str(id)+'.xlsx', engine='xlsxwriter')
 
@@ -432,8 +432,6 @@ DA X C
                 worksheet.write('T'+row_index,'CERRADO', blue_content)
             row_index=str(int(row_index)+1)
         trow=int(row_index)
-
-        
         worksheet.merge_range('G'+str(trow)+':H'+str(trow), 'Subtotales', blue_header_format_bold)
         #SUBTOTAL PEDIDOS MN
         worksheet.write('I'+str(trow), total_mn, blue_content_footer)

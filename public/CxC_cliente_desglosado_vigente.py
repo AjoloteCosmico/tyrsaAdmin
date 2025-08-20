@@ -66,7 +66,7 @@ pedidos=pedidos.assign(saldo=0.0)
 for i in range(len(pedidos)):
     pedidos['saldo'].values[i]=cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()
 pedidos=pedidos.loc[pedidos['total']-pedidos['saldo']>1]
-tc=pd.read_sql('select * from coins where id=13 ',cnx)['exchange_sell'].values[0]
+tc=pd.read_sql('select * from coins where id=2 ',cnx)['exchange_sell'].values[0]
 
 writer = pd.ExcelWriter('storage/report/CxC_cliente_desglosado_vigente'+str(id)+'.xlsx', engine='xlsxwriter')
 #no se que pasa

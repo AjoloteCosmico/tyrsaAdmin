@@ -39,7 +39,8 @@ facturas=pd.read_sql("""Select factures.* ,
     left join users as revisores on cobros.reviso=revisores.id)
     left join users as autorizadores on cobros.autorizo=autorizadores.id
      """,cnx)
-
+facturas['date']=pd.to_datetime(facturas['date'], format='%Y-%m-%d')
+facturas['date']=facturas['date'].dt.strftime('%d-%m-%Y')
 writer = pd.ExcelWriter('storage/report/consecutivo_factura1.xlsx', engine='xlsxwriter')
 workbook = writer.book
 
@@ -249,7 +250,7 @@ worksheet.merge_range('N2:O3', date, negro_b)
 #Dataframe yellow headers bitch xd
 worksheet.merge_range('B6:B7', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C7', """FECHA 
-AAAA-MM-DD""", blue_header_format)
+DD/MM/AAA""", blue_header_format)
 worksheet.merge_range('D6:D7', 'P.I. NO.', blue_header_format)
 worksheet.merge_range('E6:E7', 'NUMERO DE PAGO', blue_header_format)
 worksheet.merge_range('F6:F7', 'NUMERO TOTAL DE PAGOS', blue_header_format)

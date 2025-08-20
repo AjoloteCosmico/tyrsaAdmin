@@ -63,9 +63,8 @@ class ReportsController extends Controller
              $data = $process2->getOutput();
              
             return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
-        
        }}
-    
+
           public function impresion_pedido($id,$report,$pdf,$tipo=0)
        {  
         //    $caminoalpoder=public_path();
