@@ -299,7 +299,7 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
      worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
      worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
-     worksheet.write(7+i, 17, str(cobros['capturista'].values[i]).split(' ')[:2],blue_content)
+     worksheet.write(7+i, 17, cobros['capturista'].values[i].split()[0]+' '+cobros['capturista'].values[i].split()[1],blue_content)
      worksheet.write(7+i, 18, str(cobros['revisor'].values[i]),blue_content)
      worksheet.write(7+i, 19, str(cobros['autorizador'].values[i]),blue_content)
      worksheet.write(7+i, 20, str(cobros['status'].values[i].upper()),blue_content)
