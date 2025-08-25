@@ -30,11 +30,11 @@ pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
 writer = pd.ExcelWriter("storage/report/consecutivo_comprobante1.xlsx", engine='xlsxwriter')
 cobros=pd.read_sql("""Select cobros.* ,
-    customers.alias,customers.customer_suburb, customers.clave,
+    customers.customer,customers.customer_suburb, customers.clave, customers.alias,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
     coins.exchange_sell, coins.code, coins.symbol,
-    banks.bank_description, factures.facture, factures.ordinal,
+    banks.bank_description,
     capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
     from (((((((
     cobros inner join internal_orders on internal_orders.id = cobros.order_id) 
@@ -42,10 +42,10 @@ cobros=pd.read_sql("""Select cobros.* ,
     inner join coins on internal_orders.coin_id = coins.id)
     left join users as capturistas on cobros.capturo=capturistas.id)
     left join users as revisores on cobros.reviso=revisores.id)
-    left join users as autorizadores on cobros.autorizo=autorizadores.id)
-    inner join factures on factures.id = cobros.facture_id)
+    left join users as autorizadores on cobros.autorizo=autorizadores.id))
     inner join banks on banks.id=cobros.bank_id """,cnx)
 
+facturas=pd.read_sql('select * from cobro_factures inner join factures on cobro_factures.facture_id=factures.id',cnx)
 
 cobros['date'][0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
 
@@ -286,14 +286,22 @@ worksheet.merge_range('U6:U7', 'STATUS', blue_header_format)
 cobros=cobros.sort_values(by='comp')
 acum=0
 for i in range(0,len(cobros)):
+     this_factures=facturas.loc[facturas['cobro_id']==cobros['id'].values[i]]
      acum=acum+cobros['amount'].values[i]*cobros['tc'].values[i]
      worksheet.write(7+i, 1, str(i+1),blue_content)
      worksheet.write(7+i, 2, str(cobros['comp'].values[i]),blue_content)
      worksheet.write(7+i, 3, cobros['date'].values[i],blue_content_date)
      worksheet.write(7+i, 4, str(cobros['invoice'].values[i]),blue_content)
-     worksheet.write(7+i, 5, str(cobros['ordinal'].values[i]),blue_content)
+     if(len(this_factures)>0):
+        worksheet.write(7+i, 5, str(this_factures['ordinal'].values[0]),blue_content)
+     else:
+        
+        worksheet.write(7+i, 5, '1',blue_content)
      worksheet.write(7+i, 6, str(cobros['payment_conditions'].values[i]),blue_content)
-     worksheet.write(7+i, 7, str(cobros['facture'].values[i]),blue_content)
+     if(len(this_factures)==1):
+       worksheet.write(7+i, 7,  str(this_factures['facture'].values[0]), blue_content)
+     else:
+       worksheet.write(7+i, 7,  str(len(this_factures)) +' facturas asociadas', blue_content)
      worksheet.write(7+i, 8, str(cobros['clave'].values[i]),blue_content)
      worksheet.write(7+i, 9, str(cobros['alias'].values[i]),blue_content)
      worksheet.write(7+i, 10, str(cobros['category'].values[i]).upper(),blue_content)
@@ -315,8 +323,9 @@ for i in range(0,len(cobros)):
 #barra inferior de totales
 trow=8+len(cobros)
 worksheet.merge_range(trow,13,trow,14 ,'TOTAL SIN IVA', blue_header_format)
-worksheet.write(trow, 15, cobros["amount"].sum(),blue_header_format_bold)
-worksheet.write(trow, 16, acum,blue_header_format)
+worksheet.write_formula(trow, 15,  '{=SUM(P8:P'+str(7+len(cobros))+')}',blue_header_format_bold)
+worksheet.write_formula(trow, 16,  '{=SUM(Q8:Q'+str(7+len(cobros))+')}',blue_header_format_bold)
+
 
 worksheet.set_column('I:I',19)
 worksheet.set_column('L:M',15)
