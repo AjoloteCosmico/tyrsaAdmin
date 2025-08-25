@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+# id=1
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -253,13 +254,16 @@ worksheet.merge_range('N2:O3', date, negro_b)
 #Dataframe yellow headers bitch xd
 worksheet.merge_range('B6:B7', 'NOHA', blue_header_format)
 
-worksheet.merge_range('C6:C7', 'NO. COMPROBANTE', blue_header_format)
-worksheet.merge_range('D6:D7', 'FECHA D-M-A', blue_header_format)
-worksheet.merge_range('E6:E7', 'P.I. NO.', blue_header_format)
-worksheet.merge_range('F6:F7', 'NUMERO DE COBROS', blue_header_format)
-worksheet.merge_range('G6:G7', 'NUMERO TOTAL DE COBROS', blue_header_format)
-worksheet.merge_range('H6:H7', 'FACTURA FOLIO NO.', blue_header_format)
-worksheet.merge_range('I6:I7', 'CLIENTE NO', blue_header_format)
+worksheet.merge_range('C6:C7', """NO.
+COMPROBANTE""", blue_header_format)
+worksheet.merge_range('D6:D7', 'FECHA DD/MM/AAAA', blue_header_format)
+worksheet.merge_range('E6:E7', 'P.I.', blue_header_format)
+worksheet.merge_range('F6:F7', """NUMERO 
+DEL COBRO""", blue_header_format)
+worksheet.merge_range('G6:G7', """NUMERO TOTAL
+ DE COBROS""", blue_header_format)
+worksheet.merge_range('H6:H7', 'FOLIO FACTURA', blue_header_format)
+worksheet.merge_range('I6:I7', 'NO. DE CLIENTE', blue_header_format)
 worksheet.merge_range('J6:J7', 'NOMBRE CORTO CLIENTE', blue_header_format)
 worksheet.merge_range('K6:K7', 'CATEGORIA EQUIPO', blue_header_format)
 worksheet.merge_range('L6:L7', 'DESCRIPCION BREVE', blue_header_format)
@@ -268,8 +272,8 @@ worksheet.merge_range('N6:N7', 'TIPO DE MONEDA', blue_header_format)
 worksheet.merge_range('O6:O7', 'TIPO DE CAMBIO', blue_header_format)
 
 worksheet.merge_range('P6:Q6', 'IMPORTE TOTAL SIN IVA', blue_header_format)
-worksheet.write(6, 15, "DLLS", blue_header_format_bold)
-worksheet.write(6, 16, "M.N.(Equivalente)", blue_header_format)
+worksheet.write(6, 15, "MXN (Equivalente)", blue_header_format)
+worksheet.write(6, 16, "DLLS", blue_header_format)
 
 worksheet.merge_range('R6:R7', 'CAPTURO', blue_header_format)
 worksheet.merge_range('S6:S7', 'REVISO', blue_header_format)
@@ -297,8 +301,12 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 12, str(cobros['customer_suburb'].values[i]).upper(),blue_content)
      worksheet.write(7+i, 13, str(cobros['code'].values[i]),blue_content)
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
-     worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
-     worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
+     if(cobros['tc'].values[i]>1):
+        worksheet.write(7+i, 15, 0,blue_content)
+        worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
+     else:
+        worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
+        worksheet.write(7+i, 16, 0,blue_content_dll)
      worksheet.write(7+i, 17, cobros['capturista'].values[i].split()[0]+' '+cobros['capturista'].values[i].split()[1],blue_content)
      worksheet.write(7+i, 18, str(cobros['revisor'].values[i]),blue_content)
      worksheet.write(7+i, 19, str(cobros['autorizador'].values[i]),blue_content)
@@ -306,10 +314,10 @@ for i in range(0,len(cobros)):
 
 #barra inferior de totales
 trow=8+len(cobros)
-worksheet.merge_range(trow,13,trow,14 ,'Total sin iva', blue_header_format)
+worksheet.merge_range(trow,13,trow,14 ,'TOTAL SIN IVA', blue_header_format)
 worksheet.write(trow, 15, cobros["amount"].sum(),blue_header_format_bold)
 worksheet.write(trow, 16, acum,blue_header_format)
-worksheet.set_column('C:C',15)
+
 worksheet.set_column('I:I',19)
 worksheet.set_column('L:M',15)
 worksheet.set_column('O:P',19)
@@ -323,6 +331,9 @@ for df_col,col in zip(["alias",'category','description','customer_suburb','captu
     print(col_width,col)
 
 worksheet.set_column('R:T',29)
+worksheet.set_column('C:C',16)
+worksheet.set_column('F:G',16)
+worksheet.set_column('D:D',16)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 0)  

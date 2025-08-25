@@ -264,7 +264,7 @@ worksheet.merge_range('N2:O3', date, negro_b)
 #Cabeceras
 worksheet.merge_range('C6:C7', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D7', """FECHA
-DD/MM/AAAA                      """, blue_header_format)
+DD/MM/AAAA""", blue_header_format)
 worksheet.merge_range('E6:E7', 'NUMERO DE COMPROBANTE', blue_header_format)
 worksheet.merge_range('F6:F7', 'BANCO', blue_header_format)
 worksheet.merge_range('G6:G7', 'FACTURA', blue_header_format)
@@ -274,8 +274,8 @@ worksheet.merge_range('J6:J7', 'MONEDA', blue_header_format)
 worksheet.merge_range('K6:K7', 'TC', blue_header_format)
 
 worksheet.merge_range('L6:M6', 'IMPORTE TOTAL I/I', blue_header_format)
-worksheet.write('L7', 'DLLS', blue_header_format)
-worksheet.write('M7', 'MN', blue_header_format)
+worksheet.write('M7', 'DLLS', blue_header_format)
+worksheet.write('L7', 'MXN', blue_header_format)
 
 worksheet.merge_range('N6:N7', 'CAPTURO ', blue_header_format)
 worksheet.merge_range('O6:O7', 'REVISO ', blue_header_format)
@@ -299,17 +299,17 @@ for i in range(0,len(cobros)):
    worksheet.write('H'+row_index, str(cobros['invoice'].values[i]), blue_content)
    worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
    worksheet.write('J'+row_index, str(cobros['code'].values[i]), blue_content)
-   worksheet.write('K'+row_index, str(cobros['exchange_sell'].values[i]), blue_content)
-   if(cobros['exchange_sell'].values[i]>1):
+   worksheet.write('K'+row_index, str(cobros['tc'].values[i]), blue_content)
+   if(cobros['tc'].values[i]>1):
       
         worksheet.write('L'+row_index, 0, blue_content)
-        worksheet.write('M'+row_index, cobros['exchange_sell'].values[i]*(cobros['amount'].values[i]/1.16), blue_content_dll)
+        worksheet.write('M'+row_index, cobros['tc'].values[i]*(cobros['amount'].values[i]/1.16), blue_content_dll)
    else:     
         worksheet.write('L'+row_index, cobros['amount'].values[i]/1.16, blue_content)
         worksheet.write('M'+row_index, 0, blue_content_dll)
   
        
-   worksheet.write('N'+row_index, str(cobros['capturista'].values[i]), blue_content)
+   worksheet.write('N'+row_index, cobros['capturista'].values[i].split()[0]+' '+cobros['capturista'].values[i].split()[1], blue_content)
    worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
    worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)  
  
