@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=151
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -30,11 +29,9 @@ query = ('SELECT * from customers where id =1')
 
 # join para cobros
 # cobros=pd.read_sql('Select cobros.* ,customers.customer,internal_orders.invoice, users.name from ((cobros inner join internal_orders on internal_orders.id = cobros.order_id) inner join customers on customers.id = internal_orders.customer_id )inner join users on cobros.capturo=users.id',cnx)
-
-
 #traer todas las cobros
 cobros=pd.read_sql("""Select cobros.* ,
-    customers.customer,customers.customer_suburb, customers.clave,
+    customers.customer,customers.customer_suburb, customers.clave, customers.alias,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
     coins.exchange_sell, coins.code, coins.symbol,
@@ -297,7 +294,7 @@ for i in range(0,len(cobros)):
        worksheet.write('G'+row_index, str(len(this_factures)) +' facturas asociadas', blue_content)
    
    worksheet.write('H'+row_index, str(cobros['invoice'].values[i]), blue_content)
-   worksheet.write('I'+row_index, str(cobros['customer'].values[i]), blue_content)
+   worksheet.write('I'+row_index, str(cobros['alias'].values[i]), blue_content)
    worksheet.write('J'+row_index, str(cobros['code'].values[i]), blue_content)
    worksheet.write('K'+row_index, str(cobros['tc'].values[i]), blue_content)
    if(cobros['tc'].values[i]>1):
@@ -309,13 +306,13 @@ for i in range(0,len(cobros)):
         worksheet.write('M'+row_index, 0, blue_content_dll)
   
        
-   worksheet.write('N'+row_index, cobros['capturista'].values[i].split()[0]+' '+cobros['capturista'].values[i].split()[1], blue_content)
+   worksheet.write('N'+row_index, cobros['capturista'].values[i], blue_content)
    worksheet.write('O'+row_index, str(cobros['revisor'].values[i]), blue_content)
    worksheet.write('P'+row_index, str(cobros['autorizador'].values[i]), blue_content)  
  
 trow=8+len(cobros)
 
-worksheet.merge_range('J'+str(trow)+':K'+str(trow), 'Total', blue_header_format_bold)
+worksheet.merge_range('J'+str(trow)+':K'+str(trow), 'TOTAL', blue_header_format_bold)
 
 worksheet.write_formula('L'+str(trow),  '{=SUM(L8:L'+str(trow-1)+')}', blue_content_footer)
 worksheet.write_formula('M'+str(trow),  '{=SUM(M8:M'+str(trow-1)+')}', blue_content_footer_dll)

@@ -34,7 +34,6 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 # Carga la plantilla
 
 id=str(sys.argv[1])
-
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -62,13 +61,12 @@ pagos=pd.read_sql(f"select * from payments where order_id ={order['id'].values[0
 pagos['dia_anio']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.dayofyear
 pagos['semana']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.isocalendar().week
 pagos['date'] = pd.to_datetime(pagos['date'], format="%Y-%m-%d").dt.strftime("%d-%m-%Y")
-comisiones=pd.read_sql(f"""select * from comissions
+comisiones=pd.read_sql(f"""select comissions.*,sellers.iniciales,sellers.seller_name from comissions
                        inner join sellers on sellers.id=comissions.seller_id
                         where order_id ={order['id'].values[0]}""",cnx)
 letter_total=num2words.num2words(order['total'].values[0], lang='es')
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
 payload = {
-    
     "fecha": "2025-08-16",
     'letter_total':letter_total,
     'completer':np.arange(0,13-len(pagos))
