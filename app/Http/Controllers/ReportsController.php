@@ -65,8 +65,9 @@ class ReportsController extends Controller
             return response()->download(public_path('storage/report/'.$report.$id.'.pdf'));
        }}
 
+
           public function impresion_pedido($id,$report,$pdf,$tipo=0)
-       {  
+                {  
         //    $caminoalpoder=public_path();
         //    $process = new Process(["/var/www/app-env/bin/python3", $caminoalpoder.'/'.$report.'.py',$id,$tipo]);
         //    ini_set('max_execution_time', '300');  
