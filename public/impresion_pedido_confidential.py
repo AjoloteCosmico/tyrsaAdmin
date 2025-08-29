@@ -66,10 +66,13 @@ comisiones=pd.read_sql(f"""select comissions.*,sellers.iniciales,sellers.seller_
                         where order_id ={order['id'].values[0]}""",cnx)
 letter_total=num2words.num2words(order['total'].values[0], lang='es')
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
+item_completer=np.arange(0,56-7*len(items))
+if(len(items)>8): item_completer=[]
 payload = {
     "fecha": "2025-08-16",
     'letter_total':letter_total,
-    'completer':np.arange(0,13-len(pagos))
+    'completer':np.arange(0,13-len(pagos)),
+    'item_completer':item_completer
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
@@ -100,7 +103,11 @@ for df,name in zip([items,required_signatures,contacts,pagos,comisiones],["items
             objects.append({'amount':'0',})         
     payload.update({name:objects})
 # #Renderizar excel
-writer = BookWriter('plantilla_pedido_confidential.xlsx')
+if(len(items)<=3):
+    writer = BookWriter('plantilla_pedido_confidential.xlsx')
+else:
+    writer = BookWriter('plantilla_pedido_confidential_large.xlsx')
+
 # Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
 writer.render_book([payload])
 

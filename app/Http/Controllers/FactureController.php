@@ -14,8 +14,8 @@ use App\Models\Customer;
 class FactureController extends Controller
 {
     public function index(){
-//traer todas las facturas
         
+        //traer todas las facturas
         $Factures=DB::table('factures')
         ->join('internal_orders', 'internal_orders.id', '=', 'factures.order_id')
         ->join('customers', 'internal_orders.customer_id','=','customers.id')

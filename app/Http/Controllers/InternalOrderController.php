@@ -580,8 +580,8 @@ public function recalcular_total($id){
             // return pay_contitions con internal order id
             // $InternalOrders->id
             //return redirect()->route('internal_orders.index')->with('create_reg', 'ok');
-            return $this->payment($InternalOrders->id);
-
+            // return $this->payment($InternalOrders->id);
+            return redirect()->route('internal_orders.payment',$InternalOrders->id);
     }
 
     public function edit_order($id){
@@ -952,7 +952,9 @@ public function recalcular_total($id){
         $nRows = $request->rowcount;
         $payments = payments::where('order_id', $request->order_id)->delete();
         $hpayments = historical_payments::where('order_id', $request->order_id)->delete();
-        
+        if($request->rowcount!=$InternalOrders->payment_conditions){
+            return redirect()->back()->with('no_coinciden','ok');
+        }
         for($i=1; $i < $nRows+1; $i++) {
              
             $this_payment= new payments(); 

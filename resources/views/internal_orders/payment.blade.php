@@ -170,15 +170,23 @@
 @stop
 
 @section('js')
+<script src="path/moment.js"></script>
+<script src="path/bootstrap-datetimepicker.js"></script>
 
-@if ($actualized == 'SI')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_actualized.js') }}"></script>
+@if(session('no_coinciden') == 'ok')
+<script>
+
+        Swal.fire({
+            icon: 'warning',
+            title: "<i>No coincide el numero de pagos, intente de nuevo</i>", 
+            html: `No coincide el numero de pagos, intente de nuevo ` ,  
+                    showCancelButton: true,
+                    showConfirmButton: false,
+
+            });
+                
+</script>
 @endif
-
-@if ($actualized == 'NO')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_incorrect.js') }}"></script>
-@endif
-
 <script>
   function actualizarTotal(){
     var npagos=parseInt("{{$npagos}}");
@@ -271,12 +279,13 @@ document.getElementById("monitor").innerHTML=String(parseFloat(total))+'%';
       document.getElementById("form1").submit();}
     }
 </script>
-<script>
+
+<!-- <script>
 $(document).ready(function () {
   $('.date').datetimepicker({
     format: 'MM/DD/YYYY',
     locale: 'en'
   });
 });
-</script>
+</script> -->
 @stop
