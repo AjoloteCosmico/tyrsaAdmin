@@ -955,8 +955,8 @@ public function recalcular_total($id){
         if($request->rowcount!=$InternalOrders->payment_conditions){
             return redirect()->back()->with('no_coinciden','ok');
         }
+        
         for($i=1; $i < $nRows+1; $i++) {
-             
             $this_payment= new payments(); 
             $hpayment= new historical_payments(); 
             $this_payment->order_id = $request->order_id;

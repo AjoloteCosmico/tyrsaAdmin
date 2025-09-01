@@ -66,7 +66,6 @@ pagos['date'] = pd.to_datetime(pagos['date'], format="%Y-%m-%d").dt.strftime("%d
 letter_total=num2words.num2words(order['total'].values[0], lang='es')
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
 payload = {
-    
     "fecha": "2025-08-16",
     'letter_total':letter_total,
     'completer':np.arange(0,13-len(pagos))

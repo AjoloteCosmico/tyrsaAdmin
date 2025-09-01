@@ -300,7 +300,7 @@ for i in range(0,len(cobros)):
    if(cobros['tc'].values[i]>1):
       
         worksheet.write('L'+row_index, 0, blue_content)
-        worksheet.write('M'+row_index, cobros['tc'].values[i]*(cobros['amount'].values[i]/1.16), blue_content_dll)
+        worksheet.write('M'+row_index, cobros['amount'].values[i]/1.16, blue_content_dll)
    else:     
         worksheet.write('L'+row_index, cobros['amount'].values[i]/1.16, blue_content)
         worksheet.write('M'+row_index, 0, blue_content_dll)
