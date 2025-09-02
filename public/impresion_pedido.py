@@ -102,16 +102,12 @@ if(len(pagos)>75):
 
 
 
-com_completer=np.arange(0,len_page-(len(comisiones)+24))
-
-
 payload = {
     "fecha": "2025-08-16",
     'letter_total':letter_total,
     'completer':completer,
     'item_completer':item_completer,
     'marca':marca,
-    'com_completer':com_completer,
     "palomita": "check.png",
 }
 

@@ -85,7 +85,6 @@
                         <th colspan="2"> Regimen de Capital: </th>
                         <td colspan="12"> S.A DE C.V </td>
                     </tr>
-
                     <tr>
                         <th colspan="2"> Regimen Fiscal: </th>
                         <td colspan="12"> REGIMEN GENERAL DE PERSONAS MORALES </td>
