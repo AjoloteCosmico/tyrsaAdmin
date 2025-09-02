@@ -103,7 +103,7 @@ if(len(pagos)>75):
 
 
 
-com_completer=np.arange(0,len_page-(len(comisiones)+16))
+com_completer=np.arange(0,len_page-(len(comisiones)+24))
 
 
 payload = {
