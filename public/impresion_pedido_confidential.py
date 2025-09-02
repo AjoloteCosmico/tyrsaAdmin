@@ -101,12 +101,18 @@ else:
 if(len(pagos)>75):
     completer=[]
 
+
+
+com_completer=np.arange(0,len_page-(len(comisiones)+16))
+
+
 payload = {
     "fecha": "2025-08-16",
     'letter_total':letter_total,
     'completer':completer,
     'item_completer':item_completer,
     'marca':marca,
+    'com_completer':com_completer,
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
@@ -161,7 +167,7 @@ ws.page_setup.fitToWidth = 1     # 1 página de ancho
 ws.page_setup.fitToHeight = npages    # 2 páginas de alto (puedes cambiarlo)
 
 # También puedes asegurar que el escalado automático esté activado
-# ws.page_setup.scale = None  
+ws.page_setup.scale = None  
 
 # Guardar el archivo modificado
 wb.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')
