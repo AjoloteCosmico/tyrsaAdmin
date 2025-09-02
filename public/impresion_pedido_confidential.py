@@ -164,10 +164,10 @@ ws = wb.active  # o el nombre de tu hoja ws = wb["Hoja1"]
 
 # Ajustar impresión
 ws.page_setup.fitToWidth = 1     # 1 página de ancho
-ws.page_setup.fitToHeight = npages    # 2 páginas de alto (puedes cambiarlo)
+ws.page_setup.fitToHeight = npages    # m páginas de alto 
 
 # También puedes asegurar que el escalado automático esté activado
-ws.page_setup.scale = None  
+# ws.page_setup.scale = None  
 
 # Guardar el archivo modificado
 wb.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')
