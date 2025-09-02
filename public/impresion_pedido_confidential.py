@@ -161,7 +161,7 @@ ws.page_setup.fitToWidth = 1     # 1 página de ancho
 ws.page_setup.fitToHeight = npages    # 2 páginas de alto (puedes cambiarlo)
 
 # También puedes asegurar que el escalado automático esté activado
-ws.page_setup.scale = None  
+# ws.page_setup.scale = None  
 
 # Guardar el archivo modificado
 wb.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')
