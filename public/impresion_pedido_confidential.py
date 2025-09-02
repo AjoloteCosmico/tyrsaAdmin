@@ -34,6 +34,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 # Carga la plantilla
 
 id=str(sys.argv[1])
+# id=147
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -47,6 +48,12 @@ order['status']=order['status'].str.upper()
 for col in ["reg_date","date_delivery","instalation_date"]:
     order[col] = pd.to_datetime(order[col], format="%Y-%m-%d").dt.strftime("%d-%m-%Y")
 customer=pd.read_sql(f"select * from customers where id ={order['customer_id'].values[0]}",cnx)
+
+marca=pd.read_sql(f"select * from marcas where id ={order['marca'].values[0]}",cnx)
+if(len(marca)>0):
+    marca=marca['name'].values[0]
+else:
+    marca='Sin marca seleccionada'
 seller=pd.read_sql(f"select * from sellers where id ={order['seller_id'].values[0]}",cnx)
 customer_adress=pd.read_sql(f"select * from 	customer_shipping_addresses	 where customer_id ={order['customer_id'].values[0]}",cnx)
 contacts=pd.read_sql(f"select customer_contacts.* from order_contacts  inner join customer_contacts on customer_contacts.id=order_contacts.contact_id where order_contacts.order_id ={order['id'].values[0]}",cnx)
@@ -56,6 +63,8 @@ required_signatures=pd.read_sql(f"""select signatures.*,authorizations.titulo
                                 from authorizations  inner join signatures 
                                 on authorizations.id=signatures.auth_id
                                  where signatures.order_id ={order['id'].values[0]}""",cnx)
+for i in range(5-len(required_signatures)):
+    required_signatures=pd.concat([required_signatures,pd.DataFrame({'firma': ' ','titulo': 'FIRMA','status':0},index=[len(required_signatures)+i])])
 pagos=pd.read_sql(f"select * from payments where order_id ={order['id'].values[0]}",cnx)
 
 pagos['dia_anio']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.dayofyear
@@ -65,14 +74,39 @@ comisiones=pd.read_sql(f"""select comissions.*,sellers.iniciales,sellers.seller_
                        inner join sellers on sellers.id=comissions.seller_id
                         where order_id ={order['id'].values[0]}""",cnx)
 letter_total=num2words.num2words(order['total'].values[0], lang='es')
+
+#variables para contrlolar la longitud de la pagina
+len_page=58
+npages=3
+
+
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
-item_completer=np.arange(0,56-7*len(items))
-if(len(items)>8): item_completer=[]
+#en la primera hoja se usan 37 celdas fuera de los ciclos
+first_page_cells=36
+
+if(len(items)>3):
+    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells))
+    npages=npages+1
+else:
+    item_completer=np.arange(0,len_page-6*len(items)+first_page_cells)
+if(len(items)>13):
+    item_completer=[]
+
+second_page_cells=37
+if(len(pagos)>20):
+    completer=np.arange(0,(len_page*2)-(len(pagos)+second_page_cells))
+    npages=npages+1
+else:
+    completer=np.arange(0,len_page-len(pagos)+second_page_cells)
+if(len(pagos)>75):
+    completer=[]
+
 payload = {
     "fecha": "2025-08-16",
     'letter_total':letter_total,
-    'completer':np.arange(0,13-len(pagos)),
-    'item_completer':item_completer
+    'completer':completer,
+    'item_completer':item_completer,
+    'marca':marca,
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
@@ -103,13 +137,31 @@ for df,name in zip([items,required_signatures,contacts,pagos,comisiones],["items
             objects.append({'amount':'0',})         
     payload.update({name:objects})
 # #Renderizar excel
-if(len(items)<=3):
-    writer = BookWriter('plantilla_pedido_confidential.xlsx')
-else:
-    writer = BookWriter('plantilla_pedido_confidential_large.xlsx')
-
+# if(len(items)<=3):
+#     writer = BookWriter('plantilla_pedido_confidential.xlsx')
+# else:
+#     writer = BookWriter('plantilla_pedido_confidential_large.xlsx')
+writer = BookWriter('plantilla_pedido_confidential.xlsx')
 # Renderiza (se pasa una lista de payloads si quieres varias “páginas/hojas”)
 writer.render_book([payload])
 
 # Guarda el resultado
 writer.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')
+
+
+#configurar n pages
+from openpyxl import load_workbook
+
+# Abrir el archivo generado
+wb = load_workbook(f'storage/report/impresion_pedido_confidential{id}.xlsx')
+ws = wb.active  # o el nombre de tu hoja ws = wb["Hoja1"]
+
+# Ajustar impresión
+ws.page_setup.fitToWidth = 1     # 1 página de ancho
+ws.page_setup.fitToHeight = npages    # 2 páginas de alto (puedes cambiarlo)
+
+# También puedes asegurar que el escalado automático esté activado
+ws.page_setup.scale = None  
+
+# Guardar el archivo modificado
+wb.save(f'storage/report/impresion_pedido_confidential{id}.xlsx')
