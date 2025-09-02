@@ -311,7 +311,7 @@ for i in range(0,len(cobros)):
      worksheet.write(7+i, 14, str(cobros['tc'].values[i]),blue_content)
      if(cobros['tc'].values[i]>1):
         worksheet.write(7+i, 15, 0,blue_content)
-        worksheet.write(7+i, 16, cobros['amount'].values[i]*cobros['tc'].values[i],blue_content_dll)
+        worksheet.write(7+i, 16, cobros['amount'].values[i],blue_content_dll)
      else:
         worksheet.write(7+i, 15, cobros['amount'].values[i],blue_content)
         worksheet.write(7+i, 16, 0,blue_content_dll)
