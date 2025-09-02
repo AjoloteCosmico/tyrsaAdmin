@@ -34,7 +34,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 # Carga la plantilla
 
 id=str(sys.argv[1])
-# id=827
+# id=715
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -114,6 +114,7 @@ payload = {
     'item_completer':item_completer,
     'marca':marca,
     'com_completer':com_completer,
+    "palomita": "check.png",
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
