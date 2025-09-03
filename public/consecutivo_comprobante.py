@@ -295,7 +295,6 @@ for i in range(0,len(cobros)):
      if(len(this_factures)>0):
         worksheet.write(7+i, 5, str(this_factures['ordinal'].values[0]),blue_content)
      else:
-        
         worksheet.write(7+i, 5, '1',blue_content)
      worksheet.write(7+i, 6, str(cobros['payment_conditions'].values[i]),blue_content)
      if(len(this_factures)==1):

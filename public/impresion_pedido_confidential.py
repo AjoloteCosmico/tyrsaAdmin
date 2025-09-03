@@ -34,7 +34,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 # Carga la plantilla
 
 id=str(sys.argv[1])
-# id=715
+# id=131
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -85,12 +85,15 @@ npages=3
 first_page_cells=36
 
 if(len(items)>3):
-    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells))
+    len_tabla_inf=8
+    item_pre_completer=np.arange(0,len_tabla_inf)
+    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-len_tabla_inf)
     npages=npages+1
 else:
+    item_pre_completer=[]
     item_completer=np.arange(0,len_page-(6*(3)+first_page_cells))
     print(len(item_completer),'item completer')
-if(len(items)>13):
+if(len(items)>11):
     item_completer=[]
 
 second_page_cells=37
@@ -111,6 +114,7 @@ payload = {
     "fecha": "2025-08-16",
     'letter_total':letter_total,
     'completer':completer,
+    'item_pre_completer':item_pre_completer,
     'item_completer':item_completer,
     'marca':marca,
     'com_completer':com_completer,
