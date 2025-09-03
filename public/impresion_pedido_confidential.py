@@ -34,7 +34,10 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 # Carga la plantilla
 
 id=str(sys.argv[1])
-# id=131
+#id=706#6
+#id=754#5
+#id=131#4 items
+#id=679#3
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -87,13 +90,17 @@ first_page_cells=36
 if(len(items)>3):
     len_tabla_inf=8
     item_pre_completer=np.arange(0,len_tabla_inf)
-    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-len_tabla_inf)
+    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-len_tabla_inf+1)
     npages=npages+1
 else:
     item_pre_completer=[]
-    item_completer=np.arange(0,len_page-(6*(3)+first_page_cells))
+    item_completer=np.arange(0,len_page-(6*(3)+first_page_cells)+1)
     print(len(item_completer),'item completer')
-if(len(items)>11):
+if(len(items)>4):
+    item_pre_completer=[]
+    
+    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-2)
+if(len(items)>12):
     item_completer=[]
 
 second_page_cells=37
@@ -105,8 +112,8 @@ else:
 if(len(pagos)>75):
     completer=[]
 
-
-
+print(len(item_completer),'item completer')
+print(len(item_pre_completer),'item pre completer')
 com_completer=np.arange(0,len_page-(len(comisiones)+24))
 
 
