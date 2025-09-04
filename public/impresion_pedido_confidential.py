@@ -33,11 +33,13 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 
 # Carga la plantilla
 
-id=str(sys.argv[1])
-#id=706#6
+
+# id=706#6
 #id=754#5
 #id=131#4 items
 #id=679#3
+# id=413#7
+id=str(sys.argv[1])
 #traer datos de los pedidos
 order=pd.read_sql(f"""select internal_orders.* ,customers.clave,customers.alias,
 coins.exchange_sell, coins.coin, coins.symbol,coins.code
@@ -85,12 +87,12 @@ npages=3
 
 # # Datos a renderizar (puedes anidar dicts/listas sin problema)
 #en la primera hoja se usan 37 celdas fuera de los ciclos
-first_page_cells=36
+first_page_cells=37
 
 if(len(items)>3):
     len_tabla_inf=8
-    item_pre_completer=np.arange(0,len_tabla_inf)
-    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-len_tabla_inf+1)
+    item_pre_completer=np.arange(0,len_tabla_inf+1)
+    item_completer=np.arange(0,(len_page*2)-(6*len(items)+first_page_cells)-len_tabla_inf)
     npages=npages+1
 else:
     item_pre_completer=[]
