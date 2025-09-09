@@ -76,7 +76,7 @@ pagos['dia_anio']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.dayofyear
 pagos['semana']=pd.to_datetime(pagos["date"], format="%Y-%m-%d").dt.isocalendar().week
 pagos['date'] = pd.to_datetime(pagos['date'], format="%Y-%m-%d").dt.strftime("%d-%m-%Y")
 
-letter_total=num2words.num2words(order['total'].values[0], lang='es')
+letter_total=num2words.num2words(order['total'].values[0], lang='es').upper()
 
 #variables para contrlolar la longitud de la pagina
 len_page=58

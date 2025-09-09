@@ -78,7 +78,7 @@ pagos['date'] = pd.to_datetime(pagos['date'], format="%Y-%m-%d").dt.strftime("%d
 comisiones=pd.read_sql(f"""select comissions.*,sellers.iniciales,sellers.seller_name from comissions
                        inner join sellers on sellers.id=comissions.seller_id
                         where order_id ={order['id'].values[0]}""",cnx)
-letter_total=num2words.num2words(order['total'].values[0], lang='es')
+letter_total=num2words.num2words(order['total'].values[0], lang='es').upper()
 
 #variables para contrlolar la longitud de la pagina
 len_page=58
