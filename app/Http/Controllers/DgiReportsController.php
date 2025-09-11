@@ -107,10 +107,12 @@ public function dgi(Request $request){
     $Bancos=Bank::all();
     $Monedas=Coin::all();
     $Facturas=Factures::all();
-    $Cobro_Facturas=DB::table('cobro_factures')->Join('factures','factures.id','cobro_factures.facture_id')
+    $Cobro_Facturas=DB::table('cobro_factures')
     ->select('cobro_factures.*','factures.facture')
+    ->join('factures','factures.id','cobro_factures.facture_id')
     ->get();
     $Pagos=payments::all();
+    // dd($Pagos,$Cobro_Facturas);
     $Orders=DB::table('internal_orders')
     ->selectRaw('internal_orders.*,sellers.seller_name')
     ->join('sellers','sellers.id','internal_orders.seller_id')
