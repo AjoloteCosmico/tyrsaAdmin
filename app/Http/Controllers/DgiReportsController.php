@@ -107,6 +107,9 @@ public function dgi(Request $request){
     $Bancos=Bank::all();
     $Monedas=Coin::all();
     $Facturas=Factures::all();
+    $Cobro_Facturas=DB::table('cobro_factures')->Join('factures','factures.id','cobro_factures.facture_id')
+    ->select('cobro_factures.*','factures.facture')
+    ->get();
     $Pagos=payments::all();
     $Orders=DB::table('internal_orders')
     ->selectRaw('internal_orders.*,sellers.seller_name')
@@ -129,6 +132,7 @@ public function dgi(Request $request){
         'comp',
         'Sellers',
         'Cobros',
+        'Cobro_Facturas',
         'TodosLosCobros',
         'Pagos',
         'Orders',

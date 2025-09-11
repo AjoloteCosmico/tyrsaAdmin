@@ -586,8 +586,8 @@ else:
 worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
-worksheet.write('J'+str(trow),facturas["amount"].sum() -notas['amount'].sum(), red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()+notas['amount'].sum(), red_content)
+worksheet.write('J'+str(trow),facturas["amount"].sum() +facturas_no_asociadas['amount'].sum()-notas['amount'].sum(), red_content_bold)
+worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()-facturas_no_asociadas['amount'].sum()+notas['amount'].sum(), red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)

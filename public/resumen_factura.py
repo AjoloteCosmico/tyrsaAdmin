@@ -293,7 +293,7 @@ for i in range(0,len(facturas)):
    worksheet.write('K'+row_index, facturas['exchange_sell'].values[i], blue_content)
    if(facturas['exchange_sell'].values[i]>1):
         worksheet.write('L'+row_index,0, blue_content)
-        worksheet.write('M'+row_index, facturas['exchange_sell'].values[i]*facturas['amount'].values[i], blue_content_dll)
+        worksheet.write('M'+row_index, facturas['amount'].values[i], blue_content_dll)
    else:
        
         worksheet.write('L'+row_index, facturas['amount'].values[i], blue_content)

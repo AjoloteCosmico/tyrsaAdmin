@@ -255,7 +255,7 @@ worksheet.merge_range('B6:B10', 'NOHA', blue_header_format)
 worksheet.merge_range('C6:C10', 'PDA', blue_header_format)
 worksheet.merge_range('D6:D10', 'PI', blue_header_format)
 worksheet.merge_range('E6:E10', """FECHA
-AAAA-MM-DD""", blue_header_format)
+DD-MM-AAAA""", blue_header_format)
 
 worksheet.merge_range('F6:G9', 'CLIENTE', blue_header_format)
 worksheet.write('F10', 'NUMERO', blue_header_format)
@@ -314,7 +314,10 @@ pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
 np=0
+pedidos['clave'] = pedidos['clave'].replace({' ':''}, regex=True)
 pedidos=pedidos.sort_values(by='invoice')
+pedidos['reg_date']=pd.to_datetime(pedidos['reg_date'], format='%Y-%m-%d')
+pedidos['reg_date']=pedidos['reg_date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(pedidos)):
     
     if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):

@@ -129,7 +129,8 @@
                       $ordinal=$ordinal+1;
                     }
                     $pedido=$Orders->where('id',$comp->order_id)->first();
-                    $factura=$Facturas->where('id',$comp->facture_id)->first();
+                    $facturas=$Cobro_Facturas->where('comp_id',$comp->id);
+                   
                     $total_cobrado=$TodosLosCobros->where('order_id',$comp->order_id)->sum('amount');
                     $pagos=$Pagos->where('order_id',$comp->order_id);
                     $banco=$Bancos->where('id',$comp->bank_id)->first();
@@ -213,7 +214,7 @@
                         <tr>
                             <td> {{$loop->index +1}}</td>
                             <td> {{$pedido->invoice}}</td>
-                            <td> @if($factura){{$factura->facture}} @else sin factura @endif</td>
+                            <td> @if($facturas->count()==1){{$facturas->first()->facture}} @else {{$facturas->count()}} facturas asociadas @endif</td>
                             <td style="color:#227200"> @if($moneda->coin=='NACIONAL') $0 @else $ {{number_format($comp->amount/1.16,2)}} @endif</td>
                             <td> @if($moneda->coin=='NACIONAL') $ {{number_format($comp->amount/1.16,2)}} @else $0 @endif</td>
                             <td> {{$pedido->seller_name}}</td>
