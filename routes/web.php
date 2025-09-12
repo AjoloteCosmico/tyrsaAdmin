@@ -108,13 +108,10 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/asignar_marca', [InternalOrderController::class, 'asignar_marca'])->name('internal_orders.asignar_marca');
     
     Route::get('internal_orders/print_order/{id}', [InternalOrderController::class, 'print_order'])->name('internal_orders.print_order');
-    
     Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
-   
    //rutas par desautorizar un pedido
     Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
     Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
-
     //rutas para agregar comisione
     Route::post('captura/comissions', [InternalOrderController::class, 'comissions'])->name('captura.comissions');
     Route::post('guardar_comission', [InternalOrderController::class, 'guardar_comissions'])->name('guardar_comissions');

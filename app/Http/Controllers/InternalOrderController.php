@@ -197,54 +197,84 @@ class InternalOrderController extends Controller
     
     $TempInternalOrders->tasa = $request->tasa*0.01;
     $TempInternalOrders->save();
-    temp_comissions::truncate();
-    $Sellers = Seller::all();
-    $Comisiones=DB::table('temp_comissions')
-     ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
-     ->where('temp_order_id',$TempInternalOrders->id)
-     ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
-     ->get();
-     session(['p_comission' => Cantidades::find(1)->cant]);
-     session(['p_seller_id' => ' ']);
-     #Asignar automaticamente DGI
-     $Socios=Seller::where('dgi','>',0)->get();
-    //  dd($Socios);
-     foreach($Socios as $socio){
+    $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();
+    $CustomerAddress = CustomerShippingAddress::where('customer_id', $TempInternalOrders->customer_id)->first();
+       
+        if(!$CustomerAddress){
+            
+            $CustomerShippingAddres = new CustomerShippingAddress();
+            $CustomerShippingAddres->customer_id = $Customers->id;
+            $CustomerShippingAddres->customer_shipping_alias = "DOMICILIO FISCAL";
+            $CustomerShippingAddres->customer_shipping_state = $Customers->customer_state;
+            $CustomerShippingAddres->customer_shipping_city = $Customers->customer_city;
+            $CustomerShippingAddres->customer_shipping_suburb = $Customers->customer_suburb;
+            $CustomerShippingAddres->customer_shipping_street = $Customers->customer_street;
+            $CustomerShippingAddres->customer_shipping_outdoor = $Customers->customer_outdoor;
+            $CustomerShippingAddres->customer_shipping_indoor = $Customers->customer_indoor;
+            $CustomerShippingAddres->customer_shipping_zip_code = $Customers->customer_zip_code;
+            $CustomerShippingAddres->save();   
+        }
+        $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $Customers->id)->get();
         
-     $comision = new temp_comissions();
-     $comision->seller_id=$socio->id;
-     $comision->percentage=$socio->dgi*0.01;
-     $comision->temp_order_id=$TempInternalOrders->id;
-     $comision->description='DGI';
-     $comision->save();
-     }
-    return $this->capture_comissions($TempInternalOrders->id,' ');
-    }
+        
+        $contactos=CustomerContact::where('customer_id',$Customers->id)->get();
+        TempItem::truncate();
+        
+        return view('internal_orders.capture_order_shippment_addresses', compact(
+            'TempInternalOrders',
+            'Customers',
+            'CustomerShippingAddresses',
+            'contactos',
+           
+        ));
+    // temp_comissions::truncate();
+    // $Sellers = Seller::all();
+    // $Comisiones=DB::table('temp_comissions')
+    //  ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
+    //  ->where('temp_order_id',$TempInternalOrders->id)
+    //  ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
+    //  ->get();
+    //  session(['p_comission' => Cantidades::find(1)->cant]);
+    //  session(['p_seller_id' => ' ']);
+    //  #Asignar automaticamente DGI
+    //  $Socios=Seller::where('dgi','>',0)->get();
+    // //  dd($Socios);
+    //  foreach($Socios as $socio){
+        
+    //  $comision = new temp_comissions();
+    //  $comision->seller_id=$socio->id;
+    //  $comision->percentage=$socio->dgi*0.01;
+    //  $comision->temp_order_id=$TempInternalOrders->id;
+    //  $comision->description='DGI';
+    //  $comision->save();
+    //  }
+    // return $this->capture_comissions($TempInternalOrders->id,' ');
+    // }
 
 
-    public function capture_comissions($id,$message){
-    $FixedComision=Cantidades::find(1)->cant;
-    $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
-    $Message=$message;
-    if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
-    $Sellers = Seller::all();
-    }else {
+    // public function capture_comissions($id,$message){
+    // $FixedComision=Cantidades::find(1)->cant;
+    // $TempInternalOrders = TempInternalOrder::where('id', $id)->first();
+    // $Message=$message;
+    // if(Auth::user()->can('CAPTURAR PEDIDO TODOS LOS CLIENTES')){
+    // $Sellers = Seller::all();
+    // }else {
         
-        $Seller=Seller::where('seller_name',Auth::user()->name)->first();
-        $Sellers = Seller::where('id',$Seller->id)->get();
-        # code...
-    }
-    $Comisiones=DB::table('temp_comissions')
-     ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
-     ->where('temp_order_id',$TempInternalOrders->id)
-     ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
-     ->get();
-     $p_comission=Session::get('p_comission');
-     $p_seller_id=Session::get('p_seller_id');
-    return view('internal_orders.capture_comissions', compact(
-        'TempInternalOrders','Sellers','Comisiones','Message','p_seller_id','p_comission','FixedComision'
+    //     $Seller=Seller::where('seller_name',Auth::user()->name)->first();
+    //     $Sellers = Seller::where('id',$Seller->id)->get();
+    //     # code...
+    // }
+    // $Comisiones=DB::table('temp_comissions')
+    //  ->join('sellers', 'sellers.id', '=', 'temp_comissions.seller_id')
+    //  ->where('temp_order_id',$TempInternalOrders->id)
+    //  ->select('temp_comissions.*','sellers.seller_name','sellers.iniciales')
+    //  ->get();
+    //  $p_comission=Session::get('p_comission');
+    //  $p_seller_id=Session::get('p_seller_id');
+    // return view('internal_orders.capture_comissions', compact(
+    //     'TempInternalOrders','Sellers','Comisiones','Message','p_seller_id','p_comission','FixedComision'
         
-    ));
+    // ));
     }
 
 
