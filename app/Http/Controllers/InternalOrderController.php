@@ -855,6 +855,9 @@ public function recalcular_total($id){
                 $internal_order->vent_auth=1;
                 $internal_order->save();
             }
+            if($signature->auth_id==2){
+                return $this->comisiones_firmar($internal_order->id);
+            }
         }
 
         if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
@@ -877,6 +880,51 @@ public function recalcular_total($id){
         //return view('internal_orders.test',compact('signature','internal_order','key_code','isPasswordCorrect','stored_key'));
     }
 //recibe el id de la orden
+
+
+
+    public function comisiones_firmar($id){
+        $internal_order = InternalOrder::find($id);
+        $Seller=Seller::find($internal_order->seller_id);
+        $comisiones=comissions::where('order_id',$id)->get();
+        $FixedComision=Cantidades::find(1)->cant;
+        return view('internal_orders.comisiones_firmar',compact('internal_order','comisiones','Seller','FixedComision'));
+    }
+    public function store_comisiones_pos(Request $request){
+        $internal_order = InternalOrder::find($request->order_id);
+        $nRows = $request->rowcount;
+        $payments = payments::where('order_id', $request->order_id)->delete();
+        $hpayments = historical_payments::where('order_id', $request->order_id)->delete();
+        if($request->rowcount!=$InternalOrders->payment_conditions){
+            return redirect()->back()->with('no_coinciden','ok');
+        }
+        
+        for($i=1; $i < $nRows+1; $i++) {
+            $this_payment= new payments(); 
+            $hpayment= new historical_payments(); 
+            $this_payment->order_id = $request->order_id;
+            $this_payment->concept = $request->get('concepto')[$i];
+            $this_payment->percentage = $request->get('porcentaje')[$i];
+            $this_payment->payment_method = $request->get('forma')[$i];
+            $this_payment->amount = $InternalOrders->total*$this_payment->percentage*0.01;
+            $this_payment->date = $request->get('date')[$i];
+            //$this_payment->nota = $request->get('nota')[$i];
+            $this_payment->save();
+            
+            $hpayment->order_id = $request->order_id;
+            $hpayment->concept = $request->get('concepto')[$i];
+            $hpayment->percentage = $request->get('porcentaje')[$i];
+            $hpayment->payment_method = $request->get('forma')[$i];
+            $hpayment->amount = (float)$InternalOrders->total*(float)$this_payment->percentage*0.01;
+            $hpayment->date = $request->get('date')[$i];
+            //$hpayment->nota = $request->get('nota')[$i];
+            $hpayment->save();
+        }
+        
+    }
+
+
+
     public function payment($id)
     {
         $CompanyProfiles = CompanyProfile::first();

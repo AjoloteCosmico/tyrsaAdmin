@@ -112,7 +112,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Vendedor" />
                                         <select id='seller_id' class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 30%;'>
-                                        <option value=""></option>   
+                                        
                                         @foreach ($Sellers as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
                                             @endforeach

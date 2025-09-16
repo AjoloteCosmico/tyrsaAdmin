@@ -33,7 +33,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('dashboard', [DashboardCont
 Route::group(['middleware' => ['auth']], function()
 {
      Route::post('create_internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
-      Route::get('create_internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture.form');
     Route::resource('internal_orders', InternalOrderController::class);
     Route::resource('temp_items', TempItemController::class);
     Route::resource('items', ItemController::class);
