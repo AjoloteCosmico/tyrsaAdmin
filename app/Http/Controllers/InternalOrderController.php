@@ -886,9 +886,12 @@ public function recalcular_total($id){
     public function comisiones_firmar($id){
         $internal_order = InternalOrder::find($id);
         $Seller=Seller::find($internal_order->seller_id);
+        $Sellers = Seller::all();
         $comisiones=comissions::where('order_id',$id)->get();
         $FixedComision=Cantidades::find(1)->cant;
-        return view('internal_orders.comisiones_firmar',compact('internal_order','comisiones','Seller','FixedComision'));
+        return view('internal_orders.comisiones_firmar',
+        compact('internal_order','comisiones',
+                'Seller','FixedComision','Sellers'));
     }
     public function store_comisiones_pos(Request $request){
         $internal_order = InternalOrder::find($request->order_id);
