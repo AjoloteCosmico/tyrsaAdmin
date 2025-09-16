@@ -937,9 +937,9 @@ public function recalcular_total($id){
         }
 
         // regla c) suma total no debe pasar de 3%
-        if ($total > 3) {
-            return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
-        }
+        // if ($total > 3) {
+        //     return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
+        // }
 
         try {
             DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos) {
@@ -964,6 +964,8 @@ public function recalcular_total($id){
             } catch (\Exception $e) {
                 return back()->with('error', 'Error al guardar las comisiones: ' . $e->getMessage())->withInput();
             } 
+
+        return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
         
     }
 
