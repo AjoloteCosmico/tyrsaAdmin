@@ -926,14 +926,14 @@ public function recalcular_total($id){
             $tipo = $tipos[$index] ?? '';
 
             // regla a) Comisión principal no mayor a 3
-            if ($tipo === 'principal' && $com > 3) {
-                return back()->with('error', 'La comisión principal no puede ser mayor al 3%.')->withInput();
-            }
+            // if ($tipo === 'principal' && $com > 3) {
+            //     return back()->with('error', 'La comisión principal no puede ser mayor al 3%.')->withInput();
+            // }
 
             // regla b) Ningún vendedor duplicado
-            if (in_array($sellerId, $seenSellers)) {
-                return back()->with('error', 'Un vendedor no puede tener más de una comisión.')->withInput();
-            }
+            // if (in_array($sellerId, $seenSellers)) {
+            //     return back()->with('error', 'Un vendedor no puede tener más de una comisión.')->withInput();
+            // }
             $seenSellers[] = $sellerId;
 
             $total += $com;
@@ -944,7 +944,6 @@ public function recalcular_total($id){
         //     return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
         // }
 
-        try {
             DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos) {
                 // Primero borra comisiones previas de esta orden (si aplica)
                 comissions::where('internal_order_id', $internalOrderId)->delete();
@@ -964,9 +963,6 @@ public function recalcular_total($id){
                     
                 }
             });
-            } catch (\Exception $e) {
-                return back()->with('error', 'Error al guardar las comisiones: ' . $e->getMessage())->withInput();
-            } 
 
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
         
