@@ -30,7 +30,7 @@
 
                                    
                                
-        <div class="form-group">
+                                    <div class="form-group">
                                         <x-jet-label value="* Vendedor" />
                                         <select id='seller_id' class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 50%;'>
                                             @foreach ($Sellers as $row)

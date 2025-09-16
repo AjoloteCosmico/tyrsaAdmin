@@ -58,6 +58,9 @@
                                         <x-jet-input-error for='coin_id' />
                                     </div>
                                 </div>
+                            </div>
+                            
+                            <div class="row">
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value="* Condiciones de Pago" />
@@ -105,7 +108,21 @@
                                         <x-jet-input-error for='payment_conditions' />
                                     </div>
                                 </div>
+                                <div class="col-sm-9 col-xs-12">
+                                    <div class="form-group">
+                                        <x-jet-label value="* Vendedor" />
+                                        <select id='seller_id' class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 30%;'>
+                                        <option value=""></option>   
+                                        @foreach ($Sellers as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-jet-input-error for='seller_id' />
+                                    </div>
+                                </div>
+                                
                             </div>
+                                    
                             <div class="w-100">&nbsp;</div>
                            
                                     
@@ -126,21 +143,30 @@
                                  
 
                              <h5> Otros Datos</h5>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            
+          <x-jet-label value="Numero de Cotizacion" />
+          <div class="col">
+            <div class="row">
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio5" id="btnradio5" autocomplete="off" checked onclick="manual('ncotizacion');">
+                <label class="btn btn-outline-primary" for="btnradio5">Si</label>
+                <input type="radio" class="btn-check" name="btnradio6" id="btnradio6" autocomplete="off" onclick="automatico('ncotizacion');">
+                <label class="btn btn-outline-primary" for="btnradio6">No</label>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                 <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
+                 <x-jet-input-error for='ncotizacion' />
+            </div>
+        </div>
+        </div>
+    </div>
 
-                             <div class="form-group">
-       <x-jet-label value="Numero de Cotizacion" />
-       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-<input type="radio" class="btn-check" name="btnradio5" id="btnradio5" autocomplete="off" checked onclick="manual('ncotizacion');">
-<label class="btn btn-outline-primary" for="btnradio5">Si</label>
-<input type="radio" class="btn-check" name="btnradio6" id="btnradio6" autocomplete="off" onclick="automatico('ncotizacion');">
-<label class="btn btn-outline-primary" for="btnradio6">No</label>
-</div>
-<br> <br>
-
-       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
-       <x-jet-input-error for='ncotizacion' />
-   </div>
-
+    <div class="col">
 <div class="form-group">
        <x-jet-label value="Numero de Contrato" />
        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -148,46 +174,56 @@
 <label class="btn btn-outline-primary" for="btnradio1">Si</label>
 <input type="radio" class="btn-check" name="btnradio2" id="btnradio2" autocomplete="off" onclick="automatico('ncontrato');">
 <label class="btn btn-outline-primary" for="btnradio2">No</label>
-</div>
-<br> <br>
+</div>  
+<br><br>
 
        <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
-       <x-jet-input-error for='seller_id' />
-   </div>
-   <div class="form-group">
+       <x-jet-input-error for='ncontrato' />
+    </div>
+       </div>
+
+<div class="col">
+ <div class="form-group">
        <x-jet-label value="Orden de Compra" />
        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio3" id="btnradio3" autocomplete="off" checked onclick="manual('oc');">
 <label class="btn btn-outline-primary" for="btnradio3">Si</label>
 <input type="radio" class="btn-check" name="btnradio4" id="btnradio4" autocomplete="off" onclick="automatico('oc');">
 <label class="btn btn-outline-primary" for="btnradio4">No</label>
-</div>
+</div>                       
+
+
 <br> <br>
 
        <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 10%;' id='oc'  value="0">
-       <x-jet-input-error for='seller_id' />
+       <x-jet-input-error for='oc' />
    </div>
 
+</div>
+  
    
-   <br>
+                            <div class="w-100">&nbsp;</div>
+                           
+                                    
+   
    <div class="row">
                                     <div class="col-sm-3 col-xs-12">
                                       <div class="form-group">
                                         <x-jet-label value="* IEPS" />
                                         <input type="number" name="ieps" style='width: 60%;' max=100 min=0 step=0.1 value=0> %
-                                        <x-jet-input-error for='seller_id' />
+                                        <x-jet-input-error for='ieps' />
                                     </div></div>
                                     <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value=" Retención ISR" />
                                         <input type="number" name="isr" style='width: 60%;' max=100 min=0 step=0.1 value=0> %
-                                        <x-jet-input-error for='seller_id' />
+                                        <x-jet-input-error for='isr' />
                                     </div></div>
                                     <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
                                         <x-jet-label value="Descuento" />
                                         <input type="number" name="descuento" style='width: 60%;'max=100 min=0 step=0.1 value=0> %
-                                        <x-jet-input-error for='seller_id' />
+                                        <x-jet-input-error for='descuento' />
                                     </div></div>
                                     <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">

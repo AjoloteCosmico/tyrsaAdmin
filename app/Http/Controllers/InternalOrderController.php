@@ -153,8 +153,7 @@ class InternalOrderController extends Controller
     }
    
     public function comissions(Request $request)
-    {           
-        
+    {              
     $rules = [
         'customer_id' => 'required',
         'temp_internal_order_id' => 'required',
@@ -162,8 +161,7 @@ class InternalOrderController extends Controller
         'instalation_date' => 'required',
         'coin_id' => 'required',
         'payment_conditions'=> 'required',
-        // 'seller_id' => 'required',
-        // 'comision' => 'required',
+        'seller_id' => 'required',
     ];
 
     $messages = [
@@ -173,13 +171,12 @@ class InternalOrderController extends Controller
         'instalation_date.required' => 'La fecha de Instalación es necesaria',
         'coin_id.required' => 'El tipo de Moneda es necesario',
         'payment_conditions.required' => 'Las condiciones de pago son necesarios',
-        // 'seller_id.required' => 'Elija un vendedor',
-        // 'comision.required' => 'Determine una comision para el vendedor',
+        'seller_id.required' => 'Elija un vendedor',
     ];
 
     $request->validate($rules, $messages);
-    $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
 
+    $TempInternalOrders = TempInternalOrder::where('id', $request->temp_internal_order_id)->first();
     $TempInternalOrders->date_delivery = $request->date_delivery;
     $TempInternalOrders->instalation_date = $request->instalation_date;
     $TempInternalOrders->reg_date = $request->reg_date;        
@@ -195,6 +192,7 @@ class InternalOrderController extends Controller
     $TempInternalOrders->ncotizacion=$request->ncotizacion;
     $TempInternalOrders->ncontrato=$request->ncontrato;
     
+    $TempInternalOrders->seller_id = $request->seller_id;
     $TempInternalOrders->tasa = $request->tasa*0.01;
     $TempInternalOrders->save();
     $Customers = Customer::where('id', $TempInternalOrders->customer_id)->first();

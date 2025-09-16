@@ -32,6 +32,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('dashboard', [DashboardCont
 
 Route::group(['middleware' => ['auth']], function()
 {
+     Route::post('create_internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
+      Route::get('create_internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture.form');
     Route::resource('internal_orders', InternalOrderController::class);
     Route::resource('temp_items', TempItemController::class);
     Route::resource('items', ItemController::class);
@@ -98,7 +100,6 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/validated_store}', [InternalOrderController::class, 'store'])->name('internal_orders.validated_store');
     Route::post('internal_orders/cancel/{id}}', [InternalOrderController::class, 'cancel'])->name('internal_orders.cancel');
     
-    Route::post('internal_orders/capture', [InternalOrderController::class, 'capture'])->name('internal_orders.capture');
     Route::post('internal_orders/firmar', [InternalOrderController::class, 'firmar'])->name('internal_orders.firmar');
     Route::post('internal_orders/dgi', [InternalOrderController::class, 'dgi'])->name('internal_orders.dgi');
     Route::post('internal_orders/redefine', [InternalOrderController::class, 'redefine'])->name('internal_orders.redefine_order');
