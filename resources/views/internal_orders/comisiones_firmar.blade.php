@@ -177,15 +177,29 @@
         }
 
         // Devuelve sum total de comisiones (float)
-        function getTotalComision(){
-            let total = 0.0;
-            const elems = form.querySelectorAll('input[name="comision[]"]');
-            elems.forEach(e => {
-                const v = parseFloat(e.value);
-                if(!isNaN(v)) total += v;
-            });
-            return total;
+     function getTotalComision(){
+    let total = 0.0;
+
+    // recorremos todos los inputs de comision
+    const elems = form.querySelectorAll('input[name="comision[]"]');
+    
+    elems.forEach(e => {
+        const v = parseFloat(e.value);
+
+        // buscamos el hidden tipo[] en la misma fila
+        const row = e.closest('.row');
+        const tipoInput = row ? row.querySelector('input[name="tipo[]"]') : null;
+        const tipo = tipoInput ? tipoInput.value : '';
+
+        // solo sumar si no es dgi
+        if(!isNaN(v) && tipo !== 'dgi'){
+            total += v;
         }
+    });
+
+    return total;
+}
+
 
         // Crear nueva fila compartida
         function createCompartidaRow(selectedSellerId = '', comisionVal = ''){
