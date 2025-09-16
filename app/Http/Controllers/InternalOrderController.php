@@ -947,13 +947,13 @@ public function recalcular_total($id){
         try {
             DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos) {
                 // Primero borra comisiones previas de esta orden (si aplica)
-                Comission::where('internal_order_id', $internalOrderId)->delete();
+                comissions::where('internal_order_id', $internalOrderId)->delete();
                 $index=0;
                 foreach ($sellerIds as $i => $sellerId) {
                     if($index==0){
                             $internal_order->comision=$comisiones[$i]*0.01;
                     }else{
-                    Comission::create([
+                    comissions::create([
                         'internal_order_id' => $internalOrderId,
                         'seller_id'         => $sellerId,
                         'comision'          => $comisiones[$i],
