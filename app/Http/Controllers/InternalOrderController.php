@@ -915,7 +915,6 @@ public function recalcular_total($id){
     public function store_comisiones_pos(Request $request){
         
         $internal_order = InternalOrder::find($request->order_id);
-        dd($internal_order);
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
@@ -952,6 +951,8 @@ public function recalcular_total($id){
                 $index=0;
                 foreach ($sellerIds as $i => $sellerId) {
                     if($index==0){
+                        
+                            $internal_order = InternalOrder::find($request->order_id);
                             $internal_order->comision=$comisiones[$i]*0.01;
                             $internal_order->save();
                     }else{
