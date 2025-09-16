@@ -951,6 +951,7 @@ public function recalcular_total($id){
                 foreach ($sellerIds as $i => $sellerId) {
                     if($index==0){
                             $internal_order->comision=$comisiones[$i]*0.01;
+                            $internal_order->save();
                     }else{
                     comissions::create([
                         'order_id' => $internalOrderId,
