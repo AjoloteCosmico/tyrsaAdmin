@@ -914,34 +914,56 @@ public function recalcular_total($id){
 
     public function store_comisiones_pos(Request $request){
         $internal_order = InternalOrder::find($request->order_id);
-        $nRows = $request->rowcount;
-        $payments = payments::where('order_id', $request->order_id)->delete();
-        $hpayments = historical_payments::where('order_id', $request->order_id)->delete();
-        if($request->rowcount!=$InternalOrders->payment_conditions){
-            return redirect()->back()->with('no_coinciden','ok');
-        }
+        // --- Validaciones adicionales ---
+        $total = 0;
+        $seenSellers = [];
         
-        for($i=1; $i < $nRows+1; $i++) {
-            $this_payment= new payments(); 
-            $hpayment= new historical_payments(); 
-            $this_payment->order_id = $request->order_id;
-            $this_payment->concept = $request->get('concepto')[$i];
-            $this_payment->percentage = $request->get('porcentaje')[$i];
-            $this_payment->payment_method = $request->get('forma')[$i];
-            $this_payment->amount = $InternalOrders->total*$this_payment->percentage*0.01;
-            $this_payment->date = $request->get('date')[$i];
-            //$this_payment->nota = $request->get('nota')[$i];
-            $this_payment->save();
-            
-            $hpayment->order_id = $request->order_id;
-            $hpayment->concept = $request->get('concepto')[$i];
-            $hpayment->percentage = $request->get('porcentaje')[$i];
-            $hpayment->payment_method = $request->get('forma')[$i];
-            $hpayment->amount = (float)$InternalOrders->total*(float)$this_payment->percentage*0.01;
-            $hpayment->date = $request->get('date')[$i];
-            //$hpayment->nota = $request->get('nota')[$i];
-            $hpayment->save();
+        foreach ($sellerIds as $index => $sellerId) {
+            $com = floatval($comisiones[$index] ?? 0);
+            $tipo = $tipos[$index] ?? '';
+
+            // regla a) Comisión principal no mayor a 3
+            if ($tipo === 'principal' && $com > 3) {
+                return back()->with('error', 'La comisión principal no puede ser mayor al 3%.')->withInput();
+            }
+
+            // regla b) Ningún vendedor duplicado
+            if (in_array($sellerId, $seenSellers)) {
+                return back()->with('error', 'Un vendedor no puede tener más de una comisión.')->withInput();
+            }
+            $seenSellers[] = $sellerId;
+
+            $total += $com;
         }
+
+        // regla c) suma total no debe pasar de 3%
+        if ($total > 3) {
+            return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
+        }
+
+        try {
+            DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos) {
+                // Primero borra comisiones previas de esta orden (si aplica)
+                Comission::where('internal_order_id', $internalOrderId)->delete();
+                $index=0;
+                foreach ($sellerIds as $i => $sellerId) {
+                    if($index==0){
+                            $internal_order->comision=$comisiones[$i]*0.01;
+                    }else{
+                    Comission::create([
+                        'internal_order_id' => $internalOrderId,
+                        'seller_id'         => $sellerId,
+                        'comision'          => $comisiones[$i],
+                        'tipo'              => $tipos[$i],
+                    ]);
+                    }
+                     $index++;
+                    
+                }
+            });
+            } catch (\Exception $e) {
+                return back()->with('error', 'Error al guardar las comisiones: ' . $e->getMessage())->withInput();
+            } 
         
     }
 
