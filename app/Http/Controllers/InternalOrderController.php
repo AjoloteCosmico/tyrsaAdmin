@@ -918,7 +918,7 @@ public function recalcular_total($id){
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
-        $internalOrderId = $request->input('internal_order_id');
+        $internalOrderId = $request->input('order_id');
         $sellerIds = $request->input('seller_id');
         $comisiones = $request->input('comision');
         $tipos = $request->input('tipo');
