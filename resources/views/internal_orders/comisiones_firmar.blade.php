@@ -30,16 +30,12 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Vendedor (principal)" />
                                         {{-- Mostrar nombre sólo, seller_id ya está dado --}}
-                                        @php
-                                            $principalSeller = $Sellers->firstWhere('id', $p_seller_id) ?? null;
-                                            $principalName = $principalSeller ? $principalSeller->seller_name : 'Sin vendedor';
-                                        @endphp
 
                                         {{-- Visible input: seller name (readonly) --}}
-                                        <input class="form-capture w-full text-md" type="text" value="{{ $principalName }}" readonly style="width:50%; background-color:#e9ecef;" />
+                                        <input class="form-capture w-full text-md" type="text" value="{{ $Seller->seller_name }}" readonly style="width:50%; background-color:#e9ecef;" />
 
                                         {{-- Hidden input into arrays --}}
-                                        <input type="hidden" name="seller_id[]" value="{{ $p_seller_id }}" />
+                                        <input type="hidden" name="seller_id[]" value="{{ $Seller->id }}" />
                                         {{-- tipo principal --}}
                                         <input type="hidden" name="tipo[]" value="principal" />
                                     </div>
@@ -48,11 +44,9 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <x-jet-label value="* Comisión principal (%)" />
-                                        @can('EDITAR COMISION PRINCIPAL')
-                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $p_comission }}" style="width:40%" max="100" min="0.01" step="0.01" />
-                                        @else
-                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $p_comission }}" style="width:40%; background-color:#cccccc;" max="100" min="0.01" step="0.01" readonly />
-                                        @endcan
+                                        
+                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $FixedComision}}" style="width:40%" max="100" min="0.01" step="0.01" />
+                                        
                                         &nbsp;% 
                                         <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
                                     </div>

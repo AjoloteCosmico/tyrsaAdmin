@@ -889,10 +889,29 @@ public function recalcular_total($id){
         $Sellers = Seller::all();
         $comisiones=comissions::where('order_id',$id)->get();
         $FixedComision=Cantidades::find(1)->cant;
+        //  #Asignar automaticamente DGI
+        $Socios=Seller::where('dgi','>',0)->get();
+        //  dd($Socios);
+        $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
+        if($DGI->count()>0){
+            
+            foreach($Socios as $socio){
+                
+            $comision = new comissions();
+            $comision->seller_id=$socio->id;
+            $comision->percentage=$socio->dgi*0.01;
+            $comision->order_id=$id;
+            $comision->description='DGI';
+            $comision->save();
+            }
+        }
+        $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
+        
         return view('internal_orders.comisiones_firmar',
         compact('internal_order','comisiones',
-                'Seller','FixedComision','Sellers'));
+                'Seller','FixedComision','Sellers','DGI'));
     }
+
     public function store_comisiones_pos(Request $request){
         $internal_order = InternalOrder::find($request->order_id);
         $nRows = $request->rowcount;
