@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/pay_conditions', [InternalOrderController::class, 'pay_conditions'])->name('internal_orders.pay_conditions');
     Route::post('internal_orders/pay_redefine', [InternalOrderController::class, 'pay_redefine'])->name('internal_orders.pay_redefine');
     Route::post('internal_orders/asignar_marca', [InternalOrderController::class, 'asignar_marca'])->name('internal_orders.asignar_marca');
+    Route::post('internal_orders/store_comisiones_pos', [InternalOrderController::class, 'store_comisiones_pos'])->name('internal_orders.store_comisiones_pos');
     
     Route::get('internal_orders/print_order/{id}', [InternalOrderController::class, 'print_order'])->name('internal_orders.print_order');
     Route::get('exterminio', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
