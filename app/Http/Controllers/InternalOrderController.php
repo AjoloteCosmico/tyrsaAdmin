@@ -917,7 +917,10 @@ public function recalcular_total($id){
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
-        
+        $internalOrderId = $request->input('temp_internal_order_id');
+        $sellerIds = $request->input('seller_id');
+        $comisiones = $request->input('comision');
+        $tipos = $request->input('tipo');
         foreach ($sellerIds as $index => $sellerId) {
             $com = floatval($comisiones[$index] ?? 0);
             $tipo = $tipos[$index] ?? '';
