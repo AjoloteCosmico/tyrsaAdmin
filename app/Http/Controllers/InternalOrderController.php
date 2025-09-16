@@ -953,10 +953,10 @@ public function recalcular_total($id){
                             $internal_order->comision=$comisiones[$i]*0.01;
                     }else{
                     comissions::create([
-                        'internal_order_id' => $internalOrderId,
+                        'order_id' => $internalOrderId,
                         'seller_id'         => $sellerId,
-                        'comision'          => $comisiones[$i],
-                        'tipo'              => $tipos[$i],
+                        'percentage'          => $comisiones[$i],
+                        'description'              => $tipos[$i],
                     ]);
                     }
                      $index++;
