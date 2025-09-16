@@ -893,7 +893,7 @@ public function recalcular_total($id){
         $Socios=Seller::where('dgi','>',0)->get();
         //  dd($Socios);
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
-        if($DGI->count()>0){
+        if($DGI->count()==0){
             
             foreach($Socios as $socio){
                 
@@ -906,7 +906,7 @@ public function recalcular_total($id){
             }
         }
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
-        
+
         return view('internal_orders.comisiones_firmar',
         compact('internal_order','comisiones',
                 'Seller','FixedComision','Sellers','DGI'));
