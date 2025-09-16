@@ -913,6 +913,7 @@ public function recalcular_total($id){
     }
 
     public function store_comisiones_pos(Request $request){
+        dd($request->all());
         $internal_order = InternalOrder::find($request->order_id);
         // --- Validaciones adicionales ---
         $total = 0;
