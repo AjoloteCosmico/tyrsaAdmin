@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <form action="{{ route('internal_orders.store_comisiones_pos') }}" id="comisiones-form" method="POST">
                             @csrf
-                            <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $internal_order->id}}" />
+                            <x-jet-input type="hidden" name="internal_order_id" value="{{ $internal_order->id}}" />
 
                             <h3>Datos del vendedor principal</h3>
 
