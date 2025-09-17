@@ -845,6 +845,10 @@ public function recalcular_total($id){
             $userHasRole=True;
         }
         if($isPasswordCorrect && $userHasRole ){
+            if($signature->auth_id==2){
+                
+                return $this->comisiones_firmar($internal_order->id,$signature->id);
+            }
             $signature->status = 1;
             $signature->firma=Auth::user()->firma;
             $signature->save();
@@ -855,9 +859,7 @@ public function recalcular_total($id){
                 $internal_order->vent_auth=1;
                 $internal_order->save();
             }
-            if($signature->auth_id==2){
-                return $this->comisiones_firmar($internal_order->id);
-            }
+            
         }
 
         if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
@@ -883,7 +885,7 @@ public function recalcular_total($id){
 
 
 
-    public function comisiones_firmar($id){
+    public function comisiones_firmar($id,$signature_id){
         $internal_order = InternalOrder::find($id);
         $Seller=Seller::find($internal_order->seller_id);
         $Sellers = Seller::all();
@@ -892,6 +894,7 @@ public function recalcular_total($id){
         //  #Asignar automaticamente DGI
         $Socios=Seller::where('dgi','>',0)->get();
         //  dd($Socios);
+        comissions::where('order_id', $id)->delete();
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
         if($DGI->count()==0){
             
@@ -909,12 +912,16 @@ public function recalcular_total($id){
 
         return view('internal_orders.comisiones_firmar',
         compact('internal_order','comisiones',
-                'Seller','FixedComision','Sellers','DGI'));
+                'Seller','FixedComision','Sellers','DGI','signature_id'));
     }
 
     public function store_comisiones_pos(Request $request){
-        
+     
         $internal_order = InternalOrder::find($request->order_id);
+        $signature = signatures::find($request->firma_id);
+        $signature->status = 1;
+        $signature->firma=Auth::user()->firma;
+        $signature->save();
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
@@ -959,7 +966,7 @@ public function recalcular_total($id){
                     comissions::create([
                         'order_id' => $internalOrderId,
                         'seller_id'         => $sellerId,
-                        'percentage'          => $comisiones[$i],
+                        'percentage'          => $comisiones[$i]*0.01,
                         'description'              => $tipos[$i],
                     ]);
                     }

@@ -191,7 +191,7 @@ function send_data(){
     var c = document.forms["body_form"]["kilos"].value;
     var d = document.forms["body_form"]["marca"].value;
     if ((a == null || a == "") || (b == null || b == "") || (c == null || c == "") || (d == null || d == "")) {
-      alert("Por favor llene los campos obligatorios marcados con *");
+      Swal.fire({ icon: 'warning', title: 'Campos vacios', text: `Por llene todos los campos marcados con *`});
       return false;
     }else{
     document.getElementById("body_form").submit();
