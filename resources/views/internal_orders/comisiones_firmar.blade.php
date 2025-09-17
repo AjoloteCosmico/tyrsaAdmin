@@ -67,7 +67,7 @@
                                     <button type="button" id="add-compartida" class="btn btn-green">
                                         <i class="fas fa-plus-circle"></i> Agregar comisión compartida
                                     </button>
-                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas + DGI) no debe superar 3%.</small>
+                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 3%.</small>
                                 </div>
                             </div>
 
