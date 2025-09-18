@@ -89,7 +89,7 @@
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="seller_id" />
-                                                    <input type="hidden" name="tipo[]" value="dgi" />
+                                                    <input type="hidden" name="tipo[]" value="DGI" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
