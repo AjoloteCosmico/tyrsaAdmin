@@ -74,7 +74,7 @@
                             <hr>
 
                             {{-- Sección DGI --}}
-                            <div class="mb-4">
+                            <!-- <div class="mb-4">
                                 <h4><b>Comisiones DGI</b></h4>
                                 <div id="dgi-container">
                                     {{-- Renderizar las comisiones DGI iniciales provenientes de $DGI --}}
@@ -107,7 +107,7 @@
                                         <i class="fas fa-plus-circle"></i> Agregar comisión DGI
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="w-100"><hr></div>
 
@@ -336,9 +336,9 @@
         });
 
         // Evento para agregar dgi
-        addDgiBtn.addEventListener('click', function(){
-            createDgiRow();
-        });
+        // addDgiBtn.addEventListener('click', function(){
+        //     createDgiRow();
+        // });
 
         // Al hacer click en Guardar: validaciones
         guardarBtn.addEventListener('click', function(){
