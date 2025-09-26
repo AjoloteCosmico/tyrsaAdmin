@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'COMISIONES - PEDIDO INTERNO')
+@section('title', 'COMISIONES')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-percent"></i>&nbsp; Comisiones Pedido Interno</h1>
+    <h1 class="font-bold"><i class="fas fa-percent"></i>&nbsp; Comisiones </h1>
 @stop
 
 @section('content')
@@ -275,7 +275,7 @@
             const sel = row.querySelector('select[name="seller_id[]"]');
             const com = row.querySelector('input[name="comision[]"]');
             const removeBtn = row.querySelector('.remove-row');
-
+            console.log(getAllSelectedSellerIds());
             if(sel){
                 sel.addEventListener('change', function(){
                     // si hay duplicado, alert y reset a empty
@@ -368,6 +368,7 @@
             // 3) Verificar que no haya vendedores duplicados en toda la lista
             const ids = getAllSelectedSellerIds();
             const dup = findDuplicate(ids);
+            
             if(dup){
                 Swal.fire({
                     icon: 'warning',
@@ -377,8 +378,29 @@
                 return;
             }
 
+            flag=1;
+            const inputs = form.querySelectorAll('select[name="seller_id[]"], input[name="seller_id[]"]');
+            inputs.forEach(el => {
+                // if select, value; if hidden input (principal) also included
+                if(el.tagName.toLowerCase() === 'select' || el.tagName.toLowerCase() === 'input'){
+                    const v = el.value ? String(el.value) : '';
+                    if(v == ''){
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Seleccione un vendedor',
+                            text: `Hay una comisión sin vendedor seleccionado, seleccione uno, o elimine la comisión compartida`
+                        });
+                        flag=0;//evitar q se ejecute el submit
+                        return;
+
+                    }
+                }
+            });
             // All validations passed -> submit
+            if(flag==1){
+
             form.submit();
+            }
         });
 
         // buscar duplicado simple

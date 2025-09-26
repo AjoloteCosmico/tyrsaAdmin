@@ -44,14 +44,12 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
     'logo' => '<b>TYRSAWES</b>-ADMIN',
     'logo_img' => 'vendor/img/logo.svg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'TYRSA CONSORCIO S.A. DE C.V.',
-
     /*
     |--------------------------------------------------------------------------
     | User Menu
@@ -63,14 +61,12 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
     'usermenu_enabled' => true,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
-
     /*
     |--------------------------------------------------------------------------
     | Layout
@@ -544,14 +540,14 @@ return [
             
     ],
     'can'  => 'DESCARGAR OBJETIVOS PI',
-],
+      ],
 [
-    'text' => 'REPORTES DGI',
+    'text' => 'REPORTES COMSIONES',
     'icon' => 'fas fa-list fa-fw',
     'can' => 'VER DGI',
     'submenu' => [
         [
-            'text' => ' DGI',
+            'text' => ' REPORTES DE COMISIONES',
             'icon' => 'fas fa-file fa-fw',
             'route'  => 'reportes.dgi_select',
             'can'  => 'VER DGI',
@@ -716,3 +712,10 @@ return [
 
     'livewire' => false,
 ];
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@
 @section('title', 'REPORTES')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-users"></i>&nbsp;REPORTES DE COMISION DGI</h1>
+    <h1 class="font-bold"><i class="fas fa-users"></i>&nbsp;REPORTES DE COMISIONES</h1>
 @stop
 
 @section('content')

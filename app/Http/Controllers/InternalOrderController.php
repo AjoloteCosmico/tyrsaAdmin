@@ -930,20 +930,16 @@ public function recalcular_total($id){
         $comisiones = $request->input('comision');
         $tipos = $request->input('tipo');
         foreach ($sellerIds as $index => $sellerId) {
+            
             $com = floatval($comisiones[$index] ?? 0);
             $tipo = $tipos[$index] ?? '';
 
-            // regla a) Comisión principal no mayor a 3
-            // if ($tipo === 'principal' && $com > 3) {
-            //     return back()->with('error', 'La comisión principal no puede ser mayor al 3%.')->withInput();
-            // }
-
+            
             // regla b) Ningún vendedor duplicado
             // if (in_array($sellerId, $seenSellers)) {
             //     return back()->with('error', 'Un vendedor no puede tener más de una comisión.')->withInput();
             // }
             $seenSellers[] = $sellerId;
-
             $total += $com;
         }
 
