@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'REPORTE DGI')
+@section('title', 'REPORTE COMISIONES')
 
 @section('content_header')
-    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp;REPORTE DGI</h1>
+    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp;REPORTE DE COMISIONES</h1>
 @stop
 
 @section('content')     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
@@ -14,7 +14,6 @@
                         <tr style="border: none; border-collapse: collapse;"><td style="border: none; border-collapse: collapse;"> &nbsp; &nbsp; &nbsp;</td>
                             <td style="border: none; border-collapse: collapse;">
                                 <div class="contaier">
-                        
                                                 <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"  style="align-self: left;"></td>
                                                 </div></td>
                                  
@@ -49,7 +48,7 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">REPORTES DE DGI</h5>
+            <h5 class="text-lg text-center text-bold">REPORTE PARA PAGO DE COMISIÓN @if($Type=='vendedores') POR VENDEDORES @endif @if($Type=='comp') POR COMPROBANTE DE INGRESOS @endif @if($Type=='resumen') RESUMEN @endif @if($Type=='resumen_ventas') POR VENTAS DIRECTAS @endif  </h5>
             <br>
             <div >
                 @if($Type=='vendedores')
@@ -240,10 +239,7 @@
                     <div class="col"><br>@if($comp->reviso) {{$Usuarios->where('id',$comp->reviso)->first()->name}} @endif <hr> REVISÓ</div>
                     <div class="col"><br>@if($comp->autorizo) {{$Usuarios->where('id',$comp->autorizo)->first()->name}} @endif <hr>  AUTORIZÓ</div>
                     <div class="col">
-                  <table> 
-                    <tr><th>Observaciones</th></tr>
-                    <tr><td> &nbsp; ------------------- <br> ----------------------</td></tr>
-                  </table></div>
+                  </div>
                   </div>
                  <br>
                   <div class="row"> 
@@ -310,6 +306,7 @@
                     </div>
                     <!-- tabla de Socios -->
                     <div class="col mydiv">
+<!-- 
                       <div class="row"> <h2>EJECUTIVOS ACTIVOS / DISPERSION DE COMISIONES SIN IVA</h2> <p>$ {{number_format(($comisiones->where('seller_dgi','>',0)->sum('percentage')*$comp->amount)/1.16,2)}}</p> </div>
                        <div class="row mydiv">
                           <table class="table-bordered">
@@ -342,6 +339,7 @@
                             </tfoot>
                           </table>
                        </div>
+                        -->
                     </div>
 
 

@@ -46,7 +46,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Comisión principal (%)" />
                                         
-                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $FixedComision}}" style="width:40%" max="100" min="0.01" step="0.01" />
+                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $internal_order->comision * 100}}" style="width:40%" max="100" min="0.01" step="0.01" />
                                         
                                         &nbsp;% 
                                         <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
@@ -60,7 +60,28 @@
                             <div class="mb-4">
                                 <h4><b>Comisiones Compartidas</b></h4>
                                 <div id="compartidas-container">
-                                    {{-- inicialmente vacío; se pueden agregar filas con JS --}}
+                                    {{-- se pueden agregar filas con JS --}}
+                                        @foreach($compartidas as $dgi)
+                                            <div class="row align-items-center mb-2 dgi-row">
+                                                <div class="col-md-5">
+                                                    <select class="form-capture w-full seller-select" name="seller_id[]">
+                                                        <option value="">-- Seleccionar Vendedor --</option>
+                                                        @foreach($Sellers as $s)
+                                                            <option value="{{ $s->id }}" @if($s->id == $dgi->seller_id) selected @endif>{{ $s->seller_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-jet-input-error for="seller_id" />
+                                                    <input type="hidden" name="tipo[]" value="compartida" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-red remove-row"><i class="fas fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
                                 </div>
 
                                 <div class="mt-2">
@@ -74,7 +95,8 @@
                             <hr>
 
                             {{-- Sección DGI --}}
-                            <!-- <div class="mb-4">
+                            @if($show_dgi==1)
+                            <div class="mb-4">
                                 <h4><b>Comisiones DGI</b></h4>
                                 <div id="dgi-container">
                                     {{-- Renderizar las comisiones DGI iniciales provenientes de $DGI --}}
@@ -107,7 +129,7 @@
                                         <i class="fas fa-plus-circle"></i> Agregar comisión DGI
                                     </button>
                                 </div>
-                            </div> -->
+                            </div> @endif
 
                             <div class="w-100"><hr></div>
 
@@ -193,7 +215,7 @@
         const tipo = tipoInput ? tipoInput.value : '';
 
         // solo sumar si no es dgi
-        if(!isNaN(v) && tipo !== 'dgi'){
+        if(!isNaN(v) && tipo !== 'DGI'){
             total += v;
         }
     });
@@ -250,7 +272,7 @@
                         <option value="">-- Seleccionar Vendedor --</option>
                         ${sellersOptions}
                     </select>
-                    <input type="hidden" name="tipo[]" value="dgi" />
+                    <input type="hidden" name="tipo[]" value="DGI" />
                 </div>
                 <div class="col-md-3">
                     <input type="number" name="comision[]" class="form-capture comision-input" value="${comisionVal}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %

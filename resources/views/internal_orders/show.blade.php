@@ -511,7 +511,17 @@
                         <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
                     </tr>
 
-                   <tr>
+                   @foreach($Comisiones->where('description','compartida') as $c)
+                    <tr>
+                        <td> {{$c->folio}}</td>
+                        <td> {{$c->iniciales}}</td>
+                        <td>  {{$c->description}}</td>
+                        <td>  {{$c->percentage * 100}} %</td>
+                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   </td>
+                        <td> {{$Coins->code}}</td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal)  ,2)}} </td>
+                    </tr>
+                    @endforeach
             </table>
             <br> 
                     @can('ASIGNAR DGI')
@@ -532,9 +542,9 @@
                  </tr>
 
                <br>
-                 @foreach($Comisiones as $c)
+                 @foreach($Comisiones->where('description','DGI') as $c)
                     <tr>
-                        <td> {{$c->id}}</td>
+                        <td> {{$c->folio}}</td>
                         <td> {{$c->iniciales}}</td>
                         <td>  {{$c->description}}</td>
                         <td>  {{$c->percentage * 100}} %</td>
