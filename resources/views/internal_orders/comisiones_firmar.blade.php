@@ -160,7 +160,7 @@
 </style>
 @stop
 
-@section('js')
+@push('js')
     {{-- SweetAlert2 CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -348,17 +348,19 @@
 @if($show_dgi!=1)
         // Evento para agregar compartida
         addCompartidaBtn.addEventListener('click', function(){
-            if(countCompartidas() >= maxCompartidas){
-                Swal.fire({ icon: 'warning', title: 'Límite', text: `No puede agregar más de ${maxCompartidas} comisiones compartidas.`});
-                return;
-            }
+            // if(countCompartidas() >= maxCompartidas){
+            //     Swal.fire({ icon: 'warning', title: 'Límite', text: `No puede agregar más de ${maxCompartidas} comisiones compartidas.`});
+            //     return;
+            // }
             createCompartidaRow();
         });
+@else
+//Evento para agregar dgi
+        addDgiBtn.addEventListener('click', function(){
+            createDgiRow();
+        });
 @endif
-        // Evento para agregar dgi
-        // addDgiBtn.addEventListener('click', function(){
-        //     createDgiRow();
-        // });
+        
 
         // Al hacer click en Guardar: validaciones
         guardarBtn.addEventListener('click', function(){
@@ -458,4 +460,4 @@
 
     })();
     </script>
-@stop
+@endpush
