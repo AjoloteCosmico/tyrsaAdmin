@@ -59,12 +59,15 @@ from ((
 cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_id,
                    internal_orders.customer_id,internal_orders.invoice,internal_orders.noha,
                    internal_orders.seller_id,internal_orders.comision,internal_orders.total
-                     from (((
+                     from ((((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id)
-                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
+    inner join signatures on signatures.order_id = cobros.order_id )
+                   where signatures.status='1' 
+                   and signatures.auth_id='2'
+                   and cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
 
 
 facturas=pd.read_sql("""select factures.*,cobro_factures.cobro_id
@@ -384,8 +387,8 @@ for i in range(len(cobros)):
     worksheet.write(write_row+12,5,'REVISO',firmas)
     worksheet.write(write_row+12,7,'AUTORIZO',firmas)
     #OBSERVACIONES
-    worksheet.merge_range(write_row+10,9,write_row+10,17, 'OBSERVACIONES', blue_header_format)
-    worksheet.merge_range(write_row+11,9,write_row+12,17, ' ', blue_content_bold)
+    # worksheet.merge_range(write_row+10,9,write_row+10,17, 'OBSERVACIONES', blue_header_format)
+    # worksheet.merge_range(write_row+11,9,write_row+12,17, ' ', blue_content_bold)
 
     #SIN IVA
     worksheet.merge_range(write_row+14,2,write_row+14,4, 'SIN IVA', blue_header_format_bold)
@@ -404,19 +407,19 @@ for i in range(len(cobros)):
     
     worksheet.merge_range(write_row+16,2,write_row+16,5, 'VENDEDORES ACTIVOS / DISPERSION DE COMISIONES SIN IVA', negro_s)
     worksheet.write(write_row+16,6,0.0,blue_header_format_bold)
-    worksheet.merge_range(write_row+16,8,write_row+16,11, 'EJECUTIVOS ACTIVOS / DISPERSION DGI SIN IVA', negro_s)
-    worksheet.write(write_row+16,12,0.0,blue_header_format_bold)
+    # worksheet.merge_range(write_row+16,8,write_row+16,11, 'EJECUTIVOS ACTIVOS / DISPERSION DGI SIN IVA', negro_s)
+    # worksheet.write(write_row+16,12,0.0,blue_header_format_bold)
     
     worksheet.merge_range(write_row+18,2,write_row+19,2, 'VENDEDOR', blue_header_format)
     worksheet.merge_range(write_row+18,3,write_row+18,4, 'COMISION', blue_header_format)
     worksheet.write(write_row+19,3, '%', blue_header_format)
     worksheet.write(write_row+19,4, 'M.N. sin iva ', blue_header_format)
 
-    worksheet.merge_range(write_row+18,8,write_row+19,8, 'FACTORES DGI', blue_header_format)
+    # worksheet.merge_range(write_row+18,8,write_row+19,8, 'FACTORES DGI', blue_header_format)
     
-    worksheet.merge_range(write_row+18,9,write_row+19,9, 'VENDEDOR Y EJECUTIVO SV', blue_header_format)
+    # worksheet.merge_range(write_row+18,9,write_row+19,9, 'VENDEDOR Y EJECUTIVO SV', blue_header_format)
     
-    worksheet.merge_range(write_row+18,10,write_row+18,11, 'DGI', blue_header_format)
+    # worksheet.merge_range(write_row+18,10,write_row+18,11, 'DGI', blue_header_format)
 
     worksheet.write(write_row+19,10, '%', blue_header_format)
     worksheet.write(write_row+19,11, 'M.N. sin iva ', blue_header_format)

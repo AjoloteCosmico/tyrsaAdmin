@@ -85,10 +85,13 @@ public function dgi(Request $request){
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
                 cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc, cobros.capturo,cobros.reviso,cobros.autorizo,
-                cobros.facture_id,cobros.date,customers.alias')
+                cobros.facture_id,cobros.date,customers.alias,signatures.firma')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
+    ->join('signatures','cobros.order_id','signatures.order_id')
     ->join('customers','customers.id','internal_orders.customer_id')
+    ->where('signatures.auth_id','=','2')
+    ->where('signatures.status','=','1')
     ->where('cobros.date','>=',$quincenas[$request->interval]['inicio'])
     ->where('cobros.date','<=',$quincenas[$request->interval]['fin'])
     ->orderBy('cobros.date')

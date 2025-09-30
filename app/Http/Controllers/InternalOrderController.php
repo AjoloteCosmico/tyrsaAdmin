@@ -966,11 +966,11 @@ public function recalcular_total($id){
                 if($signature->auth_id==2){
                     comissions::where('order_id', $internalOrderId)->where('description','compartida')->delete();
                 }else{
-                    comissions::where('order_id', $internalOrderId)->delete();
+                    comissions::where('order_id', $internalOrderId)->where('description','DGI')->delete();
                 }
                 $index=0;
                 foreach ($sellerIds as $i => $sellerId) {
-                    if($index==0){
+                    if($index==0 & $signature->auth_id==2){
                         
                             $internal_order = InternalOrder::find($internalOrderId);
                             $internal_order->comision=$comisiones[$i]*0.01;
@@ -978,9 +978,9 @@ public function recalcular_total($id){
                     }else{
                     comissions::create([
                         'order_id' => $internalOrderId,
-                        'seller_id'         => $sellerId,
-                        'percentage'          => $comisiones[$i]*0.01,
-                        'description'              => $tipos[$i],
+                        'seller_id'  => $sellerId,
+                        'percentage'  => $comisiones[$i]*0.01,
+                        'description'  => $tipos[$i],
                     ]);
                     }
                      $index++;
@@ -996,7 +996,6 @@ public function recalcular_total($id){
         $internal_order->status = 'autorizado';}
         $internal_order->save();
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
-        
     }
 
     public function payment($id)
@@ -1041,7 +1040,6 @@ public function recalcular_total($id){
 
     public function payment_edit($id)
     {
-        
         $CompanyProfiles = CompanyProfile::first();
         $InternalOrders = InternalOrder::find($id);
         $payments = payments::where('order_id', $id)->get();

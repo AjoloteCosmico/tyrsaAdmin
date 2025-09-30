@@ -237,7 +237,7 @@
                   <div class="row">
                     <div class="col"><br>@if($comp->capturo) {{$Usuarios->where('id',$comp->capturo)->first()->name}} @endif <hr>  CAPTURÓ </div>
                     <div class="col"><br>@if($comp->reviso) {{$Usuarios->where('id',$comp->reviso)->first()->name}} @endif <hr> REVISÓ</div>
-                    <div class="col"><br>@if($comp->autorizo) {{$Usuarios->where('id',$comp->autorizo)->first()->name}} @endif <hr>  AUTORIZÓ</div>
+                    <div class="col"><br>@if($comp->autorizo) {{$Usuarios->where('firma',$comp->firma)->first()->name}} @endif <hr>  AUTORIZÓ</div>
                     <div class="col">
                   </div>
                   </div>

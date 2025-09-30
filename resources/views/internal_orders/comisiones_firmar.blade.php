@@ -23,7 +23,7 @@
                             @csrf
                             <x-jet-input type="hidden" name="order_id" value="{{$internal_order->id}}" />
                             <x-jet-input type="hidden" name="firma_id" value="{{$signature_id}}" />
-
+                             @if($show_dgi!=1)
                             <h3>Datos del vendedor principal</h3>
 
                             <div class="row mb-3">
@@ -43,19 +43,17 @@
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <div class="form-group">
+                                    <div class="form-group" style="white-space: nowrap; display: inline-block;">
                                         <x-jet-label value="* Comisión principal (%)" />
                                         
-                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $internal_order->comision * 100}}" style="width:40%" max="100" min="0.01" step="0.01" />
-                                        
-                                        &nbsp;% 
+                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $internal_order->comision * 100}}" style="width:40%" max="100" min="0.01" step="0.01" /> &nbsp;% 
                                         <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
                                     </div>
                                 </div>
                             </div>
 
                             <hr>
-
+                            
                             {{-- Sección Comisiones Compartidas --}}
                             <div class="mb-4">
                                 <h4><b>Comisiones Compartidas</b></h4>
@@ -91,7 +89,7 @@
                                     <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 3%.</small>
                                 </div>
                             </div>
-
+ @endif
                             <hr>
 
                             {{-- Sección DGI --}}
@@ -347,7 +345,7 @@
                 });
             });
         }
-
+@if($show_dgi!=1)
         // Evento para agregar compartida
         addCompartidaBtn.addEventListener('click', function(){
             if(countCompartidas() >= maxCompartidas){
@@ -356,7 +354,7 @@
             }
             createCompartidaRow();
         });
-
+@endif
         // Evento para agregar dgi
         // addDgiBtn.addEventListener('click', function(){
         //     createDgiRow();
