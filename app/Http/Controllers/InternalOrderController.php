@@ -891,7 +891,7 @@ public function recalcular_total($id){
         $internal_order = InternalOrder::find($id);
         $signature = signatures::find($signature_id);
         $Seller=Seller::find($internal_order->seller_id);
-        $Sellers = Seller::all();
+        $Sellers = Seller::where('status','ACTIVO')->get();
         $comisiones=comissions::where('order_id',$id)->get();
         $FixedComision=Cantidades::find(1)->cant;
         //  #Asignar automaticamente DGI
