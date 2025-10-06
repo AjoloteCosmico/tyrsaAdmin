@@ -415,7 +415,7 @@
                     <td> <center>$ {{number_format($comp->amount /1.16,2)}}</center></td>
                     
                     <td>{{$pedido->seller_name}} </td>
-                    <td>{{$pedido->invoice}} </td>
+                    <td><center>{{$pedido->invoice}} </center></td>
                     <td>$ 0 </td>
                     <td>$ 1 </td>
                     <td>$ {{number_format($pedido->total/1.16,2)}} </td>
