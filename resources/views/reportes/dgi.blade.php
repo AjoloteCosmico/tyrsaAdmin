@@ -439,13 +439,12 @@
                   @endforeach
                 </tbody>
                 <tfoot >
-              
-                  <tr style="border: 2px solid white;">
+                    <tr style="border: 2px solid white;">
                     <th colspan="4" rowspan="3">  </th>
-                    <th rowspan="3">  {{number_format($Cobros->sum('amount')/1.16,2)}}</th>
+                    <th rowspan="3"> {{-- {{number_format($Cobros->sum('amount')/1.16,2)}} --}} </th>
                     <th rowspan="3"></th>
                     <th>Totales</th>
-                    <th>$0</th>
+                    <!-- <th>$0</th>
                     
                     <th>NA</th>
                     <th>{{number_format($Orders->sum('total')/1.16,2)}}</th>
@@ -454,7 +453,17 @@
                     <th></th>
                     <th  align= "right">Total por pagar</th>
                     
-                    <th><center>${{number_format(($Orders->sum('total')-$Cobros->sum('amount'))/1.16,2)}}</center></th>
+                    <th><center>${{number_format(($Orders->sum('total')-$Cobros->sum('amount'))/1.16,2)}}</center></th> -->
+                     <th></th>
+                    
+                    <th>NA</th>
+                    <th></th>
+                    <th>NA</th>
+                    <th></th>
+                    <th></th>
+                    <th  align= "right">Total por pagar</th>
+                    
+                    <th><center></center></th>
                    
                     
                   </tr>
@@ -591,16 +600,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/2.3.2/api/sum().js"></script>
 <script>
   new DataTable('#example');
 </script>
+
 <script>
   new DataTable('#example2', {
-    pageLength: 100
+    pageLength: 100,
+    footerCallback: function (row, data, start, end, display) {
+            const formatNumber = function (num) {
+                return '$' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            let api = this.api();
+            // console.log(api.column());
+            for (let i = 4; i < 15; i++) {
+            // for(i in [14,13]){
+              
+            let pageTotal = api.column(i, { page: 'current' }).data().sum();
+ 
+            // Update footer
+              if(pageTotal>800){
+
+            $(api.column(i).footer()).html("<center>"+formatNumber(pageTotal)+"</center>");
+              }
+            
+            }
+                
+ 
+            // Calculate total over this page
+        }
   });
 </script>
 <script>
-  new DataTable('#example3');
+  new DataTable('#example3',{
+    pageLength: 50,
+    footerCallback: function (row, data, start, end, display) {
+            const formatNumber = function (num) {
+                return '$' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            let api = this.api();
+            // console.log(api.column());
+            for (let i = 2; i < 12; i++) {
+            // for(i in [14,13]){
+              
+            let pageTotal = api.column(i, { page: 'current' }).data().sum();
+ 
+            // Update footer
+             
+
+            $(api.column(i).footer()).html("<center>"+formatNumber(pageTotal)+"</center>");
+              
+            
+            }
+                
+ 
+            // Calculate total over this page
+        }
+  });
 </script>
 <script>
   new DataTable('#example4');
