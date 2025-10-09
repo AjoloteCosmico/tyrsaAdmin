@@ -227,8 +227,8 @@
                             <td> {{number_format(($comp->amount*100/$pedido->total),2)}} %</td>
                             <td> ${{number_format(((($comp->amount/$pedido->total)*$pedido->comision*$pedido->total)/1.16)*$comp->tc,2)}} </td>
                             <td> 0</td>
-                            <td> @if($pagos->count() >= $ordinal)
-                              {{$pagos->skip($ordinal-1)->first()->concept}}@endif </td>
+                            <td> {{-- @if($pagos->count() >= $ordinal)
+                              {{$pagos->skip($ordinal-1)->first()->concept}}@endif --}}</td>
                         </tr>  
                       </table>
                     </div>
@@ -379,7 +379,7 @@
                 <thead>
                   <tr class="text-center">
                     <th rowspan="2">PDA</th>
-                    <th rowspan="2">FECHA</th>
+                    <th rowspan="2">FECHA &nbsp; &nbsp;</th>
                     <th rowspan="2">CLIENTE NOMBRE <br> CORTO</th>
                     <th rowspan="2"> <center>COMPROBANTE<br>DE INGRESOS <br> no.</center></th>
                     <th rowspan="2"> <center> IMPORTE <br> COBRADO <br> sin iva</center> </th>
@@ -390,6 +390,7 @@
                     <th rowspan="2"><center>% DE LA <br> COMISION QUE <br> SE DEBE</center></th>
                     <th rowspan="2"><center>% DE LA <br>COMISION  <br>NEGOCIADA</center></th>
                     <th rowspan="2"><center>% DE LA <br> COMISION POR <br> PAGAR SIN IVA</center></th>
+                    <th rowspan="2"><center>ESTATUS</center></th>
                   
                   </tr>
                   <tr class="text-center">
@@ -409,7 +410,7 @@
                   
                     @endphp
                     <td>{{$loop->index}} </td>
-                    <td>{{$comp->date}} </td>
+                    <td>{{date('d-m-Y', strtotime($comp->date))}} </td>
                     <td>{{$comp->alias}} </td>
                     <td> <center>{{$comp->comp}}</center> </td>
                     <td> <center>$ {{number_format($comp->amount /1.16,2)}}</center></td>
@@ -434,6 +435,7 @@
                         $concepto='Cobro no'.($no_cobro+1);
                       } 
                      @endphp
+                     <td></td>
                   </tr>
 
                   @endforeach
@@ -465,7 +467,7 @@
                     
                     <th><center></center></th>
                    
-                    
+                    <th rowspan="3" ></th>
                   </tr>
                   <!-- segundafila -->
                   <tr>

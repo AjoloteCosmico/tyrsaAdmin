@@ -47,7 +47,7 @@
                                         <x-jet-label value="* Comisión principal (%)" />
                                         
                                             <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $internal_order->comision * 100}}" style="width:40%" max="10" min="0.01" step="0.01" /> &nbsp;% 
-                                        <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
+                                        <div class="small text-muted">La comisión fija establecida es del 10% </div>
                                     </div>
                                 </div>
                             </div>
