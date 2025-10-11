@@ -149,7 +149,6 @@
                             <th>NOHA C.I.</th>
                             <td>{{$comp->noha}} </td>
                         </tr>
-                        
                         <tr>
                             <th>FECHA</th>
                             <td> {{$comp->date}} </td>
