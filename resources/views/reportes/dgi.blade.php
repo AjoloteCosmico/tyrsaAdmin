@@ -48,7 +48,7 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">REPORTE PARA PAGO DE COMISIÓN @if($Type=='vendedores') POR VENDEDORES @endif @if($Type=='comp') POR COMPROBANTE DE INGRESOS @endif @if($Type=='resumen') RESUMEN @endif @if($Type=='resumen_ventas') POR VENTAS DIRECTAS @endif  </h5>
+            <h5 class="text-lg text-center text-bold">REPORTE PARA PAGO DE COMISIÓN @if($Type=='vendedores') POR VENDEDORES @endif @if($Type=='comp') POR COMPROBANTE DE INGRESOS @endif @if($Type=='resumen') RESUMEN @endif @if($Type=='resumen_ventas') POR VENTAS DIRECTAS @endif @if($Type=='resumen_ejecutivos') POR DGI @endif  </h5>
             <br>
             <div >
                 @if($Type=='vendedores')
@@ -661,7 +661,38 @@
   });
 </script>
 <script>
-  new DataTable('#example4');
+  new DataTable('#example4',{
+    pageLength: 50,
+    footerCallback: function (row, data, start, end, display) {
+            const formatNumber = function (num) {
+                return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            let api = this.api();
+            let tfoot = $(api.table().footer());
+            // console.log(api.column());
+            for (let i = 2; i < 7; i++) {
+            // for(i in [14,13]){
+              
+            let pageTotal = api.column(i, { page: 'current' }).data().sum();
+             
+            // Update footer
+             
+
+            // $(api.column(i).footer()).html("<center>"+formatNumber(pageTotal)+"</center>");
+            // Primera fila del footer
+            $(tfoot.find('tr').eq(0).find('th,td').eq(i)).html("<center>" + formatNumber(pageTotal) + "</center>");
+            // Tercera fila del footer (índice 2)
+            $(tfoot.find('tr').eq(2).find('th,td').eq(i)).html("<center>" + formatNumber(pageTotal) + "</center>");  
+            let val4 = parseFloat(
+            $(tfoot.find('tr').eq(3).find('td,th').eq(i)).text().replace(/[^0-9.-]+/g,"")
+          ) || 0;
+              $(tfoot.find('tr').eq(4).find('td,th').eq(i)).html("<center>" + formatNumber(pageTotal+val4) + "</center>");
+            }
+                
+ 
+            // Calculate total over this page
+        }
+  });
 </script>
 
 @endpush
