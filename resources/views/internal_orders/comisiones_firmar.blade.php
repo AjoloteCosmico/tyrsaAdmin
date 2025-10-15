@@ -49,7 +49,7 @@
                                             <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $FixedComision}}" style="width:40%" max="100" min="0.01" step="0.01" />
                                         
                                         &nbsp;% 
-                                        <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
+                                        <div class="small text-muted">La comisión fija establecida es del 10% </div>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +200,6 @@
 
     return total;
 }
-
 
         // Crear nueva fila compartida
         function createCompartidaRow(selectedSellerId = '', comisionVal = ''){
