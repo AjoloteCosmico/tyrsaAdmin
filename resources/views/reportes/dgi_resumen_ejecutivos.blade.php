@@ -96,7 +96,6 @@
                         <th> <center> </center></th>
                     </tr>
                    <tr>
-                        
                         <th></th>
                         <th></th>
                     @foreach($socios as $row)
@@ -124,7 +123,7 @@
                     </tr> 
                     <tr>
                         <th></th>
-                        <th > Totales th>
+                        <th > Totales </h>
                         @foreach($socios as $row)
                            <td> </td>
                         @endforeach
@@ -138,17 +137,17 @@
                     <tr>
                         <tr>
                             <td>Total Comisiones</td>
-                            <td>$ {{number_format(($Cobros->sum('amount')/1.16)*.1,2)}}</td>
+                            <td id="total_com"></td>
                            
                         </tr>
                          <tr>
                             <td>Total DGI</td>
-                            <td>$ {{number_format(($Cobros->sum('amount')/1.16)*.9,2)}}</td>
+                            <td id="total_dgi"></td>
                            
                         </tr>
                         <tr>
                             <th>Total egresos Quincena</th>
-                            <th>$ {{number_format($Cobros->sum('amount')/1.16,2)}}</th>
+                            <th id="total_quincena"></th>
                         </tr>
                         
                    

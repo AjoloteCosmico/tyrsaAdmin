@@ -3,7 +3,7 @@
 @section('title', 'REPORTE COMISIONES')
 
 @section('content_header')
-    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp;REPORTE DE COMISIONES</h1>
+    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp;REPORTE DE @if($Type=='resumen_ejecutivos') DGI @else  COMISIONES @endif</h1>
 @stop
 
 @section('content')     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
@@ -48,7 +48,7 @@
 
 
             
-            <h5 class="text-lg text-center text-bold">REPORTE PARA PAGO DE COMISIÓN @if($Type=='vendedores') POR VENDEDORES @endif @if($Type=='comp') POR COMPROBANTE DE INGRESOS @endif @if($Type=='resumen') RESUMEN @endif @if($Type=='resumen_ventas') POR VENTAS DIRECTAS @endif @if($Type=='resumen_ejecutivos') POR DGI @endif  </h5>
+            <h5 class="text-lg text-center text-bold">REPORTE PARA PAGO DE @if($Type=='vendedores')COMISIÓN  POR VENDEDORES @endif @if($Type=='comp')COMISIÓN  POR COMPROBANTE DE INGRESOS @endif @if($Type=='resumen') RESUMEN @endif @if($Type=='resumen_ventas')COMISIÓN  POR VENTAS DIRECTAS @endif @if($Type=='resumen_ejecutivos') DGI @endif  </h5>
             <br>
             <div >
                 @if($Type=='vendedores')
@@ -687,6 +687,12 @@
             $(tfoot.find('tr').eq(3).find('td,th').eq(i)).text().replace(/[^0-9.-]+/g,"")
           ) || 0;
               $(tfoot.find('tr').eq(4).find('td,th').eq(i)).html("<center>" + formatNumber(pageTotal+val4) + "</center>");
+            if(i==6){
+              document.getElementById("total_com").innerHTML = "<center>" + formatNumber(pageTotal) + "</center>";
+              document.getElementById("total_dgi").innerHTML = "<center>" + formatNumber(val4) + "</center>";
+              document.getElementById("total_quincena").innerHTML = "<center>" + formatNumber(pageTotal+val4) + "</center>";
+            }
+            
             }
                 
  
@@ -694,5 +700,6 @@
         }
   });
 </script>
+
 
 @endpush

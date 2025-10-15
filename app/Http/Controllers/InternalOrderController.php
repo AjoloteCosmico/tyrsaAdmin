@@ -94,7 +94,6 @@ class InternalOrderController extends Controller
             'Medios',
             'contactos',
             'NextInvoice',
-
         ));
     }
 
