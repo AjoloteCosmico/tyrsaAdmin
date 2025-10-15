@@ -67,7 +67,7 @@
                                     <button type="button" id="add-compartida" class="btn btn-green">
                                         <i class="fas fa-plus-circle"></i> Agregar comisión compartida
                                     </button>
-                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 3%.</small>
+                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 10%.</small>
                                 </div>
                             </div>
 
@@ -342,24 +342,24 @@
 
         // Al hacer click en Guardar: validaciones
         guardarBtn.addEventListener('click', function(){
-            // 1) Verificar comisión principal no mayor a 3%
+            // 1) Verificar comisión principal no mayor a 10%
             const principalInput = document.getElementById('principal_comision');
             const principalVal = principalInput ? parseFloat(principalInput.value) : 0;
-            if(!isNaN(principalVal) && principalVal > 3.0){
+            if(!isNaN(principalVal) && principalVal > 10.0){
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Comisión principal excede 3%',
-                    text: 'La comisión principal no puede ser mayor a 3%. Corrija antes de guardar.'
+                    title: 'Comisión principal excede 10%',
+                    text: 'La comisión principal no puede ser mayor a 10%. Corrija antes de guardar.'
                 });
                 return;
             }
 
-            // 2) Verificar que la suma total de comisiones no supere 3%
+            // 2) Verificar que la suma total de comisiones no supere 10%
             const total = getTotalComision();
-            if(total > 3.0){
+            if(total > 10.0){
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Comisiones totales exceden 3%',
+                    title: 'Comisiones totales exceden 10%',
                     html: `La suma de todas las comisiones es <b>${total.toFixed(2)}%</b>. Debe ser <= 3.00%.`
                 });
                 return;
