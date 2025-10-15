@@ -16,7 +16,6 @@ use App\Models\CustomerContact;
 use App\Models\Item;
 use App\Models\Marca;
 use App\Models\Medio;
-
 use App\Models\Seller;
 use App\Models\TempInternalOrder;
 use App\Models\TempItem;
@@ -94,6 +93,7 @@ class InternalOrderController extends Controller
             'Medios',
             'contactos',
             'NextInvoice',
+
         ));
     }
 
