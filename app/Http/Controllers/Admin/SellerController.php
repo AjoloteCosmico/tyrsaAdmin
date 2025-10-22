@@ -240,7 +240,7 @@ class SellerController extends Controller
     }
     public function dgi_update(Request $request,$id){  
         $Socio=Seller::find($id);
-        $Socio->dgi=$request->dgi;
+        $Socio->dgi=$request->dgi*0.01;
         $Socio->save();
         return redirect()->route('dgi_com.index')->with('update_reg','ok');
     }

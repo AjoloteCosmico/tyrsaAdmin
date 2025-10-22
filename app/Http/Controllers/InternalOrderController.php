@@ -907,7 +907,7 @@ public function recalcular_total($id){
                 
             $comision = new comissions();
             $comision->seller_id=$socio->id;
-            $comision->percentage=$socio->dgi*0.01;
+            $comision->percentage=$socio->dgi;
             $comision->order_id=$id;
             $comision->description='DGI';
             $comision->save();
