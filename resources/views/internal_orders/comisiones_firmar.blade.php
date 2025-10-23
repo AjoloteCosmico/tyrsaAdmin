@@ -112,7 +112,7 @@
                                                     <input type="hidden" name="tipo[]" value="DGI" />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
+                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.001" style="width:70%"/> &nbsp; %
                                                 </div>
                                                 <div class="col-md-2">
                                                     <button type="button" class="btn btn-red remove-row"><i class="fas fa-trash"></i></button>

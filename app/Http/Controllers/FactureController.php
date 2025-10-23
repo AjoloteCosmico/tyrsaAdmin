@@ -47,6 +47,7 @@ class FactureController extends Controller
                 'Coins','ncomp'
                 ));
             }
+            
     public function store(Request $request){
         
                     $rules = [

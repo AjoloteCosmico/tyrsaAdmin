@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" TIPO DE CAMBIO" />
-                                        <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
+                                        <x-jet-input type="number" step="0.001" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>
                                     
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.0001" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
                                     Ingresa su comprobante
