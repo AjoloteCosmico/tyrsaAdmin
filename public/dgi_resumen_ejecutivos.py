@@ -375,13 +375,16 @@ worksheet.write_formula(len(cobros)+9, 3+len(socios), f"=SUM({chr(start+3+len(so
 worksheet.write(len(cobros)+10, 3+len(socios), 'TOTALES',blue_footer_format_bold)
 worksheet.write_formula(len(cobros)+11, 3+len(socios), f"=SUM({chr(start+3+len(socios))}10:{chr(start+3+len(socios))}"+str(len(cobros)+9)+")",blue_footer_format_bold)
 
-worksheet.write_formula(len(cobros)+13, 3+len(socios), f"=SUM({chr(start+3+len(socios))}{str(len(cobros)+11)}:{chr(start+3+len(socios))}{str(len(cobros)+12)})",blue_footer_format_bold)
 
 ##Tabla inferior de TOTALES
 worksheet.merge_range(9+len(cobros),1,10+len(cobros),2,"",blue_header_format)
 worksheet.merge_range(11+len(cobros),1,11+len(cobros),2,"""DGI""",blue_header_format)
 worksheet.merge_range(12+len(cobros),1,12+len(cobros),2,"""COMISIONES""",blue_header_format)
+#suma de total comisiones no dgi
+worksheet.write_formula(len(cobros)+12, 3+len(socios), f"=SUM(D{str(len(cobros)+13)}:{chr(start+2+len(socios))}{str(len(cobros)+13)})",blue_footer_format_bold)
+
 worksheet.merge_range(13+len(cobros),1,13+len(cobros),2,"""TOTALES""",blue_header_format)
+worksheet.write_formula(len(cobros)+13, 3+len(socios), f"=SUM({chr(start+3+len(socios))}{str(len(cobros)+12)}:{chr(start+3+len(socios))}{str(len(cobros)+13)})",blue_footer_format_bold)
 
 worksheet.set_row(5,27)
 
