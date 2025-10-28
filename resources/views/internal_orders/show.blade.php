@@ -635,7 +635,7 @@
                   
                 <table class=" table-responsive text-xs" style="border: none; border-collapse: collapse;">
                     <tr style="border: none; border-collapse: collapse;">
-                        <td style="border: none; border-collapse: collapse;"> <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-5x"> </i>  &nbsp; Imprimir PDF <br>  &nbsp; desde esta pagina <br> &nbsp;  (sujeto a graficos del navegador) </button></td>
+                        <td style="border: none; border-collapse: collapse;"> </td>
                         <td style="border: none; border-collapse: collapse;"></td>
                         <td style="border: none; border-collapse: collapse;">@can('VER DGI')       
                   <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido_confidential',1])}}">
