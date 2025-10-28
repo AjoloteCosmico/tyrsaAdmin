@@ -128,7 +128,7 @@
                       $ordinal=$ordinal+1;
                     }
                     $pedido=$Orders->where('id',$comp->order_id)->first();
-                    $facturas=$Cobro_Facturas->where('cobro_id',$comp->cobro_id);
+                    $facturas=$Cobro_Facturas->where('cobro_id',$comp->cobro_id)->where('order_id',$comp->order_id);
                     
                     $total_cobrado=$TodosLosCobros->where('order_id',$comp->order_id)->sum('amount');
                     $pagos=$Pagos->where('order_id',$comp->order_id);

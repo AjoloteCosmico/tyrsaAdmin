@@ -38,7 +38,12 @@
                         <tr style="border: 2px solid white;">
                             <th>Nombre corto</th>
                             @foreach($socios as $row)
-                            <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
+                                
+                                <th>NELSON</th> 
+                                @else
+                                <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                @endif
                             @endforeach
                         </tr>
                         <tr style="border: 2px solid white;">
@@ -98,9 +103,12 @@
                    <tr>
                         <th></th>
                         <th></th>
-                    @foreach($socios as $row)
-                         <th> <center> {{ ltrim(strrchr($row->seller_name, " "))}}</center> </th> 
-                    @endforeach
+                   @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
+                                
+                                <th>NELSON</th> 
+                                @else
+                                <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                @endif
                     <th><center> Totales</center></th>
                     </tr>
                     <tr>

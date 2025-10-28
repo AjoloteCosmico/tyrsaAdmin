@@ -111,7 +111,7 @@ public function dgi(Request $request){
     $Monedas=Coin::all();
     $Facturas=Factures::all();
     $Cobro_Facturas=DB::table('cobro_factures')
-    ->select('cobro_factures.*','factures.facture')
+    ->select('cobro_factures.*','factures.facture','factures.order_id')
     ->join('factures','factures.id','cobro_factures.facture_id')
     ->get();
     $Pagos=payments::all();
