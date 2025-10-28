@@ -103,12 +103,14 @@
                    <tr>
                         <th></th>
                         <th></th>
-                   @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
+                    @foreach($socios as $row)
+                         @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
                                 
-                                <th>NELSON</th> 
+                                <th><center> NELSON</center></th> 
                                 @else
-                                <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                <th><center> {{ ltrim(strrchr($row->seller_name, " "))}}</center> </th> 
                                 @endif
+                    @endforeach
                     <th><center> Totales</center></th>
                     </tr>
                     <tr>
