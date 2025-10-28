@@ -335,9 +335,14 @@ for i in range(len(socios)):
     this_comisions=comisiones.loc[(comisiones['seller_id']==socios['id'].values[i])]
     worksheet.write(5,3+i,str(i+1),blue_header_format)
     worksheet.write(6,3+i,socios['iniciales'].values[i],blue_header_format)
-    worksheet.write(7,3+i,str(socios['seller_name'].values[i]).split()[-1],blue_header_format)
+    if(str(socios['seller_name'].values[i]).split()[-1]=='ERNESTO'):
+        worksheet.write(7,3+i,'NELSON',blue_header_format)
+        worksheet.write(len(cobros)+10, 3+i,'NELSON',blue_content_footer)
+    else:
+        worksheet.write(7,3+i,str(socios['seller_name'].values[i]).split()[-1],blue_header_format)
+        worksheet.write(len(cobros)+10, 3+i,str(socios['seller_name'].values[i]).split()[-1],blue_content_footer)
     worksheet.write(8,3+i,'comision $',blue_header_format)
-    worksheet.write(len(cobros)+10, 3+i,str(socios['seller_name'].values[i]).split()[-1],blue_content_footer)
+    
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='DGI')]
         amount=0
