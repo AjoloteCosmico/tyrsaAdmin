@@ -846,6 +846,10 @@ public function recalcular_total($id){
         }
 
         if($isPasswordCorrect && $userHasRole ){
+            if($signature->auth_id==2 ){
+                $internal_order->vent_auth=1;
+                $internal_order->save();
+            }
             if($signature->auth_id==2 || $signature->auth_id==3){
                 
                 return $this->comisiones_firmar($internal_order->id,$signature->id);
@@ -856,10 +860,7 @@ public function recalcular_total($id){
             $Warn='ok';
             //identificar si es la firma del Gerente Ventas roles id 16
             //marcar vent_auth=1
-            if($user_rol_id=16){
-                $internal_order->vent_auth=1;
-                $internal_order->save();
-            }
+            
             
         }
 
