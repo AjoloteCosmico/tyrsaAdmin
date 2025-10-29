@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* IMPORTE PAGADO CON IVA" />
-                                        <x-jet-input type="number" step="0.0001" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                        <x-jet-input type="number" step="0.01" min="0" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('amount')}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
                                     Ingresa su comprobante
