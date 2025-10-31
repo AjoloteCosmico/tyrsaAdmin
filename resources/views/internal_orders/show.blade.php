@@ -83,7 +83,7 @@
 
                     <tr>
                         <th colspan="2"> Regimen de Capital: </th>
-                        <td colspan="12"> S.A DE C.V </td>
+                        <td colspan="12">{{$Customers->legal_name}}</td>
                     </tr>
                     <tr>
                         <th colspan="2"> Regimen Fiscal: </th>
