@@ -851,7 +851,15 @@ public function recalcular_total($id){
                 $internal_order->vent_auth=1;
                 $internal_order->save();
             }
+            //verificar si el pedido debe autorizarse
+            $required_signatures = signatures::where('order_id',$internal_order->id)->get();
             
+            $nSigns=$required_signatures->count();
+            $areAllSigns=$required_signatures->where('status',1)->count();
+            
+            if($areAllSigns ==$nSigns){
+            $internal_order->status = 'autorizado';}
+            $internal_order->save();
             if($signature->auth_id==2 || $signature->auth_id==3){
                 
                 return $this->comisiones_firmar($internal_order->id,$signature->id);
@@ -1536,7 +1544,9 @@ public function recalcular_total($id){
                     $Signature->save(); 
                 }
             }
+            
             $InternalOrders->status='CAPTURADO';
+            $InternalOrders->vent_auth=NULL;
             $InternalOrders->save();
             return redirect()->route('internal_orders.show',$id)->with('unautorized','ok');
         }else{

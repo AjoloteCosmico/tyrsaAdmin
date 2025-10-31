@@ -40,7 +40,7 @@ public function dgi_select(){
     
     $year=now()->format('Y');
     $quincenas = [];
-    for ($i = 1; $i <= 24; $i++) {
+    for ($i = 24; $i >0; $i--) {
         $month = ceil($i/ 2);
         $isFirstHalf = $i % 2 !== 0;
         $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
