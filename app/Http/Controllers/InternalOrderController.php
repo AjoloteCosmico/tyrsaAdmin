@@ -580,7 +580,8 @@ public function recalcular_total($id){
                 $comision->dgi=0;
 
                 $comision->seller_id=$tc->seller_id;
-                $comision->save();
+                //ya no deben guardarse en est emomento las comisiones
+                // $comision->save();
                 temp_comissions::destroy($tc->id);
             }
             TempInternalOrder::destroy($TempInternalOrders->id);
@@ -1005,6 +1006,16 @@ public function recalcular_total($id){
         if($areAllSigns ==$nSigns){
         $internal_order->status = 'autorizado';}
         $internal_order->save();
+
+        //validar regla de no doble comision
+        comissions::where('seller_id',$internal_order->seller_id)->where('description','DGI')->delete();
+        $ComisionesCompartidas=comissions::where('order_id',$internal_order->id)->where('description','compartida')->get();
+         foreach($ComisionesCompartidas as $cc){
+            $existente=comissions::where('seller_id',$cc->seller_id)->where('description','DGI')->first();
+            if($existente){
+                comissions::where('id',$existente->id)->delete();
+            }
+         }
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
     }
 

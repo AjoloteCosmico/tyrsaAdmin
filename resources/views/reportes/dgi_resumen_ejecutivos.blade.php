@@ -72,18 +72,21 @@
                            
                             @if($row->id==$cobro->seller_id)
                                 @php
-                                
+                                $ComDirecta=($cobro->amount/1.16)*$cobro->comision;
                                 $totales[$row->iniciales]+=($cobro->amount/1.16)*$cobro->comision;
                                 @endphp
 
                             @elseif($this_comissions->where('seller_id',$row->id)->where('description','DGI')->count()>0)
                                 @php
+                                $ComDirecta=($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description','!=','DGI')->sum('percentage');
                                 $totales[$row->iniciales]+=($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description','!=','DGI')->sum('percentage');
                                  @endphp
                             @else 
-                                
+                               @php
+                                $ComDirecta=0;
+                               @endphp
                             @endif
-                            <td><center>${{number_format(($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description', '!=', 'compartida')->sum('percentage'),2)}} </center> </td> 
+                            <td><center>${{number_format(($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description', '!=', 'compartida')->sum('percentage'),2)}} </center>  </td> 
                        
                         @endforeach
                          <td><center>${{number_format(($cobro->amount/1.16)* $this_comissions->where('description','!=', 'compartida')->sum('percentage'),2)}}</center> </td>
