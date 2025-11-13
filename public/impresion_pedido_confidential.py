@@ -79,7 +79,12 @@ comisiones=pd.read_sql(f"""select comissions.*,sellers.iniciales,sellers.seller_
                        inner join sellers on sellers.id=comissions.seller_id
                         where order_id ={order['id'].values[0]}""",cnx)
 letter_total=num2words.num2words(order['total'].values[0], lang='es').upper()
-
+coin_name=coin['coin'].values[0]
+if(coin_name=='NACIONAL'):
+    coin_name='MONEDA NACIONAL'
+if(coin_name=='DOLARES AME'):
+    coin_name='DOLARES AMERICANOS'
+letter_total=letter_total+' '+coin_name
 #variables para contrlolar la longitud de la pagina
 len_page=58
 npages=3
