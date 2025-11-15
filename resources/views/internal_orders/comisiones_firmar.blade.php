@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'COMISIONES - PEDIDO INTERNO')
+@section('title', 'COMISIONES')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-percent"></i>&nbsp; Comisiones Pedido Interno</h1>
+    <h1 class="font-bold"><i class="fas fa-percent"></i>&nbsp; Comisiones </h1>
 @stop
 
 @section('content')
@@ -22,7 +22,8 @@
                         <form action="{{ route('internal_orders.store_comisiones_pos') }}" id="comisiones-form" method="POST">
                             @csrf
                             <x-jet-input type="hidden" name="order_id" value="{{$internal_order->id}}" />
-
+                            <x-jet-input type="hidden" name="firma_id" value="{{$signature_id}}" />
+                             @if($show_dgi!=1)
                             <h3>Datos del vendedor principal</h3>
 
                             <div class="row mb-3">
@@ -42,37 +43,57 @@
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <div class="form-group">
+                                    <div class="form-group" style="white-space: nowrap; display: inline-block;">
                                         <x-jet-label value="* Comisión principal (%)" />
                                         
-                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $FixedComision}}" style="width:40%" max="100" min="0.01" step="0.01" />
-                                        
-                                        &nbsp;% 
-                                        <div class="small text-muted">La comisión fija establecida es del {{ number_format($FixedComision ?? 0,1) }}% </div>
+                                            <input id="principal_comision" class="form-capture text-md" type="number" name="comision[]" value="{{ $internal_order->comision * 100}}" style="width:40%" max="10" min="0.01" step="0.01" /> &nbsp;% 
+                                        <div class="small text-muted">La comisión fija establecida es del 10% </div>
                                     </div>
                                 </div>
                             </div>
 
                             <hr>
-
+                            
                             {{-- Sección Comisiones Compartidas --}}
                             <div class="mb-4">
                                 <h4><b>Comisiones Compartidas</b></h4>
                                 <div id="compartidas-container">
-                                    {{-- inicialmente vacío; se pueden agregar filas con JS --}}
+                                    {{-- se pueden agregar filas con JS --}}
+                                        @foreach($compartidas as $dgi)
+                                            <div class="row align-items-center mb-2 dgi-row">
+                                                <div class="col-md-5">
+                                                    <select class="form-capture w-full seller-select" name="seller_id[]">
+                                                        <option value="">-- Seleccionar Vendedor --</option>
+                                                        @foreach($Sellers as $s)
+                                                            <option value="{{ $s->id }}" @if($s->id == $dgi->seller_id) selected @endif>{{ $s->seller_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-jet-input-error for="seller_id" />
+                                                    <input type="hidden" name="tipo[]" value="compartida" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-red remove-row"><i class="fas fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
                                 </div>
 
                                 <div class="mt-2">
                                     <button type="button" id="add-compartida" class="btn btn-green">
                                         <i class="fas fa-plus-circle"></i> Agregar comisión compartida
                                     </button>
-                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas + DGI) no debe superar 3%.</small>
+                                    <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 10%.</small>
                                 </div>
                             </div>
-
+ @endif
                             <hr>
 
                             {{-- Sección DGI --}}
+                            @if($show_dgi==1)
                             <div class="mb-4">
                                 <h4><b>Comisiones DGI</b></h4>
                                 <div id="dgi-container">
@@ -88,10 +109,10 @@
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="seller_id" />
-                                                    <input type="hidden" name="tipo[]" value="dgi" />
+                                                    <input type="hidden" name="tipo[]" value="DGI" />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
+                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.001" style="width:70%"/> &nbsp; %
                                                 </div>
                                                 <div class="col-md-2">
                                                     <button type="button" class="btn btn-red remove-row"><i class="fas fa-trash"></i></button>
@@ -106,7 +127,7 @@
                                         <i class="fas fa-plus-circle"></i> Agregar comisión DGI
                                     </button>
                                 </div>
-                            </div>
+                            </div> @endif
 
                             <div class="w-100"><hr></div>
 
@@ -139,7 +160,7 @@
 </style>
 @stop
 
-@section('js')
+@push('js')
     {{-- SweetAlert2 CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -192,7 +213,7 @@
         const tipo = tipoInput ? tipoInput.value : '';
 
         // solo sumar si no es dgi
-        if(!isNaN(v) && tipo !== 'dgi'){
+        if(!isNaN(v) && tipo !== 'DGI'){
             total += v;
         }
     });
@@ -249,7 +270,7 @@
                         <option value="">-- Seleccionar Vendedor --</option>
                         ${sellersOptions}
                     </select>
-                    <input type="hidden" name="tipo[]" value="dgi" />
+                    <input type="hidden" name="tipo[]" value="DGI" />
                 </div>
                 <div class="col-md-3">
                     <input type="number" name="comision[]" class="form-capture comision-input" value="${comisionVal}" min="0.01" step="0.01" style="width:70%"/> &nbsp; %
@@ -274,7 +295,7 @@
             const sel = row.querySelector('select[name="seller_id[]"]');
             const com = row.querySelector('input[name="comision[]"]');
             const removeBtn = row.querySelector('.remove-row');
-
+            console.log(getAllSelectedSellerIds());
             if(sel){
                 sel.addEventListener('change', function(){
                     // si hay duplicado, alert y reset a empty
@@ -324,42 +345,44 @@
                 });
             });
         }
-
+@if($show_dgi!=1)
         // Evento para agregar compartida
         addCompartidaBtn.addEventListener('click', function(){
-            if(countCompartidas() >= maxCompartidas){
-                Swal.fire({ icon: 'warning', title: 'Límite', text: `No puede agregar más de ${maxCompartidas} comisiones compartidas.`});
-                return;
-            }
+            // if(countCompartidas() >= maxCompartidas){
+            //     Swal.fire({ icon: 'warning', title: 'Límite', text: `No puede agregar más de ${maxCompartidas} comisiones compartidas.`});
+            //     return;
+            // }
             createCompartidaRow();
         });
-
-        // Evento para agregar dgi
+@else
+//Evento para agregar dgi
         addDgiBtn.addEventListener('click', function(){
             createDgiRow();
         });
+@endif
+        
 
         // Al hacer click en Guardar: validaciones
         guardarBtn.addEventListener('click', function(){
-            // 1) Verificar comisión principal no mayor a 3%
+            // 1) Verificar comisión principal no mayor a 10%
             const principalInput = document.getElementById('principal_comision');
             const principalVal = principalInput ? parseFloat(principalInput.value) : 0;
-            if(!isNaN(principalVal) && principalVal > 3.0){
+            if(!isNaN(principalVal) && principalVal > 10.0){
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Comisión principal excede 3%',
-                    text: 'La comisión principal no puede ser mayor a 3%. Corrija antes de guardar.'
+                    title: 'Comisión principal excede 10%',
+                    text: 'La comisión principal no puede ser mayor a 10%. Corrija antes de guardar.'
                 });
                 return;
             }
 
-            // 2) Verificar que la suma total de comisiones no supere 3%
+            // 2) Verificar que la suma total de comisiones no supere 10%
             const total = getTotalComision();
-            if(total > 3.0){
+            if(total > 10.0){
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Comisiones totales exceden 3%',
-                    html: `La suma de todas las comisiones es <b>${total.toFixed(2)}%</b>. Debe ser <= 3.00%.`
+                    title: 'Comisiones totales exceden 10%',
+                    html: `La suma de todas las comisiones es <b>${total.toFixed(2)}%</b>. Debe ser <= 10.00%.`
                 });
                 return;
             }
@@ -367,6 +390,7 @@
             // 3) Verificar que no haya vendedores duplicados en toda la lista
             const ids = getAllSelectedSellerIds();
             const dup = findDuplicate(ids);
+            
             if(dup){
                 Swal.fire({
                     icon: 'warning',
@@ -376,8 +400,29 @@
                 return;
             }
 
+            flag=1;
+            const inputs = form.querySelectorAll('select[name="seller_id[]"], input[name="seller_id[]"]');
+            inputs.forEach(el => {
+                // if select, value; if hidden input (principal) also included
+                if(el.tagName.toLowerCase() === 'select' || el.tagName.toLowerCase() === 'input'){
+                    const v = el.value ? String(el.value) : '';
+                    if(v == ''){
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Seleccione un vendedor',
+                            text: `Hay una comisión sin vendedor seleccionado, seleccione uno, o elimine la comisión compartida`
+                        });
+                        flag=0;//evitar q se ejecute el submit
+                        return;
+
+                    }
+                }
+            });
             // All validations passed -> submit
+            if(flag==1){
+
             form.submit();
+            }
         });
 
         // buscar duplicado simple
@@ -415,4 +460,4 @@
 
     })();
     </script>
-@stop
+@endpush

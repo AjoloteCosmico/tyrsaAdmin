@@ -40,7 +40,7 @@ public function dgi_select(){
     
     $year=now()->format('Y');
     $quincenas = [];
-    for ($i = 1; $i <= 24; $i++) {
+    for ($i = 24; $i >0; $i--) {
         $month = ceil($i/ 2);
         $isFirstHalf = $i % 2 !== 0;
         $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
@@ -85,10 +85,13 @@ public function dgi(Request $request){
     ->selectRaw('cobro_orders.*,
                 internal_orders.noha,internal_orders.invoice,internal_orders.comision,internal_orders.seller_id,
                 cobros.comp,cobros.bank_id,cobros.coin_id,cobros.tc, cobros.capturo,cobros.reviso,cobros.autorizo,
-                cobros.facture_id,cobros.date,customers.alias')
+                cobros.facture_id,cobros.date,customers.alias,signatures.firma')
     ->join('cobros','cobros.id','cobro_orders.cobro_id')
     ->join('internal_orders','cobro_orders.order_id','internal_orders.id')
+    ->join('signatures','cobros.order_id','signatures.order_id')
     ->join('customers','customers.id','internal_orders.customer_id')
+    ->where('signatures.auth_id','=','2')
+    ->where('signatures.status','=','1')
     ->where('cobros.date','>=',$quincenas[$request->interval]['inicio'])
     ->where('cobros.date','<=',$quincenas[$request->interval]['fin'])
     ->orderBy('cobros.date')
@@ -108,7 +111,7 @@ public function dgi(Request $request){
     $Monedas=Coin::all();
     $Facturas=Factures::all();
     $Cobro_Facturas=DB::table('cobro_factures')
-    ->select('cobro_factures.*','factures.facture')
+    ->select('cobro_factures.*','factures.facture','factures.order_id')
     ->join('factures','factures.id','cobro_factures.facture_id')
     ->get();
     $Pagos=payments::all();

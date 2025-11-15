@@ -21,12 +21,13 @@
                 <table class="table text-xs font-medium table-striped text.center"  id="example4" style="table, th, td { border: 1px solid white;}">
                     <thead >    
                         <tr style="border: 2px solid white;">
-                            <th style="border: 2px solid white;" rowspan="4">Sin IVA <br>comision <br>generada</th>
-                            <th style="border: 2px solid white;" rowspan="4">Pedido Interno</th>
+                           <th style="border: 2px solid white;width:5%" rowspan="4">Pedido Interno</th>
                             <th>No.vendedor</th>
                             @foreach($socios as $row)
                             <th>{{$row->folio}} </th> 
                             @endforeach
+                             <th style="border: 2px solid white;" rowspan="4">Sin IVA <br>comision <br>generada</th>
+                            
                         </tr>
                         <tr style="border: 2px solid white;">
                             <th>Iniciales</th>
@@ -37,7 +38,12 @@
                         <tr style="border: 2px solid white;">
                             <th>Nombre corto</th>
                             @foreach($socios as $row)
-                            <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
+                                
+                                <th>NELSON</th> 
+                                @else
+                                <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                                @endif
                             @endforeach
                         </tr>
                         <tr style="border: 2px solid white;">
@@ -60,83 +66,103 @@
                        $total_sum=$total_sum+($cobro->amount/1.16)*$this_comissions->sum('percentage')
                        @endphp
                     <tr>
-                        <td>${{number_format(($cobro->amount/1.16)* $this_comissions->sum('percentage'),2)}} </td>
-                        <td>{{$cobro->invoice}} </td>
-                        <td>{{$cobro->comp}} </td>
+                        <td> <center>{{$cobro->invoice}}</center> </td>
+                        <td><center>{{$cobro->comp}} </center></td>
                         @foreach($socios as $row)
                            
                             @if($row->id==$cobro->seller_id)
                                 @php
-                                
-                                $totales[$row->iniciales]+=($cobro->amount*$cobro->comision)/1.16;
+                                $ComDirecta=($cobro->amount/1.16)*$cobro->comision;
+                                $totales[$row->iniciales]+=($cobro->amount/1.16)*$cobro->comision;
                                 @endphp
 
-                                <td>${{number_format(($cobro->amount*$cobro->comision)/1.16,2)}}  </td> <!-- //caso en que es el vendedor princi´pal   -->
-                           
-                            @elseif($this_comissions->where('seller_id',$row->id)->count()>0)
+                            @elseif($this_comissions->where('seller_id',$row->id)->where('description','DGI')->count()>0)
                                 @php
-                                $totales[$row->iniciales]+=($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16;
-                           
+                                $ComDirecta=($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description','!=','DGI')->sum('percentage');
+                                $totales[$row->iniciales]+=($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description','!=','DGI')->sum('percentage');
                                  @endphp
-                                <td>${{number_format(($cobro->amount*$this_comissions->where('seller_id',$row->id)->first()->percentage)/1.16,2)}}  </td> <!-- //caso en que el vendedor tiene una comision   -->
                             @else 
-                                <td> $0 </td>
+                               @php
+                                $ComDirecta=0;
+                               @endphp
                             @endif
+                            <td><center>${{number_format(($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description', '!=', 'compartida')->sum('percentage'),2)}} </center>  </td> 
+                       
                         @endforeach
+                         <td><center>${{number_format(($cobro->amount/1.16)* $this_comissions->where('description','!=', 'compartida')->sum('percentage'),2)}}</center> </td>
+                        
                     </tr>
                     @endforeach
                     <tfoot>
-                    <tr>
-                       <th> ${{number_format($total_sum,2)}}</th>
+                    <tr class="text-center">
+                       
                        <th></th>
                        <th></th>
                        @foreach($socios as $row)
-                           <td>${{number_format($totales[$row->iniciales],2)}} </td>
+                           <th><center></center> </th>
                         @endforeach
+                        <th> <center> </center></th>
                     </tr>
-                    <tr>
-                        <th></th>
+                   <tr>
                         <th></th>
                         <th></th>
                     @foreach($socios as $row)
-                         <th>{{ ltrim(strrchr($row->seller_name, " "))}} </th> 
+                         @if( ltrim(strrchr($row->seller_name, " "))=='ERNESTO')
+                                
+                                <th><center> NELSON</center></th> 
+                                @else
+                                <th><center> {{ ltrim(strrchr($row->seller_name, " "))}}</center> </th> 
+                                @endif
                     @endforeach
-                    <th>Totales</th>
+                    <th><center> Totales</center></th>
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th></th>
                         <th>DGI</th>
                         @foreach($socios as $row)
-                           <td>${{number_format($totales[$row->iniciales],2)}} </td>
+                           <td> </td>
                         @endforeach
                         <th></th>
                     </tr>
                     <tr>
-                        <th></th>
+                       
                         <th></th>
                         <th>Comisiones</th>
                         @foreach($socios as $row)
-                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
+                           <td><center>${{number_format($totales[$row->iniciales],2)}} </center> </td>
                         @endforeach
-                        <th></th>
+                        <th><center>${{number_format(array_sum($totales),2)}} </center></th>
                     </tr> 
                     <tr>
                         <th></th>
-                        <th></th>
-                        <th rowspan="2">Totales</th>
+                        <th > Totales </h>
                         @foreach($socios as $row)
-                           <td>${{number_format($Cobros->where('seller_id',$row->id)->sum('amount')/1.16,2)}} </td>
+                           <td> </td>
                         @endforeach
                         <th></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th colspan="{{$socios->count()}}">$ {{number_format($Cobros->sum('amount')/1.16,2)}} </th>
-                        <th>NA</th>
-                    </tr>
+                    </tr> 
+                    
                     </tfoot>
                 </table>
-
+<br>
+                <table>
+                    <tr>
+                        <tr>
+                            <td>Total Comisiones</td>
+                            <td id="total_com"></td>
+                           
+                        </tr>
+                         <tr>
+                            <td>Total DGI</td>
+                            <td id="total_dgi"></td>
+                           
+                        </tr>
+                        <tr>
+                            <th>Total egresos Quincena</th>
+                            <th id="total_quincena"></th>
+                        </tr>
+                        
+                   
+                </table>
 </div>

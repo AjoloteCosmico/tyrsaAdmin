@@ -546,7 +546,6 @@ body{
                               <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
                               <br> <br>
                               
-                             
                               <p style="color:red"> Autorizacion {{$i}} </p><br>
                                    Iniciales
                             </td>
@@ -572,7 +571,6 @@ MARCA:
     @endforeach
 </select>
 <button class="btn btn-blue mb-2" style="background-color: rgb(37 ,99 ,235 );color: white;" type="submit"> Asignar marca</button> 
-              
 </form>
 <hr>
                 @can('VER DGI')
@@ -623,7 +621,7 @@ MARCA:
                     <th>EQUIVALENTE EN  M.N. SIN IVA </th>
                  </tr>
 
-               <br>
+                 <br>
                  @foreach($Comisiones as $c)
                     <tr>
                         <td> {{$c->id}}</td>

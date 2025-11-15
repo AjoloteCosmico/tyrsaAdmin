@@ -16,7 +16,6 @@ use App\Models\CustomerContact;
 use App\Models\Item;
 use App\Models\Marca;
 use App\Models\Medio;
-
 use App\Models\Seller;
 use App\Models\TempInternalOrder;
 use App\Models\TempItem;
@@ -581,7 +580,8 @@ public function recalcular_total($id){
                 $comision->dgi=0;
 
                 $comision->seller_id=$tc->seller_id;
-                $comision->save();
+                //ya no deben guardarse en est emomento las comisiones
+                // $comision->save();
                 temp_comissions::destroy($tc->id);
             }
             TempInternalOrder::destroy($TempInternalOrders->id);
@@ -701,7 +701,7 @@ public function recalcular_total($id){
         $Comisiones=DB::table('comissions')
      ->join('sellers', 'sellers.id', '=', 'comissions.seller_id')
      ->where('order_id',$InternalOrders->id)
-     ->select('comissions.*','sellers.seller_name','sellers.iniciales')
+     ->select('comissions.*','sellers.seller_name','sellers.iniciales','sellers.folio')
      ->get();
        $Marcas = Marca::all();
         if($payments->count() ==0){
@@ -841,23 +841,38 @@ public function recalcular_total($id){
                 $userHasRole=True;
             }
         }
+
         if(Auth::user()->id == 1){
             $userHasRole=True;
         }
+
         if($isPasswordCorrect && $userHasRole ){
+
+            if($signature->auth_id==2 ){
+                $internal_order->vent_auth=1;
+                $internal_order->save();
+            }
+            //verificar si el pedido debe autorizarse
+            $required_signatures = signatures::where('order_id',$internal_order->id)->get();
+            
+            $nSigns=$required_signatures->count();
+            $areAllSigns=$required_signatures->where('status',1)->count();
+            
+            if($areAllSigns ==$nSigns){
+            $internal_order->status = 'autorizado';}
+            $internal_order->save();
+            if($signature->auth_id==2 || $signature->auth_id==3){
+                
+                return $this->comisiones_firmar($internal_order->id,$signature->id);
+            }
             $signature->status = 1;
             $signature->firma=Auth::user()->firma;
             $signature->save();
             $Warn='ok';
             //identificar si es la firma del Gerente Ventas roles id 16
             //marcar vent_auth=1
-            if($user_rol_id=16){
-                $internal_order->vent_auth=1;
-                $internal_order->save();
-            }
-            if($signature->auth_id==2){
-                return $this->comisiones_firmar($internal_order->id);
-            }
+            
+            
         }
 
         if(!$isPasswordCorrect){$Warn='Contraseña Incorrecta';}
@@ -883,38 +898,54 @@ public function recalcular_total($id){
 
 
 
-    public function comisiones_firmar($id){
+    public function comisiones_firmar($id,$signature_id){
         $internal_order = InternalOrder::find($id);
+        $signature = signatures::find($signature_id);
         $Seller=Seller::find($internal_order->seller_id);
-        $Sellers = Seller::all();
+        $Sellers = Seller::where('status','ACTIVO')->get();
         $comisiones=comissions::where('order_id',$id)->get();
         $FixedComision=Cantidades::find(1)->cant;
         //  #Asignar automaticamente DGI
         $Socios=Seller::where('dgi','>',0)->get();
+        
         //  dd($Socios);
+        // comissions::where('order_id', $id)->delete();
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
+        $compartidas=comissions::where('order_id',$id)->where('description','compartida')->get();
+        // dd($compartidas,$DGI,$id);
         if($DGI->count()==0){
             
             foreach($Socios as $socio){
                 
             $comision = new comissions();
             $comision->seller_id=$socio->id;
-            $comision->percentage=$socio->dgi*0.01;
+            $comision->percentage=$socio->dgi;
             $comision->order_id=$id;
             $comision->description='DGI';
             $comision->save();
             }
         }
-        $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
 
+        $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
+        if($signature->auth_id==3){
+            $show_dgi=1;
+        }else{
+            $show_dgi=0;
+        }
+       
         return view('internal_orders.comisiones_firmar',
         compact('internal_order','comisiones',
-                'Seller','FixedComision','Sellers','DGI'));
+                'Seller','FixedComision','Sellers','DGI','compartidas',
+                'signature_id','show_dgi'));
     }
 
     public function store_comisiones_pos(Request $request){
-        
+     
         $internal_order = InternalOrder::find($request->order_id);
+        $signature = signatures::find($request->firma_id);
+        $signature->status = 1;
+        $signature->firma=Auth::user()->firma;
+        $signature->save();
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
@@ -923,20 +954,16 @@ public function recalcular_total($id){
         $comisiones = $request->input('comision');
         $tipos = $request->input('tipo');
         foreach ($sellerIds as $index => $sellerId) {
+            
             $com = floatval($comisiones[$index] ?? 0);
             $tipo = $tipos[$index] ?? '';
 
-            // regla a) Comisión principal no mayor a 3
-            // if ($tipo === 'principal' && $com > 3) {
-            //     return back()->with('error', 'La comisión principal no puede ser mayor al 3%.')->withInput();
-            // }
-
+            
             // regla b) Ningún vendedor duplicado
             // if (in_array($sellerId, $seenSellers)) {
             //     return back()->with('error', 'Un vendedor no puede tener más de una comisión.')->withInput();
             // }
             $seenSellers[] = $sellerId;
-
             $total += $com;
         }
 
@@ -945,12 +972,16 @@ public function recalcular_total($id){
         //     return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
         // }
 
-            DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos) {
+            DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos,$signature) {
                 // Primero borra comisiones previas de esta orden (si aplica)
-                comissions::where('order_id', $internalOrderId)->delete();
+                if($signature->auth_id==2){
+                    comissions::where('order_id', $internalOrderId)->where('description','compartida')->delete();
+                }else{
+                    comissions::where('order_id', $internalOrderId)->where('description','DGI')->delete();
+                }
                 $index=0;
                 foreach ($sellerIds as $i => $sellerId) {
-                    if($index==0){
+                    if($index==0 & $signature->auth_id==2){
                         
                             $internal_order = InternalOrder::find($internalOrderId);
                             $internal_order->comision=$comisiones[$i]*0.01;
@@ -958,21 +989,35 @@ public function recalcular_total($id){
                     }else{
                     comissions::create([
                         'order_id' => $internalOrderId,
-                        'seller_id'         => $sellerId,
-                        'percentage'          => $comisiones[$i],
-                        'description'              => $tipos[$i],
+                        'seller_id'  => $sellerId,
+                        'percentage'  => $comisiones[$i]*0.01,
+                        'description'  => $tipos[$i],
                     ]);
                     }
                      $index++;
                     
                 }
             });
+ //revisar si estan todas las firmas
+        $required_signatures = signatures::where('order_id',$internal_order->id)->get();
+        #$areAllSigns=0;
+        $nSigns=$required_signatures->count();
+        $areAllSigns=$required_signatures->where('status',1)->count();
+        if($areAllSigns ==$nSigns){
+        $internal_order->status = 'autorizado';}
+        $internal_order->save();
 
+        //validar regla de no doble comision
+        comissions::where('seller_id',$internal_order->seller_id)->where('description','DGI')->delete();
+        $ComisionesCompartidas=comissions::where('order_id',$internal_order->id)->where('description','compartida')->get();
+         foreach($ComisionesCompartidas as $cc){
+            $existente=comissions::where('seller_id',$cc->seller_id)->where('description','DGI')->first();
+            if($existente){
+                comissions::where('id',$existente->id)->delete();
+            }
+         }
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
-        
     }
-
-
 
     public function payment($id)
     {
@@ -1016,7 +1061,6 @@ public function recalcular_total($id){
 
     public function payment_edit($id)
     {
-        
         $CompanyProfiles = CompanyProfile::first();
         $InternalOrders = InternalOrder::find($id);
         $payments = payments::where('order_id', $id)->get();
@@ -1511,7 +1555,9 @@ public function recalcular_total($id){
                     $Signature->save(); 
                 }
             }
+            
             $InternalOrders->status='CAPTURADO';
+            $InternalOrders->vent_auth=NULL;
             $InternalOrders->save();
             return redirect()->route('internal_orders.show',$id)->with('unautorized','ok');
         }else{

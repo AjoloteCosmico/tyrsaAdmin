@@ -429,10 +429,10 @@ worksheet.merge_range('I10:J10',  orden['total'].values[0], red_content_bold)
 
 #tabla superior facturas
 worksheet.write('L8', "FACTURADO", blue_header_format)
-worksheet.merge_range('M8:N8', facturas['amount'].sum() -notas['amount'].sum(), blue_content)
+worksheet.merge_range('M8:N8', facturas['amount'].sum() +facturas_no_asociadas['amount'].sum() -notas['amount'].sum(), blue_content)
 worksheet.merge_range('L9:N9', 'IVA INCLUIDO', blue_header_format)
 worksheet.write('L10', "POR FACTURAR", blue_header_format)
-worksheet.merge_range('M10:N10', orden["total"].values[0]-facturas["amount"].sum()+notas['amount'].sum(), blue_content)
+worksheet.merge_range('M10:N10', orden["total"].values[0]-facturas["amount"].sum() -facturas_no_asociadas['amount'].sum()+notas['amount'].sum(), blue_content)
 
 #tabla superior por cobrar ¿?
 worksheet.write('P8', "D.A", red_header_format)

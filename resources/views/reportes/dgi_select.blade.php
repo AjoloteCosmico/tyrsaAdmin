@@ -3,7 +3,7 @@
 @section('title', 'REPORTES')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-users"></i>&nbsp;REPORTES DE COMISION DGI</h1>
+    <h1 class="font-bold"><i class="fas fa-users"></i>&nbsp;REPORTES DE COMISIONES</h1>
 @stop
 
 @section('content')
@@ -35,16 +35,16 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Tipo de reporte" />
-                                <select class="form-capture  w-full text-xs uppercase"  name="type">
-                                
+                                <select class="form-capture  w-full text-xs uppercase"  name="type"> 
                                 <option value="vendedores" >Vendedores </option>
-                                <option value="resumen" >Resumen </option>
                                 
-                                <option value="resumen_ventas" >Resumen Ventas directas</option>
-                                <option value="resumen_ejecutivos" >Resumen Ejecutivos</option>
+                               
                                 <option value="comp" >Comprobante Ing. </option>
-
-                                
+                                <option value="resumen" >Resumen </option>
+                                <option value="resumen_ventas" >Resumen Ventas directas</option>
+                                @can('VER DGI')
+                                 <option value="resumen_ejecutivos" >DGI</option>
+                                @endif
                             </select>
                             <x-jet-input-error for='type' />
                             </div>

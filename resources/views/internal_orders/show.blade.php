@@ -83,7 +83,7 @@
 
                     <tr>
                         <th colspan="2"> Regimen de Capital: </th>
-                        <td colspan="12"> S.A DE C.V </td>
+                        <td colspan="12">{{$Customers->legal_name}}</td>
                     </tr>
                     <tr>
                         <th colspan="2"> Regimen Fiscal: </th>
@@ -511,7 +511,17 @@
                         <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
                     </tr>
 
-                   <tr>
+                   @foreach($Comisiones->where('description','compartida') as $c)
+                    <tr>
+                        <td> {{$c->folio}}</td>
+                        <td> {{$c->iniciales}}</td>
+                        <td>  {{$c->description}}</td>
+                        <td>  {{$c->percentage * 100}} %</td>
+                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   </td>
+                        <td> {{$Coins->code}}</td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal)  ,2)}} </td>
+                    </tr>
+                    @endforeach
             </table>
             <br> 
                     @can('ASIGNAR DGI')
@@ -532,9 +542,9 @@
                  </tr>
 
                <br>
-                 @foreach($Comisiones as $c)
+                 @foreach($Comisiones->where('description','DGI') as $c)
                     <tr>
-                        <td> {{$c->id}}</td>
+                        <td> {{$c->folio}}</td>
                         <td> {{$c->iniciales}}</td>
                         <td>  {{$c->description}}</td>
                         <td>  {{$c->percentage * 100}} %</td>
@@ -625,7 +635,7 @@
                   
                 <table class=" table-responsive text-xs" style="border: none; border-collapse: collapse;">
                     <tr style="border: none; border-collapse: collapse;">
-                        <td style="border: none; border-collapse: collapse;"> <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2"  onclick="window.print();"> <i class="fas fa-file-pdf fa-5x"> </i>  &nbsp; Imprimir PDF <br>  &nbsp; desde esta pagina <br> &nbsp;  (sujeto a graficos del navegador) </button></td>
+                        <td style="border: none; border-collapse: collapse;"> </td>
                         <td style="border: none; border-collapse: collapse;"></td>
                         <td style="border: none; border-collapse: collapse;">@can('VER DGI')       
                   <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido_confidential',1])}}">

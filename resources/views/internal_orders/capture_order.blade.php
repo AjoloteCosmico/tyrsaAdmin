@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Pedido Interno:
             </h5>
         </div>
-        <form action="{{ route('captura.comissions')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('captura.comissions')}}" method="POST" enctype="multipart/form-data" id="formCaptureInternalOrder">
         @csrf
         <x-jet-input type="hidden" name="customer_id" value="{{ $Customers->id }}"/>
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
@@ -112,7 +112,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Vendedor" />
                                         <select id='seller_id' class="form-capture  w-full text-md uppercase" name="seller_id" style='width: 30%;'>
-                                        
+                                            <option value="">-- Seleccione una opción --</option>
                                         @foreach ($Sellers as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('seller_id')) selected @endif >{{$row->seller_name}}</option>
                                             @endforeach
@@ -241,7 +241,7 @@
                 {{--  <a href="{{ route('internal_orders.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
-                <button type="submit" class="btn btn-green mb-2">
+                <button type="button" class="btn btn-green mb-2" onclick="submitForm()">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Siguiente
                 </button>
             </div>
@@ -304,4 +304,22 @@ function manual(campo) {
     locale: 'en'
   });
 });</script>
+
+<script>
+
+function submitForm() {
+    seller=document.getElementById("seller_id").value;
+    if (seller=="") {
+        Swal.fire({ icon: 'warning', title: 'Vendedor vacío', text: `Por favor seleccione un vendedor`});
+                return;
+    }
+    else{
+
+    document.getElementById("formCaptureInternalOrder").submit();
+    }
+   
+ 
+}
+
+</script>
 @stop
