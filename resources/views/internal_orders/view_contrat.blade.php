@@ -32,13 +32,13 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control-file" id="contrat" name="contrat" >
+                                        <input type="file" class="form-control-file" id="contrat" name="contrat" acept="aplication/pdf">
                                     </div>
 
                             <div class="w-100"><hr></div>
 
                             <div class="col-12 text-right p-2 gap-2">
-                                <button type="button" id="btn-guardar-comisiones" class="btn btn-green mb-2">
+                                <button type="submit"  class="btn btn-green mb-2">
                                     <i class="fas fa-save fa-2x"></i>&nbsp;&nbsp; Guardar
                                 </button>
                                 <a href="{{ route('internal_orders.index') }}" class="btn btn-black mb-2">
