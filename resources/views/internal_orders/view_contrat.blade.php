@@ -3,7 +3,7 @@
 @section('title', 'CONTRATO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-percent"></i>&nbsp; Contrato </h1>
+    <h1 class="font-bold"><i class="fas fa-file"></i>&nbsp; Contrato </h1>
 @stop
 
 @section('content')
@@ -32,7 +32,7 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control-file" id="contrat" name="contrat" accept="application/pdf">
+                                        <input type="file" class="form-control-file" id="contrat" name="contrat" >
                                     </div>
 
                             <div class="w-100"><hr></div>
