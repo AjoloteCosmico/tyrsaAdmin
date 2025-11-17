@@ -32,7 +32,7 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control-file" id="contrat" name="contrat" >
+                                        <input type="file"  id="contrat" name="contrat" >
                                     </div>
                                @if($Contrato=='SI')
                                     <h1> VER ARCHIVO ANTERIOR</h1>

@@ -52,7 +52,7 @@ return [
         ],
         'contratos' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('app/public/contratos'),
             'url' => env('APP_URL').'/storage/contratos',
             'visibility' => 'public',
             'throw' => false,
