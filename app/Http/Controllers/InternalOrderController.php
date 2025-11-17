@@ -1303,7 +1303,12 @@ public function recalcular_total($id){
 
     public function save_contrat(Request $request){
         
-        
+        $request->validate([
+        'order_id' => 'required|exists:internal_orders,id',
+        // 'contrat' debe ser un archivo, de tipo MIME 'pdf' y con un tamaño máximo (ej. 10MB)
+        'contrat' => 'required|file|mimes:pdf|max:10240', 
+        'observations' => 'nullable|string',
+        ]);
         $InternalOrder=InternalOrder::find($request->order_id);
         $InternalOrder->contrat_observations=$request->observations;
         $InternalOrder->save();
@@ -1312,7 +1317,7 @@ public function recalcular_total($id){
             $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
             \Storage::disk('contratos')->put('contrato'.$InternalOrder->id.'.pdf', $contenidoPDF);
         }else {
-            return redirect()->back()->with('contrato','void');
+            return redirect()->back()->with('contrat','void');
         }
 
        return redirect()->route('internal_orders.show',$InternalOrder->id)->with('contrato','ok');

@@ -32,9 +32,10 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control" id="contrat" name="contrat" accept="aplication/pdf">
+                                        <input type="file" class="form-control" id="contrat" name="contrat" accept="application/pdf">
+                                        <x-jet-input-error for='contrat' />
                                     </div>
-                               @if($Contrato=='SI')
+                               @if($Contrato=='SI') 
                                     
                                     <a href="{{route('internal_orders.show_contrat',$InternalOrder->id)}}">   <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file"> </i>  &nbsp; VER ARCHIVO ANTERIOR</button></a>
                                @else
@@ -68,6 +69,7 @@
 @stop
 
 @push('js')
+
 @if (session('contrat') == 'void')
 <script>
       Swal.fire({
