@@ -32,7 +32,7 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control-file" id="contrat" name="contrat" acept="aplication/pdf">
+                                        <input type="file" class="form-control-file" id="contrat" name="contrat" accept="application/pdf">
                                     </div>
 
                             <div class="w-100"><hr></div>
