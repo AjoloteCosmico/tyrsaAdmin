@@ -21,11 +21,11 @@
                     <div class="card-body">
                         <form action="{{ route('internal_orders.save_contrat') }}"  method="POST">
                             @csrf
-                            <x-jet-input type="hidden" name="order_id" value="{{$internal_order->id}}" />
+                            <x-jet-input type="hidden" name="order_id" value="{{$Internal_order->id}}" />
                             
                                    <div class="form-group">
                                         <x-jet-label value="Observaciones"  />
-                                        <textarea  name="observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{$internal_order->contrat_observations}}</textarea>
+                                        <textarea  name="observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{$Internal_order->contrat_observations}}</textarea>
                                         <x-jet-input-error for='observations' />
                                     </div>
 
