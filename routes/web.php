@@ -113,6 +113,10 @@ Route::group(['middleware' => ['auth']], function()
    //rutas par desautorizar un pedido
     Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
     Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
+    //rutas para agregar contrato
+    Route::post('internal_orders/save_contrat', [InternalOrderController::class, 'save_contrat'])->name('internal_orders.save_contrat');
+    Route::get('internal_orders/view_contrat/{id}', [InternalOrderController::class, 'view_contrat'])->name('internal_orders.view_contrat');
+    
     //rutas para agregar comisione
     Route::post('captura/comissions', [InternalOrderController::class, 'comissions'])->name('captura.comissions');
     Route::post('guardar_comission', [InternalOrderController::class, 'guardar_comissions'])->name('guardar_comissions');

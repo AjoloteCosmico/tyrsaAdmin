@@ -1278,6 +1278,42 @@ public function recalcular_total($id){
     }
    
 
+
+
+    //funciones para contratos
+    public function view_contrat($id){
+        $InternalOrder=InternalOrder::find($id);
+        $filename = 'contrato'.$id.'.pdf';
+        //Crear un pdf en blanco si no existe
+        
+        if (!\Storage::disk('contratos')->exists($filename)) {
+            $Contrato='NO';
+        }else{
+            $Contrato='SI';
+        }
+        
+        return view('internal_orders.view_contrat',compact('InternalOrder','Contrato'));
+     
+    }
+
+    public function save_contrat(Request $request){
+        
+        
+        $InternalOrder=InternalOrder::find($request->order_id);
+        $InternalOrder->contrat_observations=$request->observations;
+        $InternalOrder->save();
+
+        if ($request->hasFile('contrat')) {
+            $comp = $request->file('contrat'); // Obtiene el archivo subido
+            $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
+            \Storage::disk('contratos')->put('contrato'.$InternalOrder->id.'.pdf', $contenidoPDF);
+        } else {
+            throw new \Exception("Archivo no subido");
+        }
+
+       return redirect()->route('internal_orders.show',$InternalOrder->id)->with('contrato','ok');
+    }
+
     public function destroy($id)
     {
      $partidas=Item::where('internal_order_id',$id);

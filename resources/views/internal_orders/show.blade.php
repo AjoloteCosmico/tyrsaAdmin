@@ -645,9 +645,16 @@
                   @else
                   <a href="{{route('reports.generate',[$InternalOrders->id,'impresion_pedido',1])}}">
                     <button type = "button" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" mb-2" > <i class="fas fa-print fa-5x"> </i>  &nbsp; GENERAR IMPRESIÓN <br>  &nbsp; (estandarizada, puede tardar)</button>
-                
                   </a> 
                 @endcan </td>
+                <td>
+                    @can('SUBIR CONTRATOS')
+                    <a href="{{route('internal_orders.view_contrat',$InternalOrders->id)}}">
+                    <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file fa-5x"> </i>  &nbsp; SUBIR CONTRATO</button>
+                    </a> 
+                    @endif
+                </td>
+
                     </tr>
                 </table>
 <!--                  
@@ -880,6 +887,19 @@ tr th:last-child {
 
 </script>
  
+@endif
+
+@if (session('contrato') == 'ok')
+<script>
+      Swal.fire({
+            icon: 'success',
+            title: "<i>Se ha subido el contrato exitosamente</i>", 
+            html: "Hemos guardado el archivo del contrato y sus observaciones" ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+            });
+</script>
 @endif
 
 @endpush
