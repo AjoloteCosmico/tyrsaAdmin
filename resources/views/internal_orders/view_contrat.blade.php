@@ -36,7 +36,7 @@
                                     </div>
                                @if($Contrato=='SI')
                                     
-                                    <a href="{{route('internal_orders.show_contrat',$InternalOrder->id)}}">   <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file fa-5x"> </i>  &nbsp; </button></a>
+                                    <a href="{{route('internal_orders.show_contrat',$InternalOrder->id)}}">   <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file"> </i>  &nbsp; VER ARCHIVO ANTERIOR</button></a>
                                @else
                                <P>AUN NO HAY UN CONTRATO GUARDADO </P>
                                @endif
@@ -68,5 +68,18 @@
 @stop
 
 @push('js')
+@if (session('contrat') == 'void')
+<script>
+      Swal.fire({
+            icon: 'error',
+            title: "<i>CONTRATO VACIO</i>", 
+            html: `Porfavor seleccione un archivo pdf valido` ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+            });
+
+</script>
+ 
+@endif
 
 @endpush
