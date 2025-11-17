@@ -650,7 +650,7 @@
                 <td style="border: none; border-collapse: collapse;">
                     @can('SUBIR CONTRATOS')
                     <a href="{{route('internal_orders.view_contrat',$InternalOrders->id)}}">
-                    <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file fa-5x"> </i>  &nbsp; SUBIR CONTRATO</button>
+                    <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file fa-5x"> </i>  &nbsp; @if($Contrato=='SI') REVISAR CONTRATO @else SUBIR CONTRATO @endif</button>
                     </a> 
                     @endif
                 </td>

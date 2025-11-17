@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth']], function()
     //rutas para agregar contrato
     Route::post('internal_orders/save_contrat', [InternalOrderController::class, 'save_contrat'])->name('internal_orders.save_contrat');
     Route::get('internal_orders/view_contrat/{id}', [InternalOrderController::class, 'view_contrat'])->name('internal_orders.view_contrat');
+    Route::get('internal_orders/show_contrat/{id}', [InternalOrderController::class, 'show_contrat'])->name('internal_orders.show_contrat');
     
     //rutas para agregar comisione
     Route::post('captura/comissions', [InternalOrderController::class, 'comissions'])->name('captura.comissions');

@@ -704,6 +704,11 @@ public function recalcular_total($id){
      ->select('comissions.*','sellers.seller_name','sellers.iniciales','sellers.folio')
      ->get();
        $Marcas = Marca::all();
+       if (!\Storage::disk('contratos')->exists($filename)) {
+            $Contrato='NO';
+        }else{
+            $Contrato='SI';
+        }
         if($payments->count() ==0){
             
             return redirect()->route('internal_orders.payment',$id);
@@ -723,7 +728,7 @@ public function recalcular_total($id){
             'payments',
             'ASellers',
             'Comisiones',
-            'Marcas',
+            'Marcas','Contrato',
         ));
     }
 
@@ -1308,6 +1313,14 @@ public function recalcular_total($id){
         
 
        return redirect()->route('internal_orders.show',$InternalOrder->id)->with('contrato','ok');
+    }
+
+    public function show_contrat($id){
+        
+        
+    $file_path = public_path('storage/contratos/contrato'.$id.'.pdf');
+    // dd($file_path);
+    return response()->file($file_path);
     }
 
     public function destroy($id)

@@ -32,10 +32,11 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file"  id="contrat" name="contrat" >
+                                        <input type="file" class="form-control" id="contrat" name="contrat" accept="aplication/pdf">
                                     </div>
                                @if($Contrato=='SI')
-                                    <h1> VER ARCHIVO ANTERIOR</h1>
+                                    
+                                    <a href="{{route('internal_orders.show_contrat',$InternalOrder->id)}}">   <button type = "button" class="btn btn-blue" style="background-color: rgba(38, 71, 220, 1);color: white;" mb-2" > <i class="fas fa-file fa-5x"> </i>  &nbsp; </button></a>
                                @else
                                <P>AUN NO HAY UN CONTRATO GUARDADO </P>
                                @endif
