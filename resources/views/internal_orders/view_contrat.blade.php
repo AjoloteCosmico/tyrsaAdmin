@@ -28,12 +28,18 @@
                                         <textarea  name="observations" id="observations"  rows="5" class="w-full text-xs inputjet" onkeyup="javascript:this.value=this.value.toUpperCase();"> {{$InternalOrder->contrat_observations}}</textarea>
                                         <x-jet-input-error for='observations' />
                                     </div>
-
+                                    
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control-file" id="contrat" name="contrat" accept="application/pdf">
+                                        <input type="file" class="form-control-file" id="contrat" name="contrat" >
                                     </div>
+                               @if($Contrato=='SI')
+                                    <h1> VER ARCHIVO ANTERIOR</h1>
+                               @else
+                               <P>AUN NO HAY UN CONTRATO GUARDADO </P>
+                               @endif
+
 
                             <div class="w-100"><hr></div>
 
