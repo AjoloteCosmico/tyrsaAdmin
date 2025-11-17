@@ -704,6 +704,7 @@ public function recalcular_total($id){
      ->select('comissions.*','sellers.seller_name','sellers.iniciales','sellers.folio')
      ->get();
        $Marcas = Marca::all();
+       $filename = 'contrato'.$id.'.pdf';
        if (!\Storage::disk('contratos')->exists($filename)) {
             $Contrato='NO';
         }else{
