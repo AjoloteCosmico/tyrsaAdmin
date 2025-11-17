@@ -19,7 +19,7 @@
             <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('internal_orders.save_contrat') }}"  method="POST">
+                        <form action="{{ route('internal_orders.save_contrat') }}"  method="POST" enctype="multipart/form-data">
                             @csrf
                             <x-jet-input type="hidden" name="order_id" value="{{$InternalOrder->id}}" />
                             
