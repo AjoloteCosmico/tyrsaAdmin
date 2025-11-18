@@ -32,7 +32,7 @@
 
                                     <div class="form-group">
                                         <label for="contrat">Archivo de contrato en pdf</label>
-                                        <input type="file" class="form-control" id="contrat" name="contrat" accept="application/pdf">
+                                        <input type="file" class="form-control" id="contrat" name="contrat" accept="application/pdf, application/vnd.ms-excel" ">
                                         <x-jet-input-error for='contrat' />
                                     </div>
                                @if($Contrato=='SI') 
