@@ -1307,7 +1307,7 @@ public function recalcular_total($id){
         $request->validate([
         'order_id' => 'required|exists:internal_orders,id',
         // 'contrat' debe ser un archivo, de tipo MIME 'pdf' y con un tamaño máximo (ej. 10MB)
-        'contrat' => 'required|file|mimes:pdf', 
+        'contrat' => 'required|file|max:100240', 
         'observations' => 'nullable|string',
         ]);
         $InternalOrder=InternalOrder::find($request->order_id);
