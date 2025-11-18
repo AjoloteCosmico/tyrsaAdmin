@@ -57,7 +57,6 @@
                         </form>
                     </div>
                 </div>
-                {{phpinfo()}}
             </div>
         </div>
     </div>
