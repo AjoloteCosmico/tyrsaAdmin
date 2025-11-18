@@ -31,7 +31,7 @@
                                     
 
                                     <div class="form-group">
-                                        <label for="contrat">Archivo de contrato en pdf</label>
+                                        <label for="contrat">@if($Contrato=='SI') Elimiar el archivo anterior y subir uno nuevo @endif</label>
                                         <input type="file" class="form-control" id="contrat" name="contrat" accept="application/pdf">
                                         <x-jet-input-error for='contrat' />
                                     </div>
@@ -57,7 +57,6 @@
                         </form>
                     </div>
                 </div>
-                {{phpinfo()}}
             </div>
         </div>
     </div>
