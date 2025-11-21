@@ -13,15 +13,13 @@ import numpy as np
 
 year = datetime.date.today().year
 quincena=int(sys.argv[1])+1
-# quincena=2
+# quincena=16
 month = np.ceil(quincena/ 2)
 isFirstHalf = quincena % 2 != 0
 startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
 endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-15" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
 
 load_dotenv()
-#ESTE ARGUMENTO NO SE USA EN ESTE REPORTE, SERÁ 0 SIEMPRE UWU
-id=str(sys.argv[1])
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -66,7 +64,7 @@ cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id)
-                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
+                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"' order by internal_orders.invoice",cnx)
 
 
 facturas=pd.read_sql("""select factures.*,cobro_factures.cobro_id
@@ -309,32 +307,32 @@ DD/MM/AAAA""", negro_b)
 worksheet.merge_range('I2:I3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
 
-worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
-                      DGI PARA NIVELES DIRECTIVOS""", negro_s)
+worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  POR VENTA DIRECTA
+                      """, negro_s)
 
 worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
 ##SEGUNDA TABLA DE RESUMEN VENTAS DIRECTAS
 #Cabeceras
-worksheet.merge_range(5,3,8,3,"""SIN IVA
+worksheet.merge_range(5,5+len(no_socios),8,5+len(no_socios),"""SIN IVA
 comision generada por el monto""",blue_header_format)
-worksheet.merge_range(5,4,8,4,"""
+worksheet.merge_range(5,3,8,3,"""
 PEDIDO INTERNO""",blue_header_format)
-worksheet.write(5,5,'No. vendedor',blue_header_format)
-worksheet.write(6,5,'Iniciales',blue_header_format)
-worksheet.write(7,5,'Nombre corto',blue_header_format)
-worksheet.write(8,5,'comp.Ingesos',blue_header_format)
+worksheet.write(5,4,'No. vendedor',blue_header_format)
+worksheet.write(6,4,'Iniciales',blue_header_format)
+worksheet.write(7,4,'Nombre corto',blue_header_format)
+worksheet.write(8,4,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
-    worksheet.write(9+i,3,cobros['amount'].values[i]/1.16,blue_content)
-    worksheet.write(9+i,4,cobros['invoice'].values[i],blue_content)
-    worksheet.write(9+i,5,cobros['comp'].values[i],blue_content)
+    worksheet.write(9+i,5+len(no_socios),cobros['amount'].values[i]/1.16,blue_content)
+    worksheet.write(9+i,3,cobros['invoice'].values[i],blue_content)
+    worksheet.write(9+i,4,cobros['comp'].values[i],blue_content)
 for i in range(len(no_socios)):
     this_comisions=comisiones.loc[comisiones['seller_id']==no_socios['id'].values[i]]
-    worksheet.write(5,6+i,str(i+1),blue_header_format)
-    worksheet.write(6,6+i,no_socios['iniciales'].values[i],blue_header_format)
-    worksheet.write(7,6+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_header_format)
-    worksheet.write(8,6+i,'comision $',blue_header_format)
-    worksheet.write(len(cobros)+10, 6+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_content_footer)
+    worksheet.write(5,5+i,str(i+1),blue_header_format)
+    worksheet.write(6,5+i,no_socios['iniciales'].values[i],blue_header_format)
+    worksheet.write(7,5+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_header_format)
+    worksheet.write(8,5+i,'comision $',blue_header_format)
+    worksheet.write(len(cobros)+10, 5+i,str(no_socios['seller_name'].values[i]).split()[-1],blue_content_footer)
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[this_comisions['order_id']==cobros['order_id'].values[j]]
         amount=0
@@ -343,19 +341,19 @@ for i in range(len(no_socios)):
         
         if(len(comision_secundaria)>0):
            amount=(cobros['amount'].values[j])*comision_secundaria['percentage'].values[0]
-        worksheet.write(9+j,6+i,amount/1.16,blue_content)
+        worksheet.write(9+j,5+i,amount/1.16,blue_content)
 
 for i in range(len(no_socios)):
         # Definir el rango para la fórmula
-    start_cell = xl_rowcol_to_cell(9, 6+i)  # Primera celda (0, 0 -> A1)
-    end_cell = xl_rowcol_to_cell(len(cobros) - 1, 6+i) 
+    start_cell = xl_rowcol_to_cell(9, 5+i)  # Primera celda (0, 0 -> A1)
+    end_cell = xl_rowcol_to_cell(len(cobros) +8, 5+i) 
     # Crear la fórmula SUM para sumar la columna
     formula = f"=SUM({start_cell}:{end_cell})"
 
     # Escribir la fórmula en una celda (por ejemplo, en la fila 6, columna 1 -> A6)
-    worksheet.write_formula(len(cobros)+9, 6+i, formula,blue_footer_format_bold)
+    worksheet.write_formula(len(cobros)+9, 5+i, formula,blue_footer_format_bold)
 
-worksheet.write_formula(len(cobros)+9, 3, f"=SUM(D10:D"+str(len(cobros)+9)+")",blue_footer_format_bold)
+worksheet.write_formula(len(cobros)+9, 5+len(no_socios), f"=SUM(D10:D"+str(len(cobros)+9)+")",blue_footer_format_bold)
 
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)

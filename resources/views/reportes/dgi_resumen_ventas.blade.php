@@ -1,4 +1,5 @@
 <h2>SOLO VENDEDORES ACTIVOS / SOLO COMISION DIRECTA DE VENTA</h2>
+<h2>Periodo del {{$StartDate}} al {{$EndDate}}</h2>
 <div class="container px-4 mx-auto">
              <table>
                     <tr>
