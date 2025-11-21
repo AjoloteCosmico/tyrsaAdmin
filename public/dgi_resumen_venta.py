@@ -324,8 +324,8 @@ worksheet.write(8,4,'comp.Ingesos',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
     worksheet.write(9+i,5+len(no_socios),cobros['amount'].values[i]/1.16,blue_content)
-    worksheet.write(9+i,3,cobros['invoice'].values[i],blue_content)
-    worksheet.write(9+i,4,cobros['comp'].values[i],blue_content)
+    worksheet.write(9+i,3,str(cobros['invoice'].values[i]),blue_content)
+    worksheet.write(9+i,4,str(cobros['comp'].values[i]),blue_content)
 for i in range(len(no_socios)):
     this_comisions=comisiones.loc[comisiones['seller_id']==no_socios['id'].values[i]]
     worksheet.write(5,5+i,str(i+1),blue_header_format)
