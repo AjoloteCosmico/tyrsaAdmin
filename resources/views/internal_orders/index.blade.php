@@ -221,4 +221,17 @@
 @if (session('update_reg') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/update_reg.js') }}"></script>
 @endif
+@if (session('cierre') == 'ok')
+<script>
+      Swal.fire({
+            icon: 'success',
+            title: "<i>PROTOCOLO EJECUTADO CON ÉXITO</i>", 
+            html: `SE ELIMINARON LOS PEDIDOS Y SUS ARCHIVOS DE LA BASE` ,  
+                    showCancelButton: false,
+                    showConfirmButton: true,
+            });
+
+</script>
+ 
+@endif
 @endpush

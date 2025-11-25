@@ -1522,6 +1522,9 @@ public function recalcular_total($id){
    }
 
     public function exterminio( Request $request){
+
+        if(Auth::user()->can('CIERRE ANUAL')){
+             $key=$request->key;
         // comissions::truncate();
         // signatures::truncate();
         // historical_payments::truncate();
@@ -1532,8 +1535,8 @@ public function recalcular_total($id){
         
         // InternalOrder::truncate();
         $InternalOrders=InternalOrder::all();
-        if($key!='zec'.$InternalOrders->count()){
-            return redirect()->back();
+        if($key!='RaQb**'.$InternalOrders->count()){
+            return redirect()->back()->with('password','fail');
         }else{
         // $Pedidos cerrados
         
@@ -1544,8 +1547,11 @@ public function recalcular_total($id){
                 $this->destroy($order->id);
             }
         }
-        return redirect()->route('internal_orders.show');
+        return redirect()->route('internal_orders.index')->with('cierre_anual','ok');
             }
+
+        }
+       
     }
     
     public function change_dgi($id,$message=""){

@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/store_comisiones_pos', [InternalOrderController::class, 'store_comisiones_pos'])->name('internal_orders.store_comisiones_pos');
     
     Route::get('internal_orders/print_order/{id}', [InternalOrderController::class, 'print_order'])->name('internal_orders.print_order');
-    Route::get('exterminio/{key}', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
+    Route::post('protocolo_cierre', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
     Route::get('cierre_anual', [InternalOrderController::class, 'cierre_anual'])->name('cierre_anual.form');
    
     //rutas par desautorizar un pedido
