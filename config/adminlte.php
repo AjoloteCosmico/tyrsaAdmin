@@ -237,6 +237,12 @@ return [
             'can' => 'CATALOGOS',
         ],
         [
+                    'text' => ' CIERRE ANUAL',
+                    'icon' => 'fas fa-folder fa-fw',
+                    'route'  => 'cierre_anual.form',
+                    'can'  => 'CIERRE ANUAL',
+                ],
+        [
             'text' => 'CATÁLOGOS',
             'icon' => 'fas fa-list fa-fw',
             'submenu' => [

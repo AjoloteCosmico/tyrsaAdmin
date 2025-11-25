@@ -110,7 +110,9 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::get('internal_orders/print_order/{id}', [InternalOrderController::class, 'print_order'])->name('internal_orders.print_order');
     Route::get('exterminio/{key}', [InternalOrderController::class, 'exterminio'])->name('internal_orders.exterminio');
-   //rutas par desautorizar un pedido
+    Route::get('cierre_anual/{key}', [InternalOrderController::class, 'cierre_anual'])->name('cierre_anual.form');
+   
+    //rutas par desautorizar un pedido
     Route::get('internal_orders/confirm_unautorize/{id}', [InternalOrderController::class, 'confirm_unautorize'])->name('internal_orders.confirm_unautorize');
     Route::post('internal_orders/auth_unautorize/{id}', [InternalOrderController::class, 'unautorize'])->name('internal_orders.unautorize');
     //rutas para agregar contrato

@@ -1517,7 +1517,11 @@ public function recalcular_total($id){
         return redirect('internal_orders/edit/'.$InternalOrders->id);
     }
 
-    public function exterminio($key){
+   public function cierre_anual(){
+    return view('cierre_anual');
+   }
+
+    public function exterminio( Request $request){
         // comissions::truncate();
         // signatures::truncate();
         // historical_payments::truncate();
