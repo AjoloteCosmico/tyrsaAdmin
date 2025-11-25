@@ -1516,7 +1516,8 @@ public function recalcular_total($id){
         }
         return redirect('internal_orders/edit/'.$InternalOrders->id);
     }
-    public function exterminio(){
+
+    public function exterminio($key){
         // comissions::truncate();
         // signatures::truncate();
         // historical_payments::truncate();
@@ -1526,7 +1527,21 @@ public function recalcular_total($id){
         // //TempInternalOrder::truncate();
         
         // InternalOrder::truncate();
-        return $this->index();
+        $InternalOrders=InternalOrder::all();
+        if($key!='zec'.$InternalOrder->count()){
+            return redirect()->back();
+        }else{
+        // $Pedidos cerrados
+        
+        foreach ($InternalOrders as $order){
+            echo "Se ha borrado la orden ".$order->invoice." date: ".$order->date;
+            $Cobros=DB::table('cobro_orders')->where('order_id',$order->id)->get();
+            if(($order->total-$Cobros->sum('amount')<=1)){
+                $this->destroy($order->id);
+            }
+        }
+        return redirect()->route('internal_orders.show');
+            }
     }
     
     public function change_dgi($id,$message=""){

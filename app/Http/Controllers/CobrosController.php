@@ -362,8 +362,13 @@ class CobrosController extends Controller
             foreach ($Ordenes as $o) {
                 cobro_order::destroy($o->id);
             }
-                   $file_path = public_path('storage/comp'.$id.'.pdf');
-                   File::delete($file_path);
+                   
+                   $filename = 'comp' . $id . '.pdf';
+
+                    // Verifica si existe en el disco y elimínalo
+                    if (\Storage::disk('comp')->exists($filename)) {
+                        \Storage::disk('comp')->delete($filename);
+                    }
                     Cobro::destroy($id);
                     return redirect()->route('cobros.index')->with('delete_reg', 'ok');
             }

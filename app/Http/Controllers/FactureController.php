@@ -188,6 +188,14 @@ class FactureController extends Controller
                 }
 
     public function destroy($id){
+           $Facture=Factures::find($id);
+           // Nombre del archivo tal como lo guardaste
+            $filename = 'fac' . $Facture->id . '.pdf';
+
+            // Verifica si existe en el disco y elimínalo
+            if (\Storage::disk('comp')->exists($filename)) {
+                \Storage::disk('comp')->delete($filename);
+            }
             Factures::destroy($id);
             cobro_facture::where('facture_id',$id)->delete();
             return $this->index();
