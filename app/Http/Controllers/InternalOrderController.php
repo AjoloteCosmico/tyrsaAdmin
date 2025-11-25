@@ -1528,7 +1528,7 @@ public function recalcular_total($id){
         
         // InternalOrder::truncate();
         $InternalOrders=InternalOrder::all();
-        if($key!='zec'.$InternalOrder->count()){
+        if($key!='zec'.$InternalOrders->count()){
             return redirect()->back();
         }else{
         // $Pedidos cerrados
