@@ -532,6 +532,11 @@ public function recalcular_total($id){
             $InternalOrders->marca = $request->marca;
             $InternalOrders->user_id=AUth::user()->id;
             $InternalOrders->tc=Coin::find($TempInternalOrders->coin_id)->exchange_sell;
+
+
+            //guardar la dirección
+            $Customers=Customer::find($TempInternalOrders->customer_id);
+            $InternalOrder->order_adress=$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb.' '.$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code;
             $InternalOrders->save();
             $contactos=order_contacts::where('temp_order_id',$TempInternalOrders->id)->get();
             foreach($contactos as $c){

@@ -6,9 +6,17 @@ import sys
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import datetime
+from dateutil.relativedelta import relativedelta
+import numpy as np
+
+year = datetime.date.today().year
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
+quincena=int(sys.argv[1])
+# quincena=16
+
 # id=1
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -29,7 +37,28 @@ query = ('SELECT * from payments')
 pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
 writer = pd.ExcelWriter("storage/report/consecutivo_comprobante1.xlsx", engine='xlsxwriter')
-cobros=pd.read_sql("""Select cobros.* ,
+if(quincena>0):
+    month = np.ceil(quincena/ 2)
+    isFirstHalf = quincena % 2 != 0
+    startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
+    endDate =  str(year)+"-"+str(int(month)).zfill(2)+"-15" if isFirstHalf else  str((datetime.datetime(year,int(month),1 )+relativedelta(months=1))-datetime.timedelta(days=1))[:10];
+    cobros=pd.read_sql("""Select cobros.* ,
+    customers.customer,customers.customer_suburb, customers.clave, customers.alias,
+    internal_orders.invoice, internal_orders.payment_conditions,
+    internal_orders.category,internal_orders.description,internal_orders.status,
+    coins.exchange_sell, coins.code, coins.symbol,
+    banks.bank_description,
+    capturistas.name as capturista, revisores.name as revisor, autorizadores.name as autorizador
+    from (((((((
+    cobros inner join internal_orders on internal_orders.id = cobros.order_id) 
+    inner join customers on customers.id = internal_orders.customer_id )
+    inner join coins on internal_orders.coin_id = coins.id)
+    left join users as capturistas on cobros.capturo=capturistas.id)
+    left join users as revisores on cobros.reviso=revisores.id)
+    left join users as autorizadores on cobros.autorizo=autorizadores.id))
+    inner join banks on banks.id=cobros.bank_id  where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"' """,cnx)
+else:
+    cobros=pd.read_sql("""Select cobros.* ,
     customers.customer,customers.customer_suburb, customers.clave, customers.alias,
     internal_orders.invoice, internal_orders.payment_conditions,
     internal_orders.category,internal_orders.description,internal_orders.status,
@@ -48,7 +77,8 @@ cobros=pd.read_sql("""Select cobros.* ,
 facturas=pd.read_sql('select * from cobro_factures inner join factures on cobro_factures.facture_id=factures.id',cnx)
 
 cobros['date'][0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=2, header=False, index=False)
-
+cobros['date']=pd.to_datetime(cobros['date'] , format='%Y-%m-%d')
+cobros['date']=cobros['date'].dt.strftime('%d-%m-%Y')
 workbook = writer.book
 ##FORMATOS PARA EL TITULO------------------------------------------------------------------------------
 rojo_l = workbook.add_format({

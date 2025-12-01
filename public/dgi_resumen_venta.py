@@ -317,10 +317,10 @@ worksheet.merge_range(5,5+len(no_socios),8,5+len(no_socios),"""SIN IVA
 comision generada por el monto""",blue_header_format)
 worksheet.merge_range(5,3,8,3,"""
 PEDIDO INTERNO""",blue_header_format)
-worksheet.write(5,4,'No. vendedor',blue_header_format)
-worksheet.write(6,4,'Iniciales',blue_header_format)
-worksheet.write(7,4,'Nombre corto',blue_header_format)
-worksheet.write(8,4,'comp.Ingesos',blue_header_format)
+worksheet.write(5,4,'NO. VENDEDOR',blue_header_format)
+worksheet.write(6,4,'INICIALES',blue_header_format)
+worksheet.write(7,4,'NOMBRE CORTO',blue_header_format)
+worksheet.write(8,4,'COMP.INGESOS',blue_header_format)
 #total de cada xobro columna
 for i in range(len(cobros)):
     worksheet.write(9+i,5+len(no_socios),cobros['amount'].values[i]/1.16,blue_content)

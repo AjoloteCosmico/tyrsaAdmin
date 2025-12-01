@@ -101,7 +101,7 @@
 
                     <tr>
                         <th colspan="2" rowspan="2"> Domicilio Fiscal <br> <br> </th>
-                        <td colspan="12" style="word-wrap: break-word">  {{$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb}} <br> {{$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code}} </td>
+                        <td colspan="12" style="word-wrap: break-word">  {{$InternalOrders->order_adress}} </td>
                     </tr>
                     <tr>
                         <td colspan="7" > </td>

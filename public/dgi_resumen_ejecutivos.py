@@ -318,10 +318,10 @@ worksheet.merge_range(5,3+len(socios),8,3+len(socios),"""SIN IVA
 COMISION GENERADA""",blue_header_format)
 worksheet.merge_range(5,1,8,1,"""
 PEDIDO INTERNO""",blue_header_format)
-worksheet.write(5,2,'No. vendedor',blue_header_format)
-worksheet.write(6,2,'Iniciales',blue_header_format)
-worksheet.write(7,2,'Nombre corto',blue_header_format)
-worksheet.write(8,2,'comp.Ingesos',blue_header_format)
+worksheet.write(5,2,'NO. VENDEDOR',blue_header_format)
+worksheet.write(6,2,'INICIALES',blue_header_format)
+worksheet.write(7,2,'NOMBRE CORTO',blue_header_format)
+worksheet.write(8,2,'COMP.INGESOS',blue_header_format)
 #antes de iterar inicializo este array para guardar comisiones
 totales = {row.iniciales: 0 for _, row in socios.iterrows()}
 #total de cada xobro columna

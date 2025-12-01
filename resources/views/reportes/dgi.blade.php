@@ -534,6 +534,23 @@
 
             </div>
           </div>    
+           <table>
+                    <tr>
+                    <td> Consecutivo de comprobantes filtrado</td>
+                    <td>
+                            <a href="{{route('reports.generate',[$Quincena+1,'consecutivo_comprobante',0])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                               
+                            </td>
+                            <td>
+                            <a href="{{route('reports.generate',[$Quincena+1,'consecutivo_comprobante',1])}}">
+                                  <button class="button btn-lg"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
+                                  </a>  
+                            </td>
+                    </tr>
+
+                </table  >
         </div>
     </div>
     </div>
