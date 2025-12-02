@@ -11,11 +11,11 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="row p-4">
                 <div class="col-sm-12 text-center font-bold text-lg">
-                <a href="{{route('reports.generate',[1,'consecutivo_comprobante',0])}}">
+                <a href="{{route('reports.generate',[0,'consecutivo_comprobante',0])}}">
                                   <button class="button"> <span class="badge badge-success">Excel &nbsp; <i class="fa fa-file-excel-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                
-                                <a href="{{route('reports.generate',[1,'consecutivo_comprobante',1])}}">
+                                <a href="{{route('reports.generate',[0,'consecutivo_comprobante',1])}}">
                                   <button class="button"> <span class="badge badge-danger">PDF &nbsp;<i class="fa fa-file-pdf-o fa-lg" aria-hidden="true"></i></span> </button>
                                   </a>  
                                

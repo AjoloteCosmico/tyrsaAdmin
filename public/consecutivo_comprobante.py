@@ -36,7 +36,7 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
 query = ('SELECT * from payments')
 pagos=pd.read_sql(query,cnx)
 #order_id=pagos.loc[(pagos["id"]==int(id),"order_id") ].values[0]
-writer = pd.ExcelWriter("storage/report/consecutivo_comprobante1.xlsx", engine='xlsxwriter')
+writer = pd.ExcelWriter(f"storage/report/consecutivo_comprobante{quincena}.xlsx", engine='xlsxwriter')
 if(quincena>0):
     month = np.ceil(quincena/ 2)
     isFirstHalf = quincena % 2 != 0
