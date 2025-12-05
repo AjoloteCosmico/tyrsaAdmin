@@ -334,6 +334,7 @@ for i in range(len(socios)):
     this_comisions=comisiones.loc[(comisiones['seller_id']==socios['id'].values[i])]
     worksheet.write(5,3+i,str(i+1),blue_header_format)
     worksheet.write(6,3+i,socios['iniciales'].values[i],blue_header_format)
+    #CONDICIONAL ESPECIFICO PARA NELSON PORQUE NO LE GUSTA ERNESTO
     if(str(socios['seller_name'].values[i]).split()[-1]=='ERNESTO'):
         worksheet.write(7,3+i,'NELSON',blue_header_format)
         worksheet.write(len(cobros)+10, 3+i,'NELSON',blue_content_footer)
@@ -341,17 +342,19 @@ for i in range(len(socios)):
         worksheet.write(7,3+i,str(socios['seller_name'].values[i]).split()[-1],blue_header_format)
         worksheet.write(len(cobros)+10, 3+i,str(socios['seller_name'].values[i]).split()[-1],blue_content_footer)
     worksheet.write(8,3+i,'comision $',blue_header_format)
-    
+    #LLEANR LAS COLUMNAS DE CADA SOCIO
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='DGI')]
-        amount=0
+        
+        amount=(cobros['amount'].values[j]/1.16)*this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='compartida')]['percentage'].sum()
         if(cobros['seller_id'].values[j]==socios['id'].values[i]):
-           amount=(cobros['amount'].values[j]/1.16)*cobros['comision'].values[j]  
+           #CASO EN EL QUE EL SOCIO ES EL VENDEDOR PRINCIPAL
+           amount=0  
            totales[socios['iniciales'].values[i]] += (cobros['amount'].values[j]/ 1.16) * cobros['comision'].values[j]
           
         
-        if(len(comision_secundaria)>0):
-           amount=(cobros['amount'].values[j]/1.16)*comision_secundaria['percentage'].values[0]
+        # if(len(comision_secundaria)>0):
+        #    amount=(cobros['amount'].values[j]/1.16)*comision_secundaria['percentage'].values[0]
         #    totales[socios['iniciales'].values[i]] += (cobros['amount'].values[j]/1.16)*comision_secundaria['percentage'].sum()
         worksheet.write(9+j,3+i,amount,blue_content)
            
