@@ -863,15 +863,15 @@ public function recalcular_total($id){
                 $internal_order->vent_auth=1;
                 $internal_order->save();
             }
-            //verificar si el pedido debe autorizarse
-            $required_signatures = signatures::where('order_id',$internal_order->id)->get();
+            // //verificar si el pedido debe autorizarse
+            // $required_signatures = signatures::where('order_id',$internal_order->id)->get();
             
-            $nSigns=$required_signatures->count();
-            $areAllSigns=$required_signatures->where('status',1)->count();
+            // $nSigns=$required_signatures->count();
+            // $areAllSigns=$required_signatures->where('status',1)->count();
             
-            if($areAllSigns ==$nSigns){
-            $internal_order->status = 'autorizado';}
-            $internal_order->save();
+            // if($areAllSigns ==$nSigns){
+            // $internal_order->status = 'autorizado';}
+            // $internal_order->save();
             if($signature->auth_id==2 || $signature->auth_id==3){
                 
                 return $this->comisiones_firmar($internal_order->id,$signature->id);
@@ -1537,7 +1537,6 @@ public function recalcular_total($id){
         // Item::truncate();
         // TempItem::truncate();
         // //TempInternalOrder::truncate();
-        
         // InternalOrder::truncate();
         $InternalOrders=InternalOrder::all();
         if($key!='RaQb**'.$InternalOrders->count()){
@@ -1555,8 +1554,7 @@ public function recalcular_total($id){
         return redirect()->route('internal_orders.index')->with('cierre_anual','ok');
             }
 
-        }
-       
+        }  
     }
     
     public function change_dgi($id,$message=""){

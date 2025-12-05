@@ -531,7 +531,6 @@
 @endif
           <div class="contenedor" id="graficos">
              <div class="container px-4 mx-auto">
-
             </div>
           </div>    
            <table>

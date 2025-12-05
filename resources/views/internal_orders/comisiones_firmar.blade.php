@@ -165,6 +165,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+     Swal.fire({
+                    icon: 'info',
+                    title: 'La firma no será registrada aún',
+                    html: `Si usted sale de esta pantalla sin guardar, la firma no será registrada y nocambiará el status del pedido`
+                });
+
+
+
     (function(){
         // Opciones de sellers generado desde blade para insertar rápidamente en las selecciones nuevas
         const sellersOptions = `@foreach($Sellers as $s)<option value="{{ $s->id }}">{{ $s->seller_name }}</option>@endforeach`;

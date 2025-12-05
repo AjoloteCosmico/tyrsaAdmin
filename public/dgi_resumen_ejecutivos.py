@@ -13,7 +13,7 @@ import numpy as np
 year = datetime.date.today().year
 
 quincena=int(sys.argv[1])+1
-# quincena=1
+# quincena=22
 month = np.ceil(quincena/ 2)
 isFirstHalf = quincena % 2 != 0
 startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
@@ -111,7 +111,7 @@ negro_s = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':11})
+    'font_size':13})
 firmas = workbook.add_format({
     'bold': 0,
     'top': 1,
@@ -126,7 +126,7 @@ negro_b = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
     'font_color': 'black',
-    'font_size':13,
+    'font_size':14,
     
     'text_wrap': True,
     'num_format': 'dd/mm/yyyy'}) 
@@ -302,15 +302,14 @@ pedidos['date']=pd.to_datetime(pedidos['date'])
 # -------------HOJA DE RESUMEN
 worksheet= workbook.add_worksheet("Resumen")
 #Encabezado del documento--------------
-worksheet.write('G2', 'AÑO', negro_b)
-worksheet.write('H2', year, negro_b)
-worksheet.merge_range('G2:H3', """FECHA DEL REPORTE
+worksheet.write('E2', 'AÑO', negro_b)
+worksheet.write('F2', year, negro_b)
+worksheet.merge_range('E2:F3', """FECHA DEL REPORTE
 DD/MM/AAAA""", negro_b)
-worksheet.merge_range('I2:I3', date, negro_b)
+worksheet.merge_range('G2:G3', date, negro_b)
 worksheet.insert_image("A1", "img/logo/logo.png",{"x_scale": 0.6, "y_scale": 0.6})
-worksheet.merge_range('B3:F4', """TABLA DE VENDEDORES PARA PAGO DE COMISIONES  
-                      DGI PARA NIVELES DIRECTIVOS""", negro_b)
-worksheet.merge_range('B5:F5', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
+worksheet.merge_range('B2:D3', """TABLA PARA PAGO DE DGI""", negro_b)
+worksheet.merge_range('B4:D4', "Se reporta del "+str(startDate) +" al "+ str(endDate), negro_s)
 
 ##SEGUNDA TABLA DE RESUMEN VENTAS DIRECTAS
 #Cabeceras
