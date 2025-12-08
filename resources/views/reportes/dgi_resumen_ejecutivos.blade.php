@@ -16,7 +16,7 @@
                             </td>
                     </tr>
 
-                </table  >
+                </table>
 
                 <table class="table text-xs font-medium table-striped text.center"  id="example4" style="table, th, td { border: 1px solid white;}">
                     <thead >    

@@ -320,7 +320,7 @@ PEDIDO INTERNO""",blue_header_format)
 worksheet.write(5,2,'NO. VENDEDOR',blue_header_format)
 worksheet.write(6,2,'INICIALES',blue_header_format)
 worksheet.write(7,2,'NOMBRE CORTO',blue_header_format)
-worksheet.write(8,2,'COMP.INGESOS',blue_header_format)
+worksheet.write(8,2,'COMP. INGRESOS',blue_header_format)
 #antes de iterar inicializo este array para guardar comisiones
 totales = {row.iniciales: 0 for _, row in socios.iterrows()}
 #total de cada xobro columna
@@ -341,7 +341,7 @@ for i in range(len(socios)):
     else:
         worksheet.write(7,3+i,str(socios['seller_name'].values[i]).split()[-1],blue_header_format)
         worksheet.write(len(cobros)+10, 3+i,str(socios['seller_name'].values[i]).split()[-1],blue_content_footer)
-    worksheet.write(8,3+i,'comision $',blue_header_format)
+    worksheet.write(8,3+i,'COMISIÓN $',blue_header_format)
     #LLEANR LAS COLUMNAS DE CADA SOCIO
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='DGI')]
@@ -398,7 +398,7 @@ worksheet.set_row(5,27)
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('B:B',20)
-
+worksheet.set_column('B:B',18)
 worksheet.set_column('D:D',20)
 worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)
