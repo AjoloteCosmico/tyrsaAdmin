@@ -398,7 +398,7 @@ worksheet.set_row(5,27)
 #AGRANDAR CPLUMNAS
 worksheet.set_column('A:A',15)
 worksheet.set_column('B:B',20)
-worksheet.set_column('B:B',18)
+worksheet.set_column('C:C',18)
 worksheet.set_column('D:D',20)
 worksheet.set_column('F:F',25)
 worksheet.set_column('G:G',35)
