@@ -159,7 +159,7 @@
             </div>
             <br><br>
             <div class="row">
-                 <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 10%;' id='ncotizacion' value="0">
+                 <input type="text" class="form-control w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncotizacion" style='width: 17vw;'  id='ncotizacion' value="0">
                  <x-jet-input-error for='ncotizacion' />
             </div>
         </div>
@@ -177,7 +177,7 @@
 </div>  
 <br><br>
 
-       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
+       <input type="text"  class="form-control w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();" name="ncontrato" style='width: 17vw;' id='ncontrato'  value="0">
        <x-jet-input-error for='ncontrato' />
     </div>
        </div>
@@ -195,7 +195,7 @@
 
 <br> <br>
 
-       <input type="text"  onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 10%;' id='oc'  value="0">
+       <input type="text" class="form-control w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();" name="oc" style='width: 17vw;' id='oc'  value="0">
        <x-jet-input-error for='oc' />
    </div>
 
