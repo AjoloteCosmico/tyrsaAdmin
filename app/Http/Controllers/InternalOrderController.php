@@ -1348,9 +1348,11 @@ public function recalcular_total($id){
      $hpagos=historical_payments::where('order_id',$id);
      $hpagos->delete();
      
-
      $firmas=signatures::where('order_id',$id);
      $firmas->delete();
+     
+     $comisiones=comissions::where('order_id',$id);
+     $comisiones->delete();
 
      $Cobros=Cobro::where('order_id',$id)->get();
      foreach($Cobros as $c){
