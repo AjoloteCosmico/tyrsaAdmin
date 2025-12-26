@@ -7,6 +7,10 @@
 @stop
 
 @section('content')
+<div id="loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-3">Procesando, por favor espera...</p>
+</div>
 <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             
@@ -88,8 +92,25 @@
 @stop
 
 @push('js')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
-
+<script>
+    $('.DeleteReg').submit(function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro de querer eliminar el Registro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, eliminar Registro!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('loader').style.display = 'flex';
+            this.submit();
+        }
+    })
+});
+</script>
 @if (session('password') == 'fail')
 <script>
       Swal.fire({

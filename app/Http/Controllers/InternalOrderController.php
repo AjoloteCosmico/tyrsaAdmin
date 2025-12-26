@@ -1549,7 +1549,7 @@ public function recalcular_total($id){
         foreach ($InternalOrders as $order){
             echo "Se ha borrado la orden ".$order->invoice." date: ".$order->date;
             $Cobros=DB::table('cobro_orders')->where('order_id',$order->id)->get();
-            if(($order->total-$Cobros->sum('amount')<=1)){
+            if(($order->total-$Cobros->sum('amount')<=1)||($order->status=='CANCELADO')){
                 $this->destroy($order->id);
             }
         }
