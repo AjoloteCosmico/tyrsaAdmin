@@ -1367,6 +1367,17 @@ public function recalcular_total($id){
 }
     public function destroy($id)
     {
+    // 1. Obtener los IDs de los cobros asociados a esta orden antes de borrarlos
+    $cobroIds = Cobro::where('order_id', $id)->pluck('id');
+
+    // 2. Borrar en cobro_factures (usando los IDs que acabamos de obtener)
+    if ($cobroIds->isNotEmpty()) {
+        DB::table('cobro_factures')->whereIn('cobro_id', $cobroIds)->delete();
+    }
+
+    // 3. Borrar en cobro_orders (donde el order_id coincida)
+    DB::table('cobro_orders')->where('order_id', $id)->delete();
+
      $partidas=Item::where('internal_order_id',$id);
      $partidas->delete();
      
@@ -1577,7 +1588,7 @@ public function recalcular_total($id){
         foreach ($InternalOrders as $order){
             echo "Se ha borrado la orden ".$order->invoice." date: ".$order->date;
             $Cobros=DB::table('cobro_orders')->where('order_id',$order->id)->get();
-            if(($order->total-$Cobros->sum('amount')<=1)||($order->status=='CANCELADO')){
+            if(($order->total-$Cobros->sum('amount')<=1.2)||($order->status=='CANCELADO')){
                 // $this->destroy($order->id);
                 try {
                     DB::transaction(function () use ($order) {

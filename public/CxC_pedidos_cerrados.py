@@ -239,7 +239,7 @@ year = date.strftime("%Y")
 df[0:1].to_excel(writer, sheet_name='Sheet1', startrow=7,startcol=6, header=False, index=False)
 worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
-worksheet.merge_range('B2:G2', 'CUENTAS POR COBRAR REPORTE 1 B (PEDIDOS ACTIVOS) ', negro_b)
+worksheet.merge_range('B2:G2', 'CUENTAS POR COBRAR REPORTE 1 C (PEDIDOS CERRADOS) ', negro_b)
 worksheet.merge_range('B3:G3', 'DERECHOS ADQUIRIDOS POR COBRAR', negro_s)
 worksheet.merge_range('B4:G4', 'CLASIFICADAS POR P.I.', negro_b)
 
@@ -320,7 +320,7 @@ pedidos['reg_date']=pd.to_datetime(pedidos['reg_date'], format='%Y-%m-%d')
 pedidos['reg_date']=pedidos['reg_date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(pedidos)):
     
-    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=1):
+    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=1.2):
 
         row_index=str(11+np)
         np=np+1
