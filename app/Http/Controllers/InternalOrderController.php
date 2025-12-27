@@ -1336,7 +1336,35 @@ public function recalcular_total($id){
     // dd($file_path);
     return response()->file($file_path);
     }
+    private function ejecutarBorradoCompleto($id)
+{
+    // 1. Obtener los IDs de los cobros asociados a esta orden antes de borrarlos
+    $cobroIds = Cobro::where('order_id', $id)->pluck('id');
 
+    // 2. Borrar en cobro_factures (usando los IDs que acabamos de obtener)
+    if ($cobroIds->isNotEmpty()) {
+        DB::table('cobro_factures')->whereIn('cobro_id', $cobroIds)->delete();
+    }
+
+    // 3. Borrar en cobro_orders (donde el order_id coincida)
+    DB::table('cobro_orders')->where('order_id', $id)->delete();
+
+    // 4. Borrados directos de otras tablas relacionadas
+    Item::where('internal_order_id', $id)->delete();
+    payments::where('order_id', $id)->delete();
+    historical_payments::where('order_id', $id)->delete();
+    signatures::where('order_id', $id)->delete();
+    comissions::where('order_id', $id)->delete();
+
+    // 5. Borrar los registros de Cobros, Facturas y Notas
+    // Nota: Usamos delete() masivo para mayor velocidad
+    Cobro::where('order_id', $id)->delete();
+    Factures::where('order_id', $id)->delete();
+    CreditNote::where('order_id', $id)->delete();
+
+    // 6. Finalmente, borrar la orden principal
+    InternalOrder::where('id', $id)->delete();
+}
     public function destroy($id)
     {
      $partidas=Item::where('internal_order_id',$id);
@@ -1550,7 +1578,14 @@ public function recalcular_total($id){
             echo "Se ha borrado la orden ".$order->invoice." date: ".$order->date;
             $Cobros=DB::table('cobro_orders')->where('order_id',$order->id)->get();
             if(($order->total-$Cobros->sum('amount')<=1)||($order->status=='CANCELADO')){
-                $this->destroy($order->id);
+                // $this->destroy($order->id);
+                try {
+                    DB::transaction(function () use ($order) {
+                        $this->ejecutarBorradoCompleto($order->id);
+                    });
+                } catch (\Exception $e) {
+                    Log::error("Error al limpiar la orden {$order->id}: " . $e->getMessage());
+                }
             }
         }
         return redirect()->route('internal_orders.index')->with('cierre_anual','ok');
