@@ -492,7 +492,7 @@ worksheet.merge_range('B'+str(trow+3)+':G'+str(trow+3),'RESUMEN DEL REPORTE',blu
 worksheet.merge_range('B'+str(trow+4)+':E'+str(trow+4),'DERECHOS ADQUIRIDOS',blue_header_format)
 worksheet.merge_range('B'+str(trow+5)+':E'+str(trow+5),'COBROS EXCEDIDOS EN PEDIDOS CERRADOS',blue_header_format)
 worksheet.merge_range('B'+str(trow+6)+':E'+str(trow+6),'COBRADOS',blue_header_format)
-worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'POR COBRAR',blue_header_format)
+# worksheet.merge_range('B'+str(trow+7)+':E'+str(trow+7),'POR COBRAR',blue_header_format)
 worksheet.merge_range('B'+str(trow+8)+':E'+str(trow+8),'PEDIDOS REPORTADOS',blue_header_format)
 
 worksheet.merge_range('B'+str(trow+9)+':E'+str(trow+9),'PEDIDOS  POR COBRAR MXN',blue_header_format)
@@ -512,8 +512,8 @@ worksheet.write_formula('F'+str(trow+6)+':G'+str(trow+6),  '{=(K'+str(trow)+'+L'
 
 
 
-worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),' ',blue_content_bold)
-worksheet.write_formula('F'+str(trow+7)+':G'+str(trow+7),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')-F'+str(trow+5)+'}',blue_content_bold)
+# worksheet.merge_range('F'+str(trow+7)+':G'+str(trow+7),' ',blue_content_bold)
+# worksheet.write_formula('F'+str(trow+7)+':G'+str(trow+7),  '{=(M'+str(trow)+'+N'+str(trow)+' * '+str(tc)+')-F'+str(trow+5)+'}',blue_content_bold)
 
 
 worksheet.merge_range('F'+str(trow+8)+':G'+str(trow+8),str(len(pedidos)),blue_content_bold)
