@@ -323,6 +323,11 @@ pedidos['reg_date']=pd.to_datetime(pedidos['reg_date'], format='%Y-%m-%d')
 pedidos['reg_date']=pedidos['reg_date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(pedidos)):
     
+    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
+     if(pedidos['coin_id'].values[i]==1):
+        derechos_adquiridos_mn=derechos_adquiridos_mn+(pedidos['total'].values[i]/1.16)
+     else:
+        derechos_adquiridos_dll=derechos_adquiridos_dll+(pedidos['total'].values[i]/1.16)
     if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()<=1.2):
 
         row_index=str(11+np)
@@ -419,19 +424,18 @@ for i in range(0,len(pedidos)):
 
         else:
             worksheet.write('T'+row_index,'CERRADO', blue_content)
-    else:
-      if(pedidos['coin_id'].values[i]==1):
-        derechos_adquiridos_mn=derechos_adquiridos_mn+(pedidos['total'].values[i]/1.16)
-      else:
-        derechos_adquiridos_dll=derechos_adquiridos_dll+(pedidos['total'].values[i]/1.16)
-  
+    
 trow=11+np
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow) , 'SUBTOTALES', blue_header_format_bold)
 #SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), total_mn, blue_content_footer)
-#SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow),total_dll, blue_content_footer_dll)
+# worksheet.write('I'+str(trow), total_mn, blue_content_footer)
+# #SUBTOTAL PEDIDOS DLLS
+# worksheet.write('J'+str(trow),total_dll, blue_content_footer_dll)
+#TOTAL COBRADO MN
+worksheet.write_formula('I'+str(trow),  '{=SUM(I9:I'+str(trow-1)+')}', blue_content_footer)
+#TOTAL COBRADO DLLS
+worksheet.write_formula('J'+str(trow),  '{=SUM(J9:J'+str(trow-1)+')}', blue_content_footer_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_footer)
 #TOTAL COBRADO DLLS
