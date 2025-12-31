@@ -1451,7 +1451,7 @@ public function recalcular_total($id){
         if($request->shipment == 'Sí'){
             $CustomerShippingAddresses = CustomerShippingAddress::where('id', $request->shipping_address)->first();
         }else{
-            $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $request->customer_id)->first();
+            $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $InternalOrders->customer_id)->first();
         }
 
         $InternalOrders->shipment = $request->shipment;
