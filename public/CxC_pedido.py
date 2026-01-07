@@ -302,6 +302,8 @@ total_total=0
 pedidos_x_cobrar=0
 pedidos_x_cobrar_mx=0
 pedidos_x_cobrar_dll=0
+derechos_adquiridos_mn=0
+derechos_adquiridos_dll=0
 pedidos['clave'] = pedidos['clave'].replace({' ':''}, regex=True)
 pedidos=pedidos.sort_values(by='invoice')
 pedidos['reg_date']=pd.to_datetime(pedidos['reg_date'], format='%Y-%m-%d')
@@ -415,6 +417,10 @@ for i in range(0,len(pedidos)):
    #status
    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
      worksheet.write('T'+row_index,'ACTIVO', blue_content)
+     if(pedidos['coin_id'].values[i]==1):
+        derechos_adquiridos_mn=derechos_adquiridos_mn+(pedidos['total'].values[i]/1.16)
+     else:
+        derechos_adquiridos_dll=derechos_adquiridos_dll+(pedidos['total'].values[i]/1.16)
    else:
      worksheet.write('T'+row_index,'CERRADO', blue_content)
   
@@ -490,8 +496,8 @@ worksheet.merge_range('B'+str(trow+10)+':E'+str(trow+10),'PEDIDOS TOTALES POR CO
 worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES COBRADOS',blue_header_format)
 
 #TODO: calcular bien esto, total menos iva
-worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
-worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
+worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),derechos_adquiridos_mn+derechos_adquiridos_dll*tc,blue_content_bold)
+# worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
 worksheet.merge_range('F'+str(trow+5)+':G'+str(trow+5),' ',blue_content_bold)
 worksheet.write_formula('F'+str(trow+5)+':G'+str(trow+5),  '{=(K'+str(trow)+'+L'+str(trow)+' * '+str(tc)+')}',blue_content_bold)

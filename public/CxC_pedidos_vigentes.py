@@ -419,10 +419,14 @@ for i in range(0,len(pedidos)):
 trow=11+np
 
 worksheet.merge_range('G'+str(trow)+':H'+str(trow) , 'SUBTOTALES', blue_header_format_bold)
-#SUBTOTAL PEDIDOS MN
-worksheet.write('I'+str(trow), total_mn, blue_content_footer)
-#SUBTOTAL PEDIDOS DLLS
-worksheet.write('J'+str(trow),total_dll, blue_content_footer_dll)
+# #SUBTOTAL PEDIDOS MN
+# worksheet.write('I'+str(trow), total_mn, blue_content_footer)
+# #SUBTOTAL PEDIDOS DLLS
+# worksheet.write('J'+str(trow),total_dll, blue_content_footer_dll)
+#TOTAL PEDIDOS MN
+worksheet.write_formula('I'+str(trow),  '{=SUM(I9:I'+str(trow-1)+')}', blue_content_footer)
+#TOTAL PEDIDOS DLLS
+worksheet.write_formula('J'+str(trow),  '{=SUM(J9:J'+str(trow-1)+')}', blue_content_footer_dll)
 #TOTAL COBRADO MN
 worksheet.write_formula('K'+str(trow),  '{=SUM(K9:K'+str(trow-1)+')}', blue_content_footer)
 #TOTAL COBRADO DLLS
