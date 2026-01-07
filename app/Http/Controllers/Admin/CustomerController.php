@@ -74,6 +74,8 @@ class CustomerController extends Controller
             'customer_zip_code' => 'required|max:5',
             'customer_email' => 'required|email',
             'customer_telephone' => 'required|max:10',
+            
+            'clave' => 'required|unique:customers,clave',
         ];
 
         $messages = [
@@ -93,7 +95,9 @@ class CustomerController extends Controller
             'customer_telephone.required' => 'Capture el Número telefónico del CLiente',
             'customer_telephone.max' => 'Capture el Número telefónico a 10 dígitos',
             'customer_zip_code.required' => 'Capture el Código Postal del Cliente',
-            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
+            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres',
+            'clave.required' => 'Capture la Clave del Cliente',
+            'clave.unique' => 'La Clave del Cliente ya existe, ingrese una diferente',
         ];
         
         $request->validate($rules, $messages);

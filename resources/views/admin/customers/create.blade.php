@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value=" Clave Cliente" />
-                                <x-jet-input type="text" name="clave" class="w-full text-xs " />
+                                <x-jet-input type="number" step="1" name="clave" class="w-full text-xs " />
                                 <x-jet-input-error for='clave' />
                             </div>
                             <div class="form-group">
