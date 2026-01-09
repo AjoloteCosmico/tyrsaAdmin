@@ -95,6 +95,30 @@
                             {{-- Sección DGI --}}
                             @if($show_dgi==1)
                             <div class="mb-4">
+                                @if($compartidas->count()>0)
+                                 <h4><b>Comisiones Compartidas</b></h4>
+                                <div id="compartidas-container" style="background-color: #dbdcddff; ">
+                                    {{-- se pueden agregar filas con JS --}}
+                                        @foreach($compartidas as $dgi)
+                                            <div class="row align-items-center mb-2 dgi-row">
+                                                <div class="col-md-5">
+                                                    <select class="form-capture w-full seller-select" disabled style="background-color: #dbdcddff; ">
+                                                        <option value="">-- Seleccionar Vendedor --</option>
+                                                        @foreach($Sellers as $s)
+                                                            <option value="{{ $s->id }}" @if($s->id == $dgi->seller_id) selected @endif>{{ $s->seller_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-jet-input-error for="seller_id" />
+                                                </div>
+                                                
+                                                    <input type="number" disabled class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.01" style="width:10%; background-color: #dbdcddff; "/> &nbsp; %
+                                              
+                                                
+                                            </div>
+                                        @endforeach
+
+                                </div>
+                                @endif
                                 <h4><b>Comisiones DGI</b></h4>
                                 <div id="dgi-container">
                                     {{-- Renderizar las comisiones DGI iniciales provenientes de $DGI --}}
@@ -168,7 +192,7 @@
      Swal.fire({
                     icon: 'info',
                     title: 'La firma no será registrada aún',
-                    html: `Si usted sale de esta pantalla sin guardar, la firma no será registrada y nocambiará el status del pedido`
+                    html: `Si usted sale de esta pantalla sin guardar, la firma no será registrada y no cambiará el status del pedido`
                 });
 
 

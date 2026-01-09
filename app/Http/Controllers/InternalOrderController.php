@@ -923,23 +923,25 @@ public function recalcular_total($id){
         // comissions::where('order_id', $id)->delete();
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
         $compartidas=comissions::where('order_id',$id)->where('description','compartida')->get();
-        // dd($compartidas,$DGI,$id);
-        if($DGI->count()==0){
-            
-            foreach($Socios as $socio){
-                
-            $comision = new comissions();
-            $comision->seller_id=$socio->id;
-            $comision->percentage=$socio->dgi;
-            $comision->order_id=$id;
-            $comision->description='DGI';
-            $comision->save();
-            }
-        }
+       
+        
 
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
         if($signature->auth_id==3){
             $show_dgi=1;
+            if($DGI->count()==0){
+            foreach($Socios as $socio){
+                if(($socio->id!=$internal_order->seller_id)&&($compartidas->where('seller_id',$socio->id)->count()==0)){
+                    $comision = new comissions();
+                    $comision->seller_id=$socio->id;
+                    $comision->percentage=$socio->dgi;
+                    $comision->order_id=$id;
+                    $comision->description='DGI';
+                    $comision->save();
+                }
+            }
+        }
+        $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
         }else{
             $show_dgi=0;
         }
@@ -982,22 +984,31 @@ public function recalcular_total($id){
         // if ($total > 3) {
         //     return back()->with('error', "La suma de comisiones ($total%) supera el 3%.")->withInput();
         // }
-
+            $index=0;
+            foreach ($sellerIds as $i => $sellerId) {
+            if($tipos[$i]=='compartida'){
+                            
+                            comissions::where('order_id', $internalOrderId)
+                                ->where('seller_id', $sellerId)
+                                ->where('description', 'DGI')->delete();
+                        }
+                    }
             DB::transaction(function () use ($internalOrderId, $sellerIds, $comisiones, $tipos,$signature) {
                 // Primero borra comisiones previas de esta orden (si aplica)
                 if($signature->auth_id==2){
                     comissions::where('order_id', $internalOrderId)->where('description','compartida')->delete();
                 }else{
                     comissions::where('order_id', $internalOrderId)->where('description','DGI')->delete();
+
                 }
                 $index=0;
                 foreach ($sellerIds as $i => $sellerId) {
                     if($index==0 & $signature->auth_id==2){
-                        
                             $internal_order = InternalOrder::find($internalOrderId);
                             $internal_order->comision=$comisiones[$i]*0.01;
                             $internal_order->save();
                     }else{
+                        
                     comissions::create([
                         'order_id' => $internalOrderId,
                         'seller_id'  => $sellerId,
@@ -1483,8 +1494,6 @@ public function recalcular_total($id){
                     $Signature->save(); 
                 }
             }
-             
-        
         
         if($PagosWasChanged){
             return $this->payment($id);
