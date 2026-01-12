@@ -84,7 +84,7 @@
 
                                 <div class="mt-2">
                                     <button type="button" id="add-compartida" class="btn btn-green">
-                                        <i class="fas fa-plus-circle"></i> Agregar comisión compartida
+                                        <i class="fas fa-plus-circle"></i> &nbsp; Agregar comisión compartida
                                     </button>
                                     <small class="text-muted ml-2">Máx. 4 comisiones compartidas. Suma total (principal + compartidas) no debe superar 10%.</small>
                                 </div>
@@ -95,6 +95,17 @@
                             {{-- Sección DGI --}}
                             @if($show_dgi==1)
                             <div class="mb-4">
+                                <h4><b>Comision principal</b></h4>
+                                <div class="c" style="background-color: #dbdcddff; ">
+                                    <div class="row align-items-center mb-2 dgi-row">
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-capture w-full seller-select" value="{{ $Seller->seller_name }}" disabled style="background-color: #dbdcddff; "/>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-capture w-full seller-select" value="{{ $internal_order->comision * 100 }} %" disabled style="background-color: #dbdcddff; "/>
+                                        </div>
+                                    </div>
+                                </div>
                                 @if($compartidas->count()>0)
                                  <h4><b>Comisiones Compartidas</b></h4>
                                 <div id="compartidas-container" style="background-color: #dbdcddff; ">
@@ -136,7 +147,7 @@
                                                     <input type="hidden" name="tipo[]" value="DGI" />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.001" style="width:70%"/> &nbsp; %
+                                                    <div class="row"><input type="number" name="comision[]" class="form-capture comision-input" value="{{ $dgi->percentage *100 }}" min="0.01" step="0.001" style="width:40%"/> &nbsp; %</div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <button type="button" class="btn btn-red remove-row"><i class="fas fa-trash"></i></button>
@@ -148,7 +159,7 @@
 
                                 <div class="mt-2">
                                     <button type="button" id="add-dgi" class="btn btn-green">
-                                        <i class="fas fa-plus-circle"></i> Agregar comisión DGI
+                                        <i class="fas fa-plus-circle"> &nbsp;</i> Agregar comisión DGI
                                     </button>
                                 </div>
                             </div> @endif

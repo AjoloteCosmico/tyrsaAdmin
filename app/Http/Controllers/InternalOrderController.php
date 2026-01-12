@@ -919,8 +919,7 @@ public function recalcular_total($id){
         //  #Asignar automaticamente DGI
         $Socios=Seller::where('dgi','>',0)->get();
         
-        //  dd($Socios);
-        // comissions::where('order_id', $id)->delete();
+       
         $DGI=comissions::where('order_id',$id)->where('description','DGI')->get();
         $compartidas=comissions::where('order_id',$id)->where('description','compartida')->get();
        
@@ -956,9 +955,7 @@ public function recalcular_total($id){
      
         $internal_order = InternalOrder::find($request->order_id);
         $signature = signatures::find($request->firma_id);
-        $signature->status = 1;
-        $signature->firma=Auth::user()->firma;
-        $signature->save();
+       
         // --- Validaciones adicionales ---
         $total = 0;
         $seenSellers = [];
@@ -1038,6 +1035,9 @@ public function recalcular_total($id){
                 comissions::where('id',$existente->id)->delete();
             }
          }
+        $signature->status = 1;
+        $signature->firma=Auth::user()->firma;
+        $signature->save();
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
     }
 
@@ -1561,7 +1561,18 @@ public function recalcular_total($id){
     public function delete_comissions($id,$origin){
         $Comission=comissions::find($id);
         $InternalOrders = InternalOrder::find($Comission->order_id);
+        \DB::table('audit_deletes')->insert([
+        'order_id'  => $Comission->order_id,
+        'seller_id' => $Comission->seller_id,
+        'url'       => request()->fullUrl(), // Captura la URL exacta
+        'user_id'   => auth()->id() ?? 0,    // Quién estaba logueado
+        'ip_address'=> request()->ip(),
+        'backtrace' => collect(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5))
+                        ->pluck('file')->implode(' -> ')
+    ]);
         comissions::destroy($id);
+        
+        
         if($origin=='edit_dgi'){
             return redirect()->route('change_dgi',$InternalOrders->id)->with([ 'borrado' => 'Si' ]);
          

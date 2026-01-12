@@ -194,7 +194,7 @@ function send_data(){
       Swal.fire({ icon: 'warning', title: 'Campos vacios', text: `Por llene todos los campos marcados con *`});
       return false;
     }else{
-    document.getElementById("body_form").submit();
+        document.getElementById("body_form").submit();
      }
 }
 </script>
