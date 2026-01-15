@@ -1014,23 +1014,17 @@ public function recalcular_total($id){
                     ]);
                     }
                      $index++;
-                    
                 }
             });
- //revisar si estan todas las firmas
-        $required_signatures = signatures::where('order_id',$internal_order->id)->get();
-        #$areAllSigns=0;
-        $nSigns=$required_signatures->count();
-        $areAllSigns=$required_signatures->where('status',1)->count();
-        if($areAllSigns ==$nSigns){
-        $internal_order->status = 'autorizado';}
-        $internal_order->save();
+
 
         //validar regla de no doble comision
         comissions::where('seller_id',$internal_order->seller_id)->where('description','DGI')->delete();
         $ComisionesCompartidas=comissions::where('order_id',$internal_order->id)->where('description','compartida')->get();
          foreach($ComisionesCompartidas as $cc){
-            $existente=comissions::where('seller_id',$cc->seller_id)->where('description','DGI')->first();
+            $existente=comissions::where('seller_id',$cc->seller_id)
+            ->where('order_id',$cc->order_id)
+            ->where('description','DGI')->first();
             if($existente){
                 comissions::where('id',$existente->id)->delete();
             }
@@ -1038,6 +1032,15 @@ public function recalcular_total($id){
         $signature->status = 1;
         $signature->firma=Auth::user()->firma;
         $signature->save();
+         //revisar si estan todas las firmas
+        $required_signatures = signatures::where('order_id',$internal_order->id)->get();
+        #$areAllSigns=0;
+        $nSigns=$required_signatures->count();
+        $areAllSigns=$required_signatures->where('status',1)->count();
+        if($areAllSigns ==$nSigns){
+        $internal_order->status = 'autorizado';}
+        $internal_order->save();
+        
         return redirect()->route('internal_orders.show', $internal_order->id)->with('firma', 'ok');
     }
 
