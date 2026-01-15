@@ -13,7 +13,7 @@ import numpy as np
 year = datetime.date.today().year
 
 quincena=int(sys.argv[1])+1
-# quincena=22
+# quincena=1
 month = np.ceil(quincena/ 2)
 isFirstHalf = quincena % 2 != 0
 startDate =  str(year)+"-"+str(int(month)).zfill(2)+"-01" if isFirstHalf else  str(year)+"-"+str(int(month)).zfill(2)+"-16"
@@ -329,7 +329,8 @@ for i in range(len(cobros)):
     
     worksheet.write(9+i,1,cobros['invoice'].values[i],blue_content)
     worksheet.write(9+i,2,cobros['comp'].values[i],blue_content)
-    worksheet.write(9+i,3+len(socios),(cobros['amount'].values[i]/1.16)*this_comisions['percentage'].sum(),blue_content)
+    # worksheet.write(9+i,3+len(socios),(cobros['amount'].values[i]/1.16)*this_comisions['percentage'].sum(),blue_content)
+    #formula
 for i in range(len(socios)):
     this_comisions=comisiones.loc[(comisiones['seller_id']==socios['id'].values[i])]
     worksheet.write(5,3+i,str(i+1),blue_header_format)
@@ -365,7 +366,7 @@ for i in range(len(socios)):
     start_cell = xl_rowcol_to_cell(9, 3+i)  # Primera celda (0, 0 -> A1)
     end_cell = xl_rowcol_to_cell(len(cobros) +8, 3+i) 
     # Crear la fórmula SUM para sumar la columna
-    formula = f"=SUM({start_cell}:{end_cell})"
+    formula = '{'+f"=SUM({start_cell}:{end_cell})"+'}'
 
     # Escribir la fórmula en una celda (por ejemplo, en la fila 6, columna 1 -> A6)
     worksheet.write_formula(len(cobros)+9, 3+i, formula,blue_footer_format_bold)
@@ -374,13 +375,17 @@ for i in range(len(socios)):
     start_cell = xl_rowcol_to_cell(len(cobros)+11, 3+i)  # Primera celda (0, 0 -> A1)
     end_cell = xl_rowcol_to_cell(len(cobros)+12, 3+i) 
     # Crear la fórmula SUM para sumar la columna
-    formula = f"=SUM({start_cell}:{end_cell})"
+    formula = '{'+f"=SUM({start_cell}:{end_cell})"+'}'
     worksheet.write_formula(len(cobros)+13, 3+i, formula,blue_footer_format_bold)
     worksheet.write(len(cobros)+12, 3+i, totales[socios['iniciales'].values[i]],blue_content)
+for i in range(len(cobros)):
+    worksheet.write_formula(9+i,3+len(socios), '{'+f"=SUM({chr(start+2)}{10+i}:{chr(start+2+len(socios))}{10+i})" +'}',blue_content)
+    #formula
 
-worksheet.write_formula(len(cobros)+9, 3+len(socios), f"=SUM({chr(start+3+len(socios))}10:{chr(start+3+len(socios))}"+str(len(cobros)+9)+")",blue_footer_format_bold)
+
+worksheet.write_formula(len(cobros)+9, 3+len(socios), '{'+f"=SUM({chr(start+3+len(socios))}10:{chr(start+3+len(socios))}"+str(len(cobros)+9)+")"+'}',blue_footer_format_bold)
 worksheet.write(len(cobros)+10, 3+len(socios), 'TOTALES',blue_footer_format_bold)
-worksheet.write_formula(len(cobros)+11, 3+len(socios), f"=SUM({chr(start+3+len(socios))}10:{chr(start+3+len(socios))}"+str(len(cobros)+9)+")",blue_footer_format_bold)
+worksheet.write_formula(len(cobros)+11, 3+len(socios), '{'+f"=SUM({chr(start+3+len(socios))}10:{chr(start+3+len(socios))}"+str(len(cobros)+9)+")"+'}',blue_footer_format_bold)
 
 
 ##Tabla inferior de TOTALES
@@ -388,10 +393,10 @@ worksheet.merge_range(9+len(cobros),1,10+len(cobros),2,"",blue_header_format)
 worksheet.merge_range(11+len(cobros),1,11+len(cobros),2,"""DGI""",blue_header_format)
 worksheet.merge_range(12+len(cobros),1,12+len(cobros),2,"""COMISIONES""",blue_header_format)
 #suma de total comisiones no dgi
-worksheet.write_formula(len(cobros)+12, 3+len(socios), f"=SUM(D{str(len(cobros)+13)}:{chr(start+2+len(socios))}{str(len(cobros)+13)})",blue_footer_format_bold)
+worksheet.write_formula(len(cobros)+12, 3+len(socios), '{'+f"=SUM(D{str(len(cobros)+13)}:{chr(start+2+len(socios))}{str(len(cobros)+13)})"+'}',blue_footer_format_bold)
 
 worksheet.merge_range(13+len(cobros),1,13+len(cobros),2,"""TOTALES""",blue_header_format)
-worksheet.write_formula(len(cobros)+13, 3+len(socios), f"=SUM({chr(start+3+len(socios))}{str(len(cobros)+12)}:{chr(start+3+len(socios))}{str(len(cobros)+13)})",blue_footer_format_bold)
+worksheet.write_formula(len(cobros)+13, 3+len(socios), '{'+f"=SUM({chr(start+3+len(socios))}{str(len(cobros)+12)}:{chr(start+3+len(socios))}{str(len(cobros)+13)})"+'}',blue_footer_format_bold)
 
 worksheet.set_row(5,27)
 
