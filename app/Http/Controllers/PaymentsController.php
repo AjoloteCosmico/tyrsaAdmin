@@ -395,6 +395,7 @@ class PaymentsController extends Controller
     }
     public function multi_pay_apply(Request $request)
     {   
+        
         if(DB::table('payments')->whereNotNull('ncomp')->count()>0){
             $lastComp = DB::table('payments')->whereNotNull('ncomp')
             ->orderBy('ncomp','DESC')->first()->ncomp;  

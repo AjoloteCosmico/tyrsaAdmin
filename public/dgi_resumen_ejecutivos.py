@@ -352,6 +352,8 @@ for i in range(len(socios)):
            #CASO EN EL QUE EL SOCIO ES EL VENDEDOR PRINCIPAL
            amount=0  
            totales[socios['iniciales'].values[i]] += (cobros['amount'].values[j]/ 1.16) * cobros['comision'].values[j]
+        else:
+            totales[socios['iniciales'].values[i]] += comision_secundaria.loc[comision_secundaria['description']=='compartida']['percentage'].sum()*(cobros['amount'].values[j]/1.16)
           
         
         # if(len(comision_secundaria)>0):
