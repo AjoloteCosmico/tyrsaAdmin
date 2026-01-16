@@ -67,7 +67,7 @@
                        @endphp
                     <tr>
                         <td> <center>{{$cobro->invoice}} 
-                            //{{$cobro->seller_id}}
+                        
                         </center> </td>
                         <td><center>{{$cobro->comp}} </center></td>
                         @foreach($socios as $row)
@@ -89,7 +89,7 @@
                                @endphp
                             @endif
                             <td><center>${{number_format(($cobro->amount/1.16)*$this_comissions->where('seller_id',$row->id)->where('description', '!=', 'compartida')->sum('percentage'),2)}} 
-                                // {{number_format($ComDirecta)}}</center>  </td> 
+                               </center>  </td> 
                        
                         @endforeach
                          <td><center>${{number_format(($cobro->amount/1.16)* $this_comissions->where('description','!=', 'compartida')->sum('percentage'),2)}}</center> </td>
