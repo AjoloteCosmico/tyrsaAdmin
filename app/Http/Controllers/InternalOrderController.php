@@ -1019,7 +1019,7 @@ public function recalcular_total($id){
 
 
         //validar regla de no doble comision
-        comissions::where('seller_id',$internal_order->seller_id)->where('description','DGI')->delete();
+        comissions::where('seller_id',$internal_order->seller_id)->where('order_id',$internal_order->id)->where('description','DGI')->delete();
         $ComisionesCompartidas=comissions::where('order_id',$internal_order->id)->where('description','compartida')->get();
          foreach($ComisionesCompartidas as $cc){
             $existente=comissions::where('seller_id',$cc->seller_id)
