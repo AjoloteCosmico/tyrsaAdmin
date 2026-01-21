@@ -28,11 +28,20 @@
                                 <select class="form-capture  w-full text-xs uppercase"  name="interval">
                                 @foreach($quincenas as $quincena)
                                 <option value="{{$quincena['id'] }}" >Quincena {{$quincena['id']+1}}: del {{$quincena['inicio']}} al {{$quincena['fin']}} </option>
+                                <!-- <option value="">Intervalo personalizado</option> -->
                                 @endforeach
                                 
                             </select>
                             <x-jet-input-error for='interval' />
                             </div>
+                           {{--<div class="form-group">
+                                <x-jet-label value="* Fecha de inicio" />
+                                <input class="form-capture  w-full text-xs uppercase"  name="start" type="date"  >
+                            </div>
+                             <div class="form-group">
+                                <x-jet-label value="* Fecha Final" />
+                                <input class="form-capture  w-full text-xs uppercase"  name="end" type="date"  >
+                            </div> --}} 
                             <div class="form-group">
                                 <x-jet-label value="* Tipo de reporte" />
                                 <select class="form-capture  w-full text-xs uppercase"  name="type"> 

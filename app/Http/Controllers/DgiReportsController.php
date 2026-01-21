@@ -45,7 +45,7 @@ public function dgi_select(){
         $isFirstHalf = $i % 2 !== 0;
         $startDate = $isFirstHalf ? "$year-$month-01" : "$year-$month-16";
         $endDate = $isFirstHalf ? "$year-$month-15" : date("Y-m-t", strtotime($startDate));
-        if(now()->format('Y-m-d')>=date("Y-m-d", strtotime($endDate))){
+        if(now()->format('Y-m-d')>=date("Y-m-d", strtotime($startDate))){
         $quincenas[] = [
             'id' => ($i-1),
             'inicio' => date("Y-m-d", strtotime($startDate)),
