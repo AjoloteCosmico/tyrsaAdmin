@@ -156,7 +156,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('internal_orders/partida', [InternalOrderController::class, 'partida'])->name('internal_orders.partida');
     Route::get('customer/crear_contacto({id}', [CustomerController::class, 'contacto'])->name('customers.contacto');
     Route::post('customer/guardar_contacto', [CustomerController::class, 'store_contact'])->name('customers.store_contact');
-    
+    Route::get('historico', [ReportsController::class, 'historico'])->name('historico');
+   
     Route::get('customers/validar_rfc', [ CustomerController::class, 'validar_rfc'])->name('customers.validar_rfc');
     Route::get('/foo', function () {
         Artisan::call('storage:link');
