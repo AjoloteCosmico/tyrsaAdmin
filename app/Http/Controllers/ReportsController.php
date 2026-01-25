@@ -938,6 +938,9 @@ public function kilos(){
 }
 
 
+public function historico(){
 
+    return redirect()->away('https://tyrsa-apps.com/');   
+}
 
 }
