@@ -242,6 +242,13 @@ return [
                     'route'  => 'cierre_anual.form',
                     'can'  => 'CIERRE ANUAL',
                 ],
+    [
+                    'text' => ' HISTORICO',
+                    'icon' => 'fas fa-folder fa-fw',
+                    'route'  => 'historico',
+                    'can'  => 'HISTORICO',
+                ],
+    
         [
             'text' => 'CATÁLOGOS',
             'icon' => 'fas fa-list fa-fw',
