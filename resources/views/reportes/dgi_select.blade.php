@@ -46,8 +46,6 @@
                                 <x-jet-label value="* Tipo de reporte" />
                                 <select class="form-capture  w-full text-xs uppercase"  name="type"> 
                                 <option value="vendedores" >Vendedores </option>
-                                
-                               
                                 <option value="comp" >Comprobante Ing. </option>
                                 <option value="resumen" >Resumen </option>
                                 <option value="resumen_ventas" >Resumen Ventas directas</option>
