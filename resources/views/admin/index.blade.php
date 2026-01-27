@@ -3,7 +3,7 @@
 @section('title', 'Configuración')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-cogs"></i> TYRSAWES - ADMIN</h1>
+    <h1 class="font-bold"><i class="fas fa-cogs"></i> TYRSAWES - ADMIN HISTORICO</h1>
 @stop
 
 @section('content')
