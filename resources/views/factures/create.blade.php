@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" TIPO DE CAMBIO" />
-                                        <x-jet-input type="number" step="0.001" name="tc" id="tc" class="form-control  w-full text-xs" />
+                                        <x-jet-input type="number" step="0.0001" name="tc" id="tc" class="form-control  w-full text-xs" />
                                         <x-jet-input-error for='tc' />
                                     </div>
                                     
