@@ -456,6 +456,13 @@ public function recalcular_total($id){
         $InternalOrder->subtotal=0;
         $InternalOrder->save();
     }
+
+    //COBROS PROGRAMADOS
+    $payments=payments::where('order_id',$id)->get();
+    foreach($payments as $payment){
+        $payment->amount=$InternalOrder->total * ($payment->percentage/100);
+        $payment->save();
+    }
 }
     
     public function store(Request $request)

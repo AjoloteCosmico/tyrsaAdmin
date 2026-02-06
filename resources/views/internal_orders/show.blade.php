@@ -209,7 +209,7 @@
                                 <td> {{ $row->sku }}</td>
                                 <td> {{ $row->family }}</td>
                                 <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</td>
-                                <td rowspan="2"> ${{number_format($row->import, 2) }}></td>
+                                <td rowspan="2"> ${{number_format($row->import, 2) }} </td>
                             </tr>
                             <tr>
                                 <td colspan="5"> {!!  nl2br($row->description )!!} </td>
