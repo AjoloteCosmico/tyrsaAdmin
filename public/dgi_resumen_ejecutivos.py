@@ -58,15 +58,17 @@ from (((
                     where internal_orders.status  != 'CANCELADO'
      """,cnx)
 
-cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_id,
+cobros=pd.read_sql("""select cobro_orders.*,cobros.comp,cobros.date,cobros.bank_id, cobros.tc,
                    internal_orders.customer_id,internal_orders.invoice,internal_orders.noha,
                    internal_orders.seller_id,internal_orders.comision,internal_orders.total
-                     from (((
+                     from ((((
                          cobro_orders 
     inner join cobros on cobros.id=cobro_orders.cobro_id)
     inner join internal_orders on internal_orders.id = cobros.order_id )
     inner join coins on internal_orders.coin_id = coins.id)
-                   where cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
+    inner join signatures on signatures.order_id = internal_orders.id)
+                   where signatures.auth_id=2 and signatures.status=1 
+                   and cobros.date >= '"""+startDate+"' and cobros.date <= '"+endDate+"'",cnx)
 cobros=cobros.sort_values('invoice')
 
 facturas=pd.read_sql("""select factures.*,cobro_factures.cobro_id
@@ -347,13 +349,13 @@ for i in range(len(socios)):
     for j in range(len(cobros)):
         comision_secundaria=this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='DGI')]
         
-        amount=(cobros['amount'].values[j]/1.16)*this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='compartida')]['percentage'].sum()
+        amount=((cobros['amount'].values[j]*cobros['tc'].values[j])/1.16)*this_comisions.loc[(this_comisions['order_id']==cobros['order_id'].values[j])&(this_comisions['description']!='compartida')]['percentage'].sum()
         if(cobros['seller_id'].values[j]==socios['id'].values[i]):
            #CASO EN EL QUE EL SOCIO ES EL VENDEDOR PRINCIPAL
            amount=0  
-           totales[socios['iniciales'].values[i]] += (cobros['amount'].values[j]/ 1.16) * cobros['comision'].values[j]
+           totales[socios['iniciales'].values[i]] += ((cobros['amount'].values[j]*cobros['tc'].values[j])/ 1.16) * cobros['comision'].values[j]
         else:
-            totales[socios['iniciales'].values[i]] += comision_secundaria.loc[comision_secundaria['description']=='compartida']['percentage'].sum()*(cobros['amount'].values[j]/1.16)
+            totales[socios['iniciales'].values[i]] += comision_secundaria.loc[comision_secundaria['description']=='compartida']['percentage'].sum()*((cobros['amount'].values[j]*cobros['tc'].values[j])/1.16)
           
         
         # if(len(comision_secundaria)>0):
