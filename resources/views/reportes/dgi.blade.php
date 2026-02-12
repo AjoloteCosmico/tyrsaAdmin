@@ -412,7 +412,7 @@
                     <td>{{date('d-m-Y', strtotime($comp->date))}} </td>
                     <td>{{$comp->alias}} </td>
                     <td> <center>{{$comp->comp}}</center> </td>
-                    <td> <center>$ {{number_format($comp->amount /1.16,2)}}</center></td>
+                    <td> <center>$ {{number_format(($cobro->amount*$cobro->tc)/1.16,2)}}</center></td>
                     
                     <td>{{$pedido->seller_name}} </td>
                     <td><center>{{$pedido->invoice}} </center></td>
@@ -714,7 +714,7 @@
             };
             let api = this.api();
             // console.log(api.column());
-            for (let i = 2; i < 12; i++) {
+            for (let i = 2; i < {{$no_socios->count() +3}}; i++) {
             // for(i in [14,13]){
               
             let pageTotal = api.column(i, { page: 'current' }).data().sum();
