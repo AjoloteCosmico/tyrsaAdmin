@@ -75,7 +75,7 @@
 
                                     <div class="form-group">
                                         <x-jet-label value="* Cliente" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer'>
+                                        <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer' required>
                                             @foreach ($Customers as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('customer_id')) selected @endif > {{$row->clave}} {{$row->customer}}</option>
                                             @endforeach
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* Medio" />
-                                        <select class="form-capture  w-full text-xs uppercase" name="medio">
+                                        <select class="form-capture  w-full text-xs uppercase" name="medio" required>
                                             @foreach ($Medios as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('medio')) selected @endif > {{$row->description}} </option>
                                             @endforeach

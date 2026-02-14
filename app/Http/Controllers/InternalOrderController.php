@@ -103,7 +103,8 @@ class InternalOrderController extends Controller
         $rules = [
             'invoice' => 'unique:internal_orders,invoice',
              'noha'=>  'unique:internal_orders,noha',
-             'medio'=>  'required'
+             'medio'=>  'required',
+             'customer_id'=>  'required'
             ];
         $request->validate($rules);
 
