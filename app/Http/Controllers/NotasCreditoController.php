@@ -52,20 +52,42 @@ class NotasCreditoController extends Controller
                 $Factures=Factures::all();
                 $Customers=Customer::orderby('clave')->get();
                 $InternalOrders=InternalOrder::all();
+                $LastNC = CreditNote::where('credit_note', 'LIKE', 'NC%')
+                ->orderByRaw('CAST(REGEXP_REPLACE(credit_note, "[^0-9]", "") AS UNSIGNED) DESC')->first();
+                $ncomp = '100';
+               
+               if($LastNC){
+                    $lastNumber = intval(preg_replace('/[^0-9]/', '', $LastNC->credit_note));
+                    $ncomp =  strval($lastNumber + 1);
+                }
+                $SigFolioNC='NC '.$ncomp;
+                $LastNV = CreditNote::where('credit_note', 'LIKE', 'NV%')
+                ->orderByRaw('CAST(REGEXP_REPLACE(credit_note, "[^0-9]", "") AS UNSIGNED) DESC')->first();
+                $ncomp = '100';
+               
+               if($LastNV){
+                    $lastNumber = intval(preg_replace('/[^0-9]/', '', $LastNV->credit_note));
+                    $ncomp =  strval($lastNumber + 1);
+                }
+                $SigFolioNV='NV '.$ncomp;
                 return view('credit_notes.create',compact(
                 'Coins',
                 'Bancos',
                 'Customers',
                 'InternalOrders',
-                'Factures'
+                'Factures','SigFolioNC', 'SigFolioNV'
                 ));
             }
         
     public function store(Request $request){
- 
+    
                 $rules = [
                         'customer_id' => 'required',
-                        'credit_note' => 'required',
+                        'credit_note' => [
+                                        'required',
+                                        'regex:/(NC|NV)/', // Valida que contenga NC O NV
+                                        'unique:credit_notes,credit_note', // Valida que sea único en la tabla credit_notes
+                                    ],
                         'date' => 'required',
                         'amount' => 'required',
                         'comp_file' => 'required',

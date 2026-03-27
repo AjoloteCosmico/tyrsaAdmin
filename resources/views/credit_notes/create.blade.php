@@ -23,7 +23,27 @@
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-body">
-                            
+                                    <div class="form-group">
+                                        <x-jet-label value="* Tipo de Nota" />
+                                       <select class="form-capture  w-full text-xs uppercase" name="type" id='type'>
+                                        <option  > </option>    
+                                            <option value="fiscal" @if (old('type') == 'fiscal') selected @endif > Nota Fiscal "NC"</option>
+                                            <option value="virtual" @if (old('type') == 'virtual') selected @endif > Nota Virtual Contable "NV"</option>
+                                        </select>
+                                        <x-jet-input-error for='type' />
+                                        <!-- <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="fiscal" id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Nota Fiscal (Impacta en el monto facturado)
+                                            </label>
+                                            </div>
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="virtual" id="flexCheckChecked">
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Nota Virtual Contable (Impacta en el monto pagado)
+                                            </label>
+                                            </div>
+                                    </div> -->
                             
                                     <div class="form-group">
                                         <x-jet-label value="* Cliente" />
@@ -55,14 +75,24 @@
                                     </div> -->
                                     <div class="form-group">
                                         <x-jet-label value="Fecha " />
-                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value=""  />
+                                        <x-jet-input type="date" name="date" id="date" class="form-control w-full text-xs" value="{{ old('date') }}"  />
                                         <x-jet-input-error for='date' />
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value="* NOTA DE CREDITO" />
-                                        <x-jet-input type="text"  name="credit_note"  class="form-control  w-full text-xs" value="{{old('credit_note')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                        <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="folio_mode" id="folio_auto_radio" value="automatic" checked>
+                                                <label class="form-check-label" for="folio_auto_radio">Folio Automático</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="folio_mode" id="folio_manual_radio" value="manual" disabled>
+                                                <label class="form-check-label" for="folio_manual_radio">Folio Manual</label>
+                                            </div>
+                                            
+                                        <x-jet-input type="text"  name="credit_note" id="credit_note"  class="form-control  w-full text-xs" value="{{ $SigFolioNC }}" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly/>
                                         <x-jet-input-error for='credit_note' />
                                     </div>
+
                                     <!-- <div class="form-group">
                                         <x-jet-label value="* Factura" />
                                         <select class="form-capture  w-full text-xs uppercase" name="facture_id" id='moneda'>
@@ -278,6 +308,54 @@ for (var i = 0, row; row = table.rows[i]; i++) {
     }
 
 })
+});
+</script>
+
+<script>
+const SigFolioNC = '{{ $SigFolioNC }}';
+const SigFolioNV = '{{ $SigFolioNV }}';
+var SigFolio = SigFolioNC; // Valor por defecto
+$(document).ready(function(){
+    function toggleFields() {
+        var typeVal = $('#type').val();
+        if (typeVal) {
+            $('#folio_manual_radio').prop('disabled', false);
+            if ($('#folio_auto_radio').is(':checked')) {
+                $('#credit_note').prop('readonly', true).val();
+            } else {
+                $('#credit_note').prop('readonly', false);
+            }
+        } else {
+            $('#credit_note').prop('readonly', true).val();
+            $('#folio_manual_radio').prop('disabled', true);
+            $('#folio_auto_radio').prop('checked', true);
+        }
+        //cambiar el folio
+        if(typeVal === 'fiscal'){
+            $('#credit_note').val(SigFolioNC);
+            SigFolio = SigFolioNC;
+        } else if(typeVal === 'virtual'){
+            $('#credit_note').val(SigFolioNV);
+            SigFolio = SigFolioNV;
+        }
+        console.log('SigFolio actual: ' + SigFolio);
+    }
+    $('#type').change(toggleFields);
+    toggleFields(); // initial check
+});
+
+$(function(){
+    $('#folio_auto_radio').on('change', function(){
+        if(this.checked){
+            $('#credit_note').prop('readonly', true).val(SigFolio);
+        }
+    });
+    $('#folio_manual_radio').on('change', function(){
+        if(this.checked){
+            $('#credit_note').prop('readonly', false).val('').focus();
+             $('#credit_note').val(SigFolio);   
+        }
+    });
 });
 </script>
 @stop
