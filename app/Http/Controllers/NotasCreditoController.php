@@ -19,7 +19,7 @@ use App\Models\Seller;
 use App\Models\Cobro;
 use App\Models\note_facture;
 
-use App\Http\Controllers\InternalOrdersController;
+use App\Http\Controllers\InternalOrderController;
 
 use App\Models\bank;
 use App\Http\Requests\StorepaymentsRequest;
@@ -135,7 +135,7 @@ class NotasCreditoController extends Controller
                     throw new \Exception("Archivo no subido");
                 }
                 if($request->type == 'virtual'){
-                    $newTotal= new InternalOrdersController();
+                    $newTotal= new InternalOrderController();
                     $newTotal->recalcular_total($request->order_id);
                 }
 
