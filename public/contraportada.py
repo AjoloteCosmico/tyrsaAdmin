@@ -52,6 +52,8 @@ capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizador
     left join users as autorizadores on cobros.autorizo=autorizadores.id)
       where cobro_orders.order_id = """+str(order_id),cnx)
 notas=pd.read_sql('Select* from credit_notes where order_id= '+str(orden['id'].values[0]),cnx)
+notas_fiscales=notas.loc[notas['credit_note'].str.contains('NC')==True ]
+notas_virtuales=notas.loc[notas['credit_note'].str.contains('NV')==True ]
 nordenes=len(pd.read_sql(query,cnx))
 df=hpagos[['date','percentage']]
 #Traer facturas
@@ -539,6 +541,7 @@ for i in range(0,len(cobros)):
     if(len(facturas_asociadas)>1):
         desface=desface+len(facturas_asociadas)-1
 desface=desface+len(cobros)
+desface_cobros=desface
 #Facturas no asociadas
 facturas_no_asociadas['date']=pd.to_datetime(facturas_no_asociadas['date'], format='%Y-%m-%d')
 facturas_no_asociadas['date']=facturas_no_asociadas['date'].dt.strftime('%d-%m-%Y')
@@ -551,13 +554,21 @@ desface=desface+len(facturas_no_asociadas)
 # notas
 notas['date']=pd.to_datetime(notas['date'], format='%Y-%m-%d')
 notas['date']=notas['date'].dt.strftime('%d-%m-%Y')
+for i in range(0,len(notas_fiscales)):
+    worksheet.write('H'+str(15+i+desface), str(notas_fiscales['credit_note'].values[i])+' (credito)', red_content)
+    worksheet.write('I'+str(15+i+desface), notas_fiscales['date'].values[i], red_content_date)
+    worksheet.write('J'+str(15+i+desface), '-$'+ "{:,.2f}".format(notas_fiscales['amount'].values[i]), red_content)
+
+#esto lo escribio copilot hay q validar
 for i in range(0,len(notas)):
-    worksheet.write('H'+str(15+i+desface), str(notas['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface), notas['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface), '-$'+ "{:,.2f}".format(notas['amount'].values[i]), red_content)
+    worksheet.write('K'+str(15+i+desface_cobros), str(notas['credit_note'].values[i])+' (credito)', blue_content)
+    worksheet.write('L'+str(15+i+desface_cobros), notas['date'].values[i], blue_content_date)
+    worksheet.write('M'+str(15+i+desface_cobros), moneda['code'].values[0], blue_content)
+    worksheet.write('N'+str(15+i+desface_cobros), -notas['amount'].values[i], blue_content)
+    worksheet.write('O'+str(15+i+desface_cobros), "{:.2f}".format(-notas['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
+#fin codigo copilot
 
-
-table_len=max(len(hpagos),(len(cobros)+desface)+len(notas))
+table_len=max(len(hpagos),desface+len(notas_fiscales),desface_cobros+len(notas))
 
 trow=16+table_len
 

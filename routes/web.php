@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::resource('credit_notes', NotasCreditoController::class); 
     Route::post('credit_notes/update_/{id}', [NotasCreditoController::class, 'update'])->name('credit_notes.update2');
+     Route::post('credit_notes/cancel/{id}', [NotasCreditoController::class, 'cancel'])->name('credit_notes.cancel');
    
     Route::get('cobros/revisar/{id}', [CobrosController::class, 'revisar'])->name('cobros.revisar');
     Route::get('cobros/autorizar/{id}', [CobrosController::class, 'autorizar'])->name('cobros.autorizar');

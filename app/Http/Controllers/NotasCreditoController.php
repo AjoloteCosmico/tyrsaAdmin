@@ -136,7 +136,14 @@ class NotasCreditoController extends Controller
                 }
        
        
-       
+    //cancelar nota
+    public function cancel(Request $request, $id){
+        $Nota=CreditNote::find($id);
+        $Nota->status='CANCELADA';
+        $Nota->save();
+        return redirect()->route('credit_notes.index')->with('success', 'Nota de crédito cancelada correctamente');
+    }
+
     public function destroy($id){
 
             

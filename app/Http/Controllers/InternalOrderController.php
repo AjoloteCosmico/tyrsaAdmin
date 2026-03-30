@@ -451,6 +451,15 @@ public function recalcular_total($id){
     $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
     $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)-$ret;
+
+    //hay notas virtuales que disminuyan el total¿?
+    //buscar notas vircuales  NV en el folio 'credit_note' y restar su total al total de la orden|
+    $CreditNotes=CreditNote::where('order_id',$id)
+        ->where('credit_note','like','NV')
+        ->get();
+        $nv_adjustment=$CreditNotes->sum('amount');  
+    $InternalOrder->nv_adjustment=$nv_adjustment;
+    $InternalOrder->total=$InternalOrder->total-$nv_adjustment;
     $InternalOrder->save();
     if($InternalOrder->status=='CANCELADO'){
         $InternalOrder->total=0;
