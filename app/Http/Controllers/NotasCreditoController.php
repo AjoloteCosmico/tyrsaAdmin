@@ -135,6 +135,7 @@ class NotasCreditoController extends Controller
                     throw new \Exception("Archivo no subido");
                 }
                 if($request->type == 'virtual'){
+                    dd('entra a virtual');
                     $newTotal= new InternalOrderController();
                     $newTotal->recalcular_total($request->order_id);
                 }
