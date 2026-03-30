@@ -19,6 +19,7 @@ use App\Models\Seller;
 use App\Models\Cobro;
 use App\Models\note_facture;
 
+use App\Http\Controllers\InternalOrdersController;
 
 use App\Models\bank;
 use App\Http\Requests\StorepaymentsRequest;
@@ -82,6 +83,7 @@ class NotasCreditoController extends Controller
     public function store(Request $request){
     
                 $rules = [
+                    'type' => 'required',
                         'customer_id' => 'required',
                         'credit_note' => [
                                         'required',
@@ -113,6 +115,7 @@ class NotasCreditoController extends Controller
                 $Nota->date=$request->date;
                 $Nota->credit_note=$request->credit_note;
                 $Nota->status='CAPTURADA';
+                $Nota->type=$request->type;
                 $Nota->save();
                 if($request->facture){
                     //dd($request->contacto);
@@ -131,6 +134,11 @@ class NotasCreditoController extends Controller
                 }else {
                     throw new \Exception("Archivo no subido");
                 }
+                if($request->type == 'virtual'){
+                    $newTotal= new InternalOrdersController();
+                    $newTotal->recalcular_total($request->order_id);
+                }
+
                 
                 return redirect('credit_notes');
                 }
@@ -140,7 +148,11 @@ class NotasCreditoController extends Controller
     public function cancel(Request $request, $id){
         $Nota=CreditNote::find($id);
         $Nota->status='CANCELADA';
+        $Nota->amount=0;
         $Nota->save();
+
+
+        
         return redirect()->route('credit_notes.index')->with('success', 'Nota de crédito cancelada correctamente');
     }
 

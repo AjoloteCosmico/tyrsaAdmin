@@ -230,21 +230,25 @@
                 </tr>
 
                 <tr> 
-                    <th rowspan="2">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
-                    <td rowspan="2">  @foreach($payments as $pay)
+                    <th rowspan="3">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
+                    <td rowspan="3">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach
                     </td>
-                    <td  rowspan="2" style="border: none;"> </td><!-- celda de espacio -->
+                    <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
                     <th>Descuento: </td>
                         <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
                        
                 </tr>
-
-                <tr>
+                 <tr>
+                <th>Ajuste por nota:</td>
+                <td> $ {{number_format($InternalOrders->nv_adjustment, 2)}}</td>   
+                </tr>
+            <tr>
                 <th>I.E.P.S:</td>
                 <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
-                </tr>
+            </tr>
+           
                 
                 <tr>
                     <th>Forma de pago:</th>
