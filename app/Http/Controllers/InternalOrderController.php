@@ -455,9 +455,10 @@ public function recalcular_total($id){
     //hay notas virtuales que disminuyan el total¿?
     //buscar notas vircuales  NV en el folio 'credit_note' y restar su total al total de la orden|
     $CreditNotes=CreditNote::where('order_id',$id)
-        ->where('credit_note','like','NV')
+        ->where('type','virtual')
         ->get();
         $nv_adjustment=$CreditNotes->sum('amount');  
+    dd($CreditNotes,$nv_adjustment);
     $InternalOrder->nv_adjustment=$nv_adjustment;
     $InternalOrder->total=$InternalOrder->total-$nv_adjustment;
     $InternalOrder->save();
