@@ -111,7 +111,7 @@ background-color: #2B416D;
 
     @if($Nota->status == 'CANCELADA')
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; opacity: 0.5;">
-    <p style="color: red; font-size: 28.7vw; font-weight: bold;"> CANCELADA </p>
+    <p style="color: red; font-size: 180 px; font-weight: bold;"> CANCELADA </p>
      </div>
     @endif
         <x-jet-banner />
