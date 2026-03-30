@@ -76,9 +76,8 @@
                                         @can('CANCELAR NOTAS')
                                         <form class="CancelReg" action="{{ route('credit_notes.cancel', $nota->id) }}" method="POST">
                                             @csrf
-                                            @method('PATCH')
                                             <button type="submit" class="btn btn-red " style="background-color: rgb(220 ,38 ,38);color: white;" >
-                                                <i class="fas fa-trash items-center fa-xl"></i>
+                                                <i class="fas fa-times items-center fa-xl"></i>
                                             </button>
                                         </form>
                                         @endcan
