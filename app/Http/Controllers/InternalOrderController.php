@@ -458,7 +458,7 @@ public function recalcular_total($id){
         ->where('type','virtual')
         ->get();
         $nv_adjustment=$CreditNotes->sum('amount');  
-    dd($CreditNotes,$nv_adjustment);
+    
     $InternalOrder->nv_adjustment=$nv_adjustment;
     $InternalOrder->total=$InternalOrder->total-$nv_adjustment;
     $InternalOrder->save();
