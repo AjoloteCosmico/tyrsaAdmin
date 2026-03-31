@@ -15,7 +15,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; NOTA DE CREDITO:
             </h5>
         </div>
-        <form action="{{ route('credit_notes.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('credit_notes.store')}}" method="POST" enctype="multipart/form-data" id="credit_note_form">
         @csrf
         <x-jet-input type="hidden" name="item" value=" "/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
@@ -162,7 +162,7 @@
                   <a href="{{ route('factures.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  
-                <button type="submit" class="btn btn-green mb-2">
+                <button type="button" class="btn btn-green mb-2" onclick="confirm_submit()">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
             </div>
@@ -357,5 +357,22 @@ $(function(){
         }
     });
 });
+
+public function confirm_submit() {
+    if(document.getElementById('type').value=='virtual') {
+        
+        if(
+            swall({
+                title: "¿Confirma que desea crear esta nota virtual contable?",
+                text: "Esta acción afectará el monto pagado en la orden interna relacionada",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+        ) {
+            document.getElementById('credit_note_form').submit();
+        }
+    }
+}
 </script>
 @stop
