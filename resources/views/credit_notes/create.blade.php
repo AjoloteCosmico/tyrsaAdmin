@@ -358,7 +358,7 @@ $(function(){
     });
 });
 
-public function confirm_submit() {
+function confirm_submit() {
     if(document.getElementById('type').value=='virtual') {
         
         if(
@@ -372,6 +372,8 @@ public function confirm_submit() {
         ) {
             document.getElementById('credit_note_form').submit();
         }
+    }else{
+        document.getElementById('credit_note_form').submit();
     }
 }
 </script>
