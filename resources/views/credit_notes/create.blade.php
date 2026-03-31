@@ -359,21 +359,27 @@ $(function(){
 });
 
 function confirm_submit() {
-    if(document.getElementById('type').value=='virtual') {
-        
-        if(
-           Swal.fire({
-                title: "¿Confirma que desea crear esta nota virtual contable?",
-                text: "Esta acción afectará el monto pagado en la orden interna relacionada",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-        ) {
-            document.getElementById('credit_note_form').submit();
-        }
-    }else{
-        document.getElementById('credit_note_form').submit();
+    const type = document.getElementById('type').value;
+    const form = document.getElementById('credit_note_form');
+
+    if (type == 'virtual') {
+        Swal.fire({
+            title: "¿Confirma que desea crear esta nota virtual contable?",
+            text: "Esta acción afectará el monto pagado en la orden interna relacionada",
+            icon: "warning",
+            showCancelButton: true, // En SweetAlert2 se usa showCancelButton
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, crear",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            // result.isConfirmed es verdadero si el usuario hizo clic en el botón de confirmación
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    } else {
+        form.submit();
     }
 }
 </script>
