@@ -199,6 +199,11 @@
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_delete_reg.js') }}"></script>
 @endif
 
+@if (session('cancelar') == 'ok')
+<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_cancel_reg.js') }}"></script>
+@endif
+
+
 @if (session('error_delete') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/error_delete_reg.js') }}"></script>
 @endif

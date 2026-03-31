@@ -142,7 +142,7 @@ class NotasCreditoController extends Controller
                 }
 
                 
-                return redirect('credit_notes');
+                return redirect('credit_notes')->with('create_reg','ok');
                 }
        
        
@@ -159,7 +159,7 @@ class NotasCreditoController extends Controller
                     $newTotal= new InternalOrderController();
                     $newTotal->recalcular_total($Nota->order_id);
         }        
-        return redirect()->route('credit_notes.index')->with('success', 'Nota de crédito cancelada correctamente');
+        return redirect()->route('credit_notes.index')->with('cancelar', 'ok');
     }
 
     public function destroy($id){
@@ -273,7 +273,7 @@ class NotasCreditoController extends Controller
             $newTotal->recalcular_total($Nota->order_id);
         }
         
-            return redirect()->route('credit_notes.index');
+            return redirect()->route('credit_notes.index')->with('update_reg', 'ok');
         }
 
 }

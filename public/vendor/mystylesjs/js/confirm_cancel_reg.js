@@ -1,5 +1,5 @@
 Swal.fire(
     '¡Cancelado con éxito!',
-    'El pedido ha sido marcado como cancelado.',
+    'El registro ha sido marcado como cancelado.',
     'success'
 )
