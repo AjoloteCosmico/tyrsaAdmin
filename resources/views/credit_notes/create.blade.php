@@ -365,7 +365,7 @@ function confirm_submit() {
     if (type == 'virtual') {
         Swal.fire({
             title: "¿Confirma que desea crear esta nota virtual contable?",
-            text: "Esta acción afectará el monto pagado en la orden interna relacionada",
+            text: "Esta acción afectará el monto por cobrar en la orden interna seleccionada, se recalculará el total de esta orden.",
             icon: "warning",
             showCancelButton: true, // En SweetAlert2 se usa showCancelButton
             confirmButtonColor: "#3085d6",
