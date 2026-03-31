@@ -159,7 +159,7 @@ class NotasCreditoController extends Controller
 
     public function destroy($id){
 
-            
+            $CreditNote=CreditNote::find($id);
             $Facturas=note_facture::where('note_id',$id)->get();
             
             foreach ($Facturas as $f) {
@@ -167,6 +167,11 @@ class NotasCreditoController extends Controller
             }
             $file_path = public_path('storage/note'.$id.'.pdf');
             File::delete($file_path);
+            if($CreditNote->type == 'virtual'){
+                   
+                    $newTotal= new InternalOrderController();
+                    $newTotal->recalcular_total($CreditNote->order_id);
+                }
             CreditNote::destroy($id);
             return redirect('credit_notes');
         }
@@ -207,7 +212,7 @@ class NotasCreditoController extends Controller
                 ));
 
         }
-        public function update($id,Request $request){
+    public function update($id,Request $request){
             
             
             $rules = [
@@ -255,8 +260,10 @@ class NotasCreditoController extends Controller
             $comp = $request->file('comp_file'); // Obtiene el archivo subido
             $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
             \Storage::disk('comp')->put('note'.$Nota->id.'.pdf', $contenidoPDF);
-        } else {
-            throw new \Exception("Archivo no subido");
+        } 
+        if($Nota->type == 'virtual'){
+            $newTotal= new InternalOrderController();
+            $newTotal->recalcular_total($Nota->order_id);
         }
         
             return redirect()->route('credit_notes.index');
