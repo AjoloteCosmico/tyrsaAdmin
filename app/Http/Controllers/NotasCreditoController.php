@@ -154,13 +154,18 @@ class NotasCreditoController extends Controller
         $Nota->save();
 
 
-        
+        if($Nota->type == 'virtual'){
+                   
+                    $newTotal= new InternalOrderController();
+                    $newTotal->recalcular_total($Nota->order_id);
+        }        
         return redirect()->route('credit_notes.index')->with('success', 'Nota de crédito cancelada correctamente');
     }
 
     public function destroy($id){
 
             $CreditNote=CreditNote::find($id);
+            $InternalOrdersId=$CreditNote->order_id;
             $Facturas=note_facture::where('note_id',$id)->get();
             
             foreach ($Facturas as $f) {
@@ -168,12 +173,13 @@ class NotasCreditoController extends Controller
             }
             $file_path = public_path('storage/note'.$id.'.pdf');
             File::delete($file_path);
-            if($CreditNote->type == 'virtual'){
+           
+            CreditNote::destroy($id);
+             if($CreditNote->type == 'virtual'){
                    
                     $newTotal= new InternalOrderController();
-                    $newTotal->recalcular_total($CreditNote->order_id);
+                    $newTotal->recalcular_total($InternalOrdersId->order_id);
                 }
-            CreditNote::destroy($id);
             return redirect('credit_notes');
         }
         public function show($id){
