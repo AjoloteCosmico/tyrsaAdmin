@@ -52,7 +52,7 @@
                           <td> $ {{number_format($nota->amount,2)}} </td>
                           <td>{{$nota->status}} </td>
                           <td></td>
-                          <td class="w-18"> <div class="row" style="display: flex; justify-content: center; align-items: space-between ;">
+                          <td class="w-18"> <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR NOTAS')
                                         <a href="{{ route('credit_notes.edit', $nota->id)}}">

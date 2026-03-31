@@ -178,7 +178,7 @@ class NotasCreditoController extends Controller
              if($CreditNote->type == 'virtual'){
                    
                     $newTotal= new InternalOrderController();
-                    $newTotal->recalcular_total($InternalOrdersId->order_id);
+                    $newTotal->recalcular_total($InternalOrdersId);
                 }
             return redirect('credit_notes');
         }
