@@ -188,7 +188,6 @@
 
 <!-- <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/tablecatalogofactures.js') }}"></script> -->
 
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/alert_delete_reg.js') }}"></script>
 
 @if (session('create_reg') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/confirm_create_reg.js') }}"></script>
@@ -212,6 +211,23 @@
     Swal.fire({
         title: '¿Estás seguro de querer cancelar el Registro?',
         text: "¡No podrás revertir esto! la nota se cancelara, su montó será 0 y no hará mas cambios en los pedidos o reportes relacionados con esta nota",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, cancelar Registro!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+    })
+});
+
+  $('.DeleteReg').submit(function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro de querer eliminar el Registro?',
+        text: "¡No podrás revertir esto! la nota se eliminará, y en caso de nota virtual  el total del pedido asociado volvera a calcularse",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

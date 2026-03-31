@@ -362,7 +362,7 @@ function confirm_submit() {
     if(document.getElementById('type').value=='virtual') {
         
         if(
-            swall({
+           Swal.fire({
                 title: "¿Confirma que desea crear esta nota virtual contable?",
                 text: "Esta acción afectará el monto pagado en la orden interna relacionada",
                 icon: "warning",
