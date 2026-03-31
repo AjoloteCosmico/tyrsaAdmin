@@ -115,7 +115,7 @@
     
 @stop
 
-@push('js')
+@section('js')
 <script>
     table = $(".tablefactures").DataTable({
         destroy: true,
