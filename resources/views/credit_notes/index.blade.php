@@ -48,7 +48,7 @@
                           <td>{{$nota->date}}</td>
                           <td>{{$nota->credit_note}}</td>
                           <td>{{$nota->customer}}</td>
-                          <td>{{$nota->folio}}</td>
+                          <td>{{$nota->invoice}}</td>
                           <td> $ {{number_format($nota->amount,2)}} </td>
                           <td>{{$nota->status}} </td>
                           <td></td>

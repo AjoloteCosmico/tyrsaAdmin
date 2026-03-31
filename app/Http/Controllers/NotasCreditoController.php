@@ -40,7 +40,7 @@ class NotasCreditoController extends Controller
     ->join('internal_orders', 'credit_notes.order_id','=','internal_orders.id')
     //->join('factures', 'credit_notes.facture_id','=','factures.id')
     
-    ->select('credit_notes.*','customers.customer','customers.clave', 'internal_orders.folio'
+    ->select('credit_notes.*','customers.customer','customers.clave', 'internal_orders.invoice'
              )
     // ->orderBy('internal_orders.invoice', 'DESC')
     ->get();
