@@ -37,9 +37,10 @@ class NotasCreditoController extends Controller
     public function index(){
     $Notas=DB::table('credit_notes')
     ->join('customers', 'credit_notes.customer_id','=','customers.id')
+    ->join('internal_orders', 'credit_notes.order_id','=','internal_orders.id')
     //->join('factures', 'credit_notes.facture_id','=','factures.id')
     
-    ->select('credit_notes.*','customers.customer','customers.clave',  
+    ->select('credit_notes.*','customers.customer','customers.clave', 'internal_orders.folio'
              )
     // ->orderBy('internal_orders.invoice', 'DESC')
     ->get();

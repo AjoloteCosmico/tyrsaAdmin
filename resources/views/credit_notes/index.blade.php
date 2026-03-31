@@ -30,6 +30,7 @@
                             <th>FECHA </th>
                             <th>NOTA </th>
                             <th>CLIENTE</th>
+                            <th>PEDIDO</th>
                             <th>IMPORTE </th>
                             <th>Estatus</th>
                             <th></th>
@@ -47,6 +48,7 @@
                           <td>{{$nota->date}}</td>
                           <td>{{$nota->credit_note}}</td>
                           <td>{{$nota->customer}}</td>
+                          <td>{{$nota->folio}}</td>
                           <td> $ {{number_format($nota->amount,2)}} </td>
                           <td>{{$nota->status}} </td>
                           <td></td>
