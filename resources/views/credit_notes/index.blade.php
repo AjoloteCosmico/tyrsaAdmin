@@ -213,38 +213,46 @@
 @endif
 
 <script>
-    $('.CancelReg').submit(function(e) {
-    e.preventDefault();
-    Swal.fire({
-        title: '¿Estás seguro de querer cancelar el Registro?',
-        text: "¡No podrás revertir esto! la nota se cancelara, su montó será 0 y no hará mas cambios en los pedidos o reportes relacionados con esta nota",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, cancelar Registro!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
-    })
-});
+    // Usamos delegación de eventos con $(document).on() o $('.tablefactures').on()
+    
+    // Para Cancelar
+    $(document).on('submit', '.CancelReg', function(e) {
+        e.preventDefault();
+        var form = this; // Guardamos la referencia al formulario actual
 
-  $('.DeleteReg').submit(function(e) {
-    e.preventDefault();
-    Swal.fire({
-        title: '¿Estás seguro de querer eliminar el Registro?',
-        text: "¡No podrás revertir esto! la nota se eliminará, y en caso de nota virtual  el total del pedido asociado volvera a calcularse",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, cancelar Registro!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
-    })
-});
+        Swal.fire({
+            title: '¿Estás seguro de querer cancelar el Registro?',
+            text: "¡No podrás revertir esto! la nota se cancelara, su montó será 0 y no hará mas cambios en los pedidos o reportes relacionados con esta nota",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, cancelar Registro!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // Usamos la referencia guardada
+            }
+        });
+    });
+
+    // Para Eliminar
+    $(document).on('submit', '.DeleteReg', function(e) {
+        e.preventDefault();
+        var form = this;
+
+        Swal.fire({
+            title: '¿Estás seguro de querer eliminar el Registro?',
+            text: "¡No podrás revertir esto! la nota se eliminará, y en caso de nota virtual el total del pedido asociado volvera a calcularse",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, borrar Registro!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
 </script>
 @stop
