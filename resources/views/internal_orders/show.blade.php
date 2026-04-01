@@ -245,7 +245,7 @@
                 <th>I.E.P.S:</td>
                 <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
                 </tr>
-        @elese
+        @else
                 <tr> 
                     <th rowspan="4">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
                     <td rowspan="4">  @foreach($payments as $pay)
