@@ -228,26 +228,41 @@
                     <td> $ {{number_format($InternalOrders->subtotal,2)}}</td>
                        
                 </tr>
-
+@php
+    if($InternalOrders->nv_adjustment==0){
+        $rows_desglose=2;
+    }else{
+        $rows_desglose=4;
+    }
+@endphp
                 <tr> 
-                    <th rowspan="3">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
-                    <td rowspan="3">  @foreach($payments as $pay)
+                    <th rowspan="{{$rows_desglose}}">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
+                    <td rowspan="{{$rows_desglose}}">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach
                     </td>
-                    <td  rowspan="3" style="border: none;"> </td><!-- celda de espacio -->
-                    <th>Descuento: </td>
-                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
+                    <td  rowspan="{{$rows_desglose}}" style="border: none;"> </td><!-- celda de espacio -->
+                    @if($InternalOrders->nv_adjustment!=0)
+                    <th>Ajuste por notas:</td>
+                    <td> $ {{number_format($InternalOrders->nv_adjustment, 2)}}</td>
+                    @endif
                        
                 </tr>
-                 <tr>
-                <th>Ajuste por nota:</td>
-                <td> $ {{number_format($InternalOrders->nv_adjustment, 2)}}</td>   
+                @if($InternalOrders->nv_adjustment!=0)
+                <tr> 
+
+                    <th>Subtotal ajustado: </td>
+                    <td> $ {{number_format($InternalOrders->subtotal - $InternalOrders->nv_adjustment, 2)}}</td>   
                 </tr>
-            <tr>
-                <th>I.E.P.S:</td>
-                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
-            </tr>
+                @endif
+                <tr> 
+                    <th>Descuento: </td>
+                    <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>   
+                </tr>
+                <tr>
+                    <th>I.E.P.S:</td>
+                    <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
+                </tr>
            
                 
                 <tr>

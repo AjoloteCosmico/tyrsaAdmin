@@ -442,22 +442,24 @@ public function store_comissions(Request $request)
 
 public function recalcular_total($id){
     $InternalOrder=InternalOrder::find($id);
+
     $Items=Item::where('internal_order_id',$id)->get();
-    
+    $CreditNotes=CreditNote::where('order_id',$id)
+        // ->where('type','virtual')
+        ->get();
+    $nv_adjustment=$CreditNotes->sum('amount');      
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
     //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
     $ret=$Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa;
-    $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
+    //MODIFICACION NOTAS VIRUTALES PARA DESCUENTO ANTES DE IMPUESTOS (AJUSTE POR NOTAS ANTES DE DESCUENTO)
+    $sub_con_descuento=($InternalOrder->subtotal-$nv_adjustment)*(1-$InternalOrder->descuento);
     $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
     $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)-$ret;
 
     //hay notas virtuales que disminuyan el total¿?
     //buscar notas vircuales  NV en el folio 'credit_note' y restar su total al total de la orden|
-    $CreditNotes=CreditNote::where('order_id',$id)
-        ->where('type','virtual')
-        ->get();
-        $nv_adjustment=$CreditNotes->sum('amount');  
+    
     
     $InternalOrder->nv_adjustment=$nv_adjustment;
     $InternalOrder->total=$InternalOrder->total-$nv_adjustment;
