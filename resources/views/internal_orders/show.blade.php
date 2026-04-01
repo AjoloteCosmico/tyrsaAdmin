@@ -228,43 +228,52 @@
                     <td> $ {{number_format($InternalOrders->subtotal,2)}}</td>
                        
                 </tr>
-@php
-    if($InternalOrders->nv_adjustment==0){
-        $rows_desglose=2;
-    }else{
-        $rows_desglose=4;
-    }
-@endphp
+        @if($InternalOrders->nv_adjustment==0)
                 <tr> 
-                    <th rowspan="{{$rows_desglose}}">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
-                    <td rowspan="{{$rows_desglose}}">  @foreach($payments as $pay)
+                    <th rowspan="2">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
+                    <td rowspan="2">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach
                     </td>
-                    <td  rowspan="{{$rows_desglose}}" style="border: none;"> </td><!-- celda de espacio -->
-                    @if($InternalOrders->nv_adjustment!=0)
-                    <th>Ajuste por notas:</td>
-                    <td> $ {{number_format($InternalOrders->nv_adjustment, 2)}}</td>
-                    @endif
+                    <td  rowspan="2" style="border: none;"> </td><!-- celda de espacio -->
+                    <th>Descuento: </td>
+                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
                        
                 </tr>
-                @if($InternalOrders->nv_adjustment!=0)
-                <tr> 
 
-                    <th>Subtotal ajustado: </td>
-                    <td> $ {{number_format($InternalOrders->subtotal - $InternalOrders->nv_adjustment, 2)}}</td>   
+                <tr>
+                <th>I.E.P.S:</td>
+                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
                 </tr>
-                @endif
+        @elese
                 <tr> 
-                    <th>Descuento: </td>
-                    <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>   
+                    <th rowspan="4">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
+                    <td rowspan="4">  @foreach($payments as $pay)
+                        {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
+                        @endforeach
+                    </td>
+                    <td  rowspan="4" style="border: none;"> </td><!-- celda de espacio -->
+                    <th>Ajuste por Notas: </td>
+                        <td> $ {{number_format($InternalOrders->nv_adjustment ,2)}} </td>
+                       
                 </tr>
                 <tr>
-                    <th>I.E.P.S:</td>
-                    <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
+                <th>Subtotal ajustado</td>
+                <td> $ {{number_format($InternalOrders->subtotal - $InternalOrders->nv_adjustment,2)}}</td>   
                 </tr>
-           
-                
+                <tr>
+                    <th>Descuento: </td>
+                    <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
+                </tr>
+                <tr>
+                <th>I.E.P.S:</td>
+                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
+                </tr>
+                <tr>
+
+
+
+        @endif
                 <tr>
                     <th>Forma de pago:</th>
                     <td>  @foreach($payments->unique('payment_method')->pluck('payment_method') as $pay) {{$pay}} @if(!$loop->last), @endif @endforeach</td>
