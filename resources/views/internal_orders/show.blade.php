@@ -259,15 +259,15 @@
                 </tr>
                 <tr>
                 <th>Subtotal ajustado</td>
-                <td> $ {{number_format($InternalOrders->subtotal - $InternalOrders->nv_adjustment,2)}}</td>   
+                <td> $ {{number_format(($InternalOrders->subtotal -  $InternalOrders->nv_adjustment) - $InternalOrders->nv_adjustment,2)}}</td>   
                 </tr>
                 <tr>
                     <th>Descuento: </td>
-                    <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </td>
+                    <td> $ {{number_format($InternalOrders->descuento * ($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2)}} </td>
                 </tr>
                 <tr>
                 <th>I.E.P.S:</td>
-                <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</td>   
+                <td> $ {{number_format($InternalOrders->ieps * ($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2)}}</td>   
                 </tr>
                 <tr>
 
@@ -279,7 +279,7 @@
                     <td>  @foreach($payments->unique('payment_method')->pluck('payment_method') as $pay) {{$pay}} @if(!$loop->last), @endif @endforeach</td>
                     <td style="border: none;"> </td><!-- celda de espacio -->
                     <th>RET ISR:</td>
-                    <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</td>
+                    <td> $  {{number_format($InternalOrders->isr * ($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2)}}</td>
                 </tr>
                 
                 <tr>
@@ -291,7 +291,7 @@
                 </tr>
                 <tr>
                         <th>IVA:</td>
-                        <td> $  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</td>
+                        <td> $  {{number_format(0.16 * ($InternalOrders->subtotal -  $InternalOrders->nv_adjustment)*(1-$InternalOrders->descuento),2)}}</td>
                         </tr>
                         <tr>
                         <th>Total</td>
@@ -373,8 +373,8 @@
                         <td> {{date('d - m - Y', strtotime($pay->date))}}</div></td>
                         <td> {{$dias}}</div></td>
                         <td> {{(int)floor($dias / 7)+1}}</div></td>
-                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
-                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal *$pay->percentage*0.0016,2)}}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment) *$pay->percentage*0.01,2)}}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment) *$pay->percentage*0.0016,2)}}</div></td>
                         <td> ${{number_format($pay->amount,2)}}</div></td>
                         <td> {{$pay->percentage}} %</div></td>
                         
@@ -383,8 +383,8 @@
                     @endforeach
                     <tr>  
                         <th colspan="4">Totales:</div></td>
-                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal,2) }}</div></td>
-                        <td> ${{number_format((1-$InternalOrders->descuento)*$InternalOrders->subtotal*0.16,2) }}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2) }}</div></td>
+                        <td> ${{number_format((1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment)*0.16,2) }}</div></td>
                         <td> ${{number_format($payments->sum('amount'),2) }}</div></td>
                         <td> 100%</div></td>
                     </tr>
@@ -534,9 +534,9 @@
                         <td> {{$Sellers->iniciales}}</td>
                         <td>  Comision Principal</td>
                         <td>  {{ number_format($InternalOrders->comision * 100,2)}} %</td>
-                        <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*$InternalOrders->subtotal ,2)}} </td>
+                        <td>  ${{number_format($InternalOrders->comision *(1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment) ,2)}} </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($InternalOrders->comision * (1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment)) ,2)}} </td>
                     </tr>
 
                    @foreach($Comisiones->where('description','compartida') as $c)
@@ -545,9 +545,9 @@
                         <td> {{$c->iniciales}}</td>
                         <td>  {{$c->description}}</td>
                         <td>  {{$c->percentage * 100}} %</td>
-                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   </td>
+                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment)) ,2)}}   </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal)  ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment))  ,2)}} </td>
                     </tr>
                     @endforeach
             </table>
@@ -576,9 +576,9 @@
                         <td> {{$c->iniciales}}</td>
                         <td>  {{$c->description}}</td>
                         <td>  {{$c->percentage * 100}} %</td>
-                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal) ,2)}}   </td>
+                        <td>  ${{number_format(($c->percentage * (1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment)) ,2)}}   </td>
                         <td> {{$Coins->code}}</td>
-                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*$InternalOrders->subtotal)  ,2)}} </td>
+                        <td>  ${{number_format($Coins->exchange_sell*($c->percentage * (1-$InternalOrders->descuento)*($InternalOrders->subtotal -  $InternalOrders->nv_adjustment))  ,2)}} </td>
                     </tr>
                     @endforeach
                     
