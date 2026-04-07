@@ -447,7 +447,8 @@ public function recalcular_total($id){
     $CreditNotes=CreditNote::where('order_id',$id)
         // ->where('type','virtual')
         ->get();
-    $nv_adjustment=$CreditNotes->sum('amount');      
+    $nv_adjustment=$CreditNotes->sum('amount');
+    $InternalOrder->nv_adjustment=$nv_adjustment;      
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
     //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
@@ -461,8 +462,7 @@ public function recalcular_total($id){
     //buscar notas vircuales  NV en el folio 'credit_note' y restar su total al total de la orden|
     
     
-    $InternalOrder->nv_adjustment=$nv_adjustment;
-    $InternalOrder->total=$InternalOrder->total-$nv_adjustment;
+    
     $InternalOrder->save();
     if($InternalOrder->status=='CANCELADO'){
         $InternalOrder->total=0;
