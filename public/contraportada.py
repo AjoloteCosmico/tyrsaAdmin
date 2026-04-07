@@ -10,7 +10,7 @@ load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
 # id=715
-# id=790
+# id=915
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
@@ -398,8 +398,8 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('H2:R3', 'Contraportada Pedido interno No.' + str(orden["invoice"].values[0]), negro_b)
-worksheet.merge_range('H4:R4', 'Control de Cobros por P.I.', rojo_b)
+worksheet.merge_range('J2:P3', 'Contraportada Pedido interno No.' + str(orden["invoice"].values[0]), negro_b)
+worksheet.merge_range('K4:O4', 'Control de Cobros por P.I.', rojo_b)
 worksheet.merge_range('S2:S3', 'PI. Numero', blue_header_format)
 worksheet.write('S4', "NOHA", blue_header_format)
 worksheet.merge_range('T2:T3', orden['invoice'].values[0], blue_content)
@@ -416,14 +416,35 @@ orden['reg_date']=orden['reg_date'].dt.strftime('%d-%m-%Y')
 worksheet.merge_range('E10:F10', str(orden['reg_date'].values[0]), blue_content)
 
 #tabla superior totales
-worksheet.write('H6', "SUBTOTAL", red_header_format)
-worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
+#caso sin ajuste
+# worksheet.write('H6', "SUBTOTAL", red_header_format)
+# worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
+# worksheet.write('H7', "IVA", red_header_format)
+# worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
+
+# worksheet.write('H8', "DESCUENTO", red_header_format)
+# worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(orden['descuento']), red_content)
+
+# worksheet.write('H9', "RETENCION", red_header_format)
+# worksheet.merge_range('I9:J9',  retencion, red_content)
+# worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
+# worksheet.merge_range('I10:J10',  orden['total'].values[0], red_content_bold)
+#caso con ajuste
+if (notas['amount'].sum()>0):
+    worksheet.write('H4', "SUBTOTAL", red_header_format)
+    worksheet.merge_range('I4:J4', orden['subtotal'].values[0], red_content)
+    worksheet.write('H5', "AJUSTE POR NOTAS", red_header_format)
+    worksheet.merge_range('I5:J5',  notas['amount'].sum(), red_content)
+    worksheet.write('H6', "SUBTOTAL AJUSTADO", red_header_format)
+    worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-notas['amount'].sum()), red_content)
+else:
+    worksheet.write('H6', "SUBTOTAL", red_header_format)
+    worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
+
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
-
+worksheet.merge_range('I7:J7',  (orden['subtotal'].values[0]-notas['amount'].sum())*(1-orden['descuento'])*0.16, red_content)
 worksheet.write('H8', "DESCUENTO", red_header_format)
-worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(orden['descuento']), red_content)
-
+worksheet.merge_range('I8:J8',  (orden['subtotal'].values[0]-notas['amount'].sum())*(orden['descuento']), red_content)
 worksheet.write('H9', "RETENCION", red_header_format)
 worksheet.merge_range('I9:J9',  retencion, red_content)
 worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
