@@ -165,7 +165,7 @@ for df,name in zip([items,required_signatures,contacts,pagos],["items","signatur
                             'customer_contact_mobile':'-','customer_contact_email':'-'}) 
     if((name=='items')&(len(df)<3)):
         for i in range(3-len(items)):
-            objects.append({'amount':'0',})         
+            objects.append({'amount':'0',})
     payload.update({name:objects})
 # #Renderizar excel
 # if(len(items)<=3):

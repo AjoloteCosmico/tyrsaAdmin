@@ -51,7 +51,7 @@ capturistas.iniciales as capturista, revisores.iniciales as revisor, autorizador
     left join users as revisores on cobros.reviso=revisores.id)
     left join users as autorizadores on cobros.autorizo=autorizadores.id)
       where cobro_orders.order_id = """+str(order_id),cnx)
-notas=pd.read_sql('Select* from credit_notes where order_id= '+str(orden['id'].values[0]),cnx)
+notas=pd.read_sql('select * from credit_notes where order_id= '+str(orden['id'].values[0]),cnx)
 notas_fiscales=notas.loc[notas['credit_note'].str.contains('NC')==True ]
 notas_virtuales=notas.loc[notas['credit_note'].str.contains('NV')==True ]
 nordenes=len(pd.read_sql(query,cnx))
@@ -463,7 +463,7 @@ worksheet.merge_range('Q8:R8', orden['total'].values[0], red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 worksheet.write('P9', "COBRADO", red_header_format)
-worksheet.merge_range('Q9:R9', cobros['amount'].sum(), red_content)
+worksheet.merge_range('Q9:R9', cobros['amount'].sum()+notas['amount'].sum(), red_content)
 worksheet.write('S9', "I/I", red_header_format)
 worksheet.write('T9', moneda['code'].values[0], red_header_format)
 worksheet.write('P10', "POR COBRAR", red_header_format)
@@ -582,12 +582,15 @@ for i in range(0,len(notas_fiscales)):
 
 #esto lo escribio copilot hay q validar
 for i in range(0,len(notas)):
-    worksheet.write('K'+str(15+i+desface_cobros), str(notas['credit_note'].values[i])+' (credito)', blue_content)
+    tipo_nota='(credito)'
+    if(notas['credit_note'].values[i].startswith('NV')):
+        tipo_nota='(virtual)'
+    worksheet.write('K'+str(15+i+desface_cobros), str(notas['credit_note'].values[i])+' '+tipo_nota, blue_content)
     worksheet.write('L'+str(15+i+desface_cobros), notas['date'].values[i], blue_content_date)
     worksheet.write('M'+str(15+i+desface_cobros), moneda['code'].values[0], blue_content)
-    worksheet.write('N'+str(15+i+desface_cobros), -notas['amount'].values[i], blue_content)
-    worksheet.write('O'+str(15+i+desface_cobros), "{:.2f}".format(-notas['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
-#fin codigo copilot
+    worksheet.write('N'+str(15+i+desface_cobros), notas['amount'].values[i], blue_content)
+    worksheet.write('O'+str(15+i+desface_cobros), "{:.2f}".format(notas['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
+#fin código copilot
 
 table_len=max(len(hpagos),desface+len(notas_fiscales),desface_cobros+len(notas))
 
@@ -624,7 +627,7 @@ worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
 worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
-worksheet.write('N'+str(trow),cobros["amount"].sum() , blue_content_bold)
+worksheet.write('N'+str(trow),cobros["amount"].sum()+notas['amount'].sum(), blue_content_bold)
 worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
 
 worksheet.write('O'+str(trow), "{:.2f}".format(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
