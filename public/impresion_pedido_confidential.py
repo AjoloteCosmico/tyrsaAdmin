@@ -133,11 +133,11 @@ payload = {
     'marca':marca,
     'com_completer':com_completer,
     "palomita": "check.png",
-    'descuento': "{:.2f}".format(order['subtotal'].values[0]*order['descuento'].values[0]),
-    'iva': "{:.2f}".format(0.16 * order['subtotal'].values[0]*(1-order['descuento'].values[0])),
-    'ieps':"{:.2f}".format(order['subtotal'].values[0]*order['ieps'].values[0]),
-    'ret_isr':"{:.2f}".format(order['subtotal'].values[0]*order['isr'].values[0]),
-    'ret_iva':"{:.2f}".format(order['tasa'].values[0]* items.loc[items['family']=='FLETE','import'].sum())
+    'descuento': "{:,.2f}".format(order['subtotal'].values[0]*order['descuento'].values[0]),
+    'iva': "{:,.2f}".format(0.16 * order['subtotal'].values[0]*(1-order['descuento'].values[0])),
+    'ieps':"{:,.2f}".format(order['subtotal'].values[0]*order['ieps'].values[0]),
+    'ret_isr':"{:,.2f}".format(order['subtotal'].values[0]*order['isr'].values[0]),
+    'ret_iva':"{:,.2f}".format(order['tasa'].values[0]* items.loc[items['family']=='FLETE','import'].sum())
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
