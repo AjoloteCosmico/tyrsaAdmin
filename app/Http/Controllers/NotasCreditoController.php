@@ -135,11 +135,11 @@ class NotasCreditoController extends Controller
                 }else {
                     throw new \Exception("Archivo no subido");
                 }
-                if($request->type == 'virtual'){
+               
                    
-                    $newTotal= new InternalOrderController();
-                    $newTotal->recalcular_total($request->order_id);
-                }
+                $newTotal= new InternalOrderController();
+                $newTotal->recalcular_total($request->order_id);
+            
 
                 
                 return redirect('credit_notes')->with('create_reg','ok');
@@ -154,11 +154,10 @@ class NotasCreditoController extends Controller
         $Nota->save();
 
 
-        if($Nota->type == 'virtual'){
                    
-                    $newTotal= new InternalOrderController();
-                    $newTotal->recalcular_total($Nota->order_id);
-        }        
+        $newTotal= new InternalOrderController();
+        $newTotal->recalcular_total($Nota->order_id);
+              
         return redirect()->route('credit_notes.index')->with('cancelar', 'ok');
     }
 
@@ -175,11 +174,11 @@ class NotasCreditoController extends Controller
             File::delete($file_path);
            
             CreditNote::destroy($id);
-             if($CreditNote->type == 'virtual'){
+             
                    
-                    $newTotal= new InternalOrderController();
-                    $newTotal->recalcular_total($InternalOrdersId);
-                }
+            $newTotal= new InternalOrderController();
+            $newTotal->recalcular_total($InternalOrdersId);
+        
             return redirect('credit_notes');
         }
         public function show($id){
@@ -268,10 +267,10 @@ class NotasCreditoController extends Controller
             $contenidoPDF = file_get_contents($comp->getRealPath()); // Ruta temporal correcta
             \Storage::disk('comp')->put('note'.$Nota->id.'.pdf', $contenidoPDF);
         } 
-        if($Nota->type == 'virtual'){
-            $newTotal= new InternalOrderController();
-            $newTotal->recalcular_total($Nota->order_id);
-        }
+       
+        $newTotal= new InternalOrderController();
+        $newTotal->recalcular_total($Nota->order_id);
+        
         
             return redirect()->route('credit_notes.index')->with('update_reg', 'ok');
         }
