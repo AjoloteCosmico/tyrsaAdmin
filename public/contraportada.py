@@ -578,7 +578,7 @@ notas['date']=notas['date'].dt.strftime('%d-%m-%Y')
 for i in range(0,len(notas_fiscales)):
     worksheet.write('H'+str(15+i+desface), str(notas_fiscales['credit_note'].values[i])+' (credito)', red_content)
     worksheet.write('I'+str(15+i+desface), notas_fiscales['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface), '-$'+ "{:,.2f}".format(notas_fiscales['amount'].values[i]), red_content)
+    worksheet.write('J'+str(15+i+desface), -1 * notas_fiscales['amount'].values[i], red_content)
 
 #esto lo escribio copilot hay q validar
 for i in range(0,len(notas)):
