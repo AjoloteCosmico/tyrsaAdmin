@@ -447,7 +447,7 @@ public function recalcular_total($id){
     $CreditNotes=CreditNote::where('order_id',$id)
         // ->where('type','virtual')
         ->get();
-    $nv_adjustment=$CreditNotes->sum('amount');
+    $nv_adjustment=$CreditNotes->sum('amount')/1.16;
     $InternalOrder->nv_adjustment=$nv_adjustment;     
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();

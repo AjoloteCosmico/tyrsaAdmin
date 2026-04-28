@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=715
+# id=280
 # id=915
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -434,17 +434,17 @@ if (notas['amount'].sum()>0):
     worksheet.write('H4', "SUBTOTAL", red_header_format)
     worksheet.merge_range('I4:J4', orden['subtotal'].values[0], red_content)
     worksheet.write('H5', "AJUSTE POR NOTAS", red_header_format)
-    worksheet.merge_range('I5:J5',  notas['amount'].sum(), red_content)
+    worksheet.merge_range('I5:J5',  notas['amount'].sum()/1.16, red_content)
     worksheet.write('H6', "SUBTOTAL AJUSTADO", red_header_format)
-    worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-notas['amount'].sum()), red_content)
+    worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-(notas['amount'].sum()/1.16)), red_content)
 else:
     worksheet.write('H6', "SUBTOTAL", red_header_format)
     worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
 
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  (orden['subtotal'].values[0]-notas['amount'].sum())*(1-orden['descuento'])*0.16, red_content)
+worksheet.merge_range('I7:J7',  (orden['subtotal'].values[0]-(notas['amount'].sum()/1.16))*(1-orden['descuento'])*0.16, red_content)
 worksheet.write('H8', "DESCUENTO", red_header_format)
-worksheet.merge_range('I8:J8',  (orden['subtotal'].values[0]-notas['amount'].sum())*(orden['descuento']), red_content)
+worksheet.merge_range('I8:J8',  (orden['subtotal'].values[0]-(notas['amount'].sum()/1.16))*(orden['descuento']), red_content)
 worksheet.write('H9', "RETENCION", red_header_format)
 worksheet.merge_range('I9:J9',  retencion, red_content)
 worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
