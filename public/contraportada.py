@@ -455,7 +455,7 @@ worksheet.merge_range('Q8:R8', orden['total'].values[0], red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 worksheet.write('P9', "COBRADO", red_header_format)
-worksheet.merge_range('Q9:R9', cobros['amount'].sum()+notas['amount'].sum(), red_content)
+worksheet.merge_range('Q9:R9', cobros['amount'].sum()-notas['amount'].sum(), red_content)
 worksheet.write('S9', "I/I", red_header_format)
 worksheet.write('T9', moneda['code'].values[0], red_header_format)
 worksheet.write('P10', "POR COBRAR", red_header_format)
@@ -618,11 +618,11 @@ worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
 worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
-worksheet.write('N'+str(trow),cobros["amount"].sum()+notas['amount'].sum(), blue_content_bold)
-worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
+worksheet.write('N'+str(trow),cobros["amount"].sum()-notas['amount'].sum(), blue_content_bold)
+worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum()+notas['amount'].sum(), blue_content)
 
-worksheet.write('O'+str(trow), "{:.2f}".format(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write('O'+str(trow), "{:.2f}".format((cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - (cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
    worksheet.write('O'+str(trow+2),'OK' , blue_content_bold)
