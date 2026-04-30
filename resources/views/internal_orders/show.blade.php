@@ -247,19 +247,23 @@
                 </tr>
         @else
                 <tr> 
-                    <th rowspan="4">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
-                    <td rowspan="4">  @foreach($payments as $pay)
+                    <th rowspan="5">Condiciones de PAGO: @foreach($payments as $pay) <br> @endforeach</td>
+                    <td rowspan="5">  @foreach($payments as $pay)
                         {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
                         @endforeach
                     </td>
-                    <td  rowspan="4" style="border: none;"> </td><!-- celda de espacio -->
-                    <th>Ajuste por Notas: </td>
-                        <td> $ {{number_format($InternalOrders->nv_adjustment ,2)}} </td>
+                    <td  rowspan="5" style="border: none;"> </td><!-- celda de espacio -->
+                    <th>Ajuste por Notas (NC): </td>
+                        <td> $ {{number_format($AjusteCredito/1.16,2)}} </td>
                        
                 </tr>
                 <tr>
+                    <th>Ajuste por Notas (NV):</th>
+                    <td>$ {{number_format($AjusteVirtual/1.16,2)}}</td>
+                </tr>
+                <tr>
                 <th>Subtotal ajustado</td>
-                <td> $ {{number_format(($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2)}}</td>   
+                <td> $ {{number_format(($InternalOrders->subtotal -  $InternalOrders->nv_adjustment/1.16),2)}}</td>   
                 </tr>
                 <tr>
                     <th>Descuento: </td>

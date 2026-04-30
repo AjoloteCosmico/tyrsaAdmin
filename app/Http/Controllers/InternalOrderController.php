@@ -739,6 +739,9 @@ public function recalcular_total($id){
             
             return redirect()->route('internal_orders.payment',$id);
         }
+        $AjusteCredito=CreditNote::where('order_id', $id)->where('type','virtual')->get()->sum('amount');
+        $AjusteVirtual=CreditNote::where('order_id', $id)->where('type','!=','virtual')->get()->sum('amount');
+        
         return view('internal_orders.show', compact(
             'CompanyProfiles',
             'InternalOrders',
@@ -753,7 +756,7 @@ public function recalcular_total($id){
             'Contacts',
             'payments',
             'ASellers',
-            'Comisiones',
+            'Comisiones','AjusteCredito','AjusteVirtual',
             'Marcas','Contrato',
         ));
     }
