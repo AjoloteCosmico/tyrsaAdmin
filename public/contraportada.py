@@ -524,6 +524,14 @@ worksheet.write('U14', 'D.A.', red_header_format)
 importe_acumulado=0
 porcentaje_acumulado=0
 desface=0
+factura_vista=set()
+block_factura_id=None
+block_start_row=0
+block_end_row=0
+block_factura_num=''
+block_factura_date=''
+block_factura_amount=0
+
 for i in range(0,len(cobros)):
     facturas_asociadas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id']==cobros['cobro_id'].values[i]].facture_id.values)]
     
@@ -541,18 +549,51 @@ for i in range(0,len(cobros)):
     worksheet.write('T'+str(15+i+desface), str(cobros['revisor'].values[i]), red_content)
     worksheet.write('U'+str(15+i+desface), str(cobros['autorizador'].values[i]), red_content)
    
-    #rellenar facturas asociada
+    #rellenar facturas asociadas
     j=0
     for j in range(0,len(facturas_asociadas)):
-        worksheet.write('H'+str(15+j+i+desface), str(facturas_asociadas['facture'].values[j]), red_content)
-        worksheet.write('I'+str(15+j+i+desface), facturas_asociadas['date'].values[j], red_content_date)
-        worksheet.write('J'+str(15+j+i+desface), facturas_asociadas['amount'].values[j], red_content)
+        row=15+j+i+desface
+        factura_id=facturas_asociadas['id'].values[j]
+        factura_num=str(facturas_asociadas['facture'].values[j])
+        factura_date=facturas_asociadas['date'].values[j]
+        factura_amount=facturas_asociadas['amount'].values[j]
+        factura_repetida=factura_id in factura_vista
+        
+        if factura_id==block_factura_id and row==block_end_row+1:
+            worksheet.write('H'+str(row), factura_num, red_content)
+            worksheet.write('I'+str(row), factura_date, red_content_date)
+            worksheet.write('J'+str(row), factura_amount, red_content)
+            block_end_row=row
+        else:
+            if block_factura_id is not None and block_end_row>block_start_row:
+                worksheet.merge_range('H'+str(block_start_row)+':H'+str(block_end_row), block_factura_num, red_content)
+                worksheet.merge_range('I'+str(block_start_row)+':I'+str(block_end_row), block_factura_date, red_content_date)
+                worksheet.merge_range('J'+str(block_start_row)+':J'+str(block_end_row), block_factura_amount, red_content)
+            if factura_repetida:
+                amount_value='repetida'
+            else:
+                amount_value=factura_amount
+            worksheet.write('H'+str(row), factura_num, red_content)
+            worksheet.write('I'+str(row), factura_date, red_content_date)
+            worksheet.write('J'+str(row), amount_value, red_content)
+            block_factura_id=factura_id
+            block_start_row=row
+            block_end_row=row
+            block_factura_num=factura_num
+            block_factura_date=factura_date
+            block_factura_amount=factura_amount
+            factura_vista.add(factura_id)
     if(len(facturas_asociadas)==0):
         worksheet.merge_range('H'+str(15+j+i+desface)+':J'+str(15+i+desface), 'PENDIENTE POR FACTURAR', red_content_date)
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
     print(facturas_asociadas['facture'])
     if(len(facturas_asociadas)>1):
         desface=desface+len(facturas_asociadas)-1
+
+if block_factura_id is not None and block_end_row>block_start_row:
+    worksheet.merge_range('H'+str(block_start_row)+':H'+str(block_end_row), block_factura_num, red_content)
+    worksheet.merge_range('I'+str(block_start_row)+':I'+str(block_end_row), block_factura_date, red_content_date)
+    worksheet.merge_range('J'+str(block_start_row)+':J'+str(block_end_row), block_factura_amount, red_content)
 desface=desface+len(cobros)
 desface_cobros=desface
 #Facturas no asociadas
