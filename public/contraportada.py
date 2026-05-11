@@ -212,6 +212,24 @@ red_content_date = workbook.add_format({
     'font_size':9,
     'border_color':b_color,
     'num_format':'dd/mm/yyyy'})
+
+note_red_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'red',
+    'font_size':9,
+    'border_color': b_color,
+    'num_format': '[$$-409]#,##0.00'})
+
+note_red_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'red',
+    'font_size':9,
+    'border_color': b_color,
+    'num_format':'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
     'bold': True,
@@ -608,24 +626,27 @@ desface=desface+len(facturas_no_asociadas)
 # notas
 notas['date']=pd.to_datetime(notas['date'], format='%Y-%m-%d')
 notas['date']=notas['date'].dt.strftime('%d-%m-%Y')
-for i in range(0,len(notas_fiscales)):
-    worksheet.write('H'+str(15+i+desface), str(notas_fiscales['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface), notas_fiscales['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface), -1 * notas_fiscales['amount'].values[i], red_content)
-
-#esto lo escribio copilot hay q validar
+row_notas_start = 15 + desface
 for i in range(0,len(notas)):
-    tipo_nota='(credito)'
-    if(notas['credit_note'].values[i].startswith('NV')):
-        tipo_nota='(virtual)'
-    worksheet.write('K'+str(15+i+desface_cobros), str(notas['credit_note'].values[i])+' '+tipo_nota, blue_content)
-    worksheet.write('L'+str(15+i+desface_cobros), notas['date'].values[i], blue_content_date)
-    worksheet.write('M'+str(15+i+desface_cobros), moneda['code'].values[0], blue_content)
-    worksheet.write('N'+str(15+i+desface_cobros),- notas['amount'].values[i], blue_content)
-    worksheet.write('O'+str(15+i+desface_cobros), "{:.2f}".format(notas['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
+    nota = str(notas['credit_note'].values[i])
+    tipo_nota = '(credito)'
+    factura_amount = -notas['amount'].values[i]
+    if nota.startswith('NV'):
+        tipo_nota = '(virtual)'
+        factura_amount = 0
+    row = row_notas_start + i
+    worksheet.write('H'+str(row), nota + ' ' + tipo_nota, note_red_content)
+    worksheet.write('I'+str(row), notas['date'].values[i], note_red_date)
+    worksheet.write('J'+str(row), factura_amount, note_red_content)
+    worksheet.write('K'+str(row), nota + ' ' + tipo_nota, note_red_content)
+    worksheet.write('L'+str(row), notas['date'].values[i], note_red_date)
+    worksheet.write('M'+str(row), moneda['code'].values[0], note_red_content)
+    worksheet.write('N'+str(row), 0, note_red_content)
+    worksheet.write('O'+str(row), '0%', note_red_content)
+
 #fin código copilot
 
-table_len=max(len(hpagos),desface+len(notas_fiscales),desface_cobros+len(notas))
+table_len=max(len(hpagos),desface+len(notas))
 
 trow=16+table_len
 
