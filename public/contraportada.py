@@ -647,6 +647,8 @@ for i in range(0,len(notas)):
 #fin código copilot
 
 table_len=max(len(hpagos),desface+len(notas))
+last_row = 15 + desface + len(notas) - 1
+orden_total = orden["total"].values[0]
 
 trow=16+table_len
 
@@ -674,14 +676,14 @@ else:
 worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
-worksheet.write('J'+str(trow),facturas["amount"].sum() +facturas_no_asociadas['amount'].sum()-notas_fiscales['amount'].sum(), red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()-facturas_no_asociadas['amount'].sum()+notas_fiscales['amount'].sum(), red_content)
+worksheet.write_formula('J'+str(trow), '{=SUM(J15:J' + str(last_row) + ')}', red_content_bold)
+worksheet.write_formula('J'+str(trow+2), '=' + str(orden_total) + ' - J' + str(trow), red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
 worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
-worksheet.write('N'+str(trow),cobros["amount"].sum()-notas['amount'].sum(), blue_content_bold)
-worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum()+notas['amount'].sum(), blue_content)
+worksheet.write_formula('N'+str(trow), '{=SUM(N15:N' + str(last_row) + ')}', blue_content_bold)
+worksheet.write_formula('N'+str(trow+2), '=' + str(orden_total) + ' - N' + str(trow), blue_content)
 
 worksheet.write('O'+str(trow), "{:.2f}".format((cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
 worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - (cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
