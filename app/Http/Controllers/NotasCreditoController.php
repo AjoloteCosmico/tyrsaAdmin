@@ -108,6 +108,12 @@ class NotasCreditoController extends Controller
                     ];
                 
                 $request->validate($rules, $messages);
+                //validar si no existen notas anteriores de un tipo deferente
+                //Notas de integracion a produccion: asegurar type 'credito' en las notas ya existentes
+                $existingNote = CreditNote::where('order_id', $request->order_id)->where('type', '!=', $request->type)->first();
+                if ($existingNote) {
+                    return redirect()->back()->with('error','repetido');
+                }
                 $Nota=new CreditNote();
                 $Nota->customer_id=$request->customer_id;
                 $Nota->order_id=$request->order_id;

@@ -180,6 +180,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
+@if(session('error')=='repetido')
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: 'Ya existe una nota de un tipo diferente para esta orden interna. Por favor, revise las notas existentes antes de crear una nueva.',
+    });
+</script>
+@endif
 <script>
 $(document).on("keypress", ".just-number", function (e) {
   let charCode = (e.which) ? e.which : e.keyCode;
