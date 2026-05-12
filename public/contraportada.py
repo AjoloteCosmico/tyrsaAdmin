@@ -441,9 +441,9 @@ if (notas['amount'].sum()>0):
     worksheet.write('H3', "SUBTOTAL", red_header_format)
     worksheet.merge_range('I3:J3', orden['subtotal'].values[0], red_content)
     worksheet.write('H4', "AJUSTE POR NOTAS (NC)", red_header_format)
-    worksheet.merge_range('I4:J4',  notas.loc[notas['credit_note'].str.contains('NV'),'amount'].sum()/1.16, red_content)
+    worksheet.merge_range('I4:J4',  notas.loc[~(notas['credit_note'].str.contains('NV')),'amount'].sum()/1.16, red_content)
     worksheet.write('H5', "AJUSTE POR NOTAS (NV)", red_header_format)
-    worksheet.merge_range('I5:J5',  notas.loc[~( notas['credit_note'].str.contains('NV')),'amount'].sum()/1.16, red_content)
+    worksheet.merge_range('I5:J5',  notas.loc[( notas['credit_note'].str.contains('NV')),'amount'].sum()/1.16, red_content)
     worksheet.write('H6', "SUBTOTAL AJUSTADO", red_header_format)
     worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-(notas['amount'].sum()/1.16)), red_content)
 #caso sin ajuste
