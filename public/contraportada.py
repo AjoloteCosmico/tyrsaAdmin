@@ -166,6 +166,14 @@ blue_content = workbook.add_format({
     'font_size':9,
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
+blue_content_percentage = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': '0.00%'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -193,6 +201,15 @@ red_content = workbook.add_format({
     'font_size':9,
     'border_color':b_color,
     'num_format': '[$$-409]#,##0.00'})
+red_content_percentage = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':b_color,
+    #formato de porcentaje
+    'num_format': '0.00%'})
 
 red_content_bold = workbook.add_format({
     'bold':True,
@@ -473,7 +490,7 @@ worksheet.merge_range('Q8:R8', orden['total'].values[0], red_content)
 worksheet.write('S8', "I/I", red_header_format)
 worksheet.write('T8', moneda['code'].values[0], red_header_format)
 worksheet.write('P9', "COBRADO", red_header_format)
-worksheet.merge_range('Q9:R9', cobros['amount'].sum()-notas['amount'].sum(), red_content)
+worksheet.merge_range('Q9:R9', cobros['amount'].sum(), red_content)
 worksheet.write('S9', "I/I", red_header_format)
 worksheet.write('T9', moneda['code'].values[0], red_header_format)
 worksheet.write('P10', "POR COBRAR", red_header_format)
@@ -677,7 +694,7 @@ worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
 worksheet.write_formula('J'+str(trow), '{=SUM(J15:J' + str(last_row) + ')}', red_content_bold)
-worksheet.write_formula('J'+str(trow+2), '=' + str(orden_total) + ' - J' + str(trow), red_content)
+worksheet.write_formula('J'+str(trow+2), '{=' + str(orden_total) + ' - J' + str(trow)+'}', red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
@@ -685,8 +702,8 @@ worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
 worksheet.write_formula('N'+str(trow), '{=SUM(N15:N' + str(last_row) + ')}', blue_content_bold)
 worksheet.write_formula('N'+str(trow+2), '=' + str(orden_total) + ' - N' + str(trow), blue_content)
 
-worksheet.write('O'+str(trow), "{:.2f}".format((cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - (cobros["amount"].sum()-notas['amount'].sum())*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write_formula('O'+str(trow), "{=N"+str(trow)+"/I10}", blue_content_percentage)
+worksheet.write('O'+str(trow+1), "{:.2f}".format(1 - (cobros["amount"].sum())/orden["total"].values[0]) , blue_content_percentage)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
    worksheet.write('O'+str(trow+2),'OK' , blue_content_bold)
