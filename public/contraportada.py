@@ -703,7 +703,7 @@ worksheet.write_formula('N'+str(trow), '{=SUM(N15:N' + str(last_row) + ')}', blu
 worksheet.write_formula('N'+str(trow+2), '=' + str(orden_total) + ' - N' + str(trow), blue_content)
 
 worksheet.write_formula('O'+str(trow), "{=N"+str(trow)+"/I10}", blue_content_percentage)
-worksheet.write('O'+str(trow+1), "{:.2f}".format(1 - (cobros["amount"].sum())/orden["total"].values[0]) , blue_content_percentage)
+worksheet.write_formula('O'+str(trow+1),"{=1 - O"+str(trow)+"}", blue_content_percentage)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
    worksheet.write('O'+str(trow+2),'OK' , blue_content_bold)
