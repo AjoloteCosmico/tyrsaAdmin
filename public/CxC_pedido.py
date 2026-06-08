@@ -407,13 +407,6 @@ for i in range(0,len(pedidos)):
         worksheet.write('R'+row_index, 0, blue_content)
         worksheet.write('S'+row_index, total/1.16 - cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()/1.16-fact, blue_content_dll)
       
-  
-  
-  
-  
-  
-  
-  
    #status
    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
      worksheet.write('T'+row_index,'ACTIVO', blue_content)
@@ -501,6 +494,7 @@ worksheet.merge_range('B'+str(trow+11)+':E'+str(trow+11),'PEDIDOS TOTALES COBRAD
 # worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),derechos_adquiridos_mn+derechos_adquiridos_dll*tc,blue_content_bold)
 
 worksheet.merge_range('F'+str(trow+4)+':G'+str(trow+4),' ',blue_content_bold)
+
 worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),'{=I'+str(trow+1)+'}',blue_content_bold)
 # worksheet.write_formula('F'+str(trow+4)+':G'+str(trow+4),  '{=(I'+str(trow)+'+J'+str(trow)+' * '+str(tc)+')}',blue_content_bold)
 
