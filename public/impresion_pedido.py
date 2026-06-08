@@ -132,12 +132,6 @@ payload = {
     'item_completer':item_completer,
     'marca':marca,
     "palomita": "check.png",
-    
-    'descuento': "{:,.2f}".format(order['subtotal'].values[0]*order['descuento'].values[0]),
-    'iva': "{:,.2f}".format(0.16 * order['subtotal'].values[0]*(1-order['descuento'].values[0])),
-    'ieps':"{:,.2f}".format(order['subtotal'].values[0]*order['ieps'].values[0]),
-    'ret_isr':"{:,.2f}".format(order['subtotal'].values[0]*order['isr'].values[0]),
-    'ret_iva':"{:,.2f}".format(order['tasa'].values[0]* items.loc[items['family']=='FLETE','import'].sum())
 }
 
 for df,name in zip([order,customer,seller,customer_adress,coin],["order","customer","seller","customer_adress","coin"]):
@@ -165,7 +159,7 @@ for df,name in zip([items,required_signatures,contacts,pagos],["items","signatur
                             'customer_contact_mobile':'-','customer_contact_email':'-'}) 
     if((name=='items')&(len(df)<3)):
         for i in range(3-len(items)):
-            objects.append({'amount':'0',})
+            objects.append({'amount':'0',})         
     payload.update({name:objects})
 # #Renderizar excel
 # if(len(items)<=3):

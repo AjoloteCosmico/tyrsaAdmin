@@ -448,10 +448,9 @@ public function recalcular_total($id){
         // ->where('type','virtual')
         ->get();
     $nv_adjustment=$CreditNotes->sum('amount');
-    $InternalOrder->nv_adjustment=$nv_adjustment;     
+    $InternalOrder->nv_adjustment=$nv_adjustment;      
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
-    $subtotal_ajustado=$InternalOrder->subtotal-$nv_adjustment;
     //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
     $ret=$Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa;
     //MODIFICACION NOTAS VIRUTALES PARA DESCUENTO ANTES DE IMPUESTOS (AJUSTE POR NOTAS ANTES DE DESCUENTO)
@@ -461,6 +460,7 @@ public function recalcular_total($id){
 
     //hay notas virtuales que disminuyan el total¿?
     //buscar notas vircuales  NV en el folio 'credit_note' y restar su total al total de la orden|
+    
     
     
     $InternalOrder->save();
