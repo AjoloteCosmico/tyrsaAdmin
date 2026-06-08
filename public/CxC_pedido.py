@@ -410,14 +410,12 @@ for i in range(0,len(pedidos)):
    #status
    if(pedidos['total'].values[i]- cobros.loc[cobros['order_id']==pedidos['id'].values[i],'amount'].sum()>1):
      worksheet.write('T'+row_index,'ACTIVO', blue_content)
-     
+     if(pedidos['coin_id'].values[i]==1):
+        derechos_adquiridos_mn=derechos_adquiridos_mn+(pedidos['total'].values[i]/1.16)
+     else:
+        derechos_adquiridos_dll=derechos_adquiridos_dll+(pedidos['total'].values[i]/1.16)
    else:
      worksheet.write('T'+row_index,'CERRADO', blue_content)
-   if(pedidos['coin_id'].values[i]==1):
-        derechos_adquiridos_mn=derechos_adquiridos_mn+(pedidos['total'].values[i]/1.16)
-   else:
-        derechos_adquiridos_dll=derechos_adquiridos_dll+(pedidos['total'].values[i]/1.16)
-
   
 trow=11+len(pedidos)
 
