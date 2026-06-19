@@ -116,7 +116,7 @@ th     { background:#eee; }" >
                                     </div>
                                     <div class="form-group">
                                         <x-jet-label value=" TIPO DE CAMBIO" />
-                                        <x-jet-input type="number" step="0.01" name="tc" id="tc" class="form-control just-number price-format-input w-full text-xs" value="{{$Cobro->tc}}"/>
+                                        <x-jet-input type="number" step="0.0001" name="tc" id="tc" class="form-control just-number  w-full text-xs" value="{{$Cobro->tc}}"/>
                                         <x-jet-input-error for='tc' />
                                     </div>
                                     <div class="form-group">
