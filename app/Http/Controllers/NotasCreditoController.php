@@ -110,7 +110,7 @@ class NotasCreditoController extends Controller
                 $request->validate($rules, $messages);
                 
                 //Revisar el total facturado del pedido
-                $Facturado=Facturess::where('order_id', $request->order_id)->get()->sum('amount');
+                $Facturado=Factures::where('order_id', $request->order_id)->get()->sum('amount');
                 $TotalPedido=InternalOrder::find($request->order_id)->total;
                 dd($Facturado, $TotalPedido);
                 if ($Facturado>=($TotalPedido-0.9)) {
