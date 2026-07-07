@@ -185,7 +185,7 @@
     Swal.fire({
         icon: 'error',
         title: '¡Error!',
-        text: 'Este pedido ya ha sidocompletamente facturado',
+        text: 'Este pedido ya ha sido completamente facturado',
     });
 </script>
 @endif
