@@ -27,6 +27,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>PDA</th>
+                            <th>TIPO</th>
                             <th>FECHA </th>
                             <th>NOTA </th>
                             <th>CLIENTE</th>
@@ -46,6 +47,8 @@
                         <tr class="text-center">
                           <td>{{$i}}</td>
                           <td>{{$nota->date}}</td>
+                          <!-- tipo en mayusculas  -->
+                          <td>{{strtoupper($nota->type)}}</td>
                           <td>{{$nota->credit_note}}</td>
                           <td>{{$nota->customer}}</td>
                           <td>{{$nota->invoice}}</td>
