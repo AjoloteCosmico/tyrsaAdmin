@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 #id del pedido en cuestion
 id=str(sys.argv[1])
-# id=715
+# id=280
 # id=915
 #configurar la conexion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -166,6 +166,14 @@ blue_content = workbook.add_format({
     'font_size':9,
     'border_color':a_color,
     'num_format': '[$$-409]#,##0.00'})
+blue_content_percentage = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':a_color,
+    'num_format': '0.00%'})
 
 blue_content_bold = workbook.add_format({
     'bold': True,
@@ -193,6 +201,15 @@ red_content = workbook.add_format({
     'font_size':9,
     'border_color':b_color,
     'num_format': '[$$-409]#,##0.00'})
+red_content_percentage = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'black',
+    'font_size':9,
+    'border_color':b_color,
+    #formato de porcentaje
+    'num_format': '0.00%'})
 
 red_content_bold = workbook.add_format({
     'bold':True,
@@ -211,6 +228,24 @@ red_content_date = workbook.add_format({
     'font_color': 'black',
     'font_size':9,
     'border_color':b_color,
+    'num_format':'dd/mm/yyyy'})
+
+note_red_content = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'red',
+    'font_size':9,
+    'border_color': b_color,
+    'num_format': '[$$-409]#,##0.00'})
+
+note_red_date = workbook.add_format({
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'font_color': 'red',
+    'font_size':9,
+    'border_color': b_color,
     'num_format':'dd/mm/yyyy'})
 #FOOTER FORMATS---------------------------------------------------------
 observaciones_format = workbook.add_format({
@@ -398,7 +433,7 @@ worksheet = writer.sheets['Sheet1']
 #Encabezado del documento--------------
 worksheet.merge_range('B2:G3', 'TYRSA CONSORCIO S.A. DE C.V. ', rojo_l)
 worksheet.merge_range('B4:G4', 'Soluciones en logistica interior', negro_s)
-worksheet.merge_range('J2:P3', 'Contraportada Pedido interno No.' + str(orden["invoice"].values[0]), negro_b)
+worksheet.merge_range('K2:O3', 'Contraportada Pedido interno No.' + str(orden["invoice"].values[0]), negro_b)
 worksheet.merge_range('K4:O4', 'Control de Cobros por P.I.', rojo_b)
 worksheet.merge_range('S2:S3', 'PI. Numero', blue_header_format)
 worksheet.write('S4', "NOHA", blue_header_format)
@@ -416,35 +451,27 @@ orden['reg_date']=orden['reg_date'].dt.strftime('%d-%m-%Y')
 worksheet.merge_range('E10:F10', str(orden['reg_date'].values[0]), blue_content)
 
 #tabla superior totales
-#caso sin ajuste
-# worksheet.write('H6', "SUBTOTAL", red_header_format)
-# worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
-# worksheet.write('H7', "IVA", red_header_format)
-# worksheet.merge_range('I7:J7',  orden['subtotal'].values[0]*(1-orden['descuento'])*0.16, red_content)
 
-# worksheet.write('H8', "DESCUENTO", red_header_format)
-# worksheet.merge_range('I8:J8',  orden['subtotal'].values[0]*(orden['descuento']), red_content)
 
-# worksheet.write('H9', "RETENCION", red_header_format)
-# worksheet.merge_range('I9:J9',  retencion, red_content)
-# worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
-# worksheet.merge_range('I10:J10',  orden['total'].values[0], red_content_bold)
 #caso con ajuste
 if (notas['amount'].sum()>0):
-    worksheet.write('H4', "SUBTOTAL", red_header_format)
-    worksheet.merge_range('I4:J4', orden['subtotal'].values[0], red_content)
-    worksheet.write('H5', "AJUSTE POR NOTAS", red_header_format)
-    worksheet.merge_range('I5:J5',  notas['amount'].sum(), red_content)
+    worksheet.write('H3', "SUBTOTAL", red_header_format)
+    worksheet.merge_range('I3:J3', orden['subtotal'].values[0], red_content)
+    worksheet.write('H4', "AJUSTE POR NOTAS (NC)", red_header_format)
+    worksheet.merge_range('I4:J4',  notas.loc[~(notas['credit_note'].str.contains('NV')),'amount'].sum()/1.16, red_content)
+    worksheet.write('H5', "AJUSTE POR NOTAS (NV)", red_header_format)
+    worksheet.merge_range('I5:J5',  notas.loc[( notas['credit_note'].str.contains('NV')),'amount'].sum()/1.16, red_content)
     worksheet.write('H6', "SUBTOTAL AJUSTADO", red_header_format)
-    worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-notas['amount'].sum()), red_content)
+    worksheet.merge_range('I6:J6',(orden['subtotal'].values[0]-(notas['amount'].sum()/1.16)), red_content)
+#caso sin ajuste
 else:
     worksheet.write('H6', "SUBTOTAL", red_header_format)
     worksheet.merge_range('I6:J6', orden['subtotal'].values[0], red_content)
 
 worksheet.write('H7', "IVA", red_header_format)
-worksheet.merge_range('I7:J7',  (orden['subtotal'].values[0]-notas['amount'].sum())*(1-orden['descuento'])*0.16, red_content)
+worksheet.merge_range('I7:J7',  (orden['subtotal'].values[0]-(notas['amount'].sum()/1.16))*(1-orden['descuento'])*0.16, red_content)
 worksheet.write('H8', "DESCUENTO", red_header_format)
-worksheet.merge_range('I8:J8',  (orden['subtotal'].values[0]-notas['amount'].sum())*(orden['descuento']), red_content)
+worksheet.merge_range('I8:J8',  (orden['subtotal'].values[0]-(notas['amount'].sum()/1.16))*(orden['descuento']), red_content)
 worksheet.write('H9', "RETENCION", red_header_format)
 worksheet.merge_range('I9:J9',  retencion, red_content)
 worksheet.write('H10', "TOTAL (I/I)", red_header_format_bold)
@@ -532,6 +559,14 @@ worksheet.write('U14', 'D.A.', red_header_format)
 importe_acumulado=0
 porcentaje_acumulado=0
 desface=0
+factura_vista=set()
+block_factura_id=None
+block_start_row=0
+block_end_row=0
+block_factura_num=''
+block_factura_date=''
+block_factura_amount=0
+
 for i in range(0,len(cobros)):
     facturas_asociadas=facturas.loc[facturas['id'].isin(cobros_facturas.loc[cobros_facturas['cobro_id']==cobros['cobro_id'].values[i]].facture_id.values)]
     
@@ -549,18 +584,51 @@ for i in range(0,len(cobros)):
     worksheet.write('T'+str(15+i+desface), str(cobros['revisor'].values[i]), red_content)
     worksheet.write('U'+str(15+i+desface), str(cobros['autorizador'].values[i]), red_content)
    
-    #rellenar facturas asociada
+    #rellenar facturas asociadas
     j=0
     for j in range(0,len(facturas_asociadas)):
-        worksheet.write('H'+str(15+j+i+desface), str(facturas_asociadas['facture'].values[j]), red_content)
-        worksheet.write('I'+str(15+j+i+desface), facturas_asociadas['date'].values[j], red_content_date)
-        worksheet.write('J'+str(15+j+i+desface), facturas_asociadas['amount'].values[j], red_content)
+        row=15+j+i+desface
+        factura_id=facturas_asociadas['id'].values[j]
+        factura_num=str(facturas_asociadas['facture'].values[j])
+        factura_date=facturas_asociadas['date'].values[j]
+        factura_amount=facturas_asociadas['amount'].values[j]
+        factura_repetida=factura_id in factura_vista
+        
+        if factura_id==block_factura_id and row==block_end_row+1:
+            worksheet.write('H'+str(row), factura_num, red_content)
+            worksheet.write('I'+str(row), factura_date, red_content_date)
+            worksheet.write('J'+str(row), factura_amount, red_content)
+            block_end_row=row
+        else:
+            if block_factura_id is not None and block_end_row>block_start_row:
+                worksheet.merge_range('H'+str(block_start_row)+':H'+str(block_end_row), block_factura_num, red_content)
+                worksheet.merge_range('I'+str(block_start_row)+':I'+str(block_end_row), block_factura_date, red_content_date)
+                worksheet.merge_range('J'+str(block_start_row)+':J'+str(block_end_row), block_factura_amount, red_content)
+            if factura_repetida:
+                amount_value='repetida'
+            else:
+                amount_value=factura_amount
+            worksheet.write('H'+str(row), factura_num, red_content)
+            worksheet.write('I'+str(row), factura_date, red_content_date)
+            worksheet.write('J'+str(row), amount_value, red_content)
+            block_factura_id=factura_id
+            block_start_row=row
+            block_end_row=row
+            block_factura_num=factura_num
+            block_factura_date=factura_date
+            block_factura_amount=factura_amount
+            factura_vista.add(factura_id)
     if(len(facturas_asociadas)==0):
         worksheet.merge_range('H'+str(15+j+i+desface)+':J'+str(15+i+desface), 'PENDIENTE POR FACTURAR', red_content_date)
     print('cobro',cobros['id'].values[i],len(facturas_asociadas),desface)
     print(facturas_asociadas['facture'])
     if(len(facturas_asociadas)>1):
         desface=desface+len(facturas_asociadas)-1
+
+if block_factura_id is not None and block_end_row>block_start_row:
+    worksheet.merge_range('H'+str(block_start_row)+':H'+str(block_end_row), block_factura_num, red_content)
+    worksheet.merge_range('I'+str(block_start_row)+':I'+str(block_end_row), block_factura_date, red_content_date)
+    worksheet.merge_range('J'+str(block_start_row)+':J'+str(block_end_row), block_factura_amount, red_content)
 desface=desface+len(cobros)
 desface_cobros=desface
 #Facturas no asociadas
@@ -575,21 +643,29 @@ desface=desface+len(facturas_no_asociadas)
 # notas
 notas['date']=pd.to_datetime(notas['date'], format='%Y-%m-%d')
 notas['date']=notas['date'].dt.strftime('%d-%m-%Y')
-for i in range(0,len(notas_fiscales)):
-    worksheet.write('H'+str(15+i+desface), str(notas_fiscales['credit_note'].values[i])+' (credito)', red_content)
-    worksheet.write('I'+str(15+i+desface), notas_fiscales['date'].values[i], red_content_date)
-    worksheet.write('J'+str(15+i+desface), '-$'+ "{:,.2f}".format(notas_fiscales['amount'].values[i]), red_content)
-
-#esto lo escribio copilot hay q validar
+row_notas_start = 15 + desface
 for i in range(0,len(notas)):
-    worksheet.write('K'+str(15+i+desface_cobros), str(notas['credit_note'].values[i])+' (credito)', blue_content)
-    worksheet.write('L'+str(15+i+desface_cobros), notas['date'].values[i], blue_content_date)
-    worksheet.write('M'+str(15+i+desface_cobros), moneda['code'].values[0], blue_content)
-    worksheet.write('N'+str(15+i+desface_cobros), -notas['amount'].values[i], blue_content)
-    worksheet.write('O'+str(15+i+desface_cobros), "{:.2f}".format(-notas['amount'].values[i]*100/orden['total'].values[0])+'%', blue_content)
-#fin codigo copilot
+    nota = str(notas['credit_note'].values[i])
+    tipo_nota = '(credito)'
+    factura_amount = -notas['amount'].values[i]
+    if nota.startswith('NV'):
+        tipo_nota = '(virtual)'
+        factura_amount = 0
+    row = row_notas_start + i
+    worksheet.write('H'+str(row), nota + ' ' + tipo_nota, note_red_content)
+    worksheet.write('I'+str(row), notas['date'].values[i], note_red_date)
+    worksheet.write('J'+str(row), factura_amount, note_red_content)
+    worksheet.write('K'+str(row), nota + ' ' + tipo_nota, note_red_content)
+    worksheet.write('L'+str(row), notas['date'].values[i], note_red_date)
+    worksheet.write('M'+str(row), moneda['code'].values[0], note_red_content)
+    worksheet.write('N'+str(row), 0, note_red_content)
+    worksheet.write('O'+str(row), '0%', note_red_content)
 
-table_len=max(len(hpagos),desface+len(notas_fiscales),desface_cobros+len(notas))
+#fin código copilot
+
+table_len=max(len(hpagos),desface+len(notas))
+last_row = 15 + desface + len(notas) - 1
+orden_total = orden["total"].values[0]
 
 trow=16+table_len
 
@@ -603,7 +679,6 @@ worksheet.write('F'+str(trow+1),hpagos["amount"].sum() - orden["total"].values[0
 if(hpagos["amount"].sum()==orden["total"].values[0] ):
    worksheet.write('F'+str(trow+2),'OK' , blue_content)
 else:
-    
    worksheet.write('F'+str(trow+2),'NO OK' , blue_content)
 worksheet.write('G'+str(trow),"{:.2f}".format(hpagos["percentage"].sum())+'%' , blue_content_bold)
 worksheet.write('G'+str(trow+1),"{:.2f}".format(hpagos["percentage"].sum() -100)+'%', blue_content)
@@ -618,17 +693,17 @@ else:
 worksheet.write('I'+str(trow),'FACTURADO' , red_header_format_bold)
 worksheet.write('I'+str(trow+2),'POR FACTURAR' , red_header_format)
 
-worksheet.write('J'+str(trow),facturas["amount"].sum() +facturas_no_asociadas['amount'].sum()-notas['amount'].sum(), red_content_bold)
-worksheet.write('J'+str(trow+2), orden["total"].values[0]-facturas["amount"].sum()-facturas_no_asociadas['amount'].sum()+notas['amount'].sum(), red_content)
+worksheet.write_formula('J'+str(trow), '{=SUM(J15:J' + str(last_row) + ')}', red_content_bold)
+worksheet.write_formula('J'+str(trow+2), '{=' + str(orden_total) + ' - J' + str(trow)+'}', red_content)
 
 #valiaciones cobros
 worksheet.write('M'+str(trow),'COBRADO' , blue_header_format_bold)
 worksheet.write('M'+str(trow+2),'POR COBRAR' , blue_header_format)
-worksheet.write('N'+str(trow),cobros["amount"].sum() , blue_content_bold)
-worksheet.write('N'+str(trow+2), orden["total"].values[0]-cobros["amount"].sum(), blue_content)
+worksheet.write_formula('N'+str(trow), '{=SUM(N15:N' + str(last_row) + ')}', blue_content_bold)
+worksheet.write_formula('N'+str(trow+2), '=' + str(orden_total) + ' - N' + str(trow), blue_content)
 
-worksheet.write('O'+str(trow), "{:.2f}".format(cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
-worksheet.write('O'+str(trow+1), "{:.2f}".format(100 - cobros["amount"].sum()*100/orden["total"].values[0]) + '%', blue_content)
+worksheet.write_formula('O'+str(trow), "{=N"+str(trow)+"/I10}", blue_content_percentage)
+worksheet.write_formula('O'+str(trow+1),"{=1 - O"+str(trow)+"}", blue_content_percentage)
 
 if(cobros["amount"].sum()==orden['total'].values[0] ):
    worksheet.write('O'+str(trow+2),'OK' , blue_content_bold)
@@ -644,13 +719,11 @@ worksheet.merge_range('P'+str(trow+2)+':Q'+str(trow+2),orden['total'].values[0],
 worksheet.merge_range('R'+str(trow+2)+':S'+str(trow+2),cobros["amount"].sum(), red_content)
 worksheet.merge_range('T'+str(trow+2)+':U'+str(trow+2),orden["total"].values[0]-cobros["amount"].sum(),red_content)
 
-
 worksheet.write(trow+4, 5, 'OBSERVACIONES',negro_b)    
 if(orden["observations"].values[0]!=None):
    worksheet.merge_range(trow+5,1,trow+8,18, str(orden["observations"].values[0]), observaciones_format)
 else:    
    worksheet.merge_range(trow+5,1,trow+8,18,'SIN OBSERVACIONES', observaciones_format)
-
 
 worksheet.set_column('E:E',15)
 worksheet.set_column('F:F',15)

@@ -447,8 +447,8 @@ public function recalcular_total($id){
     $CreditNotes=CreditNote::where('order_id',$id)
         // ->where('type','virtual')
         ->get();
-    $nv_adjustment=$CreditNotes->sum('amount');
-    $InternalOrder->nv_adjustment=$nv_adjustment;      
+    $nv_adjustment=$CreditNotes->sum('amount')/1.16;
+    $InternalOrder->nv_adjustment=$nv_adjustment;     
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
     //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
@@ -739,6 +739,9 @@ public function recalcular_total($id){
             
             return redirect()->route('internal_orders.payment',$id);
         }
+        $AjusteCredito=CreditNote::where('order_id', $id)->where('type','virtual')->get()->sum('amount');
+        $AjusteVirtual=CreditNote::where('order_id', $id)->where('type','!=','virtual')->get()->sum('amount');
+        
         return view('internal_orders.show', compact(
             'CompanyProfiles',
             'InternalOrders',
@@ -753,7 +756,7 @@ public function recalcular_total($id){
             'Contacts',
             'payments',
             'ASellers',
-            'Comisiones',
+            'Comisiones','AjusteCredito','AjusteVirtual',
             'Marcas','Contrato',
         ));
     }
