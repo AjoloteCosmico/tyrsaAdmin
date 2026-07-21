@@ -556,6 +556,7 @@ worksheet.write('S14', 'CAPTURA', red_header_format)
 worksheet.write('T14', 'G.A.', red_header_format)
 worksheet.write('U14', 'D.A.', red_header_format)
 #rellenando la tabla
+
 importe_acumulado=0
 porcentaje_acumulado=0
 desface=0
