@@ -52,7 +52,9 @@ class NotasCreditoController extends Controller
                 $Bancos=bank::all();
                 $Coins=Coin::all();
                 $Factures=Factures::all();
-                $Customers=Customer::orderby('clave')->get();
+                $Customers = Customer::whereHas('internalOrders', function ($query) {
+                    $query->whereNotNull('customer_id');
+                     })->orderBy('clave')->get();
                 $InternalOrders=InternalOrder::all();
                 $LastNC = CreditNote::where('credit_note', 'LIKE', 'NC%')
                 ->orderByRaw('CAST(REGEXP_REPLACE(credit_note, "[^0-9]", "") AS UNSIGNED) DESC')->first();

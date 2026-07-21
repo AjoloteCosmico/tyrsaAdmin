@@ -151,7 +151,7 @@
                                     </div>
                                    
                                     <br>
-                                    div class="form-group">
+                                    <div class="form-group">
                                         <x-jet-label value="*  Ingresa su comprobante" />
                                         <input type="file" name="comp_file" id="comp_file">
                                          <x-jet-input-error for='comp_file' />
@@ -322,6 +322,21 @@ for (var i = 0, row; row = table.rows[i]; i++) {
     }
 
 })
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    const oldCustomerId = '{{ old('customer_id') }}';
+    const oldOrderId = '{{ old('order_id') }}';
+
+    if (oldCustomerId) {
+        $('#customer_id').val(oldCustomerId).trigger('change');
+
+        if (oldOrderId) {
+            $('#order_id').val(oldOrderId).trigger('change');
+        }
+    }
 });
 </script>
 
