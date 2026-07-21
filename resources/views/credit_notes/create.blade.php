@@ -149,9 +149,14 @@
                                         <x-jet-input type="number" step="0.01" name="amount" id="import" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                         <x-jet-input-error for='amount' />
                                     </div>
-                                    Ingresa su comprobante
+                                   
                                     <br>
-                                    <input type="file" name="comp_file" id="comp_file">
+                                    div class="form-group">
+                                        <x-jet-label value="*  Ingresa su comprobante" />
+                                        <input type="file" name="comp_file" id="comp_file">
+                                         <x-jet-input-error for='comp_file' />
+                                    </div>
+                                    
                                     <br><br>
 
                         </div>
