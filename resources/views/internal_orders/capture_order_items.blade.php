@@ -163,9 +163,18 @@
                 {{--  <a href="{{ route('internal_orders.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
+                @if($TempItems->count() > 0)
                 <button type="button" onclick="send_data()" class="btn btn-green mb-2" style="background-color: rgb(22,163,74);color: white;" >
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
+                @else
+                
+                <button type="button" class="btn btn-green mb-2" style="background-color: rgb(112, 138, 121);color: white;" disabled >
+                    <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Captura almenos 1 partida
+                </button>
+
+                @endif
+
             </div>
         </div>
         
