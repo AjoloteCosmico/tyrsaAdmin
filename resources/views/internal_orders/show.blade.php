@@ -263,7 +263,7 @@
                 </tr>
                 <tr>
                 <th>Subtotal ajustado</td>
-                <td> $ {{number_format(($InternalOrders->subtotal -  $InternalOrders->nv_adjustment/1.16),2)}}</td>   
+                <td> $ {{number_format(($InternalOrders->subtotal -  $InternalOrders->nv_adjustment),2)}}</td>   
                 </tr>
                 <tr>
                     <th>Descuento: </td>
